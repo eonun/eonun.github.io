@@ -6,7 +6,7 @@
   <link href="https://eonun.gitee.io/atom.xml" rel="self"/>
   
   <link href="https://eonun.gitee.io/"/>
-  <updated>2020-12-13T07:16:38.505Z</updated>
+  <updated>2020-12-13T08:01:53.085Z</updated>
   <id>https://eonun.gitee.io/</id>
   
   <author>
@@ -17,11 +17,32 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Hexo主题更新美化</title>
+    <link href="https://eonun.gitee.io/2020/12/12/Hexo%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%96%B0%E7%BE%8E%E5%8C%96/"/>
+    <id>https://eonun.gitee.io/2020/12/12/Hexo%E4%B8%BB%E9%A2%98%E6%9B%B4%E6%96%B0%E7%BE%8E%E5%8C%96/</id>
+    <published>2020-12-12T05:45:20.000Z</published>
+    <updated>2020-12-13T08:01:53.085Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;Hexo-next-主题配置美化&quot;&gt;&lt;a href=&quot;#Hexo-next-主题配置美化&quot; class=&quot;headerlink&quot; title=&quot;Hexo next 主题配置美化&quot;&gt;&lt;/a&gt;Hexo next 主题配置美化&lt;/h1&gt;&lt;p&gt; &lt;strong&gt;在博客根目录下操作&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;下载使用next主题&quot;&gt;&lt;a href=&quot;#下载使用next主题&quot; class=&quot;headerlink&quot; title=&quot;下载使用next主题&quot;&gt;&lt;/a&gt;下载使用next主题&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git &lt;span class=&quot;built_in&quot;&gt;clone&lt;/span&gt; https://github.com/theme-next/hexo-theme-next themes/next&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;vim _config.yml		&lt;span class=&quot;comment&quot;&gt;#修改配置使用主题&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight yml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;theme:next&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;官方不建议直接修改主题文件下的内容，这不利于升级&lt;/strong&gt;&lt;br&gt;&lt;figure class=&quot;highlight sh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;cp themes/next/_config.yml _config.next.yml  &lt;span class=&quot;comment&quot;&gt;# 复制主题文件到主目录&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Hexo 配置文件(&lt;code&gt;$blog/_config.yml&lt;/code&gt;)中的 &lt;code&gt;theme_config&lt;/code&gt; 的优先级最高，其次是 &lt;code&gt;$blog/_config.[theme].yml&lt;/code&gt; 文件，最后是位于主题目录下的 &lt;code&gt;_config.yml&lt;/code&gt; 文件&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Hexo" scheme="https://eonun.gitee.io/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ArchLinux代理</title>
     <link href="https://eonun.gitee.io/2020/12/11/ArchLinux%E4%BB%A3%E7%90%86/"/>
     <id>https://eonun.gitee.io/2020/12/11/ArchLinux%E4%BB%A3%E7%90%86/</id>
     <published>2020-12-11T13:48:46.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T09:02:03.228Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;环境变量代理&quot;&gt;&lt;a href=&quot;#环境变量代理&quot; class=&quot;headerlink&quot; title=&quot;环境变量代理&quot;&gt;&lt;/a&gt;环境变量代理&lt;/h1&gt;&lt;h2 id=&quot;普通代理&quot;&gt;&lt;a href=&quot;#普通代理&quot; class=&quot;headerlink&quot; title=&quot;普通代理&quot;&gt;&lt;/a&gt;普通代理&lt;/h2&gt;&lt;p&gt;要将代理环境变量提供给所有用户和所有应用程序，将命令添加到脚本中,如:&lt;code&gt;/etc/profile.d/proxy.sh&lt;/code&gt;,然后脚本必须有可执行限。 当使用Xfce之类的桌面环境时，此方法很有用。 例如Xfce通过此方法设置的变量运行Chromium浏览器进行Chromium浏览器代理。&lt;/p&gt;</summary>
@@ -42,7 +63,7 @@
     <link href="https://eonun.gitee.io/2020/12/03/%E8%A7%A3%E5%86%B3arch%E5%AE%89%E8%A3%85AUR%E8%BD%AF%E4%BB%B6%E6%97%B6github%E4%B8%8B%E8%BD%BD%E8%BD%AF%E4%BB%B6%E5%8C%85%E6%85%A2%E6%88%96%E4%B8%8D%E5%8F%AF%E8%8E%B7%E5%BE%97%E7%9A%84%E9%97%AE%E9%A2%98/"/>
     <id>https://eonun.gitee.io/2020/12/03/%E8%A7%A3%E5%86%B3arch%E5%AE%89%E8%A3%85AUR%E8%BD%AF%E4%BB%B6%E6%97%B6github%E4%B8%8B%E8%BD%BD%E8%BD%AF%E4%BB%B6%E5%8C%85%E6%85%A2%E6%88%96%E4%B8%8D%E5%8F%AF%E8%8E%B7%E5%BE%97%E7%9A%84%E9%97%AE%E9%A2%98/</id>
     <published>2020-12-03T13:40:02.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T08:59:03.875Z</updated>
     
     
     <summary type="html">&lt;p&gt;github的release，噩梦一般。当AUR里面调用缺省的curl去对付那些包的时候，90%的情况是无法成功的。即便成功也是苦等几十分钟。至少我的网络环境是这样。&lt;/p&gt;
@@ -63,7 +84,7 @@
     <link href="https://eonun.gitee.io/2020/10/21/Windows%E5%BF%AB%E6%8D%B7%E6%8A%80%E5%B7%A7/"/>
     <id>https://eonun.gitee.io/2020/10/21/Windows%E5%BF%AB%E6%8D%B7%E6%8A%80%E5%B7%A7/</id>
     <published>2020-10-21T14:46:01.000Z</published>
-    <updated>2020-12-13T07:16:38.511Z</updated>
+    <updated>2020-12-13T09:00:42.348Z</updated>
     
     
       
@@ -89,7 +110,7 @@
     <link href="https://eonun.gitee.io/2020/09/24/%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%A2%98%E5%90%8Eoh-my-zsh%E5%8D%87%E7%BA%A7%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3/"/>
     <id>https://eonun.gitee.io/2020/09/24/%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%A2%98%E5%90%8Eoh-my-zsh%E5%8D%87%E7%BA%A7%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3/</id>
     <published>2020-09-24T02:04:05.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T09:00:31.565Z</updated>
     
     
     <summary type="html">&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[Oh My Zsh] Would you like to check &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; updates? [Y/n]: y&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Updating Oh My Zsh&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;error: cannot pull with rebase: You have unstaged changes.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;error: please commit or stash them.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;There was an error updating. Try again later?&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[oh-my-zsh] Would you like to update? [Y/n] y&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Updating Oh My Zsh&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;error: 无法拉取，因为您有未合并的文件。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;提示：请在工作区改正文件，然后酌情使用 &lt;span class=&quot;string&quot;&gt;&amp;#x27;git add/rm &amp;lt;文件&amp;gt;&amp;#x27;&lt;/span&gt; 命令标记&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;提示：解决方案并提交。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;fatal: 因为存在未解决的冲突而退出。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;There was an error updating. Try again later?&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
@@ -112,7 +133,7 @@
     <link href="https://eonun.gitee.io/2020/09/23/Archlinux%E5%8F%8A%E8%A1%8D%E7%94%9F%E5%8F%91%E8%A1%8C%E7%89%88%E4%B8%8A%E8%BF%90%E8%A1%8CQQ-TIM-%E5%BE%AE%E4%BF%A1-%E8%BF%85%E9%9B%B7/"/>
     <id>https://eonun.gitee.io/2020/09/23/Archlinux%E5%8F%8A%E8%A1%8D%E7%94%9F%E5%8F%91%E8%A1%8C%E7%89%88%E4%B8%8A%E8%BF%90%E8%A1%8CQQ-TIM-%E5%BE%AE%E4%BF%A1-%E8%BF%85%E9%9B%B7/</id>
     <published>2020-09-23T06:55:15.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T08:52:23.885Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;最新版&quot;&gt;&lt;a href=&quot;#最新版&quot; class=&quot;headerlink&quot; title=&quot;最新版&quot;&gt;&lt;/a&gt;最新版&lt;/h1&gt;&lt;p&gt;最新版会存在部分不兼容的问题，如微信发不了大图等，可以试着安装兼容稳定版&lt;/p&gt;
@@ -141,7 +162,7 @@
     <link href="https://eonun.gitee.io/2020/04/01/Arch%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E/"/>
     <id>https://eonun.gitee.io/2020/04/01/Arch%E5%AE%89%E8%A3%85%E4%B9%8B%E5%90%8E/</id>
     <published>2020-04-01T08:17:02.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T08:51:43.758Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;创建普通用户&quot;&gt;&lt;a href=&quot;#创建普通用户&quot; class=&quot;headerlink&quot; title=&quot;创建普通用户&quot;&gt;&lt;/a&gt;创建普通用户&lt;/h1&gt;&lt;p&gt;创建一个普通用户并创建其家目录和加入&lt;code&gt;whell&lt;/code&gt;用户组:&lt;/p&gt;
@@ -165,7 +186,7 @@
     <link href="https://eonun.gitee.io/2020/03/22/Synergy%E4%B8%80%E5%A5%97%E9%94%AE%E9%BC%A0%E6%8E%A7%E5%A4%9A%E8%AE%BE%E5%A4%87/"/>
     <id>https://eonun.gitee.io/2020/03/22/Synergy%E4%B8%80%E5%A5%97%E9%94%AE%E9%BC%A0%E6%8E%A7%E5%A4%9A%E8%AE%BE%E5%A4%87/</id>
     <published>2020-03-22T08:48:20.000Z</published>
-    <updated>2020-12-13T07:16:38.511Z</updated>
+    <updated>2020-12-13T08:57:06.028Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;部分Windows系统没有运行库安装时会提示没权限开启服务，需要装上运行库才能运行&lt;/strong&gt;&lt;/p&gt;
@@ -181,7 +202,7 @@
     <link href="https://eonun.gitee.io/2020/03/17/NeoVim%E9%94%AE%E7%9B%98%E9%9A%90%E5%B0%84/"/>
     <id>https://eonun.gitee.io/2020/03/17/NeoVim%E9%94%AE%E7%9B%98%E9%9A%90%E5%B0%84/</id>
     <published>2020-03-17T04:36:06.000Z</published>
-    <updated>2020-12-13T07:16:38.511Z</updated>
+    <updated>2020-12-13T08:56:15.888Z</updated>
     
     
     <summary type="html">&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                              _ ____&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ___  ___  _ __  _   _ _ __ ( ) ___|&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; / _ \/ _ \| &lt;span class=&quot;string&quot;&gt;&amp;#x27;_ \| | | | &amp;#x27;&lt;/span&gt;_ \|/\___ \&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|  __/ (_) | | | | |_| | | | |  ___) |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; \___|\___/|_| |_|\__,_|_| |_| |____/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; _   ___     ___           __  __&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;| \ | \ \   / (_)_ __ ___ |  \/  | __ _ _ __&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|  \| |\ \ / /| | &lt;span class=&quot;string&quot;&gt;&amp;#x27;_ ` _ \| |\/| |/ _` | &amp;#x27;&lt;/span&gt;_ \&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;| |\  | \ V / | | | | | | | |  | | (_| | |_) |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|_| \_|  \_/  |_|_| |_| |_|_|  |_|\__,_| .__/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                                       |_|&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;==============木He寸&amp;amp;eonun===================&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
@@ -200,7 +221,7 @@
     <link href="https://eonun.gitee.io/2020/03/15/NeoVim%E9%A3%9E%E5%8D%87%E8%BF%87%E7%A8%8B/"/>
     <id>https://eonun.gitee.io/2020/03/15/NeoVim%E9%A3%9E%E5%8D%87%E8%BF%87%E7%A8%8B/</id>
     <published>2020-03-15T15:52:12.000Z</published>
-    <updated>2020-12-13T07:16:38.511Z</updated>
+    <updated>2020-12-13T08:56:31.408Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;h2 id=&quot;Windows&quot;&gt;&lt;a href=&quot;#Windows&quot; class=&quot;headerlink&quot; title=&quot;Windows&quot;&gt;&lt;/a&gt;Windows&lt;/h2&gt;&lt;ul&gt;
@@ -232,7 +253,7 @@
     <link href="https://eonun.gitee.io/2020/03/01/%E7%94%B5%E8%84%91%E9%85%8D%E4%BB%B6%E6%8E%92%E8%A1%8C%E6%A6%9C/"/>
     <id>https://eonun.gitee.io/2020/03/01/%E7%94%B5%E8%84%91%E9%85%8D%E4%BB%B6%E6%8E%92%E8%A1%8C%E6%A6%9C/</id>
     <published>2020-03-01T13:32:55.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T08:59:24.848Z</updated>
     
     
     <summary type="html">&lt;p&gt;&lt;a href=&quot;https://www.passmark.com/&quot;&gt;passmark主站&lt;/a&gt;&lt;/p&gt;
@@ -252,7 +273,7 @@
     <link href="https://eonun.gitee.io/2020/02/28/Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8systemctl%E6%8A%A5%E9%94%99/"/>
     <id>https://eonun.gitee.io/2020/02/28/Docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8systemctl%E6%8A%A5%E9%94%99/</id>
     <published>2020-02-28T07:50:14.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T08:53:40.875Z</updated>
     
     
       
@@ -277,7 +298,7 @@
     <link href="https://eonun.gitee.io/2020/02/27/DockerHub%E5%8A%A0%E9%80%9F/"/>
     <id>https://eonun.gitee.io/2020/02/27/DockerHub%E5%8A%A0%E9%80%9F/</id>
     <published>2020-02-27T14:46:45.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T08:53:32.115Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;DockerHub国内加速地址&quot;&gt;&lt;a href=&quot;#DockerHub国内加速地址&quot; class=&quot;headerlink&quot; title=&quot;DockerHub国内加速地址&quot;&gt;&lt;/a&gt;DockerHub国内加速地址&lt;/h1&gt;&lt;div class=&quot;table-container&quot;&gt;
@@ -348,7 +369,7 @@
     <link href="https://eonun.gitee.io/2020/02/27/%E6%9C%89%E7%94%A8%E7%9A%84%E9%95%9C%E5%83%8F%E7%AB%99/"/>
     <id>https://eonun.gitee.io/2020/02/27/%E6%9C%89%E7%94%A8%E7%9A%84%E9%95%9C%E5%83%8F%E7%AB%99/</id>
     <published>2020-02-27T03:03:39.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T08:59:29.275Z</updated>
     
     
     <summary type="html">&lt;p&gt;国内访问一些网站是被屏蔽的或是访问慢，一些镜像站就能满足这些需求&lt;/p&gt;
@@ -373,7 +394,7 @@
     <link href="https://eonun.gitee.io/2020/02/11/Linux%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E4%B9%8B7z/"/>
     <id>https://eonun.gitee.io/2020/02/11/Linux%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E4%B9%8B7z/</id>
     <published>2020-02-11T07:08:27.000Z</published>
-    <updated>2020-12-13T07:16:38.508Z</updated>
+    <updated>2020-12-13T08:55:32.728Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;指令&quot;&gt;&lt;a href=&quot;#指令&quot; class=&quot;headerlink&quot; title=&quot;指令&quot;&gt;&lt;/a&gt;指令&lt;/h1&gt;&lt;p&gt;&lt;code&gt;a&lt;/code&gt;    添加&lt;/p&gt;
@@ -399,7 +420,7 @@
     <link href="https://eonun.gitee.io/2020/02/06/CentOS%E6%97%A0%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
     <id>https://eonun.gitee.io/2020/02/06/CentOS%E6%97%A0%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</id>
     <published>2020-02-06T06:53:31.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T08:53:22.681Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;网卡UUID&quot;&gt;&lt;a href=&quot;#网卡UUID&quot; class=&quot;headerlink&quot; title=&quot;网卡UUID&quot;&gt;&lt;/a&gt;网卡UUID&lt;/h1&gt;&lt;p&gt;查看相应网卡的UUID并记录&lt;/p&gt;
@@ -415,30 +436,11 @@
   </entry>
   
   <entry>
-    <title>12306购票小助手使用</title>
-    <link href="https://eonun.gitee.io/2020/01/01/12306%E8%B4%AD%E7%A5%A8%E5%B0%8F%E5%8A%A9%E6%89%8B%E4%BD%BF%E7%94%A8/"/>
-    <id>https://eonun.gitee.io/2020/01/01/12306%E8%B4%AD%E7%A5%A8%E5%B0%8F%E5%8A%A9%E6%89%8B%E4%BD%BF%E7%94%A8/</id>
-    <published>2020-01-01T14:19:44.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
-    
-    
-    <summary type="html">&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;# 获取项目文件&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#96;&amp;#96;&amp;#96;bash&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git clone https:&amp;#x2F;&amp;#x2F;github.com&amp;#x2F;testerSunshine&amp;#x2F;12306.git&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
-    
-    
-    
-    
-    <category term="12306" scheme="https://eonun.gitee.io/tags/12306/"/>
-    
-    <category term="Python" scheme="https://eonun.gitee.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
     <title>git代理配置</title>
     <link href="https://eonun.gitee.io/2020/01/01/git%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/"/>
     <id>https://eonun.gitee.io/2020/01/01/git%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/</id>
     <published>2020-01-01T12:27:43.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T08:54:17.005Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;HTTP形式&quot;&gt;&lt;a href=&quot;#HTTP形式&quot; class=&quot;headerlink&quot; title=&quot;HTTP形式&quot;&gt;&lt;/a&gt;HTTP形式&lt;/h1&gt;&lt;h2 id=&quot;走http代理&quot;&gt;&lt;a href=&quot;#走http代理&quot; class=&quot;headerlink&quot; title=&quot;走http代理&quot;&gt;&lt;/a&gt;走http代理&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git config --global http.proxy &lt;span class=&quot;string&quot;&gt;&amp;quot;http://127.0.0.1:8080&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git config --global https.proxy &lt;span class=&quot;string&quot;&gt;&amp;quot;http://127.0.0.1:8080&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# github&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git config -global http.https://github.com.proxy &lt;span class=&quot;string&quot;&gt;&amp;quot;http://127.0.0.1:8080&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
@@ -453,7 +455,7 @@
     <link href="https://eonun.gitee.io/2019/12/24/%E5%85%88%E7%94%B5%E4%BA%91%E8%AE%A1%E7%AE%97BigData/"/>
     <id>https://eonun.gitee.io/2019/12/24/%E5%85%88%E7%94%B5%E4%BA%91%E8%AE%A1%E7%AE%97BigData/</id>
     <published>2019-12-24T04:00:54.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T09:00:24.748Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;基础平台搭建&quot;&gt;&lt;a href=&quot;#基础平台搭建&quot; class=&quot;headerlink&quot; title=&quot;基础平台搭建&quot;&gt;&lt;/a&gt;基础平台搭建&lt;/h2&gt;&lt;h3 id=&quot;master&quot;&gt;&lt;a href=&quot;#master&quot; class=&quot;headerlink&quot; title=&quot;master&quot;&gt;&lt;/a&gt;master&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;hostnamectl set-hostname master&lt;/code&gt;&lt;/strong&gt;        //修改主机名&lt;/p&gt;
@@ -475,7 +477,7 @@
     <link href="https://eonun.gitee.io/2019/12/24/%E5%85%88%E7%94%B5%E4%BA%91%E8%AE%A1%E7%AE%97PAAS/"/>
     <id>https://eonun.gitee.io/2019/12/24/%E5%85%88%E7%94%B5%E4%BA%91%E8%AE%A1%E7%AE%97PAAS/</id>
     <published>2019-12-24T03:58:51.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T09:00:05.248Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;基础环境配置&quot;&gt;&lt;a href=&quot;#基础环境配置&quot; class=&quot;headerlink&quot; title=&quot;基础环境配置&quot;&gt;&lt;/a&gt;基础环境配置&lt;/h2&gt;&lt;h3 id=&quot;server-amp-amp-client&quot;&gt;&lt;a href=&quot;#server-amp-amp-client&quot; class=&quot;headerlink&quot; title=&quot;server&amp;amp;&amp;amp;client&quot;&gt;&lt;/a&gt;server&amp;amp;&amp;amp;client&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;vi /etc/selinux/config&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
@@ -497,7 +499,7 @@
     <link href="https://eonun.gitee.io/2019/12/24/%E5%85%88%E7%94%B5%E4%BA%91%E8%AE%A1%E7%AE%97IAAS/"/>
     <id>https://eonun.gitee.io/2019/12/24/%E5%85%88%E7%94%B5%E4%BA%91%E8%AE%A1%E7%AE%97IAAS/</id>
     <published>2019-12-24T03:55:59.000Z</published>
-    <updated>2020-12-13T07:16:38.505Z</updated>
+    <updated>2020-12-13T09:00:18.741Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;系统配置&quot;&gt;&lt;a href=&quot;#系统配置&quot; class=&quot;headerlink&quot; title=&quot;系统配置&quot;&gt;&lt;/a&gt;系统配置&lt;/h2&gt;&lt;h3 id=&quot;controller-amp-compute&quot;&gt;&lt;a href=&quot;#controller-amp-compute&quot; class=&quot;headerlink&quot; title=&quot;controller&amp;amp;compute&quot;&gt;&lt;/a&gt;controller&amp;amp;compute&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;vi /etc/sysconfig/network-scripts/ifcfg-eng&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
