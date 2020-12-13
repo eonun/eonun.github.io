@@ -35,115 +35,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ArchLinux安装后配置</title>
-    <url>/2019/12/04/ArchLinux%E5%AE%89%E8%A3%85%E5%90%8E%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h1 id="连接网络"><a href="#连接网络" class="headerlink" title="连接网络"></a>连接网络</h1><p>有线网自动获取IP<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dhcpcd</span><br></pre></td></tr></table></figure></p>
-<p>连接无线网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wifi-menu</span><br></pre></td></tr></table></figure><br><a id="more"></a></p>
-<h1 id="创建普通用户"><a href="#创建普通用户" class="headerlink" title="创建普通用户"></a>创建普通用户</h1><p>在linux上root就是上帝，能对系统进行任何操作，包括删除系统文件，所有使用root操作是很危险的，通常都是创建一个普通用户来使用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">useradd -m username</span><br></pre></td></tr></table></figure>
-<p><code>-m</code>:创建用户的家目录<code>/home/username</code><br><code>username</code>:创建的用户名</p>
-<h2 id="给用户设置密码"><a href="#给用户设置密码" class="headerlink" title="给用户设置密码"></a>给用户设置密码</h2><p>root具有上帝权限，所以无需验证任何用户的密码就能修改用户的密码，新建的用户还没有密码所以还无法登录(但root通过<code>su</code>命令能无密码登录)，所以需要给用户设置密码后用户才能登录</p>
-<p>给<code>username</code>设置密码<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">passwd username</span><br></pre></td></tr></table></figure><br>连续输入两次密码回车即可（linux不显示密码的输入）</p>
-<h1 id="配置sudo"><a href="#配置sudo" class="headerlink" title="配置sudo"></a>配置sudo</h1><p>创建了普通用户，但很多情况下需要用到root的权限怎么办呢?这就需要用到<code>sudo</code>来提权了</p>
-<p>sudo 能临时赋予用户root的部分管理权限，达到使用root运行相关指令的目的,比如arch的包管理器<code>pacman</code>就需要root权限,也就是说安装软件就需要root权限</p>
-<h2 id="安装sudo软件包"><a href="#安装sudo软件包" class="headerlink" title="安装sudo软件包:"></a>安装sudo软件包:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pacman -S sudo</span><br></pre></td></tr></table></figure>
-<p>若安装基础包时安装了<code>base-devel</code>包就无需安装了,<code>base-devel</code>软件包含有<code>sudo</code></p>
-<p><strong>配置sudo</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /sudoers</span><br></pre></td></tr></table></figure></p>
-<p>打开配置文件后找到<code>%wheel ALL=(ALL)ALL</code>，去掉注释<code>#</code>，重启<code>reboot</code>，给整个用户组权限</p>
-<p>也可直接添加一条<code>username ALL=(ALL)ALL</code>给用户权限</p>
-<h2 id="加入wheel用户组"><a href="#加入wheel用户组" class="headerlink" title="加入wheel用户组"></a>加入wheel用户组</h2><p>将用户加入whell用户组<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">usermod -G wheel username</span><br></pre></td></tr></table></figure></p>
-<p>wheel 组的概念继承自 UNIX，当需要进行一些高级维护时，往往要用到 root 权限；而wheel 组是一个包含特殊权限的用户组，用来满足需要 root 权限的需求。</p>
-<p>对于服务器来说，我们希望只有属于 wheel 组的用户才可以用 <code>su</code> 登录 root。这样就进一步增强了系统的安全性。具体步骤如下：</p>
-<ul>
-<li><p>修改 <code>/etc/pam.d/su</code> 文件，找到<code>#auth required /lib/security/$ISA/pam_wheel.so use_uid</code>，将行首的注释<code>#</code>去掉。</p>
-</li>
-<li><p>修改 <code>/etc/login.defs</code> 文件，在最后一行增加：<code>SU_WHEEL_ONLY yes</code>。</p>
-</li>
-</ul>
-<p>然后，用<code>usermod -G wheel username</code> 将用户添加到 wheel 组中,这样被添加到 wheel 组的用户登录，就能执行 <code>su</code> 命令输入正确的 root 密码就可以正常的登录为 root 用户了。</p>
-<h1 id="图形界面"><a href="#图形界面" class="headerlink" title="图形界面"></a>图形界面</h1><h2 id="显卡驱动"><a href="#显卡驱动" class="headerlink" title="显卡驱动"></a>显卡驱动</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>品牌</th>
-<th>驱动</th>
-<th>驱动类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AMD/ATI</td>
-<td><code>xf86-video-amdgpu</code>、<code>xf86-video-ati</code></td>
-<td>开源</td>
-</tr>
-<tr>
-<td></td>
-<td><code>catalyst</code>(AUR)</td>
-<td>闭源</td>
-</tr>
-<tr>
-<td>Intel</td>
-<td><code>xf86-video-intel</code></td>
-<td>开源</td>
-</tr>
-<tr>
-<td>Nvidia</td>
-<td><code>xf86-video-nonveau</code></td>
-<td>开源</td>
-</tr>
-<tr>
-<td></td>
-<td><code>nvidia</code>、<code>nvidia-340xx</code>、<code>nvidia-304xx</code></td>
-<td>闭源</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>参照表格安装相应的驱动，通常安装集显的开源驱动就够用，若需要打点游戏，做点图什么的可以安装独立显卡的闭源驱动提升性能。<font color="ff0000"><strong>安装闭源驱动一定要查看wiki根据说明安装，不然可能回无法正常进入系统</strong></font></p>
-<p>查看被识别的显卡:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lspci | grep -e VGA -e 3D</span><br></pre></td></tr></table></figure></p>
-<p>搜索开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -Ss xf86-video</span><br></pre></td></tr></table></figure></p>
-<p>安装intel集显开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xf86-video-intel</span><br></pre></td></tr></table></figure></p>
-<h2 id="安装Xorg"><a href="#安装Xorg" class="headerlink" title="安装Xorg"></a>安装Xorg</h2><p>Xorg是Linux下的一个著名的开源图形服务</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xorg</span><br></pre></td></tr></table></figure>
-<h2 id="安装桌面"><a href="#安装桌面" class="headerlink" title="安装桌面"></a>安装桌面</h2><p>Linux下有很多著名的<a href="https://wiki.archlinux.org/index.php/Desktop_environment#List_of_desktop_environments">桌面环境</a>如：</p>
-<ul>
-<li>Xfce</li>
-<li>KDE(Plasma)</li>
-<li>Gnome</li>
-<li>Unity</li>
-<li>Deepin(深度的国产桌面环境)</li>
-</ul>
-<p>自行选择安装即可</p>
-<p>如:</p>
-<ul>
-<li>Xfce :<code>sudo pacman -S xfce4 xfce4-goodies</code></li>
-<li>KDE(Plasma):<code>sudo pacman -S plasma kde-application</code></li>
-<li>Gnome:<code>sudo pacman -S gnome gnome-extra</code></li>
-<li>Deepin:<code>sudo pacman -S deepin deepin-extra</code></li>
-</ul>
-<h2 id="安装桌面管理器"><a href="#安装桌面管理器" class="headerlink" title="安装桌面管理器"></a>安装桌面管理器</h2><p>安装好了桌面环境包以后，需要安装一个<a href="https://wiki.archlinux.org/index.php/Display_manager">桌面管理器</a>来帮助我们登录且选择使用的桌面环境</p>
-<ul>
-<li>LightDM : <code>sudo pacman -S lighdm</code></li>
-<li>sddm : <code>sudo pacman -S sddm</code></li>
-<li>GDM : <code>sudo pacman -S gdm</code></li>
-</ul>
-<p><strong>启动桌面管理器服务</strong></p>
-<p>服务管理<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开机启动/关闭开启启动</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> xxxx</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> xxxx</span><br><span class="line"></span><br><span class="line"><span class="comment">#启动/停止服务</span></span><br><span class="line">sudo systemctl start xxxx</span><br><span class="line">sudo systemctl stop xxxx</span><br></pre></td></tr></table></figure></p>
-<p>如设置开机启动<code>sddm</code>: <code>sudo systemctl enable sddm</code></p>
-<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><p>之前用的一直是netctl这个自带的网络服务，而桌面环境使用的是NetworkManager这个网络服务，所以需要禁用netctl并启用NetworkManager</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> netctl</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> NetworkManager</span><br></pre></td></tr></table></figure>
-<p>安装工具栏图标显示网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S network-manager-applet</span><br></pre></td></tr></table></figure></p>
-<p><strong>重启电脑即可</strong></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Arch</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ArchLinux安装教程</title>
     <url>/2019/12/03/ArchLinux%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>  Arch Linux是当下最热门的Linux发行版之一，它提供简单、最小化且优雅的体验，Arch可通过自己的喜好定制属于自己的系统，这就带来了一个难题一切都得通过命令行手动定制(包括安装系统)，这对于初学Linux的人来说是不利的，所以不建议初学者安装Arch。<br><a id="more"></a><br>  Arch 优点：</p>
@@ -518,6 +409,115 @@
       </tags>
   </entry>
   <entry>
+    <title>ArchLinux安装后配置</title>
+    <url>/2019/12/04/ArchLinux%E5%AE%89%E8%A3%85%E5%90%8E%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h1 id="连接网络"><a href="#连接网络" class="headerlink" title="连接网络"></a>连接网络</h1><p>有线网自动获取IP<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dhcpcd</span><br></pre></td></tr></table></figure></p>
+<p>连接无线网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wifi-menu</span><br></pre></td></tr></table></figure><br><a id="more"></a></p>
+<h1 id="创建普通用户"><a href="#创建普通用户" class="headerlink" title="创建普通用户"></a>创建普通用户</h1><p>在linux上root就是上帝，能对系统进行任何操作，包括删除系统文件，所有使用root操作是很危险的，通常都是创建一个普通用户来使用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">useradd -m username</span><br></pre></td></tr></table></figure>
+<p><code>-m</code>:创建用户的家目录<code>/home/username</code><br><code>username</code>:创建的用户名</p>
+<h2 id="给用户设置密码"><a href="#给用户设置密码" class="headerlink" title="给用户设置密码"></a>给用户设置密码</h2><p>root具有上帝权限，所以无需验证任何用户的密码就能修改用户的密码，新建的用户还没有密码所以还无法登录(但root通过<code>su</code>命令能无密码登录)，所以需要给用户设置密码后用户才能登录</p>
+<p>给<code>username</code>设置密码<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">passwd username</span><br></pre></td></tr></table></figure><br>连续输入两次密码回车即可（linux不显示密码的输入）</p>
+<h1 id="配置sudo"><a href="#配置sudo" class="headerlink" title="配置sudo"></a>配置sudo</h1><p>创建了普通用户，但很多情况下需要用到root的权限怎么办呢?这就需要用到<code>sudo</code>来提权了</p>
+<p>sudo 能临时赋予用户root的部分管理权限，达到使用root运行相关指令的目的,比如arch的包管理器<code>pacman</code>就需要root权限,也就是说安装软件就需要root权限</p>
+<h2 id="安装sudo软件包"><a href="#安装sudo软件包" class="headerlink" title="安装sudo软件包:"></a>安装sudo软件包:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pacman -S sudo</span><br></pre></td></tr></table></figure>
+<p>若安装基础包时安装了<code>base-devel</code>包就无需安装了,<code>base-devel</code>软件包含有<code>sudo</code></p>
+<p><strong>配置sudo</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /sudoers</span><br></pre></td></tr></table></figure></p>
+<p>打开配置文件后找到<code>%wheel ALL=(ALL)ALL</code>，去掉注释<code>#</code>，重启<code>reboot</code>，给整个用户组权限</p>
+<p>也可直接添加一条<code>username ALL=(ALL)ALL</code>给用户权限</p>
+<h2 id="加入wheel用户组"><a href="#加入wheel用户组" class="headerlink" title="加入wheel用户组"></a>加入wheel用户组</h2><p>将用户加入whell用户组<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">usermod -G wheel username</span><br></pre></td></tr></table></figure></p>
+<p>wheel 组的概念继承自 UNIX，当需要进行一些高级维护时，往往要用到 root 权限；而wheel 组是一个包含特殊权限的用户组，用来满足需要 root 权限的需求。</p>
+<p>对于服务器来说，我们希望只有属于 wheel 组的用户才可以用 <code>su</code> 登录 root。这样就进一步增强了系统的安全性。具体步骤如下：</p>
+<ul>
+<li><p>修改 <code>/etc/pam.d/su</code> 文件，找到<code>#auth required /lib/security/$ISA/pam_wheel.so use_uid</code>，将行首的注释<code>#</code>去掉。</p>
+</li>
+<li><p>修改 <code>/etc/login.defs</code> 文件，在最后一行增加：<code>SU_WHEEL_ONLY yes</code>。</p>
+</li>
+</ul>
+<p>然后，用<code>usermod -G wheel username</code> 将用户添加到 wheel 组中,这样被添加到 wheel 组的用户登录，就能执行 <code>su</code> 命令输入正确的 root 密码就可以正常的登录为 root 用户了。</p>
+<h1 id="图形界面"><a href="#图形界面" class="headerlink" title="图形界面"></a>图形界面</h1><h2 id="显卡驱动"><a href="#显卡驱动" class="headerlink" title="显卡驱动"></a>显卡驱动</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>品牌</th>
+<th>驱动</th>
+<th>驱动类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AMD/ATI</td>
+<td><code>xf86-video-amdgpu</code>、<code>xf86-video-ati</code></td>
+<td>开源</td>
+</tr>
+<tr>
+<td></td>
+<td><code>catalyst</code>(AUR)</td>
+<td>闭源</td>
+</tr>
+<tr>
+<td>Intel</td>
+<td><code>xf86-video-intel</code></td>
+<td>开源</td>
+</tr>
+<tr>
+<td>Nvidia</td>
+<td><code>xf86-video-nonveau</code></td>
+<td>开源</td>
+</tr>
+<tr>
+<td></td>
+<td><code>nvidia</code>、<code>nvidia-340xx</code>、<code>nvidia-304xx</code></td>
+<td>闭源</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>参照表格安装相应的驱动，通常安装集显的开源驱动就够用，若需要打点游戏，做点图什么的可以安装独立显卡的闭源驱动提升性能。<font color="ff0000"><strong>安装闭源驱动一定要查看wiki根据说明安装，不然可能回无法正常进入系统</strong></font></p>
+<p>查看被识别的显卡:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lspci | grep -e VGA -e 3D</span><br></pre></td></tr></table></figure></p>
+<p>搜索开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -Ss xf86-video</span><br></pre></td></tr></table></figure></p>
+<p>安装intel集显开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xf86-video-intel</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装Xorg"><a href="#安装Xorg" class="headerlink" title="安装Xorg"></a>安装Xorg</h2><p>Xorg是Linux下的一个著名的开源图形服务</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xorg</span><br></pre></td></tr></table></figure>
+<h2 id="安装桌面"><a href="#安装桌面" class="headerlink" title="安装桌面"></a>安装桌面</h2><p>Linux下有很多著名的<a href="https://wiki.archlinux.org/index.php/Desktop_environment#List_of_desktop_environments">桌面环境</a>如：</p>
+<ul>
+<li>Xfce</li>
+<li>KDE(Plasma)</li>
+<li>Gnome</li>
+<li>Unity</li>
+<li>Deepin(深度的国产桌面环境)</li>
+</ul>
+<p>自行选择安装即可</p>
+<p>如:</p>
+<ul>
+<li>Xfce :<code>sudo pacman -S xfce4 xfce4-goodies</code></li>
+<li>KDE(Plasma):<code>sudo pacman -S plasma kde-application</code></li>
+<li>Gnome:<code>sudo pacman -S gnome gnome-extra</code></li>
+<li>Deepin:<code>sudo pacman -S deepin deepin-extra</code></li>
+</ul>
+<h2 id="安装桌面管理器"><a href="#安装桌面管理器" class="headerlink" title="安装桌面管理器"></a>安装桌面管理器</h2><p>安装好了桌面环境包以后，需要安装一个<a href="https://wiki.archlinux.org/index.php/Display_manager">桌面管理器</a>来帮助我们登录且选择使用的桌面环境</p>
+<ul>
+<li>LightDM : <code>sudo pacman -S lighdm</code></li>
+<li>sddm : <code>sudo pacman -S sddm</code></li>
+<li>GDM : <code>sudo pacman -S gdm</code></li>
+</ul>
+<p><strong>启动桌面管理器服务</strong></p>
+<p>服务管理<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开机启动/关闭开启启动</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> xxxx</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> xxxx</span><br><span class="line"></span><br><span class="line"><span class="comment">#启动/停止服务</span></span><br><span class="line">sudo systemctl start xxxx</span><br><span class="line">sudo systemctl stop xxxx</span><br></pre></td></tr></table></figure></p>
+<p>如设置开机启动<code>sddm</code>: <code>sudo systemctl enable sddm</code></p>
+<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><p>之前用的一直是netctl这个自带的网络服务，而桌面环境使用的是NetworkManager这个网络服务，所以需要禁用netctl并启用NetworkManager</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> netctl</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> NetworkManager</span><br></pre></td></tr></table></figure>
+<p>安装工具栏图标显示网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S network-manager-applet</span><br></pre></td></tr></table></figure></p>
+<p><strong>重启电脑即可</strong></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Arch</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ArchLinux系安装VMware</title>
     <url>/2019/12/08/ArchLinux%E7%B3%BB%E5%AE%89%E8%A3%85VMware/</url>
     <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="从aur库安装"><a href="#从aur库安装" class="headerlink" title="从aur库安装"></a>从aur库安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay vmware-workstation</span><br></pre></td></tr></table></figure>
@@ -862,6 +862,27 @@
       </tags>
   </entry>
   <entry>
+    <title>GRUB主题美化</title>
+    <url>/2019/09/24/GRUB%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="下载主题包"><a href="#下载主题包" class="headerlink" title="下载主题包"></a>下载主题包</h2><p>到<a href="https://www.gnome-look.org/browse/cat/109/ord/rating/">gnome-look</a>下载喜欢的主题</p>
+<p>我用的是：<a href="https://www.gnome-look.org/p/1009236/">Grub-theme-vimix</a></p>
+<p><strong>解压主题包</strong></p>
+<h2 id="使用主题包"><a href="#使用主题包" class="headerlink" title="使用主题包"></a>使用主题包</h2><h3 id="脚本方式安装"><a href="#脚本方式安装" class="headerlink" title="脚本方式安装"></a>脚本方式安装</h3><p>一些主题包内包含了一件安装脚本，只需运行就可安装使用该主题</p>
+<h3 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h3><p>没有安装脚本的主题，或自定义的主题，需要自行手动安装</p>
+<a id="more"></a>
+<p><strong>将主题文件夹放到到GRUB主题目录下</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp  主题文件夹 /boot/grub/themes/</span><br></pre></td></tr></table></figure><br><strong>修改配置使用该主题</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/grub.d/00_header</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加入配置内容</span></span><br><span class="line">GRUB_THEME=<span class="string">&quot;/boot/grub/themes/主题文件夹/theme.txt&quot;</span></span><br><span class="line"><span class="comment"># 设置分辨率 auto（自动） 1920x1080x32</span></span><br><span class="line"><span class="comment">#GRUB_GFXMODE=auto</span></span><br><span class="line">GRUB_GFXMODE=<span class="string">&quot;1920x1080x32&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="更新配置"><a href="#更新配置" class="headerlink" title="更新配置"></a>更新配置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo update-grub</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GRUB</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Github高效搜索仓库语法</title>
     <url>/2019/11/18/Github%E9%AB%98%E6%95%88%E6%90%9C%E7%B4%A2%E4%BB%93%E5%BA%93%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p><strong>对用空格的查询可使用引号</strong>如:<code>“hello worled”</code></p>
@@ -1025,27 +1046,6 @@
       </tags>
   </entry>
   <entry>
-    <title>GRUB主题美化</title>
-    <url>/2019/09/24/GRUB%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="下载主题包"><a href="#下载主题包" class="headerlink" title="下载主题包"></a>下载主题包</h2><p>到<a href="https://www.gnome-look.org/browse/cat/109/ord/rating/">gnome-look</a>下载喜欢的主题</p>
-<p>我用的是：<a href="https://www.gnome-look.org/p/1009236/">Grub-theme-vimix</a></p>
-<p><strong>解压主题包</strong></p>
-<h2 id="使用主题包"><a href="#使用主题包" class="headerlink" title="使用主题包"></a>使用主题包</h2><h3 id="脚本方式安装"><a href="#脚本方式安装" class="headerlink" title="脚本方式安装"></a>脚本方式安装</h3><p>一些主题包内包含了一件安装脚本，只需运行就可安装使用该主题</p>
-<h3 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h3><p>没有安装脚本的主题，或自定义的主题，需要自行手动安装</p>
-<a id="more"></a>
-<p><strong>将主题文件夹放到到GRUB主题目录下</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp  主题文件夹 /boot/grub/themes/</span><br></pre></td></tr></table></figure><br><strong>修改配置使用该主题</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/grub.d/00_header</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加入配置内容</span></span><br><span class="line">GRUB_THEME=<span class="string">&quot;/boot/grub/themes/主题文件夹/theme.txt&quot;</span></span><br><span class="line"><span class="comment"># 设置分辨率 auto（自动） 1920x1080x32</span></span><br><span class="line"><span class="comment">#GRUB_GFXMODE=auto</span></span><br><span class="line">GRUB_GFXMODE=<span class="string">&quot;1920x1080x32&quot;</span></span><br></pre></td></tr></table></figure>
-<h3 id="更新配置"><a href="#更新配置" class="headerlink" title="更新配置"></a>更新配置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo update-grub</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GRUB</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo添加子目录站点</title>
     <url>/2019/11/20/Hexo%E6%B7%BB%E5%8A%A0%E5%AD%90%E7%9B%AE%E5%BD%95%E7%AB%99%E7%82%B9/</url>
     <content><![CDATA[<p><strong>在Hexo博客项目根目录下</strong></p>
@@ -1063,6 +1063,30 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo配置支持MathJax</title>
+    <url>/2019/10/09/Hexo%E9%85%8D%E7%BD%AE%E6%94%AF%E6%8C%81MathJax/</url>
+    <content><![CDATA[<h1 id="替换Marked"><a href="#替换Marked" class="headerlink" title="替换Marked"></a>替换Marked</h1><p>  <code>hexo</code> 默认的渲染引擎是<code>marked</code>，但是 <code>marked</code> 不支持 <code>MathJax</code>。 <code>kramed</code> 是在 <code>marked</code> 的基础上进行修改，能够支持<code>MathJax</code>。</p>
+<p>  <a href="https://github.com/sun11/hexo-renderer-kramed">kramed项目</a><br>  先卸载原来默认的渲染引擎<code>marked</code>，然后安装<code>kramed</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yarn remove hexo-renderer-marked</span><br><span class="line">yarn add hexo-renderer-kramed</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><strong>博客目录下</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim themes/next/_config.yml</span><br></pre></td></tr></table></figure>
+<p>找到<code>math</code>配置项开启</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Math Formulas Render Support</span></span><br><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 默认值（true）将按需加载mathjax / katex脚本去渲染在Front-matter中具有`mathjax：true`的页面。</span></span><br><span class="line">  <span class="comment"># 如果将其设置为false，它将在每一页加载mathjax/katex脚本</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的MathJax支持所需的hexo-renderer-pandoc（或hexo-renderer-kramed）</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># https://mhchem.github.io/MathJax-mhchem/</span></span><br><span class="line">    <span class="attr">mhchem:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的Katex支持需要hexo-renderer-markdown-it-plus（或带有markdown-it-katex插件的hexo-renderer-markdown-it）</span></span><br><span class="line">  <span class="attr">katex:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex</span></span><br><span class="line">    <span class="attr">copy_tex:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p><strong>在需要使用Mathjax的文章<code>Front-matter</code>中添加<code>mathjax: true</code></strong></p>
+<figure class="highlight md"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 文章名</span><br><span class="line">category: 分类</span><br><span class="line">date: 2019/10/09</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<h1 id="方案2"><a href="#方案2" class="headerlink" title="方案2"></a>方案2</h1><p>  另一种方案是使用<a href="https://github.com/CHENXCHEN/hexo-renderer-markdown-it-plus">hexo-renderer-markdown-it-plus</a></p>
+<p>参考:<a href="https://ranmaosong.github.io/2017/11/29/hexo-support-mathjax/">如何在hexo中支持Mathjax?</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>MathJax</tag>
       </tags>
   </entry>
   <entry>
@@ -1097,30 +1121,6 @@
         <tag>Linux</tag>
         <tag>Ibus</tag>
         <tag>输入法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo配置支持MathJax</title>
-    <url>/2019/10/09/Hexo%E9%85%8D%E7%BD%AE%E6%94%AF%E6%8C%81MathJax/</url>
-    <content><![CDATA[<h1 id="替换Marked"><a href="#替换Marked" class="headerlink" title="替换Marked"></a>替换Marked</h1><p>  <code>hexo</code> 默认的渲染引擎是<code>marked</code>，但是 <code>marked</code> 不支持 <code>MathJax</code>。 <code>kramed</code> 是在 <code>marked</code> 的基础上进行修改，能够支持<code>MathJax</code>。</p>
-<p>  <a href="https://github.com/sun11/hexo-renderer-kramed">kramed项目</a><br>  先卸载原来默认的渲染引擎<code>marked</code>，然后安装<code>kramed</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yarn remove hexo-renderer-marked</span><br><span class="line">yarn add hexo-renderer-kramed</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><strong>博客目录下</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim themes/next/_config.yml</span><br></pre></td></tr></table></figure>
-<p>找到<code>math</code>配置项开启</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Math Formulas Render Support</span></span><br><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 默认值（true）将按需加载mathjax / katex脚本去渲染在Front-matter中具有`mathjax：true`的页面。</span></span><br><span class="line">  <span class="comment"># 如果将其设置为false，它将在每一页加载mathjax/katex脚本</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的MathJax支持所需的hexo-renderer-pandoc（或hexo-renderer-kramed）</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># https://mhchem.github.io/MathJax-mhchem/</span></span><br><span class="line">    <span class="attr">mhchem:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的Katex支持需要hexo-renderer-markdown-it-plus（或带有markdown-it-katex插件的hexo-renderer-markdown-it）</span></span><br><span class="line">  <span class="attr">katex:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex</span></span><br><span class="line">    <span class="attr">copy_tex:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<p><strong>在需要使用Mathjax的文章<code>Front-matter</code>中添加<code>mathjax: true</code></strong></p>
-<figure class="highlight md"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 文章名</span><br><span class="line">category: 分类</span><br><span class="line">date: 2019/10/09</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<h1 id="方案2"><a href="#方案2" class="headerlink" title="方案2"></a>方案2</h1><p>  另一种方案是使用<a href="https://github.com/CHENXCHEN/hexo-renderer-markdown-it-plus">hexo-renderer-markdown-it-plus</a></p>
-<p>参考:<a href="https://ranmaosong.github.io/2017/11/29/hexo-support-mathjax/">如何在hexo中支持Mathjax?</a></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>MathJax</tag>
       </tags>
   </entry>
   <entry>
