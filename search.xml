@@ -862,27 +862,6 @@
       </tags>
   </entry>
   <entry>
-    <title>GRUB主题美化</title>
-    <url>/2019/09/24/GRUB%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="下载主题包"><a href="#下载主题包" class="headerlink" title="下载主题包"></a>下载主题包</h2><p>到<a href="https://www.gnome-look.org/browse/cat/109/ord/rating/">gnome-look</a>下载喜欢的主题</p>
-<p>我用的是：<a href="https://www.gnome-look.org/p/1009236/">Grub-theme-vimix</a></p>
-<p><strong>解压主题包</strong></p>
-<h2 id="使用主题包"><a href="#使用主题包" class="headerlink" title="使用主题包"></a>使用主题包</h2><h3 id="脚本方式安装"><a href="#脚本方式安装" class="headerlink" title="脚本方式安装"></a>脚本方式安装</h3><p>一些主题包内包含了一件安装脚本，只需运行就可安装使用该主题</p>
-<h3 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h3><p>没有安装脚本的主题，或自定义的主题，需要自行手动安装</p>
-<a id="more"></a>
-<p><strong>将主题文件夹放到到GRUB主题目录下</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp  主题文件夹 /boot/grub/themes/</span><br></pre></td></tr></table></figure><br><strong>修改配置使用该主题</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/grub.d/00_header</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加入配置内容</span></span><br><span class="line">GRUB_THEME=<span class="string">&quot;/boot/grub/themes/主题文件夹/theme.txt&quot;</span></span><br><span class="line"><span class="comment"># 设置分辨率 auto（自动） 1920x1080x32</span></span><br><span class="line"><span class="comment">#GRUB_GFXMODE=auto</span></span><br><span class="line">GRUB_GFXMODE=<span class="string">&quot;1920x1080x32&quot;</span></span><br></pre></td></tr></table></figure>
-<h3 id="更新配置"><a href="#更新配置" class="headerlink" title="更新配置"></a>更新配置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo update-grub</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>GRUB</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Github高效搜索仓库语法</title>
     <url>/2019/11/18/Github%E9%AB%98%E6%95%88%E6%90%9C%E7%B4%A2%E4%BB%93%E5%BA%93%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p><strong>对用空格的查询可使用引号</strong>如:<code>“hello worled”</code></p>
@@ -1046,6 +1025,27 @@
       </tags>
   </entry>
   <entry>
+    <title>GRUB主题美化</title>
+    <url>/2019/09/24/GRUB%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="下载主题包"><a href="#下载主题包" class="headerlink" title="下载主题包"></a>下载主题包</h2><p>到<a href="https://www.gnome-look.org/browse/cat/109/ord/rating/">gnome-look</a>下载喜欢的主题</p>
+<p>我用的是：<a href="https://www.gnome-look.org/p/1009236/">Grub-theme-vimix</a></p>
+<p><strong>解压主题包</strong></p>
+<h2 id="使用主题包"><a href="#使用主题包" class="headerlink" title="使用主题包"></a>使用主题包</h2><h3 id="脚本方式安装"><a href="#脚本方式安装" class="headerlink" title="脚本方式安装"></a>脚本方式安装</h3><p>一些主题包内包含了一件安装脚本，只需运行就可安装使用该主题</p>
+<h3 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h3><p>没有安装脚本的主题，或自定义的主题，需要自行手动安装</p>
+<a id="more"></a>
+<p><strong>将主题文件夹放到到GRUB主题目录下</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo cp  主题文件夹 /boot/grub/themes/</span><br></pre></td></tr></table></figure><br><strong>修改配置使用该主题</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/grub.d/00_header</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加入配置内容</span></span><br><span class="line">GRUB_THEME=<span class="string">&quot;/boot/grub/themes/主题文件夹/theme.txt&quot;</span></span><br><span class="line"><span class="comment"># 设置分辨率 auto（自动） 1920x1080x32</span></span><br><span class="line"><span class="comment">#GRUB_GFXMODE=auto</span></span><br><span class="line">GRUB_GFXMODE=<span class="string">&quot;1920x1080x32&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="更新配置"><a href="#更新配置" class="headerlink" title="更新配置"></a>更新配置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo update-grub</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>GRUB</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo添加子目录站点</title>
     <url>/2019/11/20/Hexo%E6%B7%BB%E5%8A%A0%E5%AD%90%E7%9B%AE%E5%BD%95%E7%AB%99%E7%82%B9/</url>
     <content><![CDATA[<p><strong>在Hexo博客项目根目录下</strong></p>
@@ -1063,30 +1063,6 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo配置支持MathJax</title>
-    <url>/2019/10/09/Hexo%E9%85%8D%E7%BD%AE%E6%94%AF%E6%8C%81MathJax/</url>
-    <content><![CDATA[<h1 id="替换Marked"><a href="#替换Marked" class="headerlink" title="替换Marked"></a>替换Marked</h1><p>  <code>hexo</code> 默认的渲染引擎是<code>marked</code>，但是 <code>marked</code> 不支持 <code>MathJax</code>。 <code>kramed</code> 是在 <code>marked</code> 的基础上进行修改，能够支持<code>MathJax</code>。</p>
-<p>  <a href="https://github.com/sun11/hexo-renderer-kramed">kramed项目</a><br>  先卸载原来默认的渲染引擎<code>marked</code>，然后安装<code>kramed</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yarn remove hexo-renderer-marked</span><br><span class="line">yarn add hexo-renderer-kramed</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><strong>博客目录下</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim themes/next/_config.yml</span><br></pre></td></tr></table></figure>
-<p>找到<code>math</code>配置项开启</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Math Formulas Render Support</span></span><br><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 默认值（true）将按需加载mathjax / katex脚本去渲染在Front-matter中具有`mathjax：true`的页面。</span></span><br><span class="line">  <span class="comment"># 如果将其设置为false，它将在每一页加载mathjax/katex脚本</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的MathJax支持所需的hexo-renderer-pandoc（或hexo-renderer-kramed）</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># https://mhchem.github.io/MathJax-mhchem/</span></span><br><span class="line">    <span class="attr">mhchem:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的Katex支持需要hexo-renderer-markdown-it-plus（或带有markdown-it-katex插件的hexo-renderer-markdown-it）</span></span><br><span class="line">  <span class="attr">katex:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex</span></span><br><span class="line">    <span class="attr">copy_tex:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<p><strong>在需要使用Mathjax的文章<code>Front-matter</code>中添加<code>mathjax: true</code></strong></p>
-<figure class="highlight md"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 文章名</span><br><span class="line">category: 分类</span><br><span class="line">date: 2019/10/09</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<h1 id="方案2"><a href="#方案2" class="headerlink" title="方案2"></a>方案2</h1><p>  另一种方案是使用<a href="https://github.com/CHENXCHEN/hexo-renderer-markdown-it-plus">hexo-renderer-markdown-it-plus</a></p>
-<p>参考:<a href="https://ranmaosong.github.io/2017/11/29/hexo-support-mathjax/">如何在hexo中支持Mathjax?</a></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>MathJax</tag>
       </tags>
   </entry>
   <entry>
@@ -1121,6 +1097,49 @@
         <tag>Linux</tag>
         <tag>Ibus</tag>
         <tag>输入法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo配置支持MathJax</title>
+    <url>/2019/10/09/Hexo%E9%85%8D%E7%BD%AE%E6%94%AF%E6%8C%81MathJax/</url>
+    <content><![CDATA[<h1 id="替换Marked"><a href="#替换Marked" class="headerlink" title="替换Marked"></a>替换Marked</h1><p>  <code>hexo</code> 默认的渲染引擎是<code>marked</code>，但是 <code>marked</code> 不支持 <code>MathJax</code>。 <code>kramed</code> 是在 <code>marked</code> 的基础上进行修改，能够支持<code>MathJax</code>。</p>
+<p>  <a href="https://github.com/sun11/hexo-renderer-kramed">kramed项目</a><br>  先卸载原来默认的渲染引擎<code>marked</code>，然后安装<code>kramed</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yarn remove hexo-renderer-marked</span><br><span class="line">yarn add hexo-renderer-kramed</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><strong>博客目录下</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim themes/next/_config.yml</span><br></pre></td></tr></table></figure>
+<p>找到<code>math</code>配置项开启</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Math Formulas Render Support</span></span><br><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 默认值（true）将按需加载mathjax / katex脚本去渲染在Front-matter中具有`mathjax：true`的页面。</span></span><br><span class="line">  <span class="comment"># 如果将其设置为false，它将在每一页加载mathjax/katex脚本</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的MathJax支持所需的hexo-renderer-pandoc（或hexo-renderer-kramed）</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># https://mhchem.github.io/MathJax-mhchem/</span></span><br><span class="line">    <span class="attr">mhchem:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的Katex支持需要hexo-renderer-markdown-it-plus（或带有markdown-it-katex插件的hexo-renderer-markdown-it）</span></span><br><span class="line">  <span class="attr">katex:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex</span></span><br><span class="line">    <span class="attr">copy_tex:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p><strong>在需要使用Mathjax的文章<code>Front-matter</code>中添加<code>mathjax: true</code></strong></p>
+<figure class="highlight md"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 文章名</span><br><span class="line">category: 分类</span><br><span class="line">date: 2019/10/09</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<h1 id="方案2"><a href="#方案2" class="headerlink" title="方案2"></a>方案2</h1><p>  另一种方案是使用<a href="https://github.com/CHENXCHEN/hexo-renderer-markdown-it-plus">hexo-renderer-markdown-it-plus</a></p>
+<p>参考:<a href="https://ranmaosong.github.io/2017/11/29/hexo-support-mathjax/">如何在hexo中支持Mathjax?</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>MathJax</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java笔记整理（初级）</title>
+    <url>/2019/08/20/Java%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86%EF%BC%88%E5%88%9D%E7%BA%A7%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="Java笔记整理（初级）"><a href="#Java笔记整理（初级）" class="headerlink" title="Java笔记整理（初级）"></a>Java笔记整理（初级）</h1><p>程序是用来给人服务的，不要被束缚了思想，我们是为了实现某个目的来学习编程写代码的，而不是说为了编程而学编程。语法是固有存在的，需要怎么用才能到达目的是灵活变通的，学习编程就如学习加减法：1+1=2,2-1=1…是固有的，而想要怎么加怎么减才能得到想要的数那是千变万化的。<strong>固有的部分需要死记硬背，变化的部分需要用死记硬背的内容来灵活变通。</strong>其实固有的部分多敲多写就能记下的，剩下的就是学会如何变通达到目的就行了（算法）。</p>
+<p>如果我现在想让程序输出一段话，就会用到编程入门万年不变的第一个程序<code>Holle Word</code></p>
+<h3 id="编程入门万年不变的第一个程序"><a href="#编程入门万年不变的第一个程序" class="headerlink" title="编程入门万年不变的第一个程序"></a>编程入门万年不变的第一个程序</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim 第一个程序.java</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 第一个程序 </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[]args)</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;万年不变的入门程序，Holle Word！&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">public class 第一个程序		//公开（public）的类(class)  类名&quot;第一个程序&quot;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">public static void main(String[]args)	//公开、静态(static)、无返回值(void)的主函数  函数(方法) 名“main” 函数的参数是字符串类型的数组“args”</span></span><br><span class="line"><span class="comment">//主函数是程序的入口  必须要有主函数程序才能运行，主函数名固定为“main”</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">System.out.println		//标准输出语句，用于输出（打印）出字符串内容</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h3 id="八大数据类型"><a href="#八大数据类型" class="headerlink" title="八大数据类型"></a>八大数据类型</h3><p>计算机的运行离不开内存的存在，内存用来临时存放运行中的程序，当<code>程序被运行时会被加载到内存中</code>，等待被执行相关指令。程序向内存加载的过程需要内存准备相应的空间来存放程序，而<code>内存的空间是有限的，不能为了一个很小的程序就将内存分配都分配给它</code>，所有就需要给程序的限制内存占用大小，因此就产生了数据类型，<code>数据类型就是用来给程序的参数值规定范围大小的</code>，用不同的数据类型定义不同的参数值从而规范了程序的内存使用。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim 八大类型.java</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 八大类型 </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[]args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">byte</span> by=<span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">		<span class="keyword">short</span> sh=<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">int</span> in=s.nextInt();</span><br><span class="line">		<span class="keyword">long</span> lo=s.nextLong();</span><br><span class="line">		<span class="keyword">double</span> d=s.nextDouble();</span><br><span class="line">		<span class="keyword">float</span> fl=s.nextFloat();</span><br><span class="line">		String st=s.next();</span><br><span class="line">		<span class="keyword">boolean</span> bo=s.hasNext();</span><br><span class="line">		System.out.println(by+<span class="string">&quot;,&quot;</span>+sh+<span class="string">&quot;,&quot;</span>+in+<span class="string">&quot;,&quot;</span>+lo</span><br><span class="line">			+<span class="string">&quot;,&quot;</span>+d+<span class="string">&quot;,&quot;</span>+fl+<span class="string">&quot;,&quot;</span>+st+<span class="string">&quot;,&quot;</span>+bo);	<span class="comment">//将数据是输出</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -1340,25 +1359,6 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java笔记整理（初级）</title>
-    <url>/2019/08/20/Java%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86%EF%BC%88%E5%88%9D%E7%BA%A7%EF%BC%89/</url>
-    <content><![CDATA[<h1 id="Java笔记整理（初级）"><a href="#Java笔记整理（初级）" class="headerlink" title="Java笔记整理（初级）"></a>Java笔记整理（初级）</h1><p>程序是用来给人服务的，不要被束缚了思想，我们是为了实现某个目的来学习编程写代码的，而不是说为了编程而学编程。语法是固有存在的，需要怎么用才能到达目的是灵活变通的，学习编程就如学习加减法：1+1=2,2-1=1…是固有的，而想要怎么加怎么减才能得到想要的数那是千变万化的。<strong>固有的部分需要死记硬背，变化的部分需要用死记硬背的内容来灵活变通。</strong>其实固有的部分多敲多写就能记下的，剩下的就是学会如何变通达到目的就行了（算法）。</p>
-<p>如果我现在想让程序输出一段话，就会用到编程入门万年不变的第一个程序<code>Holle Word</code></p>
-<h3 id="编程入门万年不变的第一个程序"><a href="#编程入门万年不变的第一个程序" class="headerlink" title="编程入门万年不变的第一个程序"></a>编程入门万年不变的第一个程序</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim 第一个程序.java</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 第一个程序 </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[]args)</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;万年不变的入门程序，Holle Word！&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">public class 第一个程序		//公开（public）的类(class)  类名&quot;第一个程序&quot;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">public static void main(String[]args)	//公开、静态(static)、无返回值(void)的主函数  函数(方法) 名“main” 函数的参数是字符串类型的数组“args”</span></span><br><span class="line"><span class="comment">//主函数是程序的入口  必须要有主函数程序才能运行，主函数名固定为“main”</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">System.out.println		//标准输出语句，用于输出（打印）出字符串内容</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<h3 id="八大数据类型"><a href="#八大数据类型" class="headerlink" title="八大数据类型"></a>八大数据类型</h3><p>计算机的运行离不开内存的存在，内存用来临时存放运行中的程序，当<code>程序被运行时会被加载到内存中</code>，等待被执行相关指令。程序向内存加载的过程需要内存准备相应的空间来存放程序，而<code>内存的空间是有限的，不能为了一个很小的程序就将内存分配都分配给它</code>，所有就需要给程序的限制内存占用大小，因此就产生了数据类型，<code>数据类型就是用来给程序的参数值规定范围大小的</code>，用不同的数据类型定义不同的参数值从而规范了程序的内存使用。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim 八大类型.java</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 八大类型 </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[]args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">byte</span> by=<span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">		<span class="keyword">short</span> sh=<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">int</span> in=s.nextInt();</span><br><span class="line">		<span class="keyword">long</span> lo=s.nextLong();</span><br><span class="line">		<span class="keyword">double</span> d=s.nextDouble();</span><br><span class="line">		<span class="keyword">float</span> fl=s.nextFloat();</span><br><span class="line">		String st=s.next();</span><br><span class="line">		<span class="keyword">boolean</span> bo=s.hasNext();</span><br><span class="line">		System.out.println(by+<span class="string">&quot;,&quot;</span>+sh+<span class="string">&quot;,&quot;</span>+in+<span class="string">&quot;,&quot;</span>+lo</span><br><span class="line">			+<span class="string">&quot;,&quot;</span>+d+<span class="string">&quot;,&quot;</span>+fl+<span class="string">&quot;,&quot;</span>+st+<span class="string">&quot;,&quot;</span>+bo);	<span class="comment">//将数据是输出</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -2336,6 +2336,35 @@
       </tags>
   </entry>
   <entry>
+    <title>aria2配置使用</title>
+    <url>/2019/09/22/aria2%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="安装aria2"><a href="#安装aria2" class="headerlink" title="安装aria2"></a>安装aria2</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S aria2</span><br></pre></td></tr></table></figure>
+<h4 id="配置aria2-RPC"><a href="#配置aria2-RPC" class="headerlink" title="配置aria2 RPC"></a>配置aria2 RPC</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir ~/.config/aria2/</span><br><span class="line">touch ~/.config/aria2/aria2.session 	<span class="comment">#创建日志文件</span></span><br><span class="line">vim ~/.config/aria2/aria2.conf</span><br><span class="line"><span class="comment"># 加入以下配置内容，注意修改日志文件路径</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p><strong>其他系统可相应更改路径即可</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">## &#39;#&#39;开头为注释内容, 选项都有相应的注释说明, 根据需要修改 ##</span><br><span class="line">## 被注释的选项填写的是默认值, 建议在需要修改时再取消注释  ##</span><br><span class="line"></span><br><span class="line">## 文件保存相关 ##</span><br><span class="line"></span><br><span class="line"># 文件的保存路径(可使用绝对路径或相对路径), 默认: 当前启动位置</span><br><span class="line">dir&#x3D;~&#x2F;downloads</span><br><span class="line"># 启用磁盘缓存, 0为禁用缓存, 需1.16以上版本, 默认:16M</span><br><span class="line">#disk-cache&#x3D;32M</span><br><span class="line"># 文件预分配方式, 能有效降低磁盘碎片, 默认:prealloc</span><br><span class="line"># 预分配所需时间: none &lt; falloc ? trunc &lt; prealloc</span><br><span class="line"># falloc和trunc则需要文件系统和内核支持</span><br><span class="line"># NTFS建议使用falloc, EXT3&#x2F;4建议trunc, MAC 下需要注释此项</span><br><span class="line">#file-allocation&#x3D;none</span><br><span class="line"># 断点续传</span><br><span class="line">continue&#x3D;true</span><br><span class="line"></span><br><span class="line">## 下载连接相关 ##</span><br><span class="line"></span><br><span class="line"># 最大同时下载任务数, 运行时可修改, 默认:5</span><br><span class="line">#max-concurrent-downloads&#x3D;5</span><br><span class="line"># 同一服务器连接数, 添加时可指定, 默认:1</span><br><span class="line">max-connection-per-server&#x3D;5</span><br><span class="line"># 最小文件分片大小, 添加时可指定, 取值范围1M -1024M, 默认:20M</span><br><span class="line"># 假定size&#x3D;10M, 文件为20MiB 则使用两个来源下载; 文件为15MiB 则使用一个来源下载</span><br><span class="line">min-split-size&#x3D;10M</span><br><span class="line"># 单个任务最大线程数, 添加时可指定, 默认:5</span><br><span class="line">#split&#x3D;5</span><br><span class="line"># 整体下载速度限制, 运行时可修改, 默认:0</span><br><span class="line">#max-overall-download-limit&#x3D;0</span><br><span class="line"># 单个任务下载速度限制, 默认:0</span><br><span class="line">#max-download-limit&#x3D;0</span><br><span class="line"># 整体上传速度限制, 运行时可修改, 默认:0</span><br><span class="line">#max-overall-upload-limit&#x3D;0</span><br><span class="line"># 单个任务上传速度限制, 默认:0</span><br><span class="line">#max-upload-limit&#x3D;0</span><br><span class="line"># 禁用IPv6, 默认:false</span><br><span class="line">#disable-ipv6&#x3D;true</span><br><span class="line"># 连接超时时间, 默认:60</span><br><span class="line">#timeout&#x3D;60</span><br><span class="line"># 最大重试次数, 设置为0表示不限制重试次数, 默认:5</span><br><span class="line">#max-tries&#x3D;5</span><br><span class="line"># 设置重试等待的秒数, 默认:0</span><br><span class="line">#retry-wait&#x3D;0</span><br><span class="line"></span><br><span class="line">## 进度保存相关 ##</span><br><span class="line"></span><br><span class="line"># 从会话文件中读取下载任务</span><br><span class="line"># 注意需要全路径 使用&#96;~&#96;不被识别</span><br><span class="line">input-file&#x3D;&#x2F;home&#x2F;eonun&#x2F;.config&#x2F;aria2&#x2F;aria2.session</span><br><span class="line"># 在Aria2退出时保存&#96;错误&#x2F;未完成&#96;的下载任务到会话文件</span><br><span class="line"># 注意需要全路径 使用&#96;~&#96;不被识别</span><br><span class="line">save-session&#x3D;&#x2F;home&#x2F;eonun&#x2F;.config&#x2F;aria2&#x2F;aria2.session</span><br><span class="line"># 定时保存会话, 0为退出时才保存, 需1.16.1以上版本, 默认:0</span><br><span class="line">#save-session-interval&#x3D;60</span><br><span class="line"></span><br><span class="line">## RPC相关设置 ##</span><br><span class="line"></span><br><span class="line"># 启用RPC, 默认:false</span><br><span class="line">enable-rpc&#x3D;true</span><br><span class="line"># 允许所有来源, 默认:false</span><br><span class="line">rpc-allow-origin-all&#x3D;true</span><br><span class="line"># 允许非外部访问, 默认:false</span><br><span class="line">rpc-listen-all&#x3D;true</span><br><span class="line"># 事件轮询方式, 取值:[epoll, kqueue, port, poll, select], 不同系统默认值不同</span><br><span class="line">#event-poll&#x3D;select</span><br><span class="line"># RPC监听端口, 端口被占用时可以修改, 默认:6800</span><br><span class="line">#rpc-listen-port&#x3D;6800</span><br><span class="line"># 设置的RPC授权令牌, v1.18.4新增功能, 取代 --rpc-user 和 --rpc-passwd 选项</span><br><span class="line">#rpc-secret&#x3D;&lt;TOKEN&gt;</span><br><span class="line"># 设置的RPC访问用户名, 此选项新版已废弃, 建议改用 --rpc-secret 选项</span><br><span class="line">#rpc-user&#x3D;&lt;USER&gt;</span><br><span class="line"># 设置的RPC访问密码, 此选项新版已废弃, 建议改用 --rpc-secret 选项</span><br><span class="line">#rpc-passwd&#x3D;&lt;PASSWD&gt;</span><br><span class="line"># 是否启用 RPC 服务的 SSL&#x2F;TLS 加密,</span><br><span class="line"># 启用加密后 RPC 服务需要使用 https 或者 wss 协议连接</span><br><span class="line">#rpc-secure&#x3D;true</span><br><span class="line"># 在 RPC 服务中启用 SSL&#x2F;TLS 加密时的证书文件,</span><br><span class="line"># 使用 PEM 格式时，您必须通过 --rpc-private-key 指定私钥</span><br><span class="line">#rpc-certificate&#x3D;&#x2F;path&#x2F;to&#x2F;certificate.pem</span><br><span class="line"># 在 RPC 服务中启用 SSL&#x2F;TLS 加密时的私钥文件</span><br><span class="line">#rpc-private-key&#x3D;&#x2F;path&#x2F;to&#x2F;certificate.key</span><br><span class="line"></span><br><span class="line">## BT&#x2F;PT下载相关 ##</span><br><span class="line"></span><br><span class="line"># 当下载的是一个种子(以.torrent结尾)时, 自动开始BT任务, 默认:true</span><br><span class="line">#follow-torrent&#x3D;true</span><br><span class="line"># BT监听端口, 当端口被屏蔽时使用, 默认:6881-6999</span><br><span class="line">listen-port&#x3D;51413</span><br><span class="line"># 单个种子最大连接数, 默认:55</span><br><span class="line">#bt-max-peers&#x3D;55</span><br><span class="line"># 打开DHT功能, PT需要禁用, 默认:true</span><br><span class="line">enable-dht&#x3D;false</span><br><span class="line"># 打开IPv6 DHT功能, PT需要禁用</span><br><span class="line">#enable-dht6&#x3D;false</span><br><span class="line"># DHT网络监听端口, 默认:6881-6999</span><br><span class="line">#dht-listen-port&#x3D;6881-6999</span><br><span class="line"># 本地节点查找, PT需要禁用, 默认:false</span><br><span class="line">#bt-enable-lpd&#x3D;false</span><br><span class="line"># 种子交换, PT需要禁用, 默认:true</span><br><span class="line">enable-peer-exchange&#x3D;false</span><br><span class="line"># 每个种子限速, 对少种的PT很有用, 默认:50K</span><br><span class="line">#bt-request-peer-speed-limit&#x3D;50K</span><br><span class="line"># 客户端伪装, PT需要</span><br><span class="line">peer-id-prefix&#x3D;-TR2770-</span><br><span class="line">user-agent&#x3D;Transmission&#x2F;2.77</span><br><span class="line"># 当种子的分享率达到这个数时, 自动停止做种, 0为一直做种, 默认:1.0</span><br><span class="line">seed-ratio&#x3D;0</span><br><span class="line"># 强制保存会话, 即使任务已经完成, 默认:false</span><br><span class="line"># 较新的版本开启后会在任务完成后依然保留.aria2文件</span><br><span class="line">#force-save&#x3D;false</span><br><span class="line"># BT校验相关, 默认:true</span><br><span class="line">#bt-hash-check-seed&#x3D;true</span><br><span class="line"># 继续之前的BT任务时, 无需再次校验, 默认:false</span><br><span class="line">bt-seed-unverified&#x3D;true</span><br><span class="line"># 保存磁力链接元数据为种子文件(.torrent文件), 默认:false</span><br><span class="line">bt-save-metadata&#x3D;true</span><br></pre></td></tr></table></figure>
+<p><strong>使用该配置</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">aria2c --conf-path=<span class="variable">$HOME</span>/.config/aria2/aria2.conf</span><br><span class="line"><span class="comment"># 加 -D 表示后台启动</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="开启RPC"><a href="#开启RPC" class="headerlink" title="开启RPC"></a>开启RPC</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">aria2 --enable-rpc --rpc-allow-origin-all -D</span><br></pre></td></tr></table></figure>
+<p><strong>其他系统可到<a href="https://github.com/aria2/aria2/releases/tag/release-1.34.0">官方库下载</a></strong></p>
+<p><a href="https://aria2c.com/archiver/aria2.zip">Windows懒人包下载</a>（包含以下文件）<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">aria2.conf    # 配置文件 可以自己根据说明修改</span><br><span class="line">aria2.exe     # 启动文件 使用这个来启动 aria2</span><br><span class="line">aria2.session # 任务保存文件 未完成任务会保存在这里</span><br><span class="line">aria2c.exe    # 32位命令行主程序</span><br><span class="line">README.md     # README</span><br><span class="line">Aria2Data     # 下载目录 默认下载文件会保存在这里</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用webUI"><a href="#使用webUI" class="headerlink" title="使用webUI"></a>使用webUI</h2><h4 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S nodejs</span><br></pre></td></tr></table></figure>
+<h4 id="克隆webui-aria2"><a href="#克隆webui-aria2" class="headerlink" title="克隆webui-aria2"></a>克隆webui-aria2</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/ziahamza/webui-aria2.git ~/webui-aria2</span><br></pre></td></tr></table></figure>
+<h4 id="启用webui-aria2"><a href="#启用webui-aria2" class="headerlink" title="启用webui-aria2"></a>启用webui-aria2</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/webui-aria2</span><br><span class="line">node node-server.js</span><br></pre></td></tr></table></figure>
+<p><strong>通过本地访问网页，打开后若出现报错，检查RPC是否开启、RPC开放的端口</strong></p>
+<h4 id="自定义脚本"><a href="#自定义脚本" class="headerlink" title="自定义脚本"></a>自定义脚本</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/aria2.sh</span><br><span class="line">chmod +x ~/aria2.sh</span><br></pre></td></tr></table></figure>
+<p><strong>内容</strong>：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line">aria2c --enable-rpc --rpc-allow-origin-all -D</span><br><span class="line">node ~/webui-aria2/node-server.js</span><br></pre></td></tr></table></figure></p>
+<h2 id="百度网盘使用aria2下载"><a href="#百度网盘使用aria2下载" class="headerlink" title="百度网盘使用aria2下载"></a>百度网盘使用aria2下载</h2><p><strong>使用PanDownload的网页版访问网盘资源（资源地址的<code>.com</code>前面加入<code>wp</code>访问）</strong></p>
+<p><strong>在下载页选择用aria2下载，配置RPC地址和端口即可即可</strong></p>
+<blockquote>
+<p>主机：localhost<br>端口：6800 （默认）</p>
+</blockquote>
+<h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><p><a href="https://aria2c.com/usage.html">Aria2 &amp; YAAW 使用说明</a><br><a href="https://zhuanlan.zhihu.com/p/30666881">Aria2基础上手指南</a><br><a href="https://www.cnblogs.com/zhuxiaoxi/p/7714457.html">Linux中配置Aria2 RPC Server</a></p>
+]]></content>
+      <tags>
+        <tag>aria2</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>fstab文件详解</title>
     <url>/2019/09/13/fstab%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="etc-fstab文件"><a href="#etc-fstab文件" class="headerlink" title="/etc/fstab文件"></a>/etc/fstab文件</h2><p>/etc/fstab文件包含众多文件系统的描述信息,用来开机自动挂载分区。文件中每一行为一个文件系统的描述，每行的选项之间通过tab分隔，<code>#</code>开头的行为注释，空白行会被忽略。/etc/fstab文件中的设备顺序很重要，因为fsck、mount和umount等命令会读取fstab文件中的次序来执行相关的操作。</p>
@@ -2385,35 +2414,6 @@
       <tags>
         <tag>笔记</tag>
         <tag>系统文件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>aria2配置使用</title>
-    <url>/2019/09/22/aria2%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="安装aria2"><a href="#安装aria2" class="headerlink" title="安装aria2"></a>安装aria2</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S aria2</span><br></pre></td></tr></table></figure>
-<h4 id="配置aria2-RPC"><a href="#配置aria2-RPC" class="headerlink" title="配置aria2 RPC"></a>配置aria2 RPC</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir ~/.config/aria2/</span><br><span class="line">touch ~/.config/aria2/aria2.session 	<span class="comment">#创建日志文件</span></span><br><span class="line">vim ~/.config/aria2/aria2.conf</span><br><span class="line"><span class="comment"># 加入以下配置内容，注意修改日志文件路径</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p><strong>其他系统可相应更改路径即可</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">## &#39;#&#39;开头为注释内容, 选项都有相应的注释说明, 根据需要修改 ##</span><br><span class="line">## 被注释的选项填写的是默认值, 建议在需要修改时再取消注释  ##</span><br><span class="line"></span><br><span class="line">## 文件保存相关 ##</span><br><span class="line"></span><br><span class="line"># 文件的保存路径(可使用绝对路径或相对路径), 默认: 当前启动位置</span><br><span class="line">dir&#x3D;~&#x2F;downloads</span><br><span class="line"># 启用磁盘缓存, 0为禁用缓存, 需1.16以上版本, 默认:16M</span><br><span class="line">#disk-cache&#x3D;32M</span><br><span class="line"># 文件预分配方式, 能有效降低磁盘碎片, 默认:prealloc</span><br><span class="line"># 预分配所需时间: none &lt; falloc ? trunc &lt; prealloc</span><br><span class="line"># falloc和trunc则需要文件系统和内核支持</span><br><span class="line"># NTFS建议使用falloc, EXT3&#x2F;4建议trunc, MAC 下需要注释此项</span><br><span class="line">#file-allocation&#x3D;none</span><br><span class="line"># 断点续传</span><br><span class="line">continue&#x3D;true</span><br><span class="line"></span><br><span class="line">## 下载连接相关 ##</span><br><span class="line"></span><br><span class="line"># 最大同时下载任务数, 运行时可修改, 默认:5</span><br><span class="line">#max-concurrent-downloads&#x3D;5</span><br><span class="line"># 同一服务器连接数, 添加时可指定, 默认:1</span><br><span class="line">max-connection-per-server&#x3D;5</span><br><span class="line"># 最小文件分片大小, 添加时可指定, 取值范围1M -1024M, 默认:20M</span><br><span class="line"># 假定size&#x3D;10M, 文件为20MiB 则使用两个来源下载; 文件为15MiB 则使用一个来源下载</span><br><span class="line">min-split-size&#x3D;10M</span><br><span class="line"># 单个任务最大线程数, 添加时可指定, 默认:5</span><br><span class="line">#split&#x3D;5</span><br><span class="line"># 整体下载速度限制, 运行时可修改, 默认:0</span><br><span class="line">#max-overall-download-limit&#x3D;0</span><br><span class="line"># 单个任务下载速度限制, 默认:0</span><br><span class="line">#max-download-limit&#x3D;0</span><br><span class="line"># 整体上传速度限制, 运行时可修改, 默认:0</span><br><span class="line">#max-overall-upload-limit&#x3D;0</span><br><span class="line"># 单个任务上传速度限制, 默认:0</span><br><span class="line">#max-upload-limit&#x3D;0</span><br><span class="line"># 禁用IPv6, 默认:false</span><br><span class="line">#disable-ipv6&#x3D;true</span><br><span class="line"># 连接超时时间, 默认:60</span><br><span class="line">#timeout&#x3D;60</span><br><span class="line"># 最大重试次数, 设置为0表示不限制重试次数, 默认:5</span><br><span class="line">#max-tries&#x3D;5</span><br><span class="line"># 设置重试等待的秒数, 默认:0</span><br><span class="line">#retry-wait&#x3D;0</span><br><span class="line"></span><br><span class="line">## 进度保存相关 ##</span><br><span class="line"></span><br><span class="line"># 从会话文件中读取下载任务</span><br><span class="line"># 注意需要全路径 使用&#96;~&#96;不被识别</span><br><span class="line">input-file&#x3D;&#x2F;home&#x2F;eonun&#x2F;.config&#x2F;aria2&#x2F;aria2.session</span><br><span class="line"># 在Aria2退出时保存&#96;错误&#x2F;未完成&#96;的下载任务到会话文件</span><br><span class="line"># 注意需要全路径 使用&#96;~&#96;不被识别</span><br><span class="line">save-session&#x3D;&#x2F;home&#x2F;eonun&#x2F;.config&#x2F;aria2&#x2F;aria2.session</span><br><span class="line"># 定时保存会话, 0为退出时才保存, 需1.16.1以上版本, 默认:0</span><br><span class="line">#save-session-interval&#x3D;60</span><br><span class="line"></span><br><span class="line">## RPC相关设置 ##</span><br><span class="line"></span><br><span class="line"># 启用RPC, 默认:false</span><br><span class="line">enable-rpc&#x3D;true</span><br><span class="line"># 允许所有来源, 默认:false</span><br><span class="line">rpc-allow-origin-all&#x3D;true</span><br><span class="line"># 允许非外部访问, 默认:false</span><br><span class="line">rpc-listen-all&#x3D;true</span><br><span class="line"># 事件轮询方式, 取值:[epoll, kqueue, port, poll, select], 不同系统默认值不同</span><br><span class="line">#event-poll&#x3D;select</span><br><span class="line"># RPC监听端口, 端口被占用时可以修改, 默认:6800</span><br><span class="line">#rpc-listen-port&#x3D;6800</span><br><span class="line"># 设置的RPC授权令牌, v1.18.4新增功能, 取代 --rpc-user 和 --rpc-passwd 选项</span><br><span class="line">#rpc-secret&#x3D;&lt;TOKEN&gt;</span><br><span class="line"># 设置的RPC访问用户名, 此选项新版已废弃, 建议改用 --rpc-secret 选项</span><br><span class="line">#rpc-user&#x3D;&lt;USER&gt;</span><br><span class="line"># 设置的RPC访问密码, 此选项新版已废弃, 建议改用 --rpc-secret 选项</span><br><span class="line">#rpc-passwd&#x3D;&lt;PASSWD&gt;</span><br><span class="line"># 是否启用 RPC 服务的 SSL&#x2F;TLS 加密,</span><br><span class="line"># 启用加密后 RPC 服务需要使用 https 或者 wss 协议连接</span><br><span class="line">#rpc-secure&#x3D;true</span><br><span class="line"># 在 RPC 服务中启用 SSL&#x2F;TLS 加密时的证书文件,</span><br><span class="line"># 使用 PEM 格式时，您必须通过 --rpc-private-key 指定私钥</span><br><span class="line">#rpc-certificate&#x3D;&#x2F;path&#x2F;to&#x2F;certificate.pem</span><br><span class="line"># 在 RPC 服务中启用 SSL&#x2F;TLS 加密时的私钥文件</span><br><span class="line">#rpc-private-key&#x3D;&#x2F;path&#x2F;to&#x2F;certificate.key</span><br><span class="line"></span><br><span class="line">## BT&#x2F;PT下载相关 ##</span><br><span class="line"></span><br><span class="line"># 当下载的是一个种子(以.torrent结尾)时, 自动开始BT任务, 默认:true</span><br><span class="line">#follow-torrent&#x3D;true</span><br><span class="line"># BT监听端口, 当端口被屏蔽时使用, 默认:6881-6999</span><br><span class="line">listen-port&#x3D;51413</span><br><span class="line"># 单个种子最大连接数, 默认:55</span><br><span class="line">#bt-max-peers&#x3D;55</span><br><span class="line"># 打开DHT功能, PT需要禁用, 默认:true</span><br><span class="line">enable-dht&#x3D;false</span><br><span class="line"># 打开IPv6 DHT功能, PT需要禁用</span><br><span class="line">#enable-dht6&#x3D;false</span><br><span class="line"># DHT网络监听端口, 默认:6881-6999</span><br><span class="line">#dht-listen-port&#x3D;6881-6999</span><br><span class="line"># 本地节点查找, PT需要禁用, 默认:false</span><br><span class="line">#bt-enable-lpd&#x3D;false</span><br><span class="line"># 种子交换, PT需要禁用, 默认:true</span><br><span class="line">enable-peer-exchange&#x3D;false</span><br><span class="line"># 每个种子限速, 对少种的PT很有用, 默认:50K</span><br><span class="line">#bt-request-peer-speed-limit&#x3D;50K</span><br><span class="line"># 客户端伪装, PT需要</span><br><span class="line">peer-id-prefix&#x3D;-TR2770-</span><br><span class="line">user-agent&#x3D;Transmission&#x2F;2.77</span><br><span class="line"># 当种子的分享率达到这个数时, 自动停止做种, 0为一直做种, 默认:1.0</span><br><span class="line">seed-ratio&#x3D;0</span><br><span class="line"># 强制保存会话, 即使任务已经完成, 默认:false</span><br><span class="line"># 较新的版本开启后会在任务完成后依然保留.aria2文件</span><br><span class="line">#force-save&#x3D;false</span><br><span class="line"># BT校验相关, 默认:true</span><br><span class="line">#bt-hash-check-seed&#x3D;true</span><br><span class="line"># 继续之前的BT任务时, 无需再次校验, 默认:false</span><br><span class="line">bt-seed-unverified&#x3D;true</span><br><span class="line"># 保存磁力链接元数据为种子文件(.torrent文件), 默认:false</span><br><span class="line">bt-save-metadata&#x3D;true</span><br></pre></td></tr></table></figure>
-<p><strong>使用该配置</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">aria2c --conf-path=<span class="variable">$HOME</span>/.config/aria2/aria2.conf</span><br><span class="line"><span class="comment"># 加 -D 表示后台启动</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="开启RPC"><a href="#开启RPC" class="headerlink" title="开启RPC"></a>开启RPC</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">aria2 --enable-rpc --rpc-allow-origin-all -D</span><br></pre></td></tr></table></figure>
-<p><strong>其他系统可到<a href="https://github.com/aria2/aria2/releases/tag/release-1.34.0">官方库下载</a></strong></p>
-<p><a href="https://aria2c.com/archiver/aria2.zip">Windows懒人包下载</a>（包含以下文件）<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">aria2.conf    # 配置文件 可以自己根据说明修改</span><br><span class="line">aria2.exe     # 启动文件 使用这个来启动 aria2</span><br><span class="line">aria2.session # 任务保存文件 未完成任务会保存在这里</span><br><span class="line">aria2c.exe    # 32位命令行主程序</span><br><span class="line">README.md     # README</span><br><span class="line">Aria2Data     # 下载目录 默认下载文件会保存在这里</span><br></pre></td></tr></table></figure></p>
-<h2 id="使用webUI"><a href="#使用webUI" class="headerlink" title="使用webUI"></a>使用webUI</h2><h4 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S nodejs</span><br></pre></td></tr></table></figure>
-<h4 id="克隆webui-aria2"><a href="#克隆webui-aria2" class="headerlink" title="克隆webui-aria2"></a>克隆webui-aria2</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/ziahamza/webui-aria2.git ~/webui-aria2</span><br></pre></td></tr></table></figure>
-<h4 id="启用webui-aria2"><a href="#启用webui-aria2" class="headerlink" title="启用webui-aria2"></a>启用webui-aria2</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/webui-aria2</span><br><span class="line">node node-server.js</span><br></pre></td></tr></table></figure>
-<p><strong>通过本地访问网页，打开后若出现报错，检查RPC是否开启、RPC开放的端口</strong></p>
-<h4 id="自定义脚本"><a href="#自定义脚本" class="headerlink" title="自定义脚本"></a>自定义脚本</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/aria2.sh</span><br><span class="line">chmod +x ~/aria2.sh</span><br></pre></td></tr></table></figure>
-<p><strong>内容</strong>：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line">aria2c --enable-rpc --rpc-allow-origin-all -D</span><br><span class="line">node ~/webui-aria2/node-server.js</span><br></pre></td></tr></table></figure></p>
-<h2 id="百度网盘使用aria2下载"><a href="#百度网盘使用aria2下载" class="headerlink" title="百度网盘使用aria2下载"></a>百度网盘使用aria2下载</h2><p><strong>使用PanDownload的网页版访问网盘资源（资源地址的<code>.com</code>前面加入<code>wp</code>访问）</strong></p>
-<p><strong>在下载页选择用aria2下载，配置RPC地址和端口即可即可</strong></p>
-<blockquote>
-<p>主机：localhost<br>端口：6800 （默认）</p>
-</blockquote>
-<h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><p><a href="https://aria2c.com/usage.html">Aria2 &amp; YAAW 使用说明</a><br><a href="https://zhuanlan.zhihu.com/p/30666881">Aria2基础上手指南</a><br><a href="https://www.cnblogs.com/zhuxiaoxi/p/7714457.html">Linux中配置Aria2 RPC Server</a></p>
-]]></content>
-      <tags>
-        <tag>aria2</tag>
       </tags>
   </entry>
   <entry>
@@ -3717,6 +3717,21 @@
       </tags>
   </entry>
   <entry>
+    <title>内网渗透命令</title>
+    <url>/2019/12/21/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ipconfig &#x2F;all                      ------ 查询本机IP段，所在域等</span><br><span class="line">net user                           ------ 本机用户列表</span><br><span class="line">net localhroup administrators      ------ 本机管理员[通常含有域用户]</span><br><span class="line">net user &#x2F;domain                   ------ 查询域用户</span><br><span class="line">net group &#x2F;domain                  ------ 查询域里面的工作组</span><br><span class="line">net group &quot;domain admins&quot; &#x2F;domain  ------ 查询域管理员用户组</span><br><span class="line">net localgroup administrators &#x2F;domain    ------ 登录本机的域管理员</span><br><span class="line">net localgroup administrators workgroup\user001 &#x2F;add   ------域用户添加到本机</span><br><span class="line">net group &quot;domain controllers&quot; &#x2F;domain                         ------ 查看域控制器(如果有多台)</span><br><span class="line">net time &#x2F;domain          ------ 判断主域，主域服务器都做时间服务器</span><br><span class="line">net config workstation   ------ 当前登录域</span><br><span class="line">net session                  ------ 查看当前会话</span><br><span class="line">net use \\ip\ipc$ pawword &#x2F;user:username      ------ 建立IPC会话[空连接-***]</span><br><span class="line">net share                    ------  查看SMB指向的路径[即共享]</span><br><span class="line">net view                      ------ 查询同一域内机器列表</span><br><span class="line">net view \\ip                ------ 查询某IP共享</span><br><span class="line">net view &#x2F;domain         ------ 查询域列表</span><br><span class="line">net view &#x2F;domain:domainname        ------ 查看workgroup域中计算机列表</span><br><span class="line">net start                                         ------ 查看当前运行的服务</span><br><span class="line">net accounts                                   ------  查看本地密码策略</span><br><span class="line">net accounts &#x2F;domain                      ------  查看域密码策略</span><br><span class="line">nbtstat –A ip                                   ------netbios 查询</span><br><span class="line">netstat –an&#x2F;ano&#x2F;anb                        ------ 网络连接查询</span><br><span class="line">route print                                      ------ 路由表</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dsquery computer       ----- finds computers in the directory.</span><br><span class="line">dsquery contact           ----- finds contacts in thedirectory.</span><br><span class="line">dsquery subnet            ----- finds subnets in thedirectory.</span><br><span class="line">dsquery group             ----- finds groups in thedirectory.</span><br><span class="line">dsquery ou                   ----- finds organizationalunits in the directory.</span><br><span class="line">dsquery site                 ----- finds sites in thedirectory.</span><br><span class="line">dsquery server             ----- finds domain controllers inthe directory.</span><br><span class="line">dsquery user                ----- finds users in thedirectory.</span><br><span class="line">dsquery quota              ----- finds quota specificationsin the directory.</span><br><span class="line">dsquery partition         ----- finds partitions in thedirectory.</span><br><span class="line">dsquery *                     ----- finds any object inthe directory by using a generic LDAP query.</span><br><span class="line">dsquery server –domain Yahoo.com | dsget server–dnsname –site ---搜索域内域控制器的DNS主机名和站点名</span><br><span class="line">dsquery computer domainroot –name *-xp –limit 10----- 搜索域内以-xp结尾的机器10台</span><br><span class="line">dsquery user domainroot –name admin* -limit ---- 搜索域内以admin开头的用户10个</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#注:dsquery来源于Windows Server 2003 Administration Tools Pack</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tasklist &#x2F;V                                                      ----- 查看进程[显示对应用户]</span><br><span class="line">tasklist &#x2F;S ip &#x2F;U domain\username &#x2F;P &#x2F;V             ----- 查看远程计算机进程列表</span><br><span class="line">qprocess *                                                    ----- 类似tasklist</span><br><span class="line">qprocess &#x2F;SERVER:IP                                      ----- 远程查看计算机进程列表</span><br><span class="line">nslookup –qt-MX Yahoo.com                           ----- 查看邮件服务器</span><br><span class="line">whoami &#x2F;all                                                   ----- 查询当前用户权限等</span><br><span class="line">set                                                              ----- 查看系统环境变量</span><br><span class="line">systeminfo                                                    ----- 查看系统信息</span><br><span class="line">qwinsta                                                        ----- 查看登录情况</span><br><span class="line">qwinsta &#x2F;SERVER:IP                                       ----- 查看远程登录情况</span><br><span class="line">fsutil fsinfo drives                                           ----- 查看所有盘符</span><br><span class="line">gpupdate &#x2F;force                                            ----- 更新</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 域策略</span><br><span class="line"></span><br><span class="line">wmic bios                                      -----看bios信息</span><br><span class="line">wmic qfe                                           ----- 查看补丁信息</span><br><span class="line">wmic qfe get hotfixid                                     ----- 查看补丁-Patch号</span><br><span class="line">wmic startup                                                 ----- 查看启动项</span><br><span class="line">wmic service                                                 ----- 查看服务</span><br><span class="line">wmic os                                                       ----- 查看OS信息</span><br><span class="line">wmic process get caption,executablepath,commandline</span><br><span class="line">wmic process call create “process_name” (executes a program)</span><br><span class="line">wmic process where name&#x3D;”process_name” call terminate (terminates program)</span><br><span class="line">wmic logicaldisk where drivetype&#x3D;3 get name, freespace, systemname, filesystem, size,</span><br><span class="line">volumeserialnumber (hard drive information)</span><br><span class="line">wmic useraccount (usernames, sid, and various security related goodies)</span><br><span class="line">wmic useraccount get &#x2F;ALL</span><br><span class="line">wmic share get &#x2F;ALL (you can use ? for gets help ! )</span><br><span class="line">wmic startup list full (this can be a huge list!!!)</span><br><span class="line">wmic &#x2F;node:&quot;hostname&quot; bios get serialnumber (this can be great for finding warranty info about target)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
+        <tag>命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>安全书籍</title>
     <url>/2019/10/01/%E5%AE%89%E5%85%A8%E4%B9%A6%E7%B1%8D/</url>
     <content><![CDATA[<h1 id="在线安全书籍"><a href="#在线安全书籍" class="headerlink" title="在线安全书籍"></a>在线安全书籍</h1><h2 id="Web安全书籍"><a href="#Web安全书籍" class="headerlink" title="Web安全书籍"></a>Web安全书籍</h2><p><a href="https://wizardforcel.gitbooks.io/web-hacking-101/">Web Hacking 101 中文版</a><br><a href="https://wizardforcel.gitbooks.io/kali-linux-web-pentest-cookbook/">Kali Linux Web渗透测试秘籍 中文版</a><br><a href="https://t0data.gitbooks.io/burpsuite/">Kali Linux burpsuite实战指南</a><br><a href="https://github.com/qazbnm456/awesome-web-security/">Web安全资料和资源列表</a></p>
@@ -3736,21 +3751,6 @@
         <tag>安全</tag>
         <tag>Hacker</tag>
         <tag>书籍</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>内网渗透命令</title>
-    <url>/2019/12/21/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ipconfig &#x2F;all                      ------ 查询本机IP段，所在域等</span><br><span class="line">net user                           ------ 本机用户列表</span><br><span class="line">net localhroup administrators      ------ 本机管理员[通常含有域用户]</span><br><span class="line">net user &#x2F;domain                   ------ 查询域用户</span><br><span class="line">net group &#x2F;domain                  ------ 查询域里面的工作组</span><br><span class="line">net group &quot;domain admins&quot; &#x2F;domain  ------ 查询域管理员用户组</span><br><span class="line">net localgroup administrators &#x2F;domain    ------ 登录本机的域管理员</span><br><span class="line">net localgroup administrators workgroup\user001 &#x2F;add   ------域用户添加到本机</span><br><span class="line">net group &quot;domain controllers&quot; &#x2F;domain                         ------ 查看域控制器(如果有多台)</span><br><span class="line">net time &#x2F;domain          ------ 判断主域，主域服务器都做时间服务器</span><br><span class="line">net config workstation   ------ 当前登录域</span><br><span class="line">net session                  ------ 查看当前会话</span><br><span class="line">net use \\ip\ipc$ pawword &#x2F;user:username      ------ 建立IPC会话[空连接-***]</span><br><span class="line">net share                    ------  查看SMB指向的路径[即共享]</span><br><span class="line">net view                      ------ 查询同一域内机器列表</span><br><span class="line">net view \\ip                ------ 查询某IP共享</span><br><span class="line">net view &#x2F;domain         ------ 查询域列表</span><br><span class="line">net view &#x2F;domain:domainname        ------ 查看workgroup域中计算机列表</span><br><span class="line">net start                                         ------ 查看当前运行的服务</span><br><span class="line">net accounts                                   ------  查看本地密码策略</span><br><span class="line">net accounts &#x2F;domain                      ------  查看域密码策略</span><br><span class="line">nbtstat –A ip                                   ------netbios 查询</span><br><span class="line">netstat –an&#x2F;ano&#x2F;anb                        ------ 网络连接查询</span><br><span class="line">route print                                      ------ 路由表</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dsquery computer       ----- finds computers in the directory.</span><br><span class="line">dsquery contact           ----- finds contacts in thedirectory.</span><br><span class="line">dsquery subnet            ----- finds subnets in thedirectory.</span><br><span class="line">dsquery group             ----- finds groups in thedirectory.</span><br><span class="line">dsquery ou                   ----- finds organizationalunits in the directory.</span><br><span class="line">dsquery site                 ----- finds sites in thedirectory.</span><br><span class="line">dsquery server             ----- finds domain controllers inthe directory.</span><br><span class="line">dsquery user                ----- finds users in thedirectory.</span><br><span class="line">dsquery quota              ----- finds quota specificationsin the directory.</span><br><span class="line">dsquery partition         ----- finds partitions in thedirectory.</span><br><span class="line">dsquery *                     ----- finds any object inthe directory by using a generic LDAP query.</span><br><span class="line">dsquery server –domain Yahoo.com | dsget server–dnsname –site ---搜索域内域控制器的DNS主机名和站点名</span><br><span class="line">dsquery computer domainroot –name *-xp –limit 10----- 搜索域内以-xp结尾的机器10台</span><br><span class="line">dsquery user domainroot –name admin* -limit ---- 搜索域内以admin开头的用户10个</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#注:dsquery来源于Windows Server 2003 Administration Tools Pack</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tasklist &#x2F;V                                                      ----- 查看进程[显示对应用户]</span><br><span class="line">tasklist &#x2F;S ip &#x2F;U domain\username &#x2F;P &#x2F;V             ----- 查看远程计算机进程列表</span><br><span class="line">qprocess *                                                    ----- 类似tasklist</span><br><span class="line">qprocess &#x2F;SERVER:IP                                      ----- 远程查看计算机进程列表</span><br><span class="line">nslookup –qt-MX Yahoo.com                           ----- 查看邮件服务器</span><br><span class="line">whoami &#x2F;all                                                   ----- 查询当前用户权限等</span><br><span class="line">set                                                              ----- 查看系统环境变量</span><br><span class="line">systeminfo                                                    ----- 查看系统信息</span><br><span class="line">qwinsta                                                        ----- 查看登录情况</span><br><span class="line">qwinsta &#x2F;SERVER:IP                                       ----- 查看远程登录情况</span><br><span class="line">fsutil fsinfo drives                                           ----- 查看所有盘符</span><br><span class="line">gpupdate &#x2F;force                                            ----- 更新</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 域策略</span><br><span class="line"></span><br><span class="line">wmic bios                                      -----看bios信息</span><br><span class="line">wmic qfe                                           ----- 查看补丁信息</span><br><span class="line">wmic qfe get hotfixid                                     ----- 查看补丁-Patch号</span><br><span class="line">wmic startup                                                 ----- 查看启动项</span><br><span class="line">wmic service                                                 ----- 查看服务</span><br><span class="line">wmic os                                                       ----- 查看OS信息</span><br><span class="line">wmic process get caption,executablepath,commandline</span><br><span class="line">wmic process call create “process_name” (executes a program)</span><br><span class="line">wmic process where name&#x3D;”process_name” call terminate (terminates program)</span><br><span class="line">wmic logicaldisk where drivetype&#x3D;3 get name, freespace, systemname, filesystem, size,</span><br><span class="line">volumeserialnumber (hard drive information)</span><br><span class="line">wmic useraccount (usernames, sid, and various security related goodies)</span><br><span class="line">wmic useraccount get &#x2F;ALL</span><br><span class="line">wmic share get &#x2F;ALL (you can use ? for gets help ! )</span><br><span class="line">wmic startup list full (this can be a huge list!!!)</span><br><span class="line">wmic &#x2F;node:&quot;hostname&quot; bios get serialnumber (this can be great for finding warranty info about target)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>安全</category>
-      </categories>
-      <tags>
-        <tag>安全</tag>
-        <tag>命令</tag>
       </tags>
   </entry>
   <entry>
@@ -8153,6 +8153,532 @@ y+\cancelto{0}{x}\\
       </tags>
   </entry>
   <entry>
+    <title>vim美化</title>
+    <url>/2019/08/08/vim%E7%BE%8E%E5%8C%96/</url>
+    <content><![CDATA[<h1 id="vim-自带教程"><a href="#vim-自带教程" class="headerlink" title="vim 自带教程"></a>vim 自带教程</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vimtutor</span><br></pre></td></tr></table></figure>
+<h1 id="vim-配置美化"><a href="#vim-配置美化" class="headerlink" title="vim 配置美化"></a>vim 配置美化</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.vim/vimrc	<span class="comment">#创建自己的vim配置</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="comment">&quot;                               _ ____   __     _____ __  __ ____   ____</span></span><br><span class="line"><span class="comment">&quot;   ___  ___  _ __  _   _ _ __ ( ) ___|  \ \   / /_ _|  \/  |  _ \ / ___|</span></span><br><span class="line"><span class="comment">&quot;  / _ \/ _ \| &#x27;_ \| | | | &#x27;_ \|/\___ \   \ \ / / | || |\/| | |_) | |</span></span><br><span class="line"><span class="comment">&quot; |  __/ (_) | | | | |_| | | | |  ___) |   \ V /  | || |  | |  _ &lt;| |___</span></span><br><span class="line"><span class="comment">&quot;  \___|\___/|_| |_|\__,_|_| |_| |____/     \_/  |___|_|  |_|_| \_\\____|</span></span><br><span class="line"><span class="comment">&quot; ===============================木He寸&amp;eonun===============================</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; i 写入模式、i插入之前、I行首插入、a插入之后、A行尾插入、o下行插入、O上行插入、x 删除光标后一个字符</span></span><br><span class="line"><span class="comment">&quot; &lt;Operation(操作)&gt; &lt;Motion(动作)&gt;</span></span><br><span class="line"><span class="comment">&quot; d 剪切操作(剪切可看做删除), y 复制操作, p 粘贴操作， c 剪切后修改操作</span></span><br><span class="line"><span class="comment">&quot; ← 左动作， → 右动作， 3← 3个左动作， b 选择光标开启到上一个词后的内容， i 指明光标在词中，当前词待操作， w 选择光标开始到下个词前的内容， iw 在当前词之间选择该， y3← 向右复制， f 查找动作</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 文件类型检测</span></span><br><span class="line"><span class="keyword">filetype</span> <span class="keyword">on</span></span><br><span class="line"><span class="keyword">filetype</span> <span class="built_in">indent</span> <span class="keyword">on</span></span><br><span class="line"><span class="keyword">filetype</span> plugin <span class="keyword">on</span></span><br><span class="line"><span class="keyword">filetype</span> plugin <span class="built_in">indent</span> <span class="keyword">on</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 开启语法高亮</span></span><br><span class="line"><span class="keyword">if</span> !exists(<span class="string">&quot;g:syntax_on&quot;</span>)</span><br><span class="line">    <span class="keyword">syntax</span> enable</span><br><span class="line"><span class="keyword">endif</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 保存vimrc时立即重新加载生效</span></span><br><span class="line"><span class="keyword">autocmd</span> BufWritePost $MYVIMRC <span class="keyword">source</span> $MYVIMRC	</span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; txt文件按照wiki语法高亮</span></span><br><span class="line"><span class="keyword">autocmd</span> BufNewFile *.txt <span class="keyword">set</span> ft=confluencewiki </span><br><span class="line"><span class="keyword">autocmd</span> BufEnter *.txt <span class="keyword">set</span> ft=confluencewiki</span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 恢复上次文件打开位置</span></span><br><span class="line"><span class="keyword">au</span> BufReadPost * <span class="keyword">if</span> <span class="built_in">line</span>(<span class="string">&quot;&#x27;\&quot;&quot;</span>) &gt; <span class="number">0</span>|<span class="keyword">if</span> <span class="built_in">line</span>(<span class="string">&quot;&#x27;\&quot;&quot;</span>) &lt;= <span class="built_in">line</span>(<span class="string">&quot;$&quot;</span>)|<span class="keyword">exe</span>(<span class="string">&quot;norm &#x27;\&quot;&quot;</span>)|<span class="keyword">else</span>|<span class="keyword">exe</span> <span class="string">&quot;norm $&quot;</span>|<span class="keyword">endif</span>|<span class="keyword">endif</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 打开时运行指令 取消上回搜索内容的高亮</span></span><br><span class="line">exec <span class="string">&quot;nohlsearch&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;=========</span></span><br><span class="line"><span class="comment">&quot;===Let===</span></span><br><span class="line"><span class="comment">&quot;==START==</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 将leader键（\键,类似于Windows键）换成空格（相当于空格键）</span></span><br><span class="line"><span class="keyword">let</span> mapleader=<span class="string">&quot; &quot;</span></span><br><span class="line"><span class="comment">&quot; 矫正部分配色</span></span><br><span class="line"><span class="keyword">let</span> &amp;t_ut=<span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 不同模式下的光标样式</span></span><br><span class="line"><span class="keyword">let</span> &amp;t_SI = <span class="string">&quot;\&lt;Esc&gt;]50;CursorShape=1\x7&quot;</span></span><br><span class="line"><span class="keyword">let</span> &amp;t_SR = <span class="string">&quot;\&lt;Esc&gt;]50;CursorShape=2\x7&quot;</span></span><br><span class="line"><span class="keyword">let</span> &amp;t_EI = <span class="string">&quot;\&lt;Esc&gt;]50;CursorShape=0\x7&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;===END===</span></span><br><span class="line"><span class="comment">&quot;===let===</span></span><br><span class="line"><span class="comment">&quot;=========</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;=========</span></span><br><span class="line"><span class="comment">&quot;===set===</span></span><br><span class="line"><span class="comment">&quot;==START==</span></span><br><span class="line"><span class="keyword">set</span> nocompatible		<span class="comment">&quot; 不兼容 VI ,compatible为兼容(tab将不会变成空格)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> fileencodings=utf-<span class="number">8</span>,gbk	<span class="comment">&quot; 写入文件时采用的编码类型</span></span><br><span class="line"><span class="keyword">set</span> termencoding=utf-<span class="number">8</span>		<span class="comment">&quot; 输出到终端时采用的编码类型</span></span><br><span class="line"><span class="keyword">set</span> encoding=utf-<span class="number">8</span>			<span class="comment">&quot; 缓存的文本、寄存器、Vim 脚本文件等</span></span><br><span class="line"><span class="keyword">set</span> guifont=YaHei\ Consolas\ Hybrid\ <span class="number">11.5</span>	<span class="comment">&quot; 设置显示字体为YaHei Consolas Hybrid</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">number</span>			<span class="comment">&quot; 显示行号	缩写： nu</span></span><br><span class="line"><span class="keyword">set</span> relativenumber	<span class="comment">&quot; 从当前行向前向后算行数</span></span><br><span class="line"><span class="keyword">set</span> cursorline		<span class="comment">&quot; 突出显示当前行	缩写： cul</span></span><br><span class="line"><span class="string">&quot;set cursorcolumn	&quot;</span> 突出显示当前列	缩写： cuc</span><br><span class="line"><span class="keyword">set</span> showmatch		<span class="comment">&quot; 显示括号匹配</span></span><br><span class="line"><span class="keyword">set</span> showcmd			<span class="comment">&quot; 显示指令</span></span><br><span class="line"><span class="keyword">set</span> laststatus=<span class="number">2</span>	<span class="comment">&quot; 显示状态栏</span></span><br><span class="line"><span class="keyword">set</span> ruler			<span class="comment">&quot; 显示光标当前位置</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> wrap			<span class="comment">&quot; 自动换行</span></span><br><span class="line"><span class="keyword">set</span> tw=<span class="number">0</span>			<span class="comment">&quot; 防止自动分割行</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> expandtab		<span class="comment">&quot; 将制表符扩展为空格</span></span><br><span class="line"><span class="keyword">set</span> softtabstop=<span class="number">4</span>	<span class="comment">&quot; 把连续数量的空格视为一个制表符</span></span><br><span class="line"><span class="keyword">set</span> tabstop=<span class="number">4</span>		<span class="comment">&quot; 制表符长度为4空格	缩写：ts</span></span><br><span class="line"><span class="keyword">set</span> <span class="built_in">shiftwidth</span>=<span class="number">4</span>	<span class="comment">&quot; 自动缩进长度为4空格</span></span><br><span class="line"><span class="keyword">set</span> autoindent		<span class="comment">&quot; 自动缩进 缩写:ai</span></span><br><span class="line"><span class="keyword">set</span> <span class="built_in">cindent</span>			<span class="comment">&quot; c格式自动缩进</span></span><br><span class="line"><span class="keyword">set</span> smartindent		<span class="comment">&quot; 开启智能对其</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 基于缩进或语法进行代码折叠 indent（基于缩进）、syntax(基于语法) </span></span><br><span class="line"><span class="comment">&quot; set foldmethod=indent</span></span><br><span class="line"><span class="keyword">set</span> foldmethod=<span class="keyword">syntax</span></span><br><span class="line"><span class="comment">&quot; 启动 vim 时关闭折叠代码</span></span><br><span class="line"><span class="keyword">set</span> nofoldenable</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> wildmenu		<span class="comment">&quot; 命令补全</span></span><br><span class="line"><span class="keyword">set</span> autochdir       <span class="comment">&quot; 在当前目录下执行命令</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> hlsearch		<span class="comment">&quot; 高亮显示搜索</span></span><br><span class="line"><span class="keyword">set</span> incsearch		<span class="string">&quot; 动态高亮搜索&quot;</span></span><br><span class="line"><span class="keyword">set</span> ignorecase		<span class="comment">&quot; 不区分大小写搜索</span></span><br><span class="line"><span class="keyword">set</span> smartcase		<span class="comment">&quot; 智能大小写搜索</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> mouse=<span class="keyword">a</span>			<span class="comment">&quot; 使用鼠标</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> backspace=<span class="built_in">indent</span>,eol,start	<span class="comment">&quot; 能退格到行尾</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;===END===</span></span><br><span class="line"><span class="comment">&quot;===set===</span></span><br><span class="line"><span class="comment">&quot;=========</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="comment">&quot;=============</span></span><br><span class="line"><span class="comment">&quot;===键盘映射===</span></span><br><span class="line"><span class="comment">&quot;====START====</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; map		在普通、可视、运算符模式下生效</span></span><br><span class="line"><span class="comment">&quot; map!		在插入、命令模式下生效</span></span><br><span class="line"><span class="comment">&quot; 键映射map，有五种前缀，对应着vim中的五种模式：</span></span><br><span class="line"><span class="comment">&quot; nore前缀：	非递归</span></span><br><span class="line"><span class="comment">&quot; n前缀：		在普通模式下生效</span></span><br><span class="line"><span class="comment">&quot; v前缀：		在可视模式下生效</span></span><br><span class="line"><span class="comment">&quot; o前缀：		在运算符模式下生效</span></span><br><span class="line"><span class="comment">&quot; i前缀：		在插入模式下生效 </span></span><br><span class="line"><span class="comment">&quot; c前缀：		在命令模式下生效</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; ===一些键表===</span></span><br><span class="line"><span class="comment">&quot; 因为某些原因，ALT几乎无法映射，同时CTRL键被linux系统频繁使用，F1到F12功能键某些也被vim占用，这些都不适合用来映射，以免造成快捷键冲突，在定义快捷键时为了避免一些冲突可用&lt;LEADER&gt;前缀键配合使用</span></span><br><span class="line"><span class="comment">&quot; &lt;k0&gt;-&lt;k9&gt;		小键盘数字0到9</span></span><br><span class="line"><span class="comment">&quot; &lt;S-x&gt;			大写S配合x，意味着shift+x组合键</span></span><br><span class="line"><span class="comment">&quot; &lt;C-x&gt;			大写C配合x，意味着ctrl+x组合键</span></span><br><span class="line"><span class="comment">&quot; &lt;A-x&gt;			大写A配合x，意味着alt+x组合键</span></span><br><span class="line"><span class="comment">&quot; &lt;ESC&gt;			ESC键</span></span><br><span class="line"><span class="comment">&quot; &lt;BS&gt;			backspace退格键</span></span><br><span class="line"><span class="comment">&quot; &lt;CR&gt;			ENTER回车键</span></span><br><span class="line"><span class="comment">&quot; &lt;Space&gt;		空格键</span></span><br><span class="line"><span class="comment">&quot; &lt;Shift&gt;		shift键</span></span><br><span class="line"><span class="comment">&quot; &lt;Ctrl&gt;		ctrl键</span></span><br><span class="line"><span class="comment">&quot; &lt;Alt&gt;			alt键</span></span><br><span class="line"><span class="comment">&quot; &lt;F1&gt;-&lt;F12&gt;	F1到F12功能键</span></span><br><span class="line"><span class="comment">&quot; &lt;LEADER&gt;		vim前缀键，类似于Windows键/command (⌘) 键</span></span><br><span class="line"><span class="comment">&quot; &lt;silent&gt;		命令不显示</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; map 递归映射  a映射到c</span></span><br><span class="line"><span class="comment">&quot; map a b</span></span><br><span class="line"><span class="comment">&quot; map b c</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot; nmap 普通模式下的递归映射&quot;</span></span><br><span class="line"><span class="comment">&quot; unmap 取消 map 的映射</span></span><br><span class="line"><span class="comment">&quot; mapclear 取消所有 map 的映射</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; noremap 不递归映射  a映射为b b映射为c 两个映射互不影响</span></span><br><span class="line"><span class="comment">&quot; noremap a b</span></span><br><span class="line"><span class="comment">&quot; noremap b c</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;noremap a b	&quot;</span> 将 <span class="keyword">a</span> 映射为 <span class="keyword">b</span></span><br><span class="line"><span class="string">&quot;noremap A 5b	&quot;</span> 将 A 映射为 <span class="number">5</span><span class="keyword">b</span></span><br><span class="line"><span class="string">&quot;noremap = nzz	&quot;</span> 将 n 映射 =zz 	<span class="comment">&quot; 用 zz 将该行变成中心点</span></span><br><span class="line"><span class="string">&quot;noremap - Nzz	&quot;</span> 将 <span class="keyword">N</span> 映射 -zz</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;--------------------------------------------------------------------------&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">noremap</span> <span class="symbol">&lt;LEADER&gt;</span><span class="symbol">&lt;CR&gt;</span> :<span class="keyword">nohlsearch</span><span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 将 &lt;LEADER&gt;&lt;CR&gt; 映射为 :nohlsearch&lt;CR&gt; 用于快捷取消搜索高亮</span></span><br><span class="line"><span class="keyword">noremap</span> J <span class="number">5</span><span class="keyword">j</span></span><br><span class="line"><span class="keyword">noremap</span> K <span class="number">5</span><span class="keyword">k</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 复制到系统剪切板</span></span><br><span class="line"><span class="keyword">vnoremap</span> Y :<span class="keyword">w</span> !xclip -i -sel <span class="keyword">c</span> <span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 需要安装xclip  #sudo pacman -S xclip</span></span><br><span class="line"><span class="string">&quot;vnoremap Y &quot;</span>+<span class="keyword">y</span>		<span class="comment">&quot; 需要安装gvim   #sudo pacman -S gvim</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> MR :<span class="keyword">e</span> $MYVIMRC<span class="symbol">&lt;CR&gt;</span>			<span class="comment">&quot; 打开vimrc</span></span><br><span class="line"><span class="keyword">map</span> s <span class="symbol">&lt;nop&gt;</span></span><br><span class="line"><span class="keyword">map</span> S :<span class="keyword">w</span><span class="symbol">&lt;CR&gt;</span>	<span class="string">&quot; 将 S 的指令映射为 :w&lt;CR&gt; 	 &quot;</span> <span class="symbol">&lt;CR&gt;</span> 代表回车</span><br><span class="line"><span class="keyword">map</span> Q :q<span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 将 Q 的指令映射为 :q&lt;CR&gt;</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;silent&gt;</span> <span class="symbol">&lt;C-a&gt;</span> ggvG 	<span class="comment">&quot; Ctrl-A 选中所有内容</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> sk :<span class="keyword">set</span> splitbelow<span class="symbol">&lt;CR&gt;</span>:<span class="keyword">split</span><span class="symbol">&lt;CR&gt;</span>		<span class="string">&quot; 下分屏&quot;</span>:<span class="keyword">e</span> /文件路径 打开文件</span><br><span class="line"><span class="keyword">map</span> sj :<span class="keyword">set</span> nosplitbelow<span class="symbol">&lt;CR&gt;</span>:<span class="keyword">split</span><span class="symbol">&lt;CR&gt;</span>		<span class="comment">&quot; 上分屏</span></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">sl</span> :<span class="keyword">set</span> nosplitright<span class="symbol">&lt;CR&gt;</span>:<span class="keyword">vsplit</span><span class="symbol">&lt;CR&gt;</span>		<span class="comment">&quot; 右分屏 </span></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">sh</span> :<span class="keyword">set</span> splitright<span class="symbol">&lt;CR&gt;</span>:<span class="keyword">vsplit</span><span class="symbol">&lt;CR&gt;</span>		<span class="comment">&quot; 左分屏	</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> sz <span class="symbol">&lt;C-w&gt;</span>t<span class="symbol">&lt;C-w&gt;</span>H 	<span class="comment">&quot; 竖向分屏换左右分屏</span></span><br><span class="line"><span class="keyword">map</span> ss <span class="symbol">&lt;C-w&gt;</span>t<span class="symbol">&lt;C-w&gt;</span>K		<span class="comment">&quot; 左右分屏换竖向分屏</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;LEADER&gt;</span><span class="keyword">k</span> <span class="symbol">&lt;C-w&gt;</span><span class="keyword">k</span>	<span class="comment">&quot; 光标到上屏</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;LEADER&gt;</span><span class="keyword">j</span> <span class="symbol">&lt;C-w&gt;</span><span class="keyword">j</span>	<span class="comment">&quot; 光标到下屏</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;LEADER&gt;</span>h <span class="symbol">&lt;C-w&gt;</span>h	<span class="comment">&quot; 光标到左屏</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;LEADER&gt;</span><span class="keyword">l</span> <span class="symbol">&lt;C-w&gt;</span><span class="keyword">l</span>	<span class="comment">&quot; 光标到右屏</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;up&gt;</span> :<span class="keyword">res</span> +<span class="number">5</span><span class="symbol">&lt;CR&gt;</span>				<span class="comment">&quot; 分屏线上移</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;down&gt;</span> :<span class="keyword">res</span> -<span class="number">5</span><span class="symbol">&lt;CR&gt;</span>				<span class="comment">&quot; 分屏线下移</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;left&gt;</span> :<span class="keyword">vertical</span> <span class="keyword">resize</span>+<span class="number">5</span><span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 分屏线左移</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;right&gt;</span> :<span class="keyword">vertical</span> <span class="keyword">resize</span>-<span class="number">5</span><span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 分屏线右移</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">tn</span> :<span class="keyword">tabe</span><span class="symbol">&lt;CR&gt;</span>		<span class="comment">&quot; 打开新选项卡</span></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">th</span> :-<span class="keyword">tabnext</span><span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 到左边的选项卡</span></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">tl</span> :+<span class="keyword">tabnext</span><span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 到右边的选项卡</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 符号自动补全</span></span><br><span class="line">:<span class="keyword">inoremap</span> ( ()<span class="symbol">&lt;ESC&gt;</span>i</span><br><span class="line">:<span class="keyword">inoremap</span> ) <span class="symbol">&lt;c-r&gt;</span>=ClosePair(<span class="string">&#x27;)&#x27;</span>)<span class="symbol">&lt;CR&gt;</span></span><br><span class="line"><span class="comment">&quot;:inoremap &#123; &#123;&lt;CR&gt;&#125;&lt;ESC&gt;O</span></span><br><span class="line"><span class="comment">&quot;:inoremap &#125; &lt;c-r&gt;=ClosePair(&#x27;&#125;&#x27;)&lt;CR&gt;</span></span><br><span class="line">:<span class="keyword">inoremap</span> [ []<span class="symbol">&lt;ESC&gt;</span>i</span><br><span class="line">:<span class="keyword">inoremap</span> ] <span class="symbol">&lt;c-r&gt;</span>=ClosePair(<span class="string">&#x27;]&#x27;</span>)<span class="symbol">&lt;CR&gt;</span></span><br><span class="line">:<span class="keyword">inoremap</span> <span class="string">&quot; &quot;</span><span class="comment">&quot;&lt;ESC&gt;i</span></span><br><span class="line">:<span class="keyword">inoremap</span> <span class="string">&#x27; &#x27;</span><span class="string">&#x27;&lt;ESC&gt;i</span></span><br><span class="line"><span class="string">function! ClosePair(char)</span></span><br><span class="line"><span class="string">	if getline(&#x27;</span>.<span class="string">&#x27;)[col(&#x27;</span>.<span class="string">&#x27;) - 1] == a:char</span></span><br><span class="line"><span class="string">		return &quot;\&lt;Right&gt;&quot;</span></span><br><span class="line"><span class="string">	else</span></span><br><span class="line"><span class="string">		return a:char</span></span><br><span class="line"><span class="string">	endif</span></span><br><span class="line"><span class="string">endfunction</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;=====END=====</span></span><br><span class="line"><span class="string">&quot;===键盘映射===</span></span><br><span class="line"><span class="string">&quot;=============</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Command 命令</th>
+<th style="text-align:center">Normal   常规模式</th>
+<th style="text-align:center">Visual 可视化模式</th>
+<th style="text-align:center">Operator Pending 运算符模式</th>
+<th style="text-align:center">Insert Only 插入模式</th>
+<th style="text-align:center">Command Line 命令行模式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>:map</code></td>
+<td style="text-align:center">y</td>
+<td style="text-align:center">y</td>
+<td style="text-align:center">y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>:map!</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">y</td>
+<td style="text-align:center">y</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>:nmap</code></td>
+<td style="text-align:center">y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>:vmap</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>:omap</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">y</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>:imap</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">y</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>:cmap</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">y</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="vim快捷键速查"><a href="#vim快捷键速查" class="headerlink" title="vim快捷键速查"></a>vim快捷键速查</h2><h4 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>Esc</code></td>
+<td style="text-align:left">从当前模式转换到“普通模式”。所有的键对应到命令。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>i</code></td>
+<td style="text-align:left">“插入模式”用于插入文字。回归按键的本职工作。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:</code></td>
+<td style="text-align:left">“命令行模式” Vim 希望你输入类似于保存该文档命令的地方。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="方向键"><a href="#方向键" class="headerlink" title="方向键"></a>方向键</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>h</code></td>
+<td style="text-align:left">光标向左移动一个字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>j</code> 或 <code>Ctrl + J</code></td>
+<td style="text-align:left">光标向下移动一行</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>k</code> 或 <code>Ctrl + P</code></td>
+<td style="text-align:left">光标向上移动一行</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>l</code></td>
+<td style="text-align:left">光标向右移动一个字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>0</code></td>
+<td style="text-align:left">（数字 0）移动光标至本行开头</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$</code></td>
+<td style="text-align:left">移动光标至本行末尾</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>^</code></td>
+<td style="text-align:left">移动光标至本行第一个非空字符处</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>w</code></td>
+<td style="text-align:left">向前移动一个词 （上一个字母和数字组成的词之后）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>W</code></td>
+<td style="text-align:left">向前移动一个词 （以空格分隔的词）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>5w</code></td>
+<td style="text-align:left">向前移动五个词</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>b</code></td>
+<td style="text-align:left">向后移动一个词 （下一个字母和数字组成的词之前）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>B</code></td>
+<td style="text-align:left">向后移动一个词 （以空格分隔的词）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>5b</code></td>
+<td style="text-align:left">向后移动五个词</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>G</code></td>
+<td style="text-align:left">移动至文件末尾</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>gg</code></td>
+<td style="text-align:left">移动至文件开头</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="文档浏览"><a href="#文档浏览" class="headerlink" title="文档浏览"></a>文档浏览</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>(</code></td>
+<td style="text-align:left">跳转到上一句</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>)</code></td>
+<td style="text-align:left">跳转到下一句</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#123;</code></td>
+<td style="text-align:left">跳转到上一段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#125;</code></td>
+<td style="text-align:left">跳转到下一段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[[</code></td>
+<td style="text-align:left">跳转到上一部分</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>]]</code></td>
+<td style="text-align:left">跳转到下一部分</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[]</code></td>
+<td style="text-align:left">跳转到上一部分的末尾</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>][</code></td>
+<td style="text-align:left">跳转到上一部分的开头</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>a</code></td>
+<td style="text-align:left">在光标后插入文本</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>A</code></td>
+<td style="text-align:left">在行末插入文本</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>i</code></td>
+<td style="text-align:left">在光标前插入文本</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>o</code></td>
+<td style="text-align:left">（小写字母 o）在光标下方新开一行</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>O</code></td>
+<td style="text-align:left">（大写字母 O）在光标上方新开一行</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:r [filename]</code></td>
+<td style="text-align:left">在光标下方插入文件 [filename] 的内容</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:r ![command]</code></td>
+<td style="text-align:left">执行命令 [command] ，并将输出插入至光标下方</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>x</code></td>
+<td style="text-align:left">删除光标处字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>dw</code></td>
+<td style="text-align:left">删除一个词</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>d0</code></td>
+<td style="text-align:left">删至行首</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>d$</code></td>
+<td style="text-align:left">删至行末</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>d)</code></td>
+<td style="text-align:left">删至句末</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>dgg</code></td>
+<td style="text-align:left">删至文件开头</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>dG</code></td>
+<td style="text-align:left">删至文件末尾</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>dd</code></td>
+<td style="text-align:left">删除该行</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>3dd</code></td>
+<td style="text-align:left">删除三行</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>r&#123;text&#125;</code></td>
+<td style="text-align:left">将光标处的字符替换成 {text}</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>R</code></td>
+<td style="text-align:left">进入覆写模式，输入的字符将替换原有的字符</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="撤销重做"><a href="#撤销重做" class="headerlink" title="撤销重做"></a>撤销重做</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>u</code></td>
+<td style="text-align:left">撤销最后的操作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Ctrl+r</code></td>
+<td style="text-align:left">重做最后撤销的操作</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="搜索、替换"><a href="#搜索、替换" class="headerlink" title="搜索、替换"></a>搜索、替换</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>/search_text</code></td>
+<td style="text-align:left">检索文档，在文档后面的部分搜索 search_text</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>?search_text</code></td>
+<td style="text-align:left">检索文档，在文档前面的部分搜索 search_text</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>n</code></td>
+<td style="text-align:left">移动到后一个检索结果</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>N</code></td>
+<td style="text-align:left">移动到前一个检索结果</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:%s/original/replacement</code></td>
+<td style="text-align:left">检索第一个 “original” 字符串并将其替换成 “replacement”</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:%s/original/replacement/g</code></td>
+<td style="text-align:left">检索并将所有的 “original” 替换为 “replacement”</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:%s/original/replacement/gc</code></td>
+<td style="text-align:left">检索出所有的 “original” 字符串，但在替换成 “replacement” 前，先询问是否替换</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="书签"><a href="#书签" class="headerlink" title="书签"></a>书签</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>m &#123;a-zA-Z&#125;</code></td>
+<td style="text-align:left">在当前光标位置设置书签，书签名可用一个大小写字母（{a-zA-Z}）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:marks</code></td>
+<td style="text-align:left">列出所有书签</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#123;a-zA-Z&#125;</code></td>
+<td style="text-align:left">跳转到书签 {a-zA-Z}</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="可视模式"><a href="#可视模式" class="headerlink" title="可视模式"></a>可视模式</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>v</code></td>
+<td style="text-align:left">进入逐字可视模式</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>V</code></td>
+<td style="text-align:left">进入逐行可视模式</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Esc</code></td>
+<td style="text-align:left">退出可视模式</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>~</code></td>
+<td style="text-align:left">切换大小写</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>d</code></td>
+<td style="text-align:left">删除一个词</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>c</code></td>
+<td style="text-align:left">变更</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>y</code></td>
+<td style="text-align:left">复制</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&gt;</code></td>
+<td style="text-align:left">右移</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;</code></td>
+<td style="text-align:left">左移</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>!</code></td>
+<td style="text-align:left">通过外部命令进行过滤</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="保存、退出"><a href="#保存、退出" class="headerlink" title="保存、退出"></a>保存、退出</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>:q</code></td>
+<td style="text-align:left">退出 Vim，如果文件已被修改，将退出失败</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:w</code></td>
+<td style="text-align:left">保存文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:w new_name</code></td>
+<td style="text-align:left">用 new_name 作为文件名保存文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:wq</code></td>
+<td style="text-align:left">保存文件并退出 Vim</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:q!</code></td>
+<td style="text-align:left">退出 Vim，不保存文件改动</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ZZ</code></td>
+<td style="text-align:left">退出 Vim，如果文件被改动过，保存改动内容</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ZQ</code></td>
+<td style="text-align:left">与 :q! 相同，退出 Vim，不保存文件改动</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="https://linux.cn/article-8144-1.html">参考</a></p>
+<h3 id="指令集"><a href="#指令集" class="headerlink" title="指令集"></a>指令集</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="comment">&quot;================</span></span><br><span class="line"><span class="comment">&quot;=====指令收集=====</span></span><br><span class="line"><span class="comment">&quot;======START=====</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 系统时间</span></span><br><span class="line"><span class="string">&quot;  :map &lt;F7&gt; a&lt;C-R&gt;=strftime(&quot;</span>%<span class="keyword">c</span><span class="comment">&quot;)&lt;CR&gt;&lt;esc&gt;</span></span><br><span class="line"><span class="string">&quot;  :s/__date__/\=strftime(&quot;</span>%<span class="keyword">c</span><span class="comment">&quot;)/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;         基础命令</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"><span class="comment">&quot;   ctrl+q              可以联合复制，粘贴，替换用 行操作</span></span><br><span class="line"><span class="comment">&quot;   ctrl+w+j ctrl+w+k (:bn :bp :bd)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   &#x27;.                  它移动光标到上一次的修改行</span></span><br><span class="line"><span class="comment">&quot;   `.                  它移动光标到上一次的修改点</span></span><br><span class="line"><span class="comment">&quot;   .                   重复上次命令</span></span><br><span class="line"><span class="comment">&quot;   &lt;C-O&gt; :             依次沿着你的跳转记录向回跳 (从最近的一次开始)</span></span><br><span class="line"><span class="comment">&quot;   &lt;C-I&gt; :             依次沿着你的跳转记录向前跳</span></span><br><span class="line"><span class="comment">&quot;   ju(mps) :           列出你跳转的足迹</span></span><br><span class="line"><span class="comment">&quot;   :history :          列出历史命令记录</span></span><br><span class="line"><span class="comment">&quot;   :his c :            命令行命令历史</span></span><br><span class="line"><span class="comment">&quot;   :his s :            搜索命令历史</span></span><br><span class="line"><span class="comment">&quot;   q/ :                搜索命令历史的窗口</span></span><br><span class="line"><span class="comment">&quot;   q: :                命令行命令历史的窗口</span></span><br><span class="line"><span class="comment">&quot;   g ctrl+g            计算文件字符</span></span><br><span class="line"><span class="comment">&quot;   &#123;,&#125;                 前进至上一段落前进至后一段落</span></span><br><span class="line"><span class="comment">&quot;   gg,G(2G)            文件首</span></span><br><span class="line"><span class="comment">&quot;   gd dw gf ga(进制转化)</span></span><br><span class="line"><span class="comment">&quot;   gg=G 全篇自动缩进 , =G 单行缩进</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;* ci[ 删除一对 [] 中的所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;* ci( 删除一对 () 中的所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;* ci&lt; 删除一对 &lt;&gt; 中的所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;* ci&#123; 删除一对 &#123;&#125; 中的所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;* cit 删除一对 HTML/XML 的标签内部的所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;* ci” ci’ ci` 删除一对引号字符 (” 或 ‘ 或 `) 中所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;</span></span><br><span class="line"><span class="comment">&quot;* vi[ 选择一对 [] 中的所有字符</span></span><br><span class="line"><span class="comment">&quot;* vi( 选择一对 () 中的所有字符</span></span><br><span class="line"><span class="comment">&quot;* vi&lt; 选择一对 &lt;&gt; 中的所有字符</span></span><br><span class="line"><span class="comment">&quot;* vi&#123; 选择一对 &#123;&#125; 中的所有字符</span></span><br><span class="line"><span class="comment">&quot;* vit 选择一对 HTML/XML 的标签内部的所有字符</span></span><br><span class="line"><span class="comment">&quot;* vi” vi’ vi` 选择一对引号字符 (” 或 ‘ 或 `) 中所有字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   crl+] 函数原型处 crl+t 回 ( ctags )</span></span><br><span class="line"><span class="comment">&quot;   ctl+p 自动补全( 编辑状态 )</span></span><br><span class="line"><span class="comment">&quot;   :X 加密保存( 要输入密码 )</span></span><br><span class="line"><span class="comment">&quot;   ? /         (N n)</span></span><br><span class="line"><span class="comment">&quot;   f(F,t) 查找字符</span></span><br><span class="line"><span class="comment">&quot;   w(e) 移动光标到下一个单词.</span></span><br><span class="line"><span class="comment">&quot;   5fx 表示查找光标后第 5 个 x 字符.</span></span><br><span class="line"><span class="comment">&quot;   5w(e) 移动光标到下五个单词.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   b 移动光标到上一个单词.</span></span><br><span class="line"><span class="comment">&quot;   0 移动光标到本行最开头.</span></span><br><span class="line"><span class="comment">&quot;   ^ 移动光标到本行最开头的字符处.</span></span><br><span class="line"><span class="comment">&quot;   $ 移动光标到本行结尾处.</span></span><br><span class="line"><span class="comment">&quot;   H 移动光标到屏幕的首行.</span></span><br><span class="line"><span class="comment">&quot;   M 移动光标到屏幕的中间一行.</span></span><br><span class="line"><span class="comment">&quot;   L 移动光标到屏幕的尾行.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   c-f (即 ctrl 键与 f 键一同按下)</span></span><br><span class="line"><span class="comment">&quot;   c-b (即 ctrl 键与 b 键一同按下) 翻页</span></span><br><span class="line"><span class="comment">&quot;   c-d (下半页) c-u(上半页) c-e (一行滚动)</span></span><br><span class="line"><span class="comment">&quot;   zz 让光标所在的行居屏幕中央</span></span><br><span class="line"><span class="comment">&quot;   zt 让光标所在的行居屏幕最上一行</span></span><br><span class="line"><span class="comment">&quot;   zb 让光标所在的行居屏幕最下一行</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   在 vi 中 y 表示拷贝, d 表示删除, p 表示粘贴. 其中拷贝与删除是与光标移动命令</span></span><br><span class="line"><span class="comment">&quot;   yw 表示拷贝从当前光标到光标所在单词结尾的内容.</span></span><br><span class="line"><span class="comment">&quot;   dw 表示删除从当前光标到光标所在单词结尾的内容.</span></span><br><span class="line"><span class="comment">&quot;   y0 表示拷贝从当前光标到光标所在行首的内容.</span></span><br><span class="line"><span class="comment">&quot;   d0 表示删除从当前光标到光标所在行首的内容.</span></span><br><span class="line"><span class="comment">&quot;   y$(Y) 表示拷贝从当前光标到光标所在行尾的内容.</span></span><br><span class="line"><span class="comment">&quot;   d$(D) 表示删除从当前光标到光标所在行尾的内容.</span></span><br><span class="line"><span class="comment">&quot;   yfa 表示拷贝从当前光标到光标后面的第一个a字符之间的内容.</span></span><br><span class="line"><span class="comment">&quot;   dfa 表示删除从当前光标到光标后面的第一个a字符之间的内容.</span></span><br><span class="line"><span class="comment">&quot;   s(S),a(A),x(X),D</span></span><br><span class="line"><span class="comment">&quot;   yy 表示拷贝光标所在行.</span></span><br><span class="line"><span class="comment">&quot;   dd 表示删除光标所在行.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   5yy 表示拷贝光标以下 5 行.</span></span><br><span class="line"><span class="comment">&quot;   5dd 表示删除光标以下 5 行.</span></span><br><span class="line"><span class="comment">&quot;   y2fa 表示拷贝从当前光标到光标后面的第二个a字符之间的内容.</span></span><br><span class="line"><span class="comment">&quot;   :12,24y 表示拷贝第12行到第24行之间的内容.</span></span><br><span class="line"><span class="comment">&quot;   :12,y 表示拷贝第12行到光标所在行之间的内容.</span></span><br><span class="line"><span class="comment">&quot;   :,24y 表示拷贝光标所在行到第24行之间的内容. 删除类似.</span></span><br><span class="line"><span class="comment">&quot;   TAB 就是制表符, 单独拿出来做一节是因为这个东西确实很有用.</span></span><br><span class="line"><span class="comment">&quot;   &lt;&lt; 输入此命令则光标所在行向左移动一个 tab.</span></span><br><span class="line"><span class="comment">&quot;   &gt;&gt; 输入此命令则光标所在行向右移动一个 tab.</span></span><br><span class="line"><span class="comment">&quot;   5&gt;&gt; 输入此命令则光标后 5 行向右移动一个 tab.</span></span><br><span class="line"><span class="comment">&quot;   :5&gt;&gt;(&gt;&gt;&gt;) :&gt;&gt;(&gt;&gt;&gt;)5</span></span><br><span class="line"><span class="comment">&quot;   :12,24&gt; 此命令将12行到14行的数据都向右移动一个 tab.</span></span><br><span class="line"><span class="comment">&quot;   :12,24&gt;&gt; 此命令将12行到14行的数据都向右移动两个 tab.</span></span><br><span class="line"><span class="comment">&quot;   :set shiftwidth=4 设置自动缩进 4 个空格, 当然要设自动缩进先.</span></span><br><span class="line"><span class="comment">&quot;   :set sts=4 即设置 softtabstop 为 4. 输入 tab 后就跳了 4 格.</span></span><br><span class="line"><span class="comment">&quot;   :set tabstop=4 实际的 tab 即为 4 个空格, 而不是缺省的 8 个.</span></span><br><span class="line"><span class="comment">&quot;   :set expandtab 在输入 tab 后, vim 用恰当的空格来填充这个 tab.</span></span><br><span class="line"><span class="comment">&quot;   :g/^/exec &#x27;s/^/&#x27;.strpart(line(&#x27;.&#x27;).&#x27; &#x27;, 0, 4) 在行首插入行号</span></span><br><span class="line"><span class="comment">&quot;   set ai 设置自动缩进</span></span><br><span class="line"><span class="comment">&quot;   5ia&lt;esc&gt; 重复插入5个a字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;          替换命令</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"><span class="comment">&quot;   替换文字 2009-02-34 ----&gt; 2009-02-34 00:00:00</span></span><br><span class="line"><span class="comment">&quot;   :%s/\(\d\&#123;4\&#125;-\d\&#123;2\&#125;-\d\&#123;2\&#125;\)/\1 00:00:00/g</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   :s/aa/bb/g              将光标所在行出现的所有包含 aa 的字符串中的 aa 替换为 bb</span></span><br><span class="line"><span class="comment">&quot;   :s/\/bb/g               将光标所在行出现的所有 aa 替换为 bb, 仅替换 aa 这个单词</span></span><br><span class="line"><span class="comment">&quot;   :%s/aa/bb/g             将文档中出现的所有包含 aa 的字符串中的 aa 替换为 bb</span></span><br><span class="line"><span class="comment">&quot;   :12,23s/aa/bb/g         将从12行到23行中出现的所有包含 aa 的字符串中的 aa 替换为 bb</span></span><br><span class="line"><span class="comment">&quot;   :12,23s/^/#/            将从12行到23行的行首加入 # 字符</span></span><br><span class="line"><span class="comment">&quot;   :%s/fred/joe/igc            一个常见的替换命令，修饰符igc和perl中一样意思</span></span><br><span class="line"><span class="comment">&quot;   s/dick/joe/igc则        对于这些满足条件的行进行替换</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   :g/^\s*$/d              空行(空格也不包含)删除.</span></span><br><span class="line"><span class="comment">&quot;   :%s/\r//g               删除DOS方式的回车^M</span></span><br><span class="line"><span class="comment">&quot;   :%s/ *$//               删除行尾空白(%s/\s*$//g)</span></span><br><span class="line"><span class="comment">&quot;   :g!/^dd/d               删除不含字符串&#x27;dd&#x27;开头的行</span></span><br><span class="line"><span class="comment">&quot;   :v/^dd/d                同上,译释：v == g!，就是不匹配！</span></span><br><span class="line"><span class="comment">&quot;   :v/./.,/./-1join        压缩空行(多行空行合并为一行)</span></span><br><span class="line"><span class="comment">&quot;   :g/^$/,/./-j            压缩空行(多行空行合并为一行)</span></span><br><span class="line"><span class="comment">&quot;   :g/^/pu _               把文中空行扩增一倍 (pu = put),原来两行间有一个空行，现在变成2个</span></span><br><span class="line"><span class="comment">&quot;   :g/^/m0                 按行翻转文章 (m = move)</span></span><br><span class="line"><span class="comment">&quot;   :g/fred/,/joe/d         not line based (very powerfull)</span></span><br><span class="line"><span class="comment">&quot;   :g/&lt;input\|&lt;form/p      或者 要用\|</span></span><br><span class="line"><span class="comment">&quot;   :g/fred/t$              拷贝行，从fred到文件末尾(EOF)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   :%norm jdd              隔行删除,译释：%指明是对所有行进行操作,norm指出后面是normal模式的指令,j是下移一行，dd是删除行</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   :&#x27;a,&#x27;bg/fred/s/dick/joe/igc   (&#x27;a,&#x27;b指定一个范围：mark a ~ mark b)</span></span><br><span class="line"><span class="comment">&quot;   g//用一个正则表达式指出了进行操作的行必须可以被fred匹配,g//是一个全局显示命令</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   /joe/e                  光标停留在匹配单词最后一个字母处</span></span><br><span class="line"><span class="comment">&quot;   /joe/e+1                光标停留在匹配单词最后一个字母的下一个字母处</span></span><br><span class="line"><span class="comment">&quot;   /joe/s                  光标停留在匹配单词第一个字母处</span></span><br><span class="line"><span class="comment">&quot;   /^joe.*fred.*bill/      标准正则表达式</span></span><br><span class="line"><span class="comment">&quot;   /^[A-J]\+/              找一个以A~J中一个字母重复两次或以上开头的行</span></span><br><span class="line"><span class="comment">&quot;   /forum\(\_.\)*pent      多行匹配</span></span><br><span class="line"><span class="comment">&quot;   /fred\_s*joe/i          中间可以有任何空白，包括换行符\n</span></span><br><span class="line"><span class="comment">&quot;   /fred\|joe              匹配FRED或JOE</span></span><br><span class="line"><span class="comment">&quot;   /\&lt;fred\&gt;/i             匹配fred,fred必须是一个独立的单词，而不是子串</span></span><br><span class="line"><span class="comment">&quot;   /\&lt;\d\d\d\d\&gt;           匹配4个数字 \&lt;\d\&#123;4&#125;\&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   列，替换所有在第三列中的str1</span></span><br><span class="line"><span class="comment">&quot;   :%s:\(\(\w\+\s\+\)\&#123;2&#125;\)str1:\1str2:</span></span><br><span class="line"><span class="comment">&quot;   交换第一列和最后一列 (共4列)</span></span><br><span class="line"><span class="comment">&quot;   :%s:\(\w\+\)\(.*\s\+\)\(\w\+\)$:\3\2\1:</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   全局(global)显示命令，就是用 :g＋正则表达式</span></span><br><span class="line"><span class="comment">&quot;   译释： :g/&#123;pattern&#125;/&#123;cmd&#125; 就是全局找到匹配的,然后对这些行执行命令&#123;cmd&#125;</span></span><br><span class="line"><span class="comment">&quot;   :g/\&lt;fred\&gt;/                                显示所有能够为单词fred所匹配的行</span></span><br><span class="line"><span class="comment">&quot;   :g/&lt;pattern&gt;/z#.5                           显示内容，还有行号</span></span><br><span class="line"><span class="comment">&quot;   :g/&lt;pattern&gt;/z#.5|echo &#x27;==========&#x27;         漂亮的显示</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;      多文档操作 (基础)</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"><span class="comment">&quot;    用 :ls! 可以显示出当前所有的buffer</span></span><br><span class="line"><span class="comment">&quot;   :bn                 跳转到下一个buffer</span></span><br><span class="line"><span class="comment">&quot;   :bp                 跳转到上一个buffer</span></span><br><span class="line"><span class="comment">&quot;   :wn                 存盘当前文件并跳转到下一个</span></span><br><span class="line"><span class="comment">&quot;   :wp                 存盘当前文件并跳转到上一个</span></span><br><span class="line"><span class="comment">&quot;   :bd                 把这个文件从buffer列表中做掉</span></span><br><span class="line"><span class="comment">&quot;   :b 3                跳到第3个buffer</span></span><br><span class="line"><span class="comment">&quot;   :b main             跳到一个名字中包含main的buffer</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;          列复制</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"><span class="comment">&quot;   译注：@#%&amp;^#*^%#$!</span></span><br><span class="line"><span class="comment">&quot;   :%s= [^ ]\+$=&amp;&amp;= : 复制最后一列</span></span><br><span class="line"><span class="comment">&quot;   :%s= \f\+$=&amp;&amp;= : 一样的功能</span></span><br><span class="line"><span class="comment">&quot;   :%s= \S\+$=&amp;&amp; : ft,还是一样</span></span><br><span class="line"><span class="comment">&quot;   反向引用，或称记忆</span></span><br><span class="line"><span class="comment">&quot;   :s/\(.*\):\(.*\)/\2 : \1/ : 颠倒用:分割的两个字段</span></span><br><span class="line"><span class="comment">&quot;   :%s/^\(.*\)\n\1/\1$/ : 删除重复行</span></span><br><span class="line"><span class="comment">&quot;   非贪婪匹配，\&#123;-&#125;</span></span><br><span class="line"><span class="comment">&quot;   :%s/^.\&#123;-&#125;pdf/new.pdf/ : 只是删除第一个pdf</span></span><br><span class="line"><span class="comment">&quot;   跨越可能的多行</span></span><br><span class="line"><span class="comment">&quot;   :%s/&lt;!--\_.\&#123;-&#125;--&gt;// : 又是删除多行注释（咦？为什么要说「又」呢？）</span></span><br><span class="line"><span class="comment">&quot;   :help /\&#123;-&#125; : 看看关于 非贪婪数量符 的帮助</span></span><br><span class="line"><span class="comment">&quot;   :s/fred/&lt;c-r&gt;a/g : 替换fred成register a中的内容，呵呵</span></span><br><span class="line"><span class="comment">&quot;   写在一行里的复杂命令</span></span><br><span class="line"><span class="comment">&quot;   :%s/\f\+\.gif\&gt;/\r&amp;\r/g | v/\.gif$/d | %s/gif/jpg/</span></span><br><span class="line"><span class="comment">&quot;   译注：就是用 | 管道啦</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;         大小写转换</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"><span class="comment">&quot;   g~~ : 行翻转</span></span><br><span class="line"><span class="comment">&quot;   vEU : 字大写(广义字)</span></span><br><span class="line"><span class="comment">&quot;   vE~ : 字翻转(广义字)</span></span><br><span class="line"><span class="comment">&quot;   ~   将光标下的字母改变大小写</span></span><br><span class="line"><span class="comment">&quot;   3~  将下3个字母改变其大小写</span></span><br><span class="line"><span class="comment">&quot;   g~w 字翻转</span></span><br><span class="line"><span class="comment">&quot;   U   将可视模式下的字母全改成大写字母</span></span><br><span class="line"><span class="comment">&quot;   gUU 将当前行的字母改成大写</span></span><br><span class="line"><span class="comment">&quot;   u   将可视模式下的字母全改成小写</span></span><br><span class="line"><span class="comment">&quot;   guu 将当前行的字母全改成小写</span></span><br><span class="line"><span class="comment">&quot;   gUw 将光标下的单词改成大写。</span></span><br><span class="line"><span class="comment">&quot;   guw 将光标下的单词改成小写。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;          文件浏览</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   :Ex : 开启目录浏览器，注意首字母E是大写的</span></span><br><span class="line"><span class="comment">&quot;   :Sex : 在一个分割的窗口中开启目录浏览器</span></span><br><span class="line"><span class="comment">&quot;   :ls : 显示当前buffer的情况</span></span><br><span class="line"><span class="comment">&quot;   :cd .. : 进入父目录</span></span><br><span class="line"><span class="comment">&quot;   :pwd</span></span><br><span class="line"><span class="comment">&quot;   :args : 显示目前打开的文件</span></span><br><span class="line"><span class="comment">&quot;   :lcd %:p:h : 更改到当前文件所在的目录</span></span><br><span class="line"><span class="comment">&quot;    译释：lcd是紧紧改变当前窗口的工作路径，% 是代表当前文件的文件名,</span></span><br><span class="line"><span class="comment">&quot;    加上 :p扩展成全名（就是带了路径），加上 :h析取出路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;=======END======</span></span><br><span class="line"><span class="comment">&quot;===常用指令收集===</span></span><br><span class="line"><span class="comment">&quot;================</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>vim</category>
+      </categories>
+      <tags>
+        <tag>vim</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>vim键盘映射表</title>
     <url>/2019/09/30/vim%E9%94%AE%E7%9B%98%E6%98%A0%E5%B0%84%E8%A1%A8/</url>
     <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">							  _ ____    __  __    _    ____</span><br><span class="line">  ___  ___  _ __  _   _ _ __ ( ) ___|  |  \/  |  / \  |  _ \</span><br><span class="line"> / _ \/ _ \| <span class="string">&#x27;_ \| | | | &#x27;</span>_ \|/\___ \  | |\/| | / _ \ | |_) |</span><br><span class="line">| __/ (_) |  |  |  |  | _ |  |  |  |  | ___) |  |  |  |  | / ___ \|  __/</span><br><span class="line"> \___|\___/|_| |_|\__,_|_| |_| |____/  |_|  |_/_/   \_\_|</span><br><span class="line">=========================木He寸&amp;eonun=========================</span><br></pre></td></tr></table></figure>
@@ -9269,532 +9795,6 @@ y+\cancelto{0}{x}\\
 </tbody>
 </table>
 </div>
-]]></content>
-      <categories>
-        <category>vim</category>
-      </categories>
-      <tags>
-        <tag>vim</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>vim美化</title>
-    <url>/2019/08/08/vim%E7%BE%8E%E5%8C%96/</url>
-    <content><![CDATA[<h1 id="vim-自带教程"><a href="#vim-自带教程" class="headerlink" title="vim 自带教程"></a>vim 自带教程</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vimtutor</span><br></pre></td></tr></table></figure>
-<h1 id="vim-配置美化"><a href="#vim-配置美化" class="headerlink" title="vim 配置美化"></a>vim 配置美化</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.vim/vimrc	<span class="comment">#创建自己的vim配置</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="comment">&quot;                               _ ____   __     _____ __  __ ____   ____</span></span><br><span class="line"><span class="comment">&quot;   ___  ___  _ __  _   _ _ __ ( ) ___|  \ \   / /_ _|  \/  |  _ \ / ___|</span></span><br><span class="line"><span class="comment">&quot;  / _ \/ _ \| &#x27;_ \| | | | &#x27;_ \|/\___ \   \ \ / / | || |\/| | |_) | |</span></span><br><span class="line"><span class="comment">&quot; |  __/ (_) | | | | |_| | | | |  ___) |   \ V /  | || |  | |  _ &lt;| |___</span></span><br><span class="line"><span class="comment">&quot;  \___|\___/|_| |_|\__,_|_| |_| |____/     \_/  |___|_|  |_|_| \_\\____|</span></span><br><span class="line"><span class="comment">&quot; ===============================木He寸&amp;eonun===============================</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; i 写入模式、i插入之前、I行首插入、a插入之后、A行尾插入、o下行插入、O上行插入、x 删除光标后一个字符</span></span><br><span class="line"><span class="comment">&quot; &lt;Operation(操作)&gt; &lt;Motion(动作)&gt;</span></span><br><span class="line"><span class="comment">&quot; d 剪切操作(剪切可看做删除), y 复制操作, p 粘贴操作， c 剪切后修改操作</span></span><br><span class="line"><span class="comment">&quot; ← 左动作， → 右动作， 3← 3个左动作， b 选择光标开启到上一个词后的内容， i 指明光标在词中，当前词待操作， w 选择光标开始到下个词前的内容， iw 在当前词之间选择该， y3← 向右复制， f 查找动作</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 文件类型检测</span></span><br><span class="line"><span class="keyword">filetype</span> <span class="keyword">on</span></span><br><span class="line"><span class="keyword">filetype</span> <span class="built_in">indent</span> <span class="keyword">on</span></span><br><span class="line"><span class="keyword">filetype</span> plugin <span class="keyword">on</span></span><br><span class="line"><span class="keyword">filetype</span> plugin <span class="built_in">indent</span> <span class="keyword">on</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 开启语法高亮</span></span><br><span class="line"><span class="keyword">if</span> !exists(<span class="string">&quot;g:syntax_on&quot;</span>)</span><br><span class="line">    <span class="keyword">syntax</span> enable</span><br><span class="line"><span class="keyword">endif</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 保存vimrc时立即重新加载生效</span></span><br><span class="line"><span class="keyword">autocmd</span> BufWritePost $MYVIMRC <span class="keyword">source</span> $MYVIMRC	</span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; txt文件按照wiki语法高亮</span></span><br><span class="line"><span class="keyword">autocmd</span> BufNewFile *.txt <span class="keyword">set</span> ft=confluencewiki </span><br><span class="line"><span class="keyword">autocmd</span> BufEnter *.txt <span class="keyword">set</span> ft=confluencewiki</span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 恢复上次文件打开位置</span></span><br><span class="line"><span class="keyword">au</span> BufReadPost * <span class="keyword">if</span> <span class="built_in">line</span>(<span class="string">&quot;&#x27;\&quot;&quot;</span>) &gt; <span class="number">0</span>|<span class="keyword">if</span> <span class="built_in">line</span>(<span class="string">&quot;&#x27;\&quot;&quot;</span>) &lt;= <span class="built_in">line</span>(<span class="string">&quot;$&quot;</span>)|<span class="keyword">exe</span>(<span class="string">&quot;norm &#x27;\&quot;&quot;</span>)|<span class="keyword">else</span>|<span class="keyword">exe</span> <span class="string">&quot;norm $&quot;</span>|<span class="keyword">endif</span>|<span class="keyword">endif</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 打开时运行指令 取消上回搜索内容的高亮</span></span><br><span class="line">exec <span class="string">&quot;nohlsearch&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;=========</span></span><br><span class="line"><span class="comment">&quot;===Let===</span></span><br><span class="line"><span class="comment">&quot;==START==</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 将leader键（\键,类似于Windows键）换成空格（相当于空格键）</span></span><br><span class="line"><span class="keyword">let</span> mapleader=<span class="string">&quot; &quot;</span></span><br><span class="line"><span class="comment">&quot; 矫正部分配色</span></span><br><span class="line"><span class="keyword">let</span> &amp;t_ut=<span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 不同模式下的光标样式</span></span><br><span class="line"><span class="keyword">let</span> &amp;t_SI = <span class="string">&quot;\&lt;Esc&gt;]50;CursorShape=1\x7&quot;</span></span><br><span class="line"><span class="keyword">let</span> &amp;t_SR = <span class="string">&quot;\&lt;Esc&gt;]50;CursorShape=2\x7&quot;</span></span><br><span class="line"><span class="keyword">let</span> &amp;t_EI = <span class="string">&quot;\&lt;Esc&gt;]50;CursorShape=0\x7&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;===END===</span></span><br><span class="line"><span class="comment">&quot;===let===</span></span><br><span class="line"><span class="comment">&quot;=========</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;=========</span></span><br><span class="line"><span class="comment">&quot;===set===</span></span><br><span class="line"><span class="comment">&quot;==START==</span></span><br><span class="line"><span class="keyword">set</span> nocompatible		<span class="comment">&quot; 不兼容 VI ,compatible为兼容(tab将不会变成空格)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> fileencodings=utf-<span class="number">8</span>,gbk	<span class="comment">&quot; 写入文件时采用的编码类型</span></span><br><span class="line"><span class="keyword">set</span> termencoding=utf-<span class="number">8</span>		<span class="comment">&quot; 输出到终端时采用的编码类型</span></span><br><span class="line"><span class="keyword">set</span> encoding=utf-<span class="number">8</span>			<span class="comment">&quot; 缓存的文本、寄存器、Vim 脚本文件等</span></span><br><span class="line"><span class="keyword">set</span> guifont=YaHei\ Consolas\ Hybrid\ <span class="number">11.5</span>	<span class="comment">&quot; 设置显示字体为YaHei Consolas Hybrid</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">number</span>			<span class="comment">&quot; 显示行号	缩写： nu</span></span><br><span class="line"><span class="keyword">set</span> relativenumber	<span class="comment">&quot; 从当前行向前向后算行数</span></span><br><span class="line"><span class="keyword">set</span> cursorline		<span class="comment">&quot; 突出显示当前行	缩写： cul</span></span><br><span class="line"><span class="string">&quot;set cursorcolumn	&quot;</span> 突出显示当前列	缩写： cuc</span><br><span class="line"><span class="keyword">set</span> showmatch		<span class="comment">&quot; 显示括号匹配</span></span><br><span class="line"><span class="keyword">set</span> showcmd			<span class="comment">&quot; 显示指令</span></span><br><span class="line"><span class="keyword">set</span> laststatus=<span class="number">2</span>	<span class="comment">&quot; 显示状态栏</span></span><br><span class="line"><span class="keyword">set</span> ruler			<span class="comment">&quot; 显示光标当前位置</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> wrap			<span class="comment">&quot; 自动换行</span></span><br><span class="line"><span class="keyword">set</span> tw=<span class="number">0</span>			<span class="comment">&quot; 防止自动分割行</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> expandtab		<span class="comment">&quot; 将制表符扩展为空格</span></span><br><span class="line"><span class="keyword">set</span> softtabstop=<span class="number">4</span>	<span class="comment">&quot; 把连续数量的空格视为一个制表符</span></span><br><span class="line"><span class="keyword">set</span> tabstop=<span class="number">4</span>		<span class="comment">&quot; 制表符长度为4空格	缩写：ts</span></span><br><span class="line"><span class="keyword">set</span> <span class="built_in">shiftwidth</span>=<span class="number">4</span>	<span class="comment">&quot; 自动缩进长度为4空格</span></span><br><span class="line"><span class="keyword">set</span> autoindent		<span class="comment">&quot; 自动缩进 缩写:ai</span></span><br><span class="line"><span class="keyword">set</span> <span class="built_in">cindent</span>			<span class="comment">&quot; c格式自动缩进</span></span><br><span class="line"><span class="keyword">set</span> smartindent		<span class="comment">&quot; 开启智能对其</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 基于缩进或语法进行代码折叠 indent（基于缩进）、syntax(基于语法) </span></span><br><span class="line"><span class="comment">&quot; set foldmethod=indent</span></span><br><span class="line"><span class="keyword">set</span> foldmethod=<span class="keyword">syntax</span></span><br><span class="line"><span class="comment">&quot; 启动 vim 时关闭折叠代码</span></span><br><span class="line"><span class="keyword">set</span> nofoldenable</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> wildmenu		<span class="comment">&quot; 命令补全</span></span><br><span class="line"><span class="keyword">set</span> autochdir       <span class="comment">&quot; 在当前目录下执行命令</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> hlsearch		<span class="comment">&quot; 高亮显示搜索</span></span><br><span class="line"><span class="keyword">set</span> incsearch		<span class="string">&quot; 动态高亮搜索&quot;</span></span><br><span class="line"><span class="keyword">set</span> ignorecase		<span class="comment">&quot; 不区分大小写搜索</span></span><br><span class="line"><span class="keyword">set</span> smartcase		<span class="comment">&quot; 智能大小写搜索</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> mouse=<span class="keyword">a</span>			<span class="comment">&quot; 使用鼠标</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> backspace=<span class="built_in">indent</span>,eol,start	<span class="comment">&quot; 能退格到行尾</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;===END===</span></span><br><span class="line"><span class="comment">&quot;===set===</span></span><br><span class="line"><span class="comment">&quot;=========</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="comment">&quot;=============</span></span><br><span class="line"><span class="comment">&quot;===键盘映射===</span></span><br><span class="line"><span class="comment">&quot;====START====</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; map		在普通、可视、运算符模式下生效</span></span><br><span class="line"><span class="comment">&quot; map!		在插入、命令模式下生效</span></span><br><span class="line"><span class="comment">&quot; 键映射map，有五种前缀，对应着vim中的五种模式：</span></span><br><span class="line"><span class="comment">&quot; nore前缀：	非递归</span></span><br><span class="line"><span class="comment">&quot; n前缀：		在普通模式下生效</span></span><br><span class="line"><span class="comment">&quot; v前缀：		在可视模式下生效</span></span><br><span class="line"><span class="comment">&quot; o前缀：		在运算符模式下生效</span></span><br><span class="line"><span class="comment">&quot; i前缀：		在插入模式下生效 </span></span><br><span class="line"><span class="comment">&quot; c前缀：		在命令模式下生效</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; ===一些键表===</span></span><br><span class="line"><span class="comment">&quot; 因为某些原因，ALT几乎无法映射，同时CTRL键被linux系统频繁使用，F1到F12功能键某些也被vim占用，这些都不适合用来映射，以免造成快捷键冲突，在定义快捷键时为了避免一些冲突可用&lt;LEADER&gt;前缀键配合使用</span></span><br><span class="line"><span class="comment">&quot; &lt;k0&gt;-&lt;k9&gt;		小键盘数字0到9</span></span><br><span class="line"><span class="comment">&quot; &lt;S-x&gt;			大写S配合x，意味着shift+x组合键</span></span><br><span class="line"><span class="comment">&quot; &lt;C-x&gt;			大写C配合x，意味着ctrl+x组合键</span></span><br><span class="line"><span class="comment">&quot; &lt;A-x&gt;			大写A配合x，意味着alt+x组合键</span></span><br><span class="line"><span class="comment">&quot; &lt;ESC&gt;			ESC键</span></span><br><span class="line"><span class="comment">&quot; &lt;BS&gt;			backspace退格键</span></span><br><span class="line"><span class="comment">&quot; &lt;CR&gt;			ENTER回车键</span></span><br><span class="line"><span class="comment">&quot; &lt;Space&gt;		空格键</span></span><br><span class="line"><span class="comment">&quot; &lt;Shift&gt;		shift键</span></span><br><span class="line"><span class="comment">&quot; &lt;Ctrl&gt;		ctrl键</span></span><br><span class="line"><span class="comment">&quot; &lt;Alt&gt;			alt键</span></span><br><span class="line"><span class="comment">&quot; &lt;F1&gt;-&lt;F12&gt;	F1到F12功能键</span></span><br><span class="line"><span class="comment">&quot; &lt;LEADER&gt;		vim前缀键，类似于Windows键/command (⌘) 键</span></span><br><span class="line"><span class="comment">&quot; &lt;silent&gt;		命令不显示</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; map 递归映射  a映射到c</span></span><br><span class="line"><span class="comment">&quot; map a b</span></span><br><span class="line"><span class="comment">&quot; map b c</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot; nmap 普通模式下的递归映射&quot;</span></span><br><span class="line"><span class="comment">&quot; unmap 取消 map 的映射</span></span><br><span class="line"><span class="comment">&quot; mapclear 取消所有 map 的映射</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; noremap 不递归映射  a映射为b b映射为c 两个映射互不影响</span></span><br><span class="line"><span class="comment">&quot; noremap a b</span></span><br><span class="line"><span class="comment">&quot; noremap b c</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;noremap a b	&quot;</span> 将 <span class="keyword">a</span> 映射为 <span class="keyword">b</span></span><br><span class="line"><span class="string">&quot;noremap A 5b	&quot;</span> 将 A 映射为 <span class="number">5</span><span class="keyword">b</span></span><br><span class="line"><span class="string">&quot;noremap = nzz	&quot;</span> 将 n 映射 =zz 	<span class="comment">&quot; 用 zz 将该行变成中心点</span></span><br><span class="line"><span class="string">&quot;noremap - Nzz	&quot;</span> 将 <span class="keyword">N</span> 映射 -zz</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;--------------------------------------------------------------------------&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">noremap</span> <span class="symbol">&lt;LEADER&gt;</span><span class="symbol">&lt;CR&gt;</span> :<span class="keyword">nohlsearch</span><span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 将 &lt;LEADER&gt;&lt;CR&gt; 映射为 :nohlsearch&lt;CR&gt; 用于快捷取消搜索高亮</span></span><br><span class="line"><span class="keyword">noremap</span> J <span class="number">5</span><span class="keyword">j</span></span><br><span class="line"><span class="keyword">noremap</span> K <span class="number">5</span><span class="keyword">k</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 复制到系统剪切板</span></span><br><span class="line"><span class="keyword">vnoremap</span> Y :<span class="keyword">w</span> !xclip -i -sel <span class="keyword">c</span> <span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 需要安装xclip  #sudo pacman -S xclip</span></span><br><span class="line"><span class="string">&quot;vnoremap Y &quot;</span>+<span class="keyword">y</span>		<span class="comment">&quot; 需要安装gvim   #sudo pacman -S gvim</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> MR :<span class="keyword">e</span> $MYVIMRC<span class="symbol">&lt;CR&gt;</span>			<span class="comment">&quot; 打开vimrc</span></span><br><span class="line"><span class="keyword">map</span> s <span class="symbol">&lt;nop&gt;</span></span><br><span class="line"><span class="keyword">map</span> S :<span class="keyword">w</span><span class="symbol">&lt;CR&gt;</span>	<span class="string">&quot; 将 S 的指令映射为 :w&lt;CR&gt; 	 &quot;</span> <span class="symbol">&lt;CR&gt;</span> 代表回车</span><br><span class="line"><span class="keyword">map</span> Q :q<span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 将 Q 的指令映射为 :q&lt;CR&gt;</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;silent&gt;</span> <span class="symbol">&lt;C-a&gt;</span> ggvG 	<span class="comment">&quot; Ctrl-A 选中所有内容</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> sk :<span class="keyword">set</span> splitbelow<span class="symbol">&lt;CR&gt;</span>:<span class="keyword">split</span><span class="symbol">&lt;CR&gt;</span>		<span class="string">&quot; 下分屏&quot;</span>:<span class="keyword">e</span> /文件路径 打开文件</span><br><span class="line"><span class="keyword">map</span> sj :<span class="keyword">set</span> nosplitbelow<span class="symbol">&lt;CR&gt;</span>:<span class="keyword">split</span><span class="symbol">&lt;CR&gt;</span>		<span class="comment">&quot; 上分屏</span></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">sl</span> :<span class="keyword">set</span> nosplitright<span class="symbol">&lt;CR&gt;</span>:<span class="keyword">vsplit</span><span class="symbol">&lt;CR&gt;</span>		<span class="comment">&quot; 右分屏 </span></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">sh</span> :<span class="keyword">set</span> splitright<span class="symbol">&lt;CR&gt;</span>:<span class="keyword">vsplit</span><span class="symbol">&lt;CR&gt;</span>		<span class="comment">&quot; 左分屏	</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> sz <span class="symbol">&lt;C-w&gt;</span>t<span class="symbol">&lt;C-w&gt;</span>H 	<span class="comment">&quot; 竖向分屏换左右分屏</span></span><br><span class="line"><span class="keyword">map</span> ss <span class="symbol">&lt;C-w&gt;</span>t<span class="symbol">&lt;C-w&gt;</span>K		<span class="comment">&quot; 左右分屏换竖向分屏</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;LEADER&gt;</span><span class="keyword">k</span> <span class="symbol">&lt;C-w&gt;</span><span class="keyword">k</span>	<span class="comment">&quot; 光标到上屏</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;LEADER&gt;</span><span class="keyword">j</span> <span class="symbol">&lt;C-w&gt;</span><span class="keyword">j</span>	<span class="comment">&quot; 光标到下屏</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;LEADER&gt;</span>h <span class="symbol">&lt;C-w&gt;</span>h	<span class="comment">&quot; 光标到左屏</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;LEADER&gt;</span><span class="keyword">l</span> <span class="symbol">&lt;C-w&gt;</span><span class="keyword">l</span>	<span class="comment">&quot; 光标到右屏</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;up&gt;</span> :<span class="keyword">res</span> +<span class="number">5</span><span class="symbol">&lt;CR&gt;</span>				<span class="comment">&quot; 分屏线上移</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;down&gt;</span> :<span class="keyword">res</span> -<span class="number">5</span><span class="symbol">&lt;CR&gt;</span>				<span class="comment">&quot; 分屏线下移</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;left&gt;</span> :<span class="keyword">vertical</span> <span class="keyword">resize</span>+<span class="number">5</span><span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 分屏线左移</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;right&gt;</span> :<span class="keyword">vertical</span> <span class="keyword">resize</span>-<span class="number">5</span><span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 分屏线右移</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">tn</span> :<span class="keyword">tabe</span><span class="symbol">&lt;CR&gt;</span>		<span class="comment">&quot; 打开新选项卡</span></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">th</span> :-<span class="keyword">tabnext</span><span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 到左边的选项卡</span></span><br><span class="line"><span class="keyword">map</span> <span class="keyword">tl</span> :+<span class="keyword">tabnext</span><span class="symbol">&lt;CR&gt;</span>	<span class="comment">&quot; 到右边的选项卡</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 符号自动补全</span></span><br><span class="line">:<span class="keyword">inoremap</span> ( ()<span class="symbol">&lt;ESC&gt;</span>i</span><br><span class="line">:<span class="keyword">inoremap</span> ) <span class="symbol">&lt;c-r&gt;</span>=ClosePair(<span class="string">&#x27;)&#x27;</span>)<span class="symbol">&lt;CR&gt;</span></span><br><span class="line"><span class="comment">&quot;:inoremap &#123; &#123;&lt;CR&gt;&#125;&lt;ESC&gt;O</span></span><br><span class="line"><span class="comment">&quot;:inoremap &#125; &lt;c-r&gt;=ClosePair(&#x27;&#125;&#x27;)&lt;CR&gt;</span></span><br><span class="line">:<span class="keyword">inoremap</span> [ []<span class="symbol">&lt;ESC&gt;</span>i</span><br><span class="line">:<span class="keyword">inoremap</span> ] <span class="symbol">&lt;c-r&gt;</span>=ClosePair(<span class="string">&#x27;]&#x27;</span>)<span class="symbol">&lt;CR&gt;</span></span><br><span class="line">:<span class="keyword">inoremap</span> <span class="string">&quot; &quot;</span><span class="comment">&quot;&lt;ESC&gt;i</span></span><br><span class="line">:<span class="keyword">inoremap</span> <span class="string">&#x27; &#x27;</span><span class="string">&#x27;&lt;ESC&gt;i</span></span><br><span class="line"><span class="string">function! ClosePair(char)</span></span><br><span class="line"><span class="string">	if getline(&#x27;</span>.<span class="string">&#x27;)[col(&#x27;</span>.<span class="string">&#x27;) - 1] == a:char</span></span><br><span class="line"><span class="string">		return &quot;\&lt;Right&gt;&quot;</span></span><br><span class="line"><span class="string">	else</span></span><br><span class="line"><span class="string">		return a:char</span></span><br><span class="line"><span class="string">	endif</span></span><br><span class="line"><span class="string">endfunction</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;=====END=====</span></span><br><span class="line"><span class="string">&quot;===键盘映射===</span></span><br><span class="line"><span class="string">&quot;=============</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Command 命令</th>
-<th style="text-align:center">Normal   常规模式</th>
-<th style="text-align:center">Visual 可视化模式</th>
-<th style="text-align:center">Operator Pending 运算符模式</th>
-<th style="text-align:center">Insert Only 插入模式</th>
-<th style="text-align:center">Command Line 命令行模式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><code>:map</code></td>
-<td style="text-align:center">y</td>
-<td style="text-align:center">y</td>
-<td style="text-align:center">y</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center"><code>:map!</code></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">y</td>
-<td style="text-align:center">y</td>
-</tr>
-<tr>
-<td style="text-align:center"><code>:nmap</code></td>
-<td style="text-align:center">y</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center"><code>:vmap</code></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">y</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center"><code>:omap</code></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">y</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center"><code>:imap</code></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">y</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center"><code>:cmap</code></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">y</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="vim快捷键速查"><a href="#vim快捷键速查" class="headerlink" title="vim快捷键速查"></a>vim快捷键速查</h2><h4 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>Esc</code></td>
-<td style="text-align:left">从当前模式转换到“普通模式”。所有的键对应到命令。</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>i</code></td>
-<td style="text-align:left">“插入模式”用于插入文字。回归按键的本职工作。</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>:</code></td>
-<td style="text-align:left">“命令行模式” Vim 希望你输入类似于保存该文档命令的地方。</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="方向键"><a href="#方向键" class="headerlink" title="方向键"></a>方向键</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>h</code></td>
-<td style="text-align:left">光标向左移动一个字符</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>j</code> 或 <code>Ctrl + J</code></td>
-<td style="text-align:left">光标向下移动一行</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>k</code> 或 <code>Ctrl + P</code></td>
-<td style="text-align:left">光标向上移动一行</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>l</code></td>
-<td style="text-align:left">光标向右移动一个字符</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>0</code></td>
-<td style="text-align:left">（数字 0）移动光标至本行开头</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>$</code></td>
-<td style="text-align:left">移动光标至本行末尾</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>^</code></td>
-<td style="text-align:left">移动光标至本行第一个非空字符处</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>w</code></td>
-<td style="text-align:left">向前移动一个词 （上一个字母和数字组成的词之后）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>W</code></td>
-<td style="text-align:left">向前移动一个词 （以空格分隔的词）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>5w</code></td>
-<td style="text-align:left">向前移动五个词</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>b</code></td>
-<td style="text-align:left">向后移动一个词 （下一个字母和数字组成的词之前）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>B</code></td>
-<td style="text-align:left">向后移动一个词 （以空格分隔的词）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>5b</code></td>
-<td style="text-align:left">向后移动五个词</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>G</code></td>
-<td style="text-align:left">移动至文件末尾</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>gg</code></td>
-<td style="text-align:left">移动至文件开头</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="文档浏览"><a href="#文档浏览" class="headerlink" title="文档浏览"></a>文档浏览</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>(</code></td>
-<td style="text-align:left">跳转到上一句</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>)</code></td>
-<td style="text-align:left">跳转到下一句</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>&#123;</code></td>
-<td style="text-align:left">跳转到上一段</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>&#125;</code></td>
-<td style="text-align:left">跳转到下一段</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>[[</code></td>
-<td style="text-align:left">跳转到上一部分</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>]]</code></td>
-<td style="text-align:left">跳转到下一部分</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>[]</code></td>
-<td style="text-align:left">跳转到上一部分的末尾</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>][</code></td>
-<td style="text-align:left">跳转到上一部分的开头</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>a</code></td>
-<td style="text-align:left">在光标后插入文本</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>A</code></td>
-<td style="text-align:left">在行末插入文本</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>i</code></td>
-<td style="text-align:left">在光标前插入文本</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>o</code></td>
-<td style="text-align:left">（小写字母 o）在光标下方新开一行</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>O</code></td>
-<td style="text-align:left">（大写字母 O）在光标上方新开一行</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>:r [filename]</code></td>
-<td style="text-align:left">在光标下方插入文件 [filename] 的内容</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>:r ![command]</code></td>
-<td style="text-align:left">执行命令 [command] ，并将输出插入至光标下方</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>x</code></td>
-<td style="text-align:left">删除光标处字符</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>dw</code></td>
-<td style="text-align:left">删除一个词</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>d0</code></td>
-<td style="text-align:left">删至行首</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>d$</code></td>
-<td style="text-align:left">删至行末</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>d)</code></td>
-<td style="text-align:left">删至句末</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>dgg</code></td>
-<td style="text-align:left">删至文件开头</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>dG</code></td>
-<td style="text-align:left">删至文件末尾</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>dd</code></td>
-<td style="text-align:left">删除该行</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>3dd</code></td>
-<td style="text-align:left">删除三行</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>r&#123;text&#125;</code></td>
-<td style="text-align:left">将光标处的字符替换成 {text}</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>R</code></td>
-<td style="text-align:left">进入覆写模式，输入的字符将替换原有的字符</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="撤销重做"><a href="#撤销重做" class="headerlink" title="撤销重做"></a>撤销重做</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>u</code></td>
-<td style="text-align:left">撤销最后的操作</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>Ctrl+r</code></td>
-<td style="text-align:left">重做最后撤销的操作</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="搜索、替换"><a href="#搜索、替换" class="headerlink" title="搜索、替换"></a>搜索、替换</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>/search_text</code></td>
-<td style="text-align:left">检索文档，在文档后面的部分搜索 search_text</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>?search_text</code></td>
-<td style="text-align:left">检索文档，在文档前面的部分搜索 search_text</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>n</code></td>
-<td style="text-align:left">移动到后一个检索结果</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>N</code></td>
-<td style="text-align:left">移动到前一个检索结果</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>:%s/original/replacement</code></td>
-<td style="text-align:left">检索第一个 “original” 字符串并将其替换成 “replacement”</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>:%s/original/replacement/g</code></td>
-<td style="text-align:left">检索并将所有的 “original” 替换为 “replacement”</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>:%s/original/replacement/gc</code></td>
-<td style="text-align:left">检索出所有的 “original” 字符串，但在替换成 “replacement” 前，先询问是否替换</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="书签"><a href="#书签" class="headerlink" title="书签"></a>书签</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>m &#123;a-zA-Z&#125;</code></td>
-<td style="text-align:left">在当前光标位置设置书签，书签名可用一个大小写字母（{a-zA-Z}）</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>:marks</code></td>
-<td style="text-align:left">列出所有书签</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>&#123;a-zA-Z&#125;</code></td>
-<td style="text-align:left">跳转到书签 {a-zA-Z}</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="可视模式"><a href="#可视模式" class="headerlink" title="可视模式"></a>可视模式</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>v</code></td>
-<td style="text-align:left">进入逐字可视模式</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>V</code></td>
-<td style="text-align:left">进入逐行可视模式</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>Esc</code></td>
-<td style="text-align:left">退出可视模式</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>~</code></td>
-<td style="text-align:left">切换大小写</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>d</code></td>
-<td style="text-align:left">删除一个词</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>c</code></td>
-<td style="text-align:left">变更</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>y</code></td>
-<td style="text-align:left">复制</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>&gt;</code></td>
-<td style="text-align:left">右移</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>&lt;</code></td>
-<td style="text-align:left">左移</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>!</code></td>
-<td style="text-align:left">通过外部命令进行过滤</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="保存、退出"><a href="#保存、退出" class="headerlink" title="保存、退出"></a>保存、退出</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">快捷键</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>:q</code></td>
-<td style="text-align:left">退出 Vim，如果文件已被修改，将退出失败</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>:w</code></td>
-<td style="text-align:left">保存文件</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>:w new_name</code></td>
-<td style="text-align:left">用 new_name 作为文件名保存文件</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>:wq</code></td>
-<td style="text-align:left">保存文件并退出 Vim</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>:q!</code></td>
-<td style="text-align:left">退出 Vim，不保存文件改动</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>ZZ</code></td>
-<td style="text-align:left">退出 Vim，如果文件被改动过，保存改动内容</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>ZQ</code></td>
-<td style="text-align:left">与 :q! 相同，退出 Vim，不保存文件改动</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><a href="https://linux.cn/article-8144-1.html">参考</a></p>
-<h3 id="指令集"><a href="#指令集" class="headerlink" title="指令集"></a>指令集</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="comment">&quot;================</span></span><br><span class="line"><span class="comment">&quot;=====指令收集=====</span></span><br><span class="line"><span class="comment">&quot;======START=====</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 系统时间</span></span><br><span class="line"><span class="string">&quot;  :map &lt;F7&gt; a&lt;C-R&gt;=strftime(&quot;</span>%<span class="keyword">c</span><span class="comment">&quot;)&lt;CR&gt;&lt;esc&gt;</span></span><br><span class="line"><span class="string">&quot;  :s/__date__/\=strftime(&quot;</span>%<span class="keyword">c</span><span class="comment">&quot;)/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;         基础命令</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"><span class="comment">&quot;   ctrl+q              可以联合复制，粘贴，替换用 行操作</span></span><br><span class="line"><span class="comment">&quot;   ctrl+w+j ctrl+w+k (:bn :bp :bd)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   &#x27;.                  它移动光标到上一次的修改行</span></span><br><span class="line"><span class="comment">&quot;   `.                  它移动光标到上一次的修改点</span></span><br><span class="line"><span class="comment">&quot;   .                   重复上次命令</span></span><br><span class="line"><span class="comment">&quot;   &lt;C-O&gt; :             依次沿着你的跳转记录向回跳 (从最近的一次开始)</span></span><br><span class="line"><span class="comment">&quot;   &lt;C-I&gt; :             依次沿着你的跳转记录向前跳</span></span><br><span class="line"><span class="comment">&quot;   ju(mps) :           列出你跳转的足迹</span></span><br><span class="line"><span class="comment">&quot;   :history :          列出历史命令记录</span></span><br><span class="line"><span class="comment">&quot;   :his c :            命令行命令历史</span></span><br><span class="line"><span class="comment">&quot;   :his s :            搜索命令历史</span></span><br><span class="line"><span class="comment">&quot;   q/ :                搜索命令历史的窗口</span></span><br><span class="line"><span class="comment">&quot;   q: :                命令行命令历史的窗口</span></span><br><span class="line"><span class="comment">&quot;   g ctrl+g            计算文件字符</span></span><br><span class="line"><span class="comment">&quot;   &#123;,&#125;                 前进至上一段落前进至后一段落</span></span><br><span class="line"><span class="comment">&quot;   gg,G(2G)            文件首</span></span><br><span class="line"><span class="comment">&quot;   gd dw gf ga(进制转化)</span></span><br><span class="line"><span class="comment">&quot;   gg=G 全篇自动缩进 , =G 单行缩进</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;* ci[ 删除一对 [] 中的所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;* ci( 删除一对 () 中的所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;* ci&lt; 删除一对 &lt;&gt; 中的所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;* ci&#123; 删除一对 &#123;&#125; 中的所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;* cit 删除一对 HTML/XML 的标签内部的所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;* ci” ci’ ci` 删除一对引号字符 (” 或 ‘ 或 `) 中所有字符并进入插入模式</span></span><br><span class="line"><span class="comment">&quot;</span></span><br><span class="line"><span class="comment">&quot;* vi[ 选择一对 [] 中的所有字符</span></span><br><span class="line"><span class="comment">&quot;* vi( 选择一对 () 中的所有字符</span></span><br><span class="line"><span class="comment">&quot;* vi&lt; 选择一对 &lt;&gt; 中的所有字符</span></span><br><span class="line"><span class="comment">&quot;* vi&#123; 选择一对 &#123;&#125; 中的所有字符</span></span><br><span class="line"><span class="comment">&quot;* vit 选择一对 HTML/XML 的标签内部的所有字符</span></span><br><span class="line"><span class="comment">&quot;* vi” vi’ vi` 选择一对引号字符 (” 或 ‘ 或 `) 中所有字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   crl+] 函数原型处 crl+t 回 ( ctags )</span></span><br><span class="line"><span class="comment">&quot;   ctl+p 自动补全( 编辑状态 )</span></span><br><span class="line"><span class="comment">&quot;   :X 加密保存( 要输入密码 )</span></span><br><span class="line"><span class="comment">&quot;   ? /         (N n)</span></span><br><span class="line"><span class="comment">&quot;   f(F,t) 查找字符</span></span><br><span class="line"><span class="comment">&quot;   w(e) 移动光标到下一个单词.</span></span><br><span class="line"><span class="comment">&quot;   5fx 表示查找光标后第 5 个 x 字符.</span></span><br><span class="line"><span class="comment">&quot;   5w(e) 移动光标到下五个单词.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   b 移动光标到上一个单词.</span></span><br><span class="line"><span class="comment">&quot;   0 移动光标到本行最开头.</span></span><br><span class="line"><span class="comment">&quot;   ^ 移动光标到本行最开头的字符处.</span></span><br><span class="line"><span class="comment">&quot;   $ 移动光标到本行结尾处.</span></span><br><span class="line"><span class="comment">&quot;   H 移动光标到屏幕的首行.</span></span><br><span class="line"><span class="comment">&quot;   M 移动光标到屏幕的中间一行.</span></span><br><span class="line"><span class="comment">&quot;   L 移动光标到屏幕的尾行.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   c-f (即 ctrl 键与 f 键一同按下)</span></span><br><span class="line"><span class="comment">&quot;   c-b (即 ctrl 键与 b 键一同按下) 翻页</span></span><br><span class="line"><span class="comment">&quot;   c-d (下半页) c-u(上半页) c-e (一行滚动)</span></span><br><span class="line"><span class="comment">&quot;   zz 让光标所在的行居屏幕中央</span></span><br><span class="line"><span class="comment">&quot;   zt 让光标所在的行居屏幕最上一行</span></span><br><span class="line"><span class="comment">&quot;   zb 让光标所在的行居屏幕最下一行</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   在 vi 中 y 表示拷贝, d 表示删除, p 表示粘贴. 其中拷贝与删除是与光标移动命令</span></span><br><span class="line"><span class="comment">&quot;   yw 表示拷贝从当前光标到光标所在单词结尾的内容.</span></span><br><span class="line"><span class="comment">&quot;   dw 表示删除从当前光标到光标所在单词结尾的内容.</span></span><br><span class="line"><span class="comment">&quot;   y0 表示拷贝从当前光标到光标所在行首的内容.</span></span><br><span class="line"><span class="comment">&quot;   d0 表示删除从当前光标到光标所在行首的内容.</span></span><br><span class="line"><span class="comment">&quot;   y$(Y) 表示拷贝从当前光标到光标所在行尾的内容.</span></span><br><span class="line"><span class="comment">&quot;   d$(D) 表示删除从当前光标到光标所在行尾的内容.</span></span><br><span class="line"><span class="comment">&quot;   yfa 表示拷贝从当前光标到光标后面的第一个a字符之间的内容.</span></span><br><span class="line"><span class="comment">&quot;   dfa 表示删除从当前光标到光标后面的第一个a字符之间的内容.</span></span><br><span class="line"><span class="comment">&quot;   s(S),a(A),x(X),D</span></span><br><span class="line"><span class="comment">&quot;   yy 表示拷贝光标所在行.</span></span><br><span class="line"><span class="comment">&quot;   dd 表示删除光标所在行.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   5yy 表示拷贝光标以下 5 行.</span></span><br><span class="line"><span class="comment">&quot;   5dd 表示删除光标以下 5 行.</span></span><br><span class="line"><span class="comment">&quot;   y2fa 表示拷贝从当前光标到光标后面的第二个a字符之间的内容.</span></span><br><span class="line"><span class="comment">&quot;   :12,24y 表示拷贝第12行到第24行之间的内容.</span></span><br><span class="line"><span class="comment">&quot;   :12,y 表示拷贝第12行到光标所在行之间的内容.</span></span><br><span class="line"><span class="comment">&quot;   :,24y 表示拷贝光标所在行到第24行之间的内容. 删除类似.</span></span><br><span class="line"><span class="comment">&quot;   TAB 就是制表符, 单独拿出来做一节是因为这个东西确实很有用.</span></span><br><span class="line"><span class="comment">&quot;   &lt;&lt; 输入此命令则光标所在行向左移动一个 tab.</span></span><br><span class="line"><span class="comment">&quot;   &gt;&gt; 输入此命令则光标所在行向右移动一个 tab.</span></span><br><span class="line"><span class="comment">&quot;   5&gt;&gt; 输入此命令则光标后 5 行向右移动一个 tab.</span></span><br><span class="line"><span class="comment">&quot;   :5&gt;&gt;(&gt;&gt;&gt;) :&gt;&gt;(&gt;&gt;&gt;)5</span></span><br><span class="line"><span class="comment">&quot;   :12,24&gt; 此命令将12行到14行的数据都向右移动一个 tab.</span></span><br><span class="line"><span class="comment">&quot;   :12,24&gt;&gt; 此命令将12行到14行的数据都向右移动两个 tab.</span></span><br><span class="line"><span class="comment">&quot;   :set shiftwidth=4 设置自动缩进 4 个空格, 当然要设自动缩进先.</span></span><br><span class="line"><span class="comment">&quot;   :set sts=4 即设置 softtabstop 为 4. 输入 tab 后就跳了 4 格.</span></span><br><span class="line"><span class="comment">&quot;   :set tabstop=4 实际的 tab 即为 4 个空格, 而不是缺省的 8 个.</span></span><br><span class="line"><span class="comment">&quot;   :set expandtab 在输入 tab 后, vim 用恰当的空格来填充这个 tab.</span></span><br><span class="line"><span class="comment">&quot;   :g/^/exec &#x27;s/^/&#x27;.strpart(line(&#x27;.&#x27;).&#x27; &#x27;, 0, 4) 在行首插入行号</span></span><br><span class="line"><span class="comment">&quot;   set ai 设置自动缩进</span></span><br><span class="line"><span class="comment">&quot;   5ia&lt;esc&gt; 重复插入5个a字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;          替换命令</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"><span class="comment">&quot;   替换文字 2009-02-34 ----&gt; 2009-02-34 00:00:00</span></span><br><span class="line"><span class="comment">&quot;   :%s/\(\d\&#123;4\&#125;-\d\&#123;2\&#125;-\d\&#123;2\&#125;\)/\1 00:00:00/g</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   :s/aa/bb/g              将光标所在行出现的所有包含 aa 的字符串中的 aa 替换为 bb</span></span><br><span class="line"><span class="comment">&quot;   :s/\/bb/g               将光标所在行出现的所有 aa 替换为 bb, 仅替换 aa 这个单词</span></span><br><span class="line"><span class="comment">&quot;   :%s/aa/bb/g             将文档中出现的所有包含 aa 的字符串中的 aa 替换为 bb</span></span><br><span class="line"><span class="comment">&quot;   :12,23s/aa/bb/g         将从12行到23行中出现的所有包含 aa 的字符串中的 aa 替换为 bb</span></span><br><span class="line"><span class="comment">&quot;   :12,23s/^/#/            将从12行到23行的行首加入 # 字符</span></span><br><span class="line"><span class="comment">&quot;   :%s/fred/joe/igc            一个常见的替换命令，修饰符igc和perl中一样意思</span></span><br><span class="line"><span class="comment">&quot;   s/dick/joe/igc则        对于这些满足条件的行进行替换</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   :g/^\s*$/d              空行(空格也不包含)删除.</span></span><br><span class="line"><span class="comment">&quot;   :%s/\r//g               删除DOS方式的回车^M</span></span><br><span class="line"><span class="comment">&quot;   :%s/ *$//               删除行尾空白(%s/\s*$//g)</span></span><br><span class="line"><span class="comment">&quot;   :g!/^dd/d               删除不含字符串&#x27;dd&#x27;开头的行</span></span><br><span class="line"><span class="comment">&quot;   :v/^dd/d                同上,译释：v == g!，就是不匹配！</span></span><br><span class="line"><span class="comment">&quot;   :v/./.,/./-1join        压缩空行(多行空行合并为一行)</span></span><br><span class="line"><span class="comment">&quot;   :g/^$/,/./-j            压缩空行(多行空行合并为一行)</span></span><br><span class="line"><span class="comment">&quot;   :g/^/pu _               把文中空行扩增一倍 (pu = put),原来两行间有一个空行，现在变成2个</span></span><br><span class="line"><span class="comment">&quot;   :g/^/m0                 按行翻转文章 (m = move)</span></span><br><span class="line"><span class="comment">&quot;   :g/fred/,/joe/d         not line based (very powerfull)</span></span><br><span class="line"><span class="comment">&quot;   :g/&lt;input\|&lt;form/p      或者 要用\|</span></span><br><span class="line"><span class="comment">&quot;   :g/fred/t$              拷贝行，从fred到文件末尾(EOF)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   :%norm jdd              隔行删除,译释：%指明是对所有行进行操作,norm指出后面是normal模式的指令,j是下移一行，dd是删除行</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   :&#x27;a,&#x27;bg/fred/s/dick/joe/igc   (&#x27;a,&#x27;b指定一个范围：mark a ~ mark b)</span></span><br><span class="line"><span class="comment">&quot;   g//用一个正则表达式指出了进行操作的行必须可以被fred匹配,g//是一个全局显示命令</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   /joe/e                  光标停留在匹配单词最后一个字母处</span></span><br><span class="line"><span class="comment">&quot;   /joe/e+1                光标停留在匹配单词最后一个字母的下一个字母处</span></span><br><span class="line"><span class="comment">&quot;   /joe/s                  光标停留在匹配单词第一个字母处</span></span><br><span class="line"><span class="comment">&quot;   /^joe.*fred.*bill/      标准正则表达式</span></span><br><span class="line"><span class="comment">&quot;   /^[A-J]\+/              找一个以A~J中一个字母重复两次或以上开头的行</span></span><br><span class="line"><span class="comment">&quot;   /forum\(\_.\)*pent      多行匹配</span></span><br><span class="line"><span class="comment">&quot;   /fred\_s*joe/i          中间可以有任何空白，包括换行符\n</span></span><br><span class="line"><span class="comment">&quot;   /fred\|joe              匹配FRED或JOE</span></span><br><span class="line"><span class="comment">&quot;   /\&lt;fred\&gt;/i             匹配fred,fred必须是一个独立的单词，而不是子串</span></span><br><span class="line"><span class="comment">&quot;   /\&lt;\d\d\d\d\&gt;           匹配4个数字 \&lt;\d\&#123;4&#125;\&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   列，替换所有在第三列中的str1</span></span><br><span class="line"><span class="comment">&quot;   :%s:\(\(\w\+\s\+\)\&#123;2&#125;\)str1:\1str2:</span></span><br><span class="line"><span class="comment">&quot;   交换第一列和最后一列 (共4列)</span></span><br><span class="line"><span class="comment">&quot;   :%s:\(\w\+\)\(.*\s\+\)\(\w\+\)$:\3\2\1:</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   全局(global)显示命令，就是用 :g＋正则表达式</span></span><br><span class="line"><span class="comment">&quot;   译释： :g/&#123;pattern&#125;/&#123;cmd&#125; 就是全局找到匹配的,然后对这些行执行命令&#123;cmd&#125;</span></span><br><span class="line"><span class="comment">&quot;   :g/\&lt;fred\&gt;/                                显示所有能够为单词fred所匹配的行</span></span><br><span class="line"><span class="comment">&quot;   :g/&lt;pattern&gt;/z#.5                           显示内容，还有行号</span></span><br><span class="line"><span class="comment">&quot;   :g/&lt;pattern&gt;/z#.5|echo &#x27;==========&#x27;         漂亮的显示</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;      多文档操作 (基础)</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"><span class="comment">&quot;    用 :ls! 可以显示出当前所有的buffer</span></span><br><span class="line"><span class="comment">&quot;   :bn                 跳转到下一个buffer</span></span><br><span class="line"><span class="comment">&quot;   :bp                 跳转到上一个buffer</span></span><br><span class="line"><span class="comment">&quot;   :wn                 存盘当前文件并跳转到下一个</span></span><br><span class="line"><span class="comment">&quot;   :wp                 存盘当前文件并跳转到上一个</span></span><br><span class="line"><span class="comment">&quot;   :bd                 把这个文件从buffer列表中做掉</span></span><br><span class="line"><span class="comment">&quot;   :b 3                跳到第3个buffer</span></span><br><span class="line"><span class="comment">&quot;   :b main             跳到一个名字中包含main的buffer</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;          列复制</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"><span class="comment">&quot;   译注：@#%&amp;^#*^%#$!</span></span><br><span class="line"><span class="comment">&quot;   :%s= [^ ]\+$=&amp;&amp;= : 复制最后一列</span></span><br><span class="line"><span class="comment">&quot;   :%s= \f\+$=&amp;&amp;= : 一样的功能</span></span><br><span class="line"><span class="comment">&quot;   :%s= \S\+$=&amp;&amp; : ft,还是一样</span></span><br><span class="line"><span class="comment">&quot;   反向引用，或称记忆</span></span><br><span class="line"><span class="comment">&quot;   :s/\(.*\):\(.*\)/\2 : \1/ : 颠倒用:分割的两个字段</span></span><br><span class="line"><span class="comment">&quot;   :%s/^\(.*\)\n\1/\1$/ : 删除重复行</span></span><br><span class="line"><span class="comment">&quot;   非贪婪匹配，\&#123;-&#125;</span></span><br><span class="line"><span class="comment">&quot;   :%s/^.\&#123;-&#125;pdf/new.pdf/ : 只是删除第一个pdf</span></span><br><span class="line"><span class="comment">&quot;   跨越可能的多行</span></span><br><span class="line"><span class="comment">&quot;   :%s/&lt;!--\_.\&#123;-&#125;--&gt;// : 又是删除多行注释（咦？为什么要说「又」呢？）</span></span><br><span class="line"><span class="comment">&quot;   :help /\&#123;-&#125; : 看看关于 非贪婪数量符 的帮助</span></span><br><span class="line"><span class="comment">&quot;   :s/fred/&lt;c-r&gt;a/g : 替换fred成register a中的内容，呵呵</span></span><br><span class="line"><span class="comment">&quot;   写在一行里的复杂命令</span></span><br><span class="line"><span class="comment">&quot;   :%s/\f\+\.gif\&gt;/\r&amp;\r/g | v/\.gif$/d | %s/gif/jpg/</span></span><br><span class="line"><span class="comment">&quot;   译注：就是用 | 管道啦</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;         大小写转换</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"><span class="comment">&quot;   g~~ : 行翻转</span></span><br><span class="line"><span class="comment">&quot;   vEU : 字大写(广义字)</span></span><br><span class="line"><span class="comment">&quot;   vE~ : 字翻转(广义字)</span></span><br><span class="line"><span class="comment">&quot;   ~   将光标下的字母改变大小写</span></span><br><span class="line"><span class="comment">&quot;   3~  将下3个字母改变其大小写</span></span><br><span class="line"><span class="comment">&quot;   g~w 字翻转</span></span><br><span class="line"><span class="comment">&quot;   U   将可视模式下的字母全改成大写字母</span></span><br><span class="line"><span class="comment">&quot;   gUU 将当前行的字母改成大写</span></span><br><span class="line"><span class="comment">&quot;   u   将可视模式下的字母全改成小写</span></span><br><span class="line"><span class="comment">&quot;   guu 将当前行的字母全改成小写</span></span><br><span class="line"><span class="comment">&quot;   gUw 将光标下的单词改成大写。</span></span><br><span class="line"><span class="comment">&quot;   guw 将光标下的单词改成小写。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;/*---------------------*\</span></span><br><span class="line"><span class="comment">&quot;          文件浏览</span></span><br><span class="line"><span class="comment">&quot;\*---------------------*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;   :Ex : 开启目录浏览器，注意首字母E是大写的</span></span><br><span class="line"><span class="comment">&quot;   :Sex : 在一个分割的窗口中开启目录浏览器</span></span><br><span class="line"><span class="comment">&quot;   :ls : 显示当前buffer的情况</span></span><br><span class="line"><span class="comment">&quot;   :cd .. : 进入父目录</span></span><br><span class="line"><span class="comment">&quot;   :pwd</span></span><br><span class="line"><span class="comment">&quot;   :args : 显示目前打开的文件</span></span><br><span class="line"><span class="comment">&quot;   :lcd %:p:h : 更改到当前文件所在的目录</span></span><br><span class="line"><span class="comment">&quot;    译释：lcd是紧紧改变当前窗口的工作路径，% 是代表当前文件的文件名,</span></span><br><span class="line"><span class="comment">&quot;    加上 :p扩展成全名（就是带了路径），加上 :h析取出路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;=======END======</span></span><br><span class="line"><span class="comment">&quot;===常用指令收集===</span></span><br><span class="line"><span class="comment">&quot;================</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>vim</category>
