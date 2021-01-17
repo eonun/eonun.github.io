@@ -1,6 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>ArchLinux代理</title>
+    <url>/posts/a83bb0/</url>
+    <content><![CDATA[<h1 id="环境变量代理"><a href="#环境变量代理" class="headerlink" title="环境变量代理"></a>环境变量代理</h1><h2 id="普通代理"><a href="#普通代理" class="headerlink" title="普通代理"></a>普通代理</h2><p>要将代理环境变量提供给所有用户和所有应用程序，将命令添加到脚本中,如:<code>/etc/profile.d/proxy.sh</code>,然后脚本必须有可执行限。 当使用Xfce之类的桌面环境时，此方法很有用。 例如Xfce通过此方法设置的变量运行Chromium浏览器进行Chromium浏览器代理。</p>
+<a id="more"></a>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">local</span> proxy=http://127.0.0.1:8080</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;<span class="variable">$proxy</span>&quot;</span> \</span><br><span class="line">       https_proxy=<span class="variable">$proxy</span> \</span><br><span class="line">       ftp_proxy=<span class="variable">$proxy</span> \</span><br><span class="line">       rsync_proxy=<span class="variable">$proxy</span> \</span><br><span class="line">       HTTP_PROXY=<span class="variable">$proxy</span> \</span><br><span class="line">       HTTPS_PROXY=<span class="variable">$proxy</span> \</span><br><span class="line">       FTP_PROXY=<span class="variable">$proxy</span> \</span><br><span class="line">       RSYNC_PROXY=<span class="variable">$proxy</span></span><br><span class="line"><span class="built_in">export</span> no_proxy=<span class="string">&quot;localhost,127.0.0.1,localaddress,.localdomain.com&quot;</span></span><br></pre></td></tr></table></figure>
+<p><code>curl</code> 和 <code>pacman</code> 代理</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> all_proxy=http://127.0.0.1:8080</span><br></pre></td></tr></table></figure>
+<p><strong>另外，还有一个名为<code>proxyman-git</code>(AUR)的工具，可以轻松配置系统范围的代理设置。 它还处理<code>git</code>，<code>npm</code>，<code>Dropbox</code>等其他软件的代理配置。</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span> 		代理服务器设置</span><br><span class="line">uset 		取消代理设置</span><br><span class="line">list 		列出当前设置</span><br><span class="line">configs 	列出可用的配置</span><br><span class="line">load 		加载配置文件</span><br><span class="line">delete 		删除个人资料</span><br><span class="line"><span class="built_in">help</span> 		显示此帮助</span><br></pre></td></tr></table></figure>
+<p>配置文件位置<code>~/.config/proxyman/</code></p>
+<p>例:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">proxyman <span class="built_in">set</span></span><br><span class="line"> Enter details to <span class="built_in">set</span> proxy</span><br><span class="line"> HTTP Proxy  Host 127.0.0.1</span><br><span class="line"> HTTP Proxy  Port 8889</span><br><span class="line"> Use auth - userid/password (y/n)? n</span><br><span class="line"> Use same <span class="keyword">for</span> HTTPS and FTP (y/n)? y</span><br><span class="line"> No Proxy  (default localhost,127.0.0.1,192.168.1.1,::1,*.<span class="built_in">local</span>)</span><br><span class="line">Save profile <span class="keyword">for</span> later use (y/n)? y</span><br><span class="line"> Enter profile name  : v2ray_http</span><br><span class="line">Saved to /home/eonun/.config/proxyman/v2ray_http.</span><br><span class="line"></span><br><span class="line"> Select targets to modify</span><br><span class="line">| 1 | All of them ... Don<span class="string">&#x27;t bother me</span></span><br><span class="line"><span class="string">| 2 | Terminal / bash / zsh (current user)</span></span><br><span class="line"><span class="string">| 3 | /etc/environment</span></span><br><span class="line"><span class="string">| 4 | apt/dnf (Package manager)</span></span><br><span class="line"><span class="string">| 5 | Desktop settings (GNOME/Ubuntu/KDE)</span></span><br><span class="line"><span class="string">| 6 | npm &amp; yarn</span></span><br><span class="line"><span class="string">| 7 | Dropbox</span></span><br><span class="line"><span class="string">| 8 | Git</span></span><br><span class="line"><span class="string">| 9 | Docker</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Separate multiple choices with space</span></span><br><span class="line"><span class="string"> ? 1</span></span><br><span class="line"><span class="string">Setting proxy...</span></span><br><span class="line"><span class="string">To activate in current terminal window</span></span><br><span class="line"><span class="string">run source ~/.bashrc</span></span><br><span class="line"><span class="string">To activate in current terminal window</span></span><br><span class="line"><span class="string">run source ~/.zshrc</span></span><br><span class="line"><span class="string">Done</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+<h2 id="保持通过代理-sudo"><a href="#保持通过代理-sudo" class="headerlink" title="保持通过代理 sudo"></a>保持通过代理 <code>sudo</code></h2><p>将以下行添加到sudo配置文件<code>/etc/sudoers.d/05_proxy</code>中:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Defaults env_keep +&#x3D; &quot;*_proxy *_PROXY&quot;</span><br></pre></td></tr></table></figure>
+<h1 id="软件代理"><a href="#软件代理" class="headerlink" title="软件代理"></a>软件代理</h1><h2 id="proxychains"><a href="#proxychains" class="headerlink" title="proxychains"></a>proxychains</h2><p>安装 <code>proxychains-ng</code> (既能代理socks,又能代理http),配置文件<code>/etc/proxychains.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># socks5</span><br><span class="line">socks5 127.0.0.1 8080</span><br><span class="line">socks4 127.0.0.1 9050</span><br><span class="line"></span><br><span class="line"># http</span><br><span class="line">http 127.0.0.1 1080</span><br></pre></td></tr></table></figure>
+<p>使用 <code>proxychains xxxx</code> 通过代理运行程序 <code>xxxx</code> 。</p>
+<h2 id="tsocks"><a href="#tsocks" class="headerlink" title="tsocks"></a>tsocks</h2><p>安装<code>tsocks</code>(只能代理socks),配置文件 <code>/etc/tsocks.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#x3D; 127.0.0.1</span><br><span class="line">server_port &#x3D; 8080</span><br><span class="line">server_type &#x3D; 5</span><br><span class="line">default_user &#x3D; &quot;&quot;</span><br><span class="line">default_pass &#x3D; &quot;&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>curl 和 pacman 代理</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> all_proxy=<span class="string">&quot;socks5://your.proxy:1080&quot;</span></span><br></pre></td></tr></table></figure>
+<h1 id="浏览器代理"><a href="#浏览器代理" class="headerlink" title="浏览器代理"></a>浏览器代理</h1><p>浏览器可使用软件代理进行代理，也可用插件代理</p>
+<p>Firefox 自带代理功能</p>
+<p>Chromium 可安装插件 <code>SwitchyOmega</code> (<a href="https://github.com/FelisCatus/SwitchyOmega">GitHub官网</a>)</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Arch</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ArchLinux安装后配置</title>
+    <url>/posts/e4b0c9cf/</url>
+    <content><![CDATA[<h1 id="连接网络"><a href="#连接网络" class="headerlink" title="连接网络"></a>连接网络</h1><p>有线网自动获取IP<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dhcpcd</span><br></pre></td></tr></table></figure></p>
+<p>连接无线网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wifi-menu</span><br></pre></td></tr></table></figure><br><a id="more"></a></p>
+<h1 id="创建普通用户"><a href="#创建普通用户" class="headerlink" title="创建普通用户"></a>创建普通用户</h1><p>在linux上root就是上帝，能对系统进行任何操作，包括删除系统文件，所有使用root操作是很危险的，通常都是创建一个普通用户来使用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">useradd -m username</span><br></pre></td></tr></table></figure>
+<p><code>-m</code>:创建用户的家目录<code>/home/username</code><br><code>username</code>:创建的用户名</p>
+<h2 id="给用户设置密码"><a href="#给用户设置密码" class="headerlink" title="给用户设置密码"></a>给用户设置密码</h2><p>root具有上帝权限，所以无需验证任何用户的密码就能修改用户的密码，新建的用户还没有密码所以还无法登录(但root通过<code>su</code>命令能无密码登录)，所以需要给用户设置密码后用户才能登录</p>
+<p>给<code>username</code>设置密码<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">passwd username</span><br></pre></td></tr></table></figure><br>连续输入两次密码回车即可（linux不显示密码的输入）</p>
+<h1 id="配置sudo"><a href="#配置sudo" class="headerlink" title="配置sudo"></a>配置sudo</h1><p>创建了普通用户，但很多情况下需要用到root的权限怎么办呢?这就需要用到<code>sudo</code>来提权了</p>
+<p>sudo 能临时赋予用户root的部分管理权限，达到使用root运行相关指令的目的,比如arch的包管理器<code>pacman</code>就需要root权限,也就是说安装软件就需要root权限</p>
+<h2 id="安装sudo软件包"><a href="#安装sudo软件包" class="headerlink" title="安装sudo软件包:"></a>安装sudo软件包:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pacman -S sudo</span><br></pre></td></tr></table></figure>
+<p>若安装基础包时安装了<code>base-devel</code>包就无需安装了,<code>base-devel</code>软件包含有<code>sudo</code></p>
+<p><strong>配置sudo</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /sudoers</span><br></pre></td></tr></table></figure></p>
+<p>打开配置文件后找到<code>%wheel ALL=(ALL)ALL</code>，去掉注释<code>#</code>，重启<code>reboot</code>，给整个用户组权限</p>
+<p>也可直接添加一条<code>username ALL=(ALL)ALL</code>给用户权限</p>
+<h2 id="加入wheel用户组"><a href="#加入wheel用户组" class="headerlink" title="加入wheel用户组"></a>加入wheel用户组</h2><p>将用户加入whell用户组<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">usermod -G wheel username</span><br></pre></td></tr></table></figure></p>
+<p>wheel 组的概念继承自 UNIX，当需要进行一些高级维护时，往往要用到 root 权限；而wheel 组是一个包含特殊权限的用户组，用来满足需要 root 权限的需求。</p>
+<p>对于服务器来说，我们希望只有属于 wheel 组的用户才可以用 <code>su</code> 登录 root。这样就进一步增强了系统的安全性。具体步骤如下：</p>
+<ul>
+<li><p>修改 <code>/etc/pam.d/su</code> 文件，找到<code>#auth required /lib/security/$ISA/pam_wheel.so use_uid</code>，将行首的注释<code>#</code>去掉。</p>
+</li>
+<li><p>修改 <code>/etc/login.defs</code> 文件，在最后一行增加：<code>SU_WHEEL_ONLY yes</code>。</p>
+</li>
+</ul>
+<p>然后，用<code>usermod -G wheel username</code> 将用户添加到 wheel 组中,这样被添加到 wheel 组的用户登录，就能执行 <code>su</code> 命令输入正确的 root 密码就可以正常的登录为 root 用户了。</p>
+<h1 id="图形界面"><a href="#图形界面" class="headerlink" title="图形界面"></a>图形界面</h1><h2 id="显卡驱动"><a href="#显卡驱动" class="headerlink" title="显卡驱动"></a>显卡驱动</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>品牌</th>
+<th>驱动</th>
+<th>驱动类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AMD/ATI</td>
+<td><code>xf86-video-amdgpu</code>、<code>xf86-video-ati</code></td>
+<td>开源</td>
+</tr>
+<tr>
+<td></td>
+<td><code>catalyst</code>(AUR)</td>
+<td>闭源</td>
+</tr>
+<tr>
+<td>Intel</td>
+<td><code>xf86-video-intel</code></td>
+<td>开源</td>
+</tr>
+<tr>
+<td>Nvidia</td>
+<td><code>xf86-video-nonveau</code></td>
+<td>开源</td>
+</tr>
+<tr>
+<td></td>
+<td><code>nvidia</code>、<code>nvidia-340xx</code>、<code>nvidia-304xx</code></td>
+<td>闭源</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>参照表格安装相应的驱动，通常安装集显的开源驱动就够用，若需要打点游戏，做点图什么的可以安装独立显卡的闭源驱动提升性能。<font color="ff0000"><strong>安装闭源驱动一定要查看wiki根据说明安装，不然可能回无法正常进入系统</strong></font></p>
+<p>查看被识别的显卡:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lspci | grep -e VGA -e 3D</span><br></pre></td></tr></table></figure></p>
+<p>搜索开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -Ss xf86-video</span><br></pre></td></tr></table></figure></p>
+<p>安装intel集显开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xf86-video-intel</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装Xorg"><a href="#安装Xorg" class="headerlink" title="安装Xorg"></a>安装Xorg</h2><p>Xorg是Linux下的一个著名的开源图形服务</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xorg</span><br></pre></td></tr></table></figure>
+<h2 id="安装桌面"><a href="#安装桌面" class="headerlink" title="安装桌面"></a>安装桌面</h2><p>Linux下有很多著名的<a href="https://wiki.archlinux.org/index.php/Desktop_environment#List_of_desktop_environments">桌面环境</a>如：</p>
+<ul>
+<li>Xfce</li>
+<li>KDE(Plasma)</li>
+<li>Gnome</li>
+<li>Unity</li>
+<li>Deepin(深度的国产桌面环境)</li>
+</ul>
+<p>自行选择安装即可</p>
+<p>如:</p>
+<ul>
+<li>Xfce :<code>sudo pacman -S xfce4 xfce4-goodies</code></li>
+<li>KDE(Plasma):<code>sudo pacman -S plasma kde-application</code></li>
+<li>Gnome:<code>sudo pacman -S gnome gnome-extra</code></li>
+<li>Deepin:<code>sudo pacman -S deepin deepin-extra</code></li>
+</ul>
+<h2 id="安装桌面管理器"><a href="#安装桌面管理器" class="headerlink" title="安装桌面管理器"></a>安装桌面管理器</h2><p>安装好了桌面环境包以后，需要安装一个<a href="https://wiki.archlinux.org/index.php/Display_manager">桌面管理器</a>来帮助我们登录且选择使用的桌面环境</p>
+<ul>
+<li>LightDM : <code>sudo pacman -S lighdm</code></li>
+<li>sddm : <code>sudo pacman -S sddm</code></li>
+<li>GDM : <code>sudo pacman -S gdm</code></li>
+</ul>
+<p><strong>启动桌面管理器服务</strong></p>
+<p>服务管理<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开机启动/关闭开启启动</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> xxxx</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> xxxx</span><br><span class="line"></span><br><span class="line"><span class="comment">#启动/停止服务</span></span><br><span class="line">sudo systemctl start xxxx</span><br><span class="line">sudo systemctl stop xxxx</span><br></pre></td></tr></table></figure></p>
+<p>如设置开机启动<code>sddm</code>: <code>sudo systemctl enable sddm</code></p>
+<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><p>之前用的一直是netctl这个自带的网络服务，而桌面环境使用的是NetworkManager这个网络服务，所以需要禁用netctl并启用NetworkManager</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> netctl</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> NetworkManager</span><br></pre></td></tr></table></figure>
+<p>安装工具栏图标显示网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S network-manager-applet</span><br></pre></td></tr></table></figure></p>
+<p><strong>重启电脑即可</strong></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Arch</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>12306购票小助手使用</title>
     <url>/posts/249efd0/</url>
     <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 获取项目文件</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;bash</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;testerSunshine&#x2F;12306.git</span><br></pre></td></tr></table></figure>
@@ -65,70 +208,6 @@
       <tags>
         <tag>12306</tag>
         <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ArchLinux代理</title>
-    <url>/posts/a83bb0/</url>
-    <content><![CDATA[<h1 id="环境变量代理"><a href="#环境变量代理" class="headerlink" title="环境变量代理"></a>环境变量代理</h1><h2 id="普通代理"><a href="#普通代理" class="headerlink" title="普通代理"></a>普通代理</h2><p>要将代理环境变量提供给所有用户和所有应用程序，将命令添加到脚本中,如:<code>/etc/profile.d/proxy.sh</code>,然后脚本必须有可执行限。 当使用Xfce之类的桌面环境时，此方法很有用。 例如Xfce通过此方法设置的变量运行Chromium浏览器进行Chromium浏览器代理。</p>
-<a id="more"></a>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">local</span> proxy=http://127.0.0.1:8080</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">&quot;<span class="variable">$proxy</span>&quot;</span> \</span><br><span class="line">       https_proxy=<span class="variable">$proxy</span> \</span><br><span class="line">       ftp_proxy=<span class="variable">$proxy</span> \</span><br><span class="line">       rsync_proxy=<span class="variable">$proxy</span> \</span><br><span class="line">       HTTP_PROXY=<span class="variable">$proxy</span> \</span><br><span class="line">       HTTPS_PROXY=<span class="variable">$proxy</span> \</span><br><span class="line">       FTP_PROXY=<span class="variable">$proxy</span> \</span><br><span class="line">       RSYNC_PROXY=<span class="variable">$proxy</span></span><br><span class="line"><span class="built_in">export</span> no_proxy=<span class="string">&quot;localhost,127.0.0.1,localaddress,.localdomain.com&quot;</span></span><br></pre></td></tr></table></figure>
-<p><code>curl</code> 和 <code>pacman</code> 代理</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> all_proxy=http://127.0.0.1:8080</span><br></pre></td></tr></table></figure>
-<p><strong>另外，还有一个名为<code>proxyman-git</code>(AUR)的工具，可以轻松配置系统范围的代理设置。 它还处理<code>git</code>，<code>npm</code>，<code>Dropbox</code>等其他软件的代理配置。</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span> 		代理服务器设置</span><br><span class="line">uset 		取消代理设置</span><br><span class="line">list 		列出当前设置</span><br><span class="line">configs 	列出可用的配置</span><br><span class="line">load 		加载配置文件</span><br><span class="line">delete 		删除个人资料</span><br><span class="line"><span class="built_in">help</span> 		显示此帮助</span><br></pre></td></tr></table></figure>
-<p>配置文件位置<code>~/.config/proxyman/</code></p>
-<p>例:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">proxyman <span class="built_in">set</span></span><br><span class="line"> Enter details to <span class="built_in">set</span> proxy</span><br><span class="line"> HTTP Proxy  Host 127.0.0.1</span><br><span class="line"> HTTP Proxy  Port 8889</span><br><span class="line"> Use auth - userid/password (y/n)? n</span><br><span class="line"> Use same <span class="keyword">for</span> HTTPS and FTP (y/n)? y</span><br><span class="line"> No Proxy  (default localhost,127.0.0.1,192.168.1.1,::1,*.<span class="built_in">local</span>)</span><br><span class="line">Save profile <span class="keyword">for</span> later use (y/n)? y</span><br><span class="line"> Enter profile name  : v2ray_http</span><br><span class="line">Saved to /home/eonun/.config/proxyman/v2ray_http.</span><br><span class="line"></span><br><span class="line"> Select targets to modify</span><br><span class="line">| 1 | All of them ... Don<span class="string">&#x27;t bother me</span></span><br><span class="line"><span class="string">| 2 | Terminal / bash / zsh (current user)</span></span><br><span class="line"><span class="string">| 3 | /etc/environment</span></span><br><span class="line"><span class="string">| 4 | apt/dnf (Package manager)</span></span><br><span class="line"><span class="string">| 5 | Desktop settings (GNOME/Ubuntu/KDE)</span></span><br><span class="line"><span class="string">| 6 | npm &amp; yarn</span></span><br><span class="line"><span class="string">| 7 | Dropbox</span></span><br><span class="line"><span class="string">| 8 | Git</span></span><br><span class="line"><span class="string">| 9 | Docker</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Separate multiple choices with space</span></span><br><span class="line"><span class="string"> ? 1</span></span><br><span class="line"><span class="string">Setting proxy...</span></span><br><span class="line"><span class="string">To activate in current terminal window</span></span><br><span class="line"><span class="string">run source ~/.bashrc</span></span><br><span class="line"><span class="string">To activate in current terminal window</span></span><br><span class="line"><span class="string">run source ~/.zshrc</span></span><br><span class="line"><span class="string">Done</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
-<h2 id="保持通过代理-sudo"><a href="#保持通过代理-sudo" class="headerlink" title="保持通过代理 sudo"></a>保持通过代理 <code>sudo</code></h2><p>将以下行添加到sudo配置文件<code>/etc/sudoers.d/05_proxy</code>中:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Defaults env_keep +&#x3D; &quot;*_proxy *_PROXY&quot;</span><br></pre></td></tr></table></figure>
-<h1 id="软件代理"><a href="#软件代理" class="headerlink" title="软件代理"></a>软件代理</h1><h2 id="proxychains"><a href="#proxychains" class="headerlink" title="proxychains"></a>proxychains</h2><p>安装 <code>proxychains-ng</code> (既能代理socks,又能代理http),配置文件<code>/etc/proxychains.conf</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># socks5</span><br><span class="line">socks5 127.0.0.1 8080</span><br><span class="line">socks4 127.0.0.1 9050</span><br><span class="line"></span><br><span class="line"># http</span><br><span class="line">http 127.0.0.1 1080</span><br></pre></td></tr></table></figure>
-<p>使用 <code>proxychains xxxx</code> 通过代理运行程序 <code>xxxx</code> 。</p>
-<h2 id="tsocks"><a href="#tsocks" class="headerlink" title="tsocks"></a>tsocks</h2><p>安装<code>tsocks</code>(只能代理socks),配置文件 <code>/etc/tsocks.conf</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#x3D; 127.0.0.1</span><br><span class="line">server_port &#x3D; 8080</span><br><span class="line">server_type &#x3D; 5</span><br><span class="line">default_user &#x3D; &quot;&quot;</span><br><span class="line">default_pass &#x3D; &quot;&quot;</span><br></pre></td></tr></table></figure>
-<p><strong>curl 和 pacman 代理</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> all_proxy=<span class="string">&quot;socks5://your.proxy:1080&quot;</span></span><br></pre></td></tr></table></figure>
-<h1 id="浏览器代理"><a href="#浏览器代理" class="headerlink" title="浏览器代理"></a>浏览器代理</h1><p>浏览器可使用软件代理进行代理，也可用插件代理</p>
-<p>Firefox 自带代理功能</p>
-<p>Chromium 可安装插件 <code>SwitchyOmega</code> (<a href="https://github.com/FelisCatus/SwitchyOmega">GitHub官网</a>)</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Arch</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ArchLinux系安装VMware</title>
-    <url>/posts/331864ab/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="从aur库安装"><a href="#从aur库安装" class="headerlink" title="从aur库安装"></a>从aur库安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay vmware-workstation</span><br></pre></td></tr></table></figure>
-<p>首次启动使用root权限启动激活</p>
-<h2 id="下载的安装包安装"><a href="#下载的安装包安装" class="headerlink" title="下载的安装包安装"></a>下载的安装包安装</h2><p>下载最新的安装包</p>
-<p>安装 依赖项:<br>    fuse2 - 提供 vmware-vmblock-fuse<br>    gksu（AUR） - 支持需要 root 权限的操作（比如内存分配、注册许可证等等）<br>    gtkmm - 支持 GUI<br>    linux-headers - 模块编译所需<br>    ncurses5-compat-libsAUR - 支持安装程序的 —console 选项<br>    libcanberra - 支持事件提示音</p>
-<p><a href="https://www.vmware.com/go/tryworkstation">VMware Workstation Pro</a><br><a href="https://www.vmware.com/go/downloadplayer">Player</a><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ./VMware-edition-version.release.architecture.bundle</span><br><span class="line"></span><br><span class="line">&lt;!--more--&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure><br><strong>当安装程序询问 <code>System service scripts directory</code> 的设置时，输入 <code>/etc/init.d</code> 即可</strong><br>安装过程中会收到”No rc*.d style init script directories”错误。这可以安全忽略，因为Arch使用的是systemd.</p>
-<p>一些选项：</p>
-<ul>
-<li><code>--eulas-agreed</code> : 跳过各种许可协议</li>
-<li><code>--console</code> : 使用命令行界面，而非 GUI</li>
-<li><code>--custom</code> : 允许自定义安装目录，比如/usr/local（记得修改#Systemd 服务一节下，vmware-usbarbitrator.service中的路径）</li>
-<li><code>-I</code>, <code>--ignore-errors</code> : 忽略致命错误</li>
-<li><code>--set-setting=vmware-workstation serialNumber XXXXX-XXXXX-XXXXX-XXXXX-XXXXX</code> : 设置安装时使用的序列号（有利于脚本化安装）</li>
-<li><code>--required</code> : 只询问必要的问题（当结合<code>--eulas-agreed</code>和<code>--console</code>时可以实现静默安装）</li>
-</ul>
-<h1 id="添加Systemd服务-可选"><a href="#添加Systemd服务-可选" class="headerlink" title="添加Systemd服务(可选)"></a>添加Systemd服务(可选)</h1><p>安装服务包,之后就能使用enable了</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay vmware-systemd-services</span><br></pre></td></tr></table></figure>
-<p>参考:<a href="https://wiki.archlinux.org/index.php/VMware">VMware Wiki</a></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Arch</tag>
-        <tag>Linux</tag>
-        <tag>VMware</tag>
       </tags>
   </entry>
   <entry>
@@ -506,105 +585,25 @@
       </tags>
   </entry>
   <entry>
-    <title>ArchLinux安装后配置</title>
-    <url>/posts/e4b0c9cf/</url>
-    <content><![CDATA[<h1 id="连接网络"><a href="#连接网络" class="headerlink" title="连接网络"></a>连接网络</h1><p>有线网自动获取IP<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dhcpcd</span><br></pre></td></tr></table></figure></p>
-<p>连接无线网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wifi-menu</span><br></pre></td></tr></table></figure><br><a id="more"></a></p>
-<h1 id="创建普通用户"><a href="#创建普通用户" class="headerlink" title="创建普通用户"></a>创建普通用户</h1><p>在linux上root就是上帝，能对系统进行任何操作，包括删除系统文件，所有使用root操作是很危险的，通常都是创建一个普通用户来使用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">useradd -m username</span><br></pre></td></tr></table></figure>
-<p><code>-m</code>:创建用户的家目录<code>/home/username</code><br><code>username</code>:创建的用户名</p>
-<h2 id="给用户设置密码"><a href="#给用户设置密码" class="headerlink" title="给用户设置密码"></a>给用户设置密码</h2><p>root具有上帝权限，所以无需验证任何用户的密码就能修改用户的密码，新建的用户还没有密码所以还无法登录(但root通过<code>su</code>命令能无密码登录)，所以需要给用户设置密码后用户才能登录</p>
-<p>给<code>username</code>设置密码<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">passwd username</span><br></pre></td></tr></table></figure><br>连续输入两次密码回车即可（linux不显示密码的输入）</p>
-<h1 id="配置sudo"><a href="#配置sudo" class="headerlink" title="配置sudo"></a>配置sudo</h1><p>创建了普通用户，但很多情况下需要用到root的权限怎么办呢?这就需要用到<code>sudo</code>来提权了</p>
-<p>sudo 能临时赋予用户root的部分管理权限，达到使用root运行相关指令的目的,比如arch的包管理器<code>pacman</code>就需要root权限,也就是说安装软件就需要root权限</p>
-<h2 id="安装sudo软件包"><a href="#安装sudo软件包" class="headerlink" title="安装sudo软件包:"></a>安装sudo软件包:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pacman -S sudo</span><br></pre></td></tr></table></figure>
-<p>若安装基础包时安装了<code>base-devel</code>包就无需安装了,<code>base-devel</code>软件包含有<code>sudo</code></p>
-<p><strong>配置sudo</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /sudoers</span><br></pre></td></tr></table></figure></p>
-<p>打开配置文件后找到<code>%wheel ALL=(ALL)ALL</code>，去掉注释<code>#</code>，重启<code>reboot</code>，给整个用户组权限</p>
-<p>也可直接添加一条<code>username ALL=(ALL)ALL</code>给用户权限</p>
-<h2 id="加入wheel用户组"><a href="#加入wheel用户组" class="headerlink" title="加入wheel用户组"></a>加入wheel用户组</h2><p>将用户加入whell用户组<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">usermod -G wheel username</span><br></pre></td></tr></table></figure></p>
-<p>wheel 组的概念继承自 UNIX，当需要进行一些高级维护时，往往要用到 root 权限；而wheel 组是一个包含特殊权限的用户组，用来满足需要 root 权限的需求。</p>
-<p>对于服务器来说，我们希望只有属于 wheel 组的用户才可以用 <code>su</code> 登录 root。这样就进一步增强了系统的安全性。具体步骤如下：</p>
+    <title>ArchLinux系安装VMware</title>
+    <url>/posts/331864ab/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="从aur库安装"><a href="#从aur库安装" class="headerlink" title="从aur库安装"></a>从aur库安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay vmware-workstation</span><br></pre></td></tr></table></figure>
+<p>首次启动使用root权限启动激活</p>
+<h2 id="下载的安装包安装"><a href="#下载的安装包安装" class="headerlink" title="下载的安装包安装"></a>下载的安装包安装</h2><p>下载最新的安装包</p>
+<p>安装 依赖项:<br>    fuse2 - 提供 vmware-vmblock-fuse<br>    gksu（AUR） - 支持需要 root 权限的操作（比如内存分配、注册许可证等等）<br>    gtkmm - 支持 GUI<br>    linux-headers - 模块编译所需<br>    ncurses5-compat-libsAUR - 支持安装程序的 —console 选项<br>    libcanberra - 支持事件提示音</p>
+<p><a href="https://www.vmware.com/go/tryworkstation">VMware Workstation Pro</a><br><a href="https://www.vmware.com/go/downloadplayer">Player</a><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ./VMware-edition-version.release.architecture.bundle</span><br><span class="line"></span><br><span class="line">&lt;!--more--&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure><br><strong>当安装程序询问 <code>System service scripts directory</code> 的设置时，输入 <code>/etc/init.d</code> 即可</strong><br>安装过程中会收到”No rc*.d style init script directories”错误。这可以安全忽略，因为Arch使用的是systemd.</p>
+<p>一些选项：</p>
 <ul>
-<li><p>修改 <code>/etc/pam.d/su</code> 文件，找到<code>#auth required /lib/security/$ISA/pam_wheel.so use_uid</code>，将行首的注释<code>#</code>去掉。</p>
-</li>
-<li><p>修改 <code>/etc/login.defs</code> 文件，在最后一行增加：<code>SU_WHEEL_ONLY yes</code>。</p>
-</li>
+<li><code>--eulas-agreed</code> : 跳过各种许可协议</li>
+<li><code>--console</code> : 使用命令行界面，而非 GUI</li>
+<li><code>--custom</code> : 允许自定义安装目录，比如/usr/local（记得修改#Systemd 服务一节下，vmware-usbarbitrator.service中的路径）</li>
+<li><code>-I</code>, <code>--ignore-errors</code> : 忽略致命错误</li>
+<li><code>--set-setting=vmware-workstation serialNumber XXXXX-XXXXX-XXXXX-XXXXX-XXXXX</code> : 设置安装时使用的序列号（有利于脚本化安装）</li>
+<li><code>--required</code> : 只询问必要的问题（当结合<code>--eulas-agreed</code>和<code>--console</code>时可以实现静默安装）</li>
 </ul>
-<p>然后，用<code>usermod -G wheel username</code> 将用户添加到 wheel 组中,这样被添加到 wheel 组的用户登录，就能执行 <code>su</code> 命令输入正确的 root 密码就可以正常的登录为 root 用户了。</p>
-<h1 id="图形界面"><a href="#图形界面" class="headerlink" title="图形界面"></a>图形界面</h1><h2 id="显卡驱动"><a href="#显卡驱动" class="headerlink" title="显卡驱动"></a>显卡驱动</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>品牌</th>
-<th>驱动</th>
-<th>驱动类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AMD/ATI</td>
-<td><code>xf86-video-amdgpu</code>、<code>xf86-video-ati</code></td>
-<td>开源</td>
-</tr>
-<tr>
-<td></td>
-<td><code>catalyst</code>(AUR)</td>
-<td>闭源</td>
-</tr>
-<tr>
-<td>Intel</td>
-<td><code>xf86-video-intel</code></td>
-<td>开源</td>
-</tr>
-<tr>
-<td>Nvidia</td>
-<td><code>xf86-video-nonveau</code></td>
-<td>开源</td>
-</tr>
-<tr>
-<td></td>
-<td><code>nvidia</code>、<code>nvidia-340xx</code>、<code>nvidia-304xx</code></td>
-<td>闭源</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>参照表格安装相应的驱动，通常安装集显的开源驱动就够用，若需要打点游戏，做点图什么的可以安装独立显卡的闭源驱动提升性能。<font color="ff0000"><strong>安装闭源驱动一定要查看wiki根据说明安装，不然可能回无法正常进入系统</strong></font></p>
-<p>查看被识别的显卡:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lspci | grep -e VGA -e 3D</span><br></pre></td></tr></table></figure></p>
-<p>搜索开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -Ss xf86-video</span><br></pre></td></tr></table></figure></p>
-<p>安装intel集显开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xf86-video-intel</span><br></pre></td></tr></table></figure></p>
-<h2 id="安装Xorg"><a href="#安装Xorg" class="headerlink" title="安装Xorg"></a>安装Xorg</h2><p>Xorg是Linux下的一个著名的开源图形服务</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xorg</span><br></pre></td></tr></table></figure>
-<h2 id="安装桌面"><a href="#安装桌面" class="headerlink" title="安装桌面"></a>安装桌面</h2><p>Linux下有很多著名的<a href="https://wiki.archlinux.org/index.php/Desktop_environment#List_of_desktop_environments">桌面环境</a>如：</p>
-<ul>
-<li>Xfce</li>
-<li>KDE(Plasma)</li>
-<li>Gnome</li>
-<li>Unity</li>
-<li>Deepin(深度的国产桌面环境)</li>
-</ul>
-<p>自行选择安装即可</p>
-<p>如:</p>
-<ul>
-<li>Xfce :<code>sudo pacman -S xfce4 xfce4-goodies</code></li>
-<li>KDE(Plasma):<code>sudo pacman -S plasma kde-application</code></li>
-<li>Gnome:<code>sudo pacman -S gnome gnome-extra</code></li>
-<li>Deepin:<code>sudo pacman -S deepin deepin-extra</code></li>
-</ul>
-<h2 id="安装桌面管理器"><a href="#安装桌面管理器" class="headerlink" title="安装桌面管理器"></a>安装桌面管理器</h2><p>安装好了桌面环境包以后，需要安装一个<a href="https://wiki.archlinux.org/index.php/Display_manager">桌面管理器</a>来帮助我们登录且选择使用的桌面环境</p>
-<ul>
-<li>LightDM : <code>sudo pacman -S lighdm</code></li>
-<li>sddm : <code>sudo pacman -S sddm</code></li>
-<li>GDM : <code>sudo pacman -S gdm</code></li>
-</ul>
-<p><strong>启动桌面管理器服务</strong></p>
-<p>服务管理<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开机启动/关闭开启启动</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> xxxx</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> xxxx</span><br><span class="line"></span><br><span class="line"><span class="comment">#启动/停止服务</span></span><br><span class="line">sudo systemctl start xxxx</span><br><span class="line">sudo systemctl stop xxxx</span><br></pre></td></tr></table></figure></p>
-<p>如设置开机启动<code>sddm</code>: <code>sudo systemctl enable sddm</code></p>
-<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><p>之前用的一直是netctl这个自带的网络服务，而桌面环境使用的是NetworkManager这个网络服务，所以需要禁用netctl并启用NetworkManager</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> netctl</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> NetworkManager</span><br></pre></td></tr></table></figure>
-<p>安装工具栏图标显示网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S network-manager-applet</span><br></pre></td></tr></table></figure></p>
-<p><strong>重启电脑即可</strong></p>
+<h1 id="添加Systemd服务-可选"><a href="#添加Systemd服务-可选" class="headerlink" title="添加Systemd服务(可选)"></a>添加Systemd服务(可选)</h1><p>安装服务包,之后就能使用enable了</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay vmware-systemd-services</span><br></pre></td></tr></table></figure>
+<p>参考:<a href="https://wiki.archlinux.org/index.php/VMware">VMware Wiki</a></p>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -612,33 +611,7 @@
       <tags>
         <tag>Arch</tag>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Arch安装AUR软件时github下载软件包慢或不可获得的问题</title>
-    <url>/posts/518cc2d8/</url>
-    <content><![CDATA[<p>github的release，噩梦一般。当AUR里面调用缺省的curl去对付那些包的时候，90%的情况是无法成功的。即便成功也是苦等几十分钟。至少我的网络环境是这样。</p>
-<p><code>/etc/makepkg.conf</code> ： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#-- The download utilities that makepkg should use to acquire sources</span><br><span class="line">#  Format: &#39;protocol::agent&#39;</span><br><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;curl -gqfC - --ftp-pasv --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;https::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>吧curl换成了axel</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;https::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br></pre></td></tr></table></figure>
-<p>但github不管多少线程都跑不动，改用镜像站下载</p>
-<p>github镜像站：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com.cnpmjs.org</span><br><span class="line">https:&#x2F;&#x2F;hub.fastgit.org</span><br></pre></td></tr></table></figure></p>
-<p>先<code>ping</code> 一下比较相应时间，选择优质的</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ping github.com</span><br><span class="line">ping github.com.cnpmjs.org</span><br><span class="line">ping fastgit.org</span><br></pre></td></tr></table></figure>
-<p>参考: <a href="https://www.cnblogs.com/seniortestingdev/p/13393785.html">让你的GitHub下载飞速提升到2M/s以上</a></p>
-<p>通过脚本换链接：</p>
-<p><code>axel_for_makepkg.sh</code> :</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="comment"># 该脚本用于处理yay安装软件时，由github下载缓慢甚至无法下载的问题</span></span><br><span class="line"><span class="comment"># 检测域名是不是github，如果是，则替换为镜像网站</span></span><br><span class="line"><span class="comment"># 采用axel代替curl进行10线程下载</span></span><br><span class="line"><span class="comment"># 实验用链接：</span></span><br><span class="line"><span class="comment"># https://download.fastgit.org/beekeeper-studio/beekeeper-studio/releases/download/v1.6.11/beekeeper-studio_1.6.11_amd64.deb</span></span><br><span class="line"><span class="comment"># https://github.com/beekeeper-studio/beekeeper-studio/releases/download/v1.6.11/beekeeper-studio_1.6.11_amd64.deb</span></span><br><span class="line"></span><br><span class="line">domin=`<span class="built_in">echo</span> <span class="variable">$2</span> | cut -f3 -d<span class="string">&#x27;/&#x27;</span>`;</span><br><span class="line">others=`<span class="built_in">echo</span> <span class="variable">$2</span> | cut -f4- -d<span class="string">&#x27;/&#x27;</span>`;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;<span class="variable">$domin</span>&quot;</span> <span class="keyword">in</span> </span><br><span class="line">    <span class="string">&quot;github.com&quot;</span>)</span><br><span class="line">    url=<span class="string">&quot;https://download.fastgit.org/&quot;</span><span class="variable">$others</span>;</span><br><span class="line">    ;;</span><br><span class="line">    *)</span><br><span class="line">    url=<span class="variable">$2</span>;</span><br><span class="line">    ;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;download from <span class="variable">$url</span>&quot;</span>;</span><br><span class="line">/usr/bin/axel -n 10 -a -o <span class="variable">$1</span> <span class="variable">$url</span>;</span><br></pre></td></tr></table></figure>
-<p>修改<code>/etc/makepkg.conf</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;https::~&#x2F;meshell&#x2F;fake_download_tools&#x2F;fake_axel_for_makepkg %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br></pre></td></tr></table></figure>
-<p>镜像不允许多线程下载哈哈，然而没关系，axel自动fallback成单线程</p>
-<p>参考: <a href="https://zhuanlan.zhihu.com/p/176987140">机智的解决arch/manjaro安装AUR软件时github下载软件包慢或不可获得的问题</a></p>
-]]></content>
-      <tags>
-        <tag>Arch</tag>
-        <tag>Linux</tag>
+        <tag>VMware</tag>
       </tags>
   </entry>
   <entry>
@@ -818,6 +791,33 @@
       </tags>
   </entry>
   <entry>
+    <title>Arch安装AUR软件时github下载软件包慢或不可获得的问题</title>
+    <url>/posts/518cc2d8/</url>
+    <content><![CDATA[<p>github的release，噩梦一般。当AUR里面调用缺省的curl去对付那些包的时候，90%的情况是无法成功的。即便成功也是苦等几十分钟。至少我的网络环境是这样。</p>
+<p><code>/etc/makepkg.conf</code> ： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#-- The download utilities that makepkg should use to acquire sources</span><br><span class="line">#  Format: &#39;protocol::agent&#39;</span><br><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;curl -gqfC - --ftp-pasv --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;https::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>吧curl换成了axel</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;https::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br></pre></td></tr></table></figure>
+<p>但github不管多少线程都跑不动，改用镜像站下载</p>
+<p>github镜像站：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com.cnpmjs.org</span><br><span class="line">https:&#x2F;&#x2F;hub.fastgit.org</span><br></pre></td></tr></table></figure></p>
+<p>先<code>ping</code> 一下比较相应时间，选择优质的</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ping github.com</span><br><span class="line">ping github.com.cnpmjs.org</span><br><span class="line">ping fastgit.org</span><br></pre></td></tr></table></figure>
+<p>参考: <a href="https://www.cnblogs.com/seniortestingdev/p/13393785.html">让你的GitHub下载飞速提升到2M/s以上</a></p>
+<p>通过脚本换链接：</p>
+<p><code>axel_for_makepkg.sh</code> :</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="comment"># 该脚本用于处理yay安装软件时，由github下载缓慢甚至无法下载的问题</span></span><br><span class="line"><span class="comment"># 检测域名是不是github，如果是，则替换为镜像网站</span></span><br><span class="line"><span class="comment"># 采用axel代替curl进行10线程下载</span></span><br><span class="line"><span class="comment"># 实验用链接：</span></span><br><span class="line"><span class="comment"># https://download.fastgit.org/beekeeper-studio/beekeeper-studio/releases/download/v1.6.11/beekeeper-studio_1.6.11_amd64.deb</span></span><br><span class="line"><span class="comment"># https://github.com/beekeeper-studio/beekeeper-studio/releases/download/v1.6.11/beekeeper-studio_1.6.11_amd64.deb</span></span><br><span class="line"></span><br><span class="line">domin=`<span class="built_in">echo</span> <span class="variable">$2</span> | cut -f3 -d<span class="string">&#x27;/&#x27;</span>`;</span><br><span class="line">others=`<span class="built_in">echo</span> <span class="variable">$2</span> | cut -f4- -d<span class="string">&#x27;/&#x27;</span>`;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;<span class="variable">$domin</span>&quot;</span> <span class="keyword">in</span> </span><br><span class="line">    <span class="string">&quot;github.com&quot;</span>)</span><br><span class="line">    url=<span class="string">&quot;https://download.fastgit.org/&quot;</span><span class="variable">$others</span>;</span><br><span class="line">    ;;</span><br><span class="line">    *)</span><br><span class="line">    url=<span class="variable">$2</span>;</span><br><span class="line">    ;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;download from <span class="variable">$url</span>&quot;</span>;</span><br><span class="line">/usr/bin/axel -n 10 -a -o <span class="variable">$1</span> <span class="variable">$url</span>;</span><br></pre></td></tr></table></figure>
+<p>修改<code>/etc/makepkg.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;https::~&#x2F;meshell&#x2F;fake_download_tools&#x2F;fake_axel_for_makepkg %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br></pre></td></tr></table></figure>
+<p>镜像不允许多线程下载哈哈，然而没关系，axel自动fallback成单线程</p>
+<p>参考: <a href="https://zhuanlan.zhihu.com/p/176987140">机智的解决arch/manjaro安装AUR软件时github下载软件包慢或不可获得的问题</a></p>
+]]></content>
+      <tags>
+        <tag>Arch</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CTF学习笔记</title>
     <url>/posts/586ba39a/</url>
     <content><![CDATA[<h1 id="CTF-学习笔记"><a href="#CTF-学习笔记" class="headerlink" title="CTF 学习笔记"></a>CTF 学习笔记</h1><h3 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nmap -sP 192.168.0.0/24		<span class="comment">#扫描网段存活IP</span></span><br><span class="line">nmap -sV 192.168.0.0/24		<span class="comment">#扫描存活端口</span></span><br><span class="line"><span class="comment">#通过开放的可疑端口（将服务运行在非常规的端口上）访问，查看源代码看是否有有用信息</span></span><br><span class="line"></span><br><span class="line">dirb http://192.168.0.7:31337	<span class="comment">#探测隐藏文件</span></span><br><span class="line"><span class="comment">#探测出相关影藏文件后对可疑文件进行分析</span></span><br><span class="line"><span class="comment">#robots文件	记录禁止被探测的文件，通过该文件内容能找到一些重要文件</span></span><br><span class="line"><span class="comment">#.ssh文件		记录ssh秘钥信息，通常id_rsd代表私钥（可用来认证ssh登录），authorized_keys代表认证信息(能从中找用户名等信息))，id_rsa.pub代表公钥</span></span><br><span class="line"><span class="comment">#ssh是一钟远程加密登录协议，通常是用于远程管理计算机使用，ssh可通过口令登录，也可通过秘钥登录</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#通过.ssh文件猜猜存在秘钥文件</span></span><br><span class="line"><span class="comment">#获得秘钥文件</span></span><br><span class="line"><span class="comment">#http://192.168.0.7:31337/.ssh/id_rsa</span></span><br><span class="line"><span class="comment">#http://192.168.0.7:31337/.ssh/authorized_keys</span></span><br><span class="line"><span class="comment">#给私钥修改权限</span></span><br><span class="line">chmod 600 id_rsa</span><br><span class="line"><span class="comment">#破解私钥信息</span></span><br></pre></td></tr></table></figure>
@@ -935,6 +935,90 @@
       </categories>
       <tags>
         <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dotfile管理</title>
+    <url>/posts/fc38e44e/</url>
+    <content><![CDATA[<p>在Linux上各个程序的配置文件大多是以 <code>.</code> 开头或以 <code>rc</code> 结尾的文件，并存放于用户的个人目录 <code>~/</code> 中，通常叫dotfile 或 rc file ，如 <code>.zshrc</code> ，<code>.vimrc</code> 等。在初次使用一些软件时需要花大量时间对相应的 dotfile 进行配置，当需要在新系统上恢复多个软件配置或者在多台电脑上共享一台电脑对 dotfile 的修改时，逐一对各个 dotfile 进行管理非常不方便,<code>rcm</code>(rc file management) 就是一个 dotfile 管理工具,用于方便管理 dotfile 。</p>
+<p>rcm 主要是将所有希望用 rcm 管理的 dotfile 集中存储在一个目录中（默认 <code>~/.dotfiles</code>），并在原配置文件位置创建被 rcm 管理的 dotfile 的软链接。</p>
+<p>可在该集中存储目录中使用 git 进行版本控制，同时也可托管到 github 等 git 仓库中方便多台机器共享。若要使用别人分享的 rcm 目录下的 dotfile 时 rcm 可调用不同 dotfiles 目录下的文件进行使用。</p>
+<p><a href="https://github.com/thoughtbot/rcm">rcm github仓库</a></p>
+<p><a href="https://gitee.com/mirrors/rcm">rcm gitee国内加速仓库</a></p>
+<a id="more"></a>
+<h1 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h1><p>rcm 包括了 4 个命令和一个 dotfile 文件 <code>~/.rcrc</code> (注意 rcm 默认不会生成该配置文件，若要使用需手动创建）</p>
+<h2 id="lsrc"><a href="#lsrc" class="headerlink" title="lsrc"></a>lsrc</h2><p><strong>列出当前所有通过 rcm 管理的 dotfile ，以及其对应的符号链接位置</strong></p>
+<p><code>lsrc    [-FhqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h2 id="mkrc"><a href="#mkrc" class="headerlink" title="mkrc"></a>mkrc</h2><p>将指定的 dotfile 移动至集中存储目录(默认 <code>~/.dotfiles</code>)，并在原下创建相应的软链接</p>
+<p><code>mkrc    [-ChoqSsVvUu] [-t TAG] [-d DIR] [-B HOSTNAME] files ...</code></p>
+<h2 id="rcup"><a href="#rcup" class="headerlink" title="rcup"></a>rcup</h2><p>更新或创建由 rcm 管理的 dotfile 的软链接</p>
+<p><code>rcup    [-CfhiKkqVv] [-B HOSTNAME] [-d DIR] [-g] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h2 id="rcdn"><a href="#rcdn" class="headerlink" title="rcdn"></a>rcdn</h2><p>删除通过 rcm 创建的 dotfile 的软链接</p>
+<p><code>rcdn    [-hKkqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h1 id="命令指令"><a href="#命令指令" class="headerlink" title="命令指令"></a>命令指令</h1><ul>
+<li><code>-B HOSTNAME</code>: 指定特定主机的目录,而不是使用计算机的主机名对其进行操作。</li>
+<li><code>-C</code>: 复制文件而不是创建软链接。</li>
+<li><code>-d DIR</code>: 指定 dotfiles 目录，可以指定多个。</li>
+<li><code>-F</code>: 在文件旁显示指示符号，<code>@</code> (文件软链接) ，<code>$</code> (目录软链接)，<code>x</code>(副本文件)。更多详细信息参考 rcrc 中的 <code>COPY_ALWAYS</code> 和 <code>SYMLINK_DIRS</code> 。</li>
+<li><code>-f</code>: 如果rc文件已经存在于配置目录中，但与 dotfiles 目录中的文件不匹配，删除rc文件，然后创建软链接。</li>
+<li><code>-g</code>: 仅显示 <code>rcup</code> 命令脚本的执行过程，不会修改文件系统上的任何内容。</li>
+<li><code>-h</code>: 显示用法说明</li>
+<li><code>-I EXCL_PAT</code>: 指定不被 <code>-x</code> 排除的文件。 该项在 <code>-x</code> 选项之后应用,使用与 <code>-x</code> 相同的语法格式。可能需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-i</code>: 如果rc文件已经存在于配置目录中，但是与dotfiles目录中的文件不匹配，提示如何处理它。这是默认选项。</li>
+<li><code>-K</code>: 跳过 pre-hooks 和 post-hooks</li>
+<li><code>-k</code>: 运行 pre-hooks 和 post-hooks , 这是默认选项。</li>
+<li><code>-o</code>: 将 dotfiles 安装到主机特定的目录中。</li>
+<li><code>-q</code>: 减少详细信息。更多详细信息参考 <code>DIRECTORY LAYOUT</code>。</li>
+<li><code>-S EXCL_PAT</code>: 指定以软链接形式创建的目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-s EXCL_PAT</code>: 指定递归创建的目录而不是软链接式的目录。与 <code>-S</code> 选项相反，可用于撤消它或 <code>rcrc</code> 中的 <code>SYMLINK_DIRS</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-t TAG</code>: 指定标签</li>
+<li><code>-U EXCLUDE</code>: 指定不创建软链接和以点 (<code>.</code>) 开头命名的rc文件或目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-u EXCL_PAT</code>: 指定必须使用点 (<code>.</code>) 开头命名的 rc 文件或目录。 与 <code>-U</code> 选项相反，可用于撤消它或 rcrc 中 <code>UNDOTTED</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-V</code>: 显示版本号。</li>
+<li><code>-v</code>: 添加详细信息。 可以重复此操作以获取更多的详细信息。</li>
+<li><code>-x EXCL_PAT</code>: 指定排除的文件。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>files ...</code>: 指定的文件列表。</li>
+</ul>
+<h1 id="rcrc"><a href="#rcrc" class="headerlink" title="~/.rcrc"></a><code>~/.rcrc</code></h1><p>可以使用主目录中的 <code>.rcrc</code> 文件配置rcm dotfile 管理器。 可通过设置 <code>RCRC</code> 环境变量来更改此位置。</p>
+<p>支持以下变量:</p>
+<ul>
+<li><code>COPY_ALWAYS</code>: 复制列表中的glob相匹配的文件，而非使用软链接。</li>
+<li><code>DOTFILES_DIRS</code>: dotfile 的源目录。列表中的第一个将被 <code>mkrc</code> 用于创建 <code>dotfile</code> 目录，默认值为: <code>~/.dotfiles</code> 。</li>
+<li><code>EXCLUDES</code>: 排除列表。</li>
+<li><code>HOSTNAME</code>: 计算机的主机名。 通常通过 <code>hostname</code> 命令获得，但此命令并非标准的，获取的主机名或许会有差异，因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</li>
+<li><code>TAGS</code>: 默认标签表。</li>
+<li><code>SYMLINK_DIRS</code>: 列表中目录是软链接，而不是源文件。 </li>
+<li><code>UNDOTTED</code>: 列表中的文件是软链接且不用点 (<code>.</code>) 开头命名。如果是 <code>SYMLINK_DIRS</code> 中含有的目录，则该目录将为软链接且不用点 (<code>.</code>) 开头命名。</li>
+</ul>
+<p><strong><code>.rcrc</code> 样例</strong>:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COPY_ALWAYS=<span class="string">&quot;ssh/id_* weechat/* netrc&quot;</span></span><br><span class="line">COPY_ALWAYS=<span class="string">&quot;*&quot;</span></span><br><span class="line">DOTFILES_DIRS=<span class="string">&quot;/home/mike/.dotfiles /usr/share/dotfiles&quot;</span></span><br><span class="line">EXCLUDES=<span class="string">&quot;irbrc *:*emacs* dotfiles:python*&quot;</span></span><br><span class="line">HOSTNAME=<span class="string">&quot;eggplant&quot;</span></span><br><span class="line">TAGS=<span class="string">&quot;freebsd development email git laptop gmail notmuch&quot;</span></span><br><span class="line">SYMLINK_DIRS=<span class="string">&quot;zprezto texmf&quot;</span></span><br><span class="line">UNDOTTED=<span class="string">&quot;texmf&quot;</span></span><br></pre></td></tr></table></figure>
+<h1 id="EXCLUDE-PATTERN-排除列表"><a href="#EXCLUDE-PATTERN-排除列表" class="headerlink" title="EXCLUDE PATTERN (排除列表)"></a>EXCLUDE PATTERN (排除列表)</h1><p>使用冒号 (<code>:</code>) 分隔 dotfile 目录和 glob (由普通字符、通配字符组成的字符串，用于匹配文件路径) 。可选择带 dotfile 目录，如果省略则默认为 <code>*</code> ，代表从所有 dotfile 目录匹配。 glob 是相对于 dotfile 目录的相对路径。</p>
+<p>例如，要忽略 <code>Thoughtbot-dotfiles</code> 目录中所有与 <code>emacs</code> 相关的项目，使用：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">thoughtbot-dotfiles:*emacs*</span><br></pre></td></tr></table></figure>
+<p>要忽略所有 <code>bash_profile</code> 文件使用：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">*:bash_profile</span><br></pre></td></tr></table></figure>
+<p>或者简写为:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">bash_profile</span><br></pre></td></tr></table></figure>
+<p>注意,通常通过 <code>hostname</code> 命令获得主机名，但此命令并非标准的，获取的主机名或许会有差异，在macOS上，主机名是不可预测的，甚至可能在 <code>DHCP</code> 握手被更改,强烈建议在 <code>rcrc</code> 中,因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</p>
+<h1 id="DIRECTORY-LAYOUT-目录布局"><a href="#DIRECTORY-LAYOUT-目录布局" class="headerlink" title="DIRECTORY LAYOUT (目录布局)"></a>DIRECTORY LAYOUT (目录布局)</h1><p>dotfiles 目录下的任何非点 (<code>.</code>) 开头的、非元的文件或目录都将作为点 (<code>.</code>) 开头的文件安装。 例如，<code>.dotfiles/zshrc</code> 将安装到 <code>~/.zshrc</code> 。</p>
+<p>文件安装为软链接。 目录通过建立目录来安装。<code>-C</code> 选项指定文件通过复制安装而不是软链接。 <code>rcrc</code> 中的 <code>COPY_ALWAYS</code> 可用于列出只能复制的文件。</p>
+<p>支持三个元文件: host-specific (特定主机文件), tagged (标记文件), hooks 。</p>
+<ul>
+<li><code>host-specific</code>: 以 <code>host-</code> 前缀加主机名命名的目录，存放特定主机的文件，如，<code>.dotfiles/host-scarlett</code> 包含主机名为 scarlett 的计算机 dotfile 文件，且这些文件将仅安装在主机名为scarlett的计算机上。</li>
+<li><code>tagged</code>: 以 <code>tag-</code> 前缀加标签名命名的目录，存放标记该标签的文件，如，仅在指定使用 <code>git</code> 标签时安装 <code>.dotfiles/tag-git</code> 下的文件。</li>
+<li><code>hooks</code>:  名为hooks的目录，存放 hooks 。 rcup 支持两个hooks：<code>pre-up</code> 和 <code>post-up</code> 。它们存放到预设文件名的文件或目录中：<code>.dotfiles/hooks/pre-up</code> 和 <code>.dotfiles/hooks/post-up</code> ，或 <code>.dotfiles/hooks/pre-up/*</code> 和 <code>.dotfiles/hooks/post-up/*</code> 。 这些文件必须是可执行文件。 它们在每次 <code>rcup</code> 运行时都运行，因此必须是幂等(执行后结果还为本身)的。hooks 按字母顺序排序,一次只执行一次。 如，<code>hooks/pre-up/animals</code> 将在 <code>hooks / pre-up/aquariums</code> 之前运行，<code>hooks/pre-up/4-eyes</code> 将在 <code>hooks/post-up/2-u-nothing-compares</code> 之前运行。</li>
+</ul>
+<h1 id="日常使用"><a href="#日常使用" class="headerlink" title="日常使用"></a>日常使用</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建管理</span></span><br><span class="line">mkrc xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打标签方式创建管理</span></span><br><span class="line">mkrc -t git xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 dotfiles 中的 dotfile 文件</span></span><br><span class="line">rcup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定标签的 dotfile 文件</span></span><br><span class="line">rcup -t git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定标签的 dotfile 文件，并显示过程</span></span><br><span class="line">rcup -t git -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询被管理的 dotfile 文件</span></span><br><span class="line">lsrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定标签的 dotfile 文件</span></span><br><span class="line">lsrc -t git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定 dotfiles 中的 dotfile 文件</span></span><br><span class="line">lsrc -d ~/.MyDotfiles</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消安装</span></span><br><span class="line">rcdn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消指定标签的安装，并显示过程</span></span><br><span class="line">rcdn -t git -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消指定 dotfiles 中指定标签的安装</span></span><br><span class="line">rcdn -d ~/.MyDotfiles -t git</span><br></pre></td></tr></table></figure>
+<p><strong>使用git进行版本管理及云备份</strong>:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.dotfiles</span><br><span class="line">git init</span><br><span class="line">git add .</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;These are my dotfiles&quot;</span> &gt;&gt; README.md</span><br><span class="line">git commit -m <span class="string">&quot;initial commit&quot;</span></span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://thoughtbot.github.io/rcm/rcm.7.html">RCM(7)</a></p>
+<p><a href="https://www.jianshu.com/p/e21089d118c1">管理linux下软件的配置文件dotfile(rc files)</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2559,7 +2643,7 @@
 <p><strong>启动optimus-manager服务</strong></p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> optimus-manager</span><br><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
 <p><strong>配置文件详解</strong></p>
-<figure class="highlight sh"><figcaption><span>/etc/optimus-manager/optimus-manager.conf</span></figcaption><table><tr><td class="code"><pre><span class="line">[optimus]</span><br><span class="line"></span><br><span class="line">switching=nouveau</span><br><span class="line"><span class="comment"># 定义了用于接通Nvidia卡电源的方法。</span></span><br><span class="line"><span class="comment"># 可选值：</span></span><br><span class="line"><span class="comment"># -nouveau：将nuveau模块加载到Nvidia卡上。</span></span><br><span class="line"><span class="comment"># -bbswitch：使用bbswitch模块关闭卡的电源（需要bbswitch依赖项）。</span></span><br><span class="line"><span class="comment"># -acpi_call：尝试各种ACPI方法调用以打开和关闭卡的电源（需要acpi_call依赖项）</span></span><br><span class="line"><span class="comment"># -custom：使用自定义脚本 /etc/optimus-manager/nvidia-enable.sh 和/etc/optimus-manager/nvidia-disable.sh 切换</span></span><br><span class="line"><span class="comment"># -none：请勿将外部模块用于电源管理。对于某些笔记本电脑型号，最好是将此选项与pci_power_control结合使用。</span></span><br><span class="line"><span class="comment"># 具体选择参考: https://github.com/Askannz/optimus-manager/wiki/A-guide--to-power-management-options</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pci_power_control=no</span><br><span class="line"><span class="comment"># 在Intel模式下启用PCI电源管理。</span></span><br><span class="line"><span class="comment"># 此选项与acpi_call和bbswitch不兼容，因此会被忽略。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pci_remove=no</span><br><span class="line"><span class="comment"># 从PCI总线上卸下Nvidia卡。可以防止通电导致的崩溃。</span></span><br><span class="line"><span class="comment"># 当switching 为 nouveau 和 bbswitch 将被忽略。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pci_reset=no</span><br><span class="line"><span class="comment"># 在重载nvidia模块之前，在PCI级别上重置Nvidia卡。</span></span><br><span class="line"><span class="comment"># 在重载nvidia模块之前，确保卡处于新状态。</span></span><br><span class="line"><span class="comment"># 可解决一些切换问题。</span></span><br><span class="line"><span class="comment"># 可选值：</span></span><br><span class="line"><span class="comment"># -no：不执行任何重置</span></span><br><span class="line"><span class="comment"># -function_level：执行轻度的“功能级别”重置</span></span><br><span class="line"><span class="comment"># -hot_reset：对PCI桥接器执行“热重置”。注意：此方法直接与硬件混淆，在使用前请阅读optimus-manager的在线文档，即使pci_remove=no，它也会执行PCI移除操作。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">auto_logout=yes</span><br><span class="line"><span class="comment"># 切换GPU时自动注销当前的桌面会话。</span></span><br><span class="line"><span class="comment"># 以下DE/WM 支持此功能：KDE Plasma，GNOME，XFCE，LXDE，Deepin，i3，Openbox，AwesomeWM，bspwm</span></span><br><span class="line"><span class="comment"># 如果禁用此选项，或者使用其他桌面环境，GPU切换仅在下一次图形界面登录时生效。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">startup_mode=intel</span><br><span class="line"><span class="comment"># 在启动时启用的GPU模式。可选值：nvidia，intel，hybrid，auto</span></span><br><span class="line"><span class="comment"># auto 是一种特殊模式，可以自动检测计算机是否依靠电池运行,并选择适当的GPU模式。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">startup_auto_battery_mode=intel</span><br><span class="line"><span class="comment"># 用于在 startup_mode=auto 且依靠电池运行时选择GPU模式。</span></span><br><span class="line"><span class="comment"># 可选值：nvidia，intel，hybrid</span></span><br><span class="line"></span><br><span class="line">startup_auto_extpower_mode=nvidia</span><br><span class="line"><span class="comment"># 用于在 startup_mode=auto 且使用外部电源运行时选择GPU模式。</span></span><br><span class="line"><span class="comment"># 可选值：nvidia，intel，hybrid</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[intel]</span><br><span class="line"></span><br><span class="line">driver=modesetting</span><br><span class="line"><span class="comment"># 用于Intel GPU的驱动程序。可选值：modesetting , intel</span></span><br><span class="line"><span class="comment"># 要使用intel驱动程序，需要安装软件包 xf86-video-intel 。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">accel=</span><br><span class="line"><span class="comment"># 加速方法（对应于Xorg配置中的AccelMethod）。仅适用于intel驱动程序。</span></span><br><span class="line"><span class="comment"># 可选值：sna，xna，uxa</span></span><br><span class="line"><span class="comment"># 默认为空（未指定任何选项）</span></span><br><span class="line"></span><br><span class="line">tearfree=</span><br><span class="line"><span class="comment"># 在Xorg配置中启用TearFree选项。仅适用于intel驱动程序。</span></span><br><span class="line"><span class="comment"># 可能的值：是，否</span></span><br><span class="line"><span class="comment"># 默认为空（未指定任何选项）</span></span><br><span class="line"></span><br><span class="line">DRI=3</span><br><span class="line"><span class="comment"># DRI版本。可选值：2，3</span></span><br><span class="line"></span><br><span class="line">modeset=yes</span><br><span class="line"><span class="comment"># 是否为nouveau驱动程序启用模式设置。</span></span><br><span class="line"><span class="comment"># 不影响Intel GPU驱动程序的模式设置,仅在将nouveau用作切换后端时，此项才有意义。</span></span><br><span class="line"></span><br><span class="line">[nvidia]</span><br><span class="line"></span><br><span class="line">modeset=yes</span><br><span class="line"><span class="comment"># 是否启用模式设置。 PRIME同步所需（防止撕裂）。</span></span><br><span class="line"></span><br><span class="line">PAT=yes</span><br><span class="line"><span class="comment"># 是否在Nvidia驱动程序中启用NVreg_UsePageAttributeTable选项。</span></span><br><span class="line"><span class="comment"># 推荐，否则会导致CPU性能下降。</span></span><br><span class="line"></span><br><span class="line">DPI = 96</span><br><span class="line"><span class="comment"># DPI值。将传递给登录管理器的Xsetup脚本进行设置。</span></span><br><span class="line"><span class="comment"># 将运行命令 xrandr --dpi &lt;DPI&gt;</span></span><br><span class="line"><span class="comment"># 默认为空（上述命令将不运行）。</span></span><br><span class="line"></span><br><span class="line">ignore_abi=no</span><br><span class="line"><span class="comment"># 如果正在运行一个更新版本的xorg-server (假设启用PRIME 渲染卸载），由于ABI版本不匹配，可能无法加载nvidia驱动程序。将此项设置为 yes 将允许加载nvidia驱动程序。</span></span><br><span class="line"></span><br><span class="line">allow_external_gpus=no</span><br><span class="line"><span class="comment"># 如果要与外部Nvidia显卡一起使用optimus-manager，设置为yes（实验性）</span></span><br><span class="line"></span><br><span class="line">options=overclocking</span><br><span class="line"><span class="comment"># 以逗号分隔的Nvidia特定选项的列表。</span></span><br><span class="line"><span class="comment"># 可用选项：</span></span><br><span class="line"><span class="comment"># -overclocking：在Xorg配置中启用CoolBits，这将在Nvidia控制面板中解锁时钟选项。注意：不适用于混合模式。</span></span><br><span class="line"><span class="comment"># -triple_buffer：启用三重缓冲。</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><figcaption><span>/etc/optimus-manager/optimus-manager.conf</span></figcaption><table><tr><td class="code"><pre><span class="line">[optimus]</span><br><span class="line"></span><br><span class="line">switching=nouveau</span><br><span class="line"><span class="comment"># 定义了用于接通Nvidia卡电源的方法。</span></span><br><span class="line"><span class="comment"># 可选值：</span></span><br><span class="line"><span class="comment"># -nouveau：将nuveau模块加载到Nvidia卡上。</span></span><br><span class="line"><span class="comment"># -bbswitch：使用bbswitch模块关闭卡的电源（需要bbswitch依赖项）。</span></span><br><span class="line"><span class="comment"># -acpi_call：尝试各种ACPI方法调用以打开和关闭卡的电源（需要acpi_call依赖项）</span></span><br><span class="line"><span class="comment"># -custom：使用自定义脚本 /etc/optimus-manager/nvidia-enable.sh 和/etc/optimus-manager/nvidia-disable.sh 切换</span></span><br><span class="line"><span class="comment"># -none：请勿将外部模块用于电源管理。对于某些笔记本电脑型号，最好是将此选项与pci_power_control结合使用。</span></span><br><span class="line"><span class="comment"># 具体选择参考: https://github.com/Askannz/optimus-manager/wiki/A-guide--to-power-management-options</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pci_power_control=no</span><br><span class="line"><span class="comment"># 在Intel模式下启用PCI电源管理。</span></span><br><span class="line"><span class="comment"># 此选项与acpi_call和bbswitch不兼容，因此会被忽略。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pci_remove=no</span><br><span class="line"><span class="comment"># 从PCI总线上卸下Nvidia卡。可以防止通电导致的崩溃。</span></span><br><span class="line"><span class="comment"># 当switching 为 nouveau 和 bbswitch 将被忽略。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pci_reset=no</span><br><span class="line"><span class="comment"># 在重载nvidia模块之前，在PCI级别上重置Nvidia卡。</span></span><br><span class="line"><span class="comment"># 在重载nvidia模块之前，确保卡处于新状态。</span></span><br><span class="line"><span class="comment"># 可解决一些切换问题。</span></span><br><span class="line"><span class="comment"># 可选值：</span></span><br><span class="line"><span class="comment"># -no：不执行任何重置</span></span><br><span class="line"><span class="comment"># -function_level：执行轻度的“功能级别”重置</span></span><br><span class="line"><span class="comment"># -hot_reset：对PCI桥接器执行“热重置”。注意：此方法直接与硬件混淆，在使用前请阅读optimus-manager的在线文档，即使pci_remove=no，它也会执行PCI移除操作。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">auto_logout=yes</span><br><span class="line"><span class="comment"># 切换GPU时自动注销当前的桌面会话。</span></span><br><span class="line"><span class="comment"># 以下DE/WM 支持此功能：KDE Plasma，GNOME，XFCE，LXDE，Deepin，i3，Openbox，AwesomeWM，bspwm</span></span><br><span class="line"><span class="comment"># 如果禁用此选项，或者使用其他桌面环境，GPU切换仅在下一次图形界面登录时生效。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">startup_mode=intel</span><br><span class="line"><span class="comment"># 在启动时启用的GPU模式。可选值：nvidia，intel，hybrid，auto</span></span><br><span class="line"><span class="comment"># auto 是一种特殊模式，可以自动检测计算机是否依靠电池运行,并选择适当的GPU模式。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">startup_auto_battery_mode=intel</span><br><span class="line"><span class="comment"># 用于在 startup_mode=auto 且依靠电池运行时选择GPU模式。</span></span><br><span class="line"><span class="comment"># 可选值：nvidia，intel，hybrid</span></span><br><span class="line"></span><br><span class="line">startup_auto_extpower_mode=nvidia</span><br><span class="line"><span class="comment"># 用于在 startup_mode=auto 且使用外部电源运行时选择GPU模式。</span></span><br><span class="line"><span class="comment"># 可选值：nvidia，intel，hybrid</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[intel]</span><br><span class="line"></span><br><span class="line">driver=modesetting</span><br><span class="line"><span class="comment"># 用于Intel GPU的驱动程序。可选值：modesetting , intel</span></span><br><span class="line"><span class="comment"># 要使用intel驱动程序，需要安装软件包 xf86-video-intel 。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">accel=</span><br><span class="line"><span class="comment"># 加速方法（对应于Xorg配置中的AccelMethod）。仅适用于intel驱动程序。</span></span><br><span class="line"><span class="comment"># 可选值：sna，xna，uxa</span></span><br><span class="line"><span class="comment"># 默认为空（未指定任何选项）</span></span><br><span class="line"></span><br><span class="line">tearfree=</span><br><span class="line"><span class="comment"># 在Xorg配置中启用TearFree选项。仅适用于intel驱动程序。</span></span><br><span class="line"><span class="comment"># 可能的值：是，否</span></span><br><span class="line"><span class="comment"># 默认为空（未指定任何选项）</span></span><br><span class="line"></span><br><span class="line">DRI=3</span><br><span class="line"><span class="comment"># DRI版本。可选值：2，3</span></span><br><span class="line"></span><br><span class="line">modeset=yes</span><br><span class="line"><span class="comment"># 是否为nouveau驱动程序启用模式设置。</span></span><br><span class="line"><span class="comment"># 不影响Intel GPU驱动程序的模式设置,仅在将nouveau用作切换后端时，此项才有意义。</span></span><br><span class="line"></span><br><span class="line">[nvidia]</span><br><span class="line"></span><br><span class="line">modeset=yes</span><br><span class="line"><span class="comment"># 是否启用模式设置。 PRIME同步所需（防止撕裂）。</span></span><br><span class="line"></span><br><span class="line">PAT=yes</span><br><span class="line"><span class="comment"># 是否在Nvidia驱动程序中启用NVreg_UsePageAttributeTable选项。</span></span><br><span class="line"><span class="comment"># 推荐，否则会导致CPU性能下降。</span></span><br><span class="line"></span><br><span class="line">DPI = 96</span><br><span class="line"><span class="comment"># DPI值。将传递给登录管理器的Xsetup脚本进行设置。</span></span><br><span class="line"><span class="comment"># 将运行命令 xrandr --dpi &lt;DPI&gt;</span></span><br><span class="line"><span class="comment"># 默认为空（上述命令将不运行）。</span></span><br><span class="line"></span><br><span class="line">ignore_abi=no</span><br><span class="line"><span class="comment"># 如果正在运行一个更新版本的xorg-server (假设启用PRIME 渲染卸载），由于ABI版本不匹配，可能无法加载nvidia驱动程序。将此项设置为 yes 将允许加载nvidia驱动程序。</span></span><br><span class="line"></span><br><span class="line">allow_external_gpus=no</span><br><span class="line"><span class="comment"># 如果要与外部Nvidia显卡一起使用optimus-manager，设置为yes（实验性）</span></span><br><span class="line"></span><br><span class="line">options=overclocking</span><br><span class="line"><span class="comment"># 以逗号分隔的Nvidia特定选项的列表。</span></span><br><span class="line"><span class="comment"># 可用选项：</span></span><br><span class="line"><span class="comment"># -overclocking：在Xorg配置中启用CoolBits，这将在Nvidia控制面板中解锁超频选项。注意：不适用于混合模式。</span></span><br><span class="line"><span class="comment"># -triple_buffer：启用三重缓冲。</span></span><br></pre></td></tr></table></figure>
 <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p><strong>切换到nvidia</strong>: <code>optimus-manager --switch nvidia</code></p>
 <p><strong>切换到Intel</strong>: <code>optimus-manager --switch intel</code></p>
 <p><strong>设置开机使用intel</strong>: <code>optimus-manager --set-startup=intel</code></p>
@@ -2691,6 +2775,60 @@
       <tags>
         <tag>Arch</tag>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PN532</title>
+    <url>/posts/9be60413/</url>
+    <content><![CDATA[<h1 id="PN532接线"><a href="#PN532接线" class="headerlink" title="PN532接线"></a>PN532接线</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>PN532</th>
+<th>USB 转 TTL 模块</th>
+<th>USB 转 TTL 线</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GND</td>
+<td>GND</td>
+<td>黑色</td>
+</tr>
+<tr>
+<td>VCC</td>
+<td>5.0V</td>
+<td>红色</td>
+</tr>
+<tr>
+<td>TXD/SDA</td>
+<td>RXD</td>
+<td>白色</td>
+</tr>
+<tr>
+<td>RXD/SCL</td>
+<td>TXD</td>
+<td>绿色</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>通常密钥A读  密钥B写</p>
+<p>vim 十六进制功能:  <code>:%!xxd</code> , <strong> neovim不支持</strong></p>
+<a id="more"></a>
+<h1 id="学习参考"><a href="#学习参考" class="headerlink" title="学习参考"></a>学习参考</h1><p><a href="https://zhuanlan.zhihu.com/p/81384126">手把手教 如何模拟IC加密卡</a></p>
+<p><a href="https://blog.csdn.net/hceng_linux/article/details/98358691">NFC手机模拟加密门禁卡</a></p>
+<p><a href="https://blog.csdn.net/nfser_burn7/article/details/88565287">手机NFC模拟M1门禁卡、写CUID白卡的一些研究记录</a></p>
+<p><a href="https://github-9233.github.io/2020/02/22/hack-miband4-nfc/">hack-miband4-nfc 小米手环复制Mifare 门禁卡</a></p>
+<p><a href="https://www.nigesb.com/how-to-use-nfc-mfclassic.html">Linux下的RFID，简介nfc-mfclassic的使用</a></p>
+<p><a href="https://www.freebuf.com/articles/wireless/8792.html">RFID破解三两事</a></p>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>RFID</tag>
+        <tag>安全</tag>
       </tags>
   </entry>
   <entry>

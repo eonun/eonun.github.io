@@ -6,7 +6,7 @@
   <link href="https://eonun.com/atom.xml" rel="self"/>
   
   <link href="https://eonun.com/"/>
-  <updated>2021-01-15T15:24:00.524Z</updated>
+  <updated>2021-01-17T16:44:31.810Z</updated>
   <id>https://eonun.com/</id>
   
   <author>
@@ -17,11 +17,89 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Dotfile管理</title>
+    <link href="https://eonun.com/posts/fc38e44e/"/>
+    <id>https://eonun.com/posts/fc38e44e/</id>
+    <published>2021-01-16T04:35:46.000Z</published>
+    <updated>2021-01-17T16:44:31.810Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;在Linux上各个程序的配置文件大多是以 &lt;code&gt;.&lt;/code&gt; 开头或以 &lt;code&gt;rc&lt;/code&gt; 结尾的文件，并存放于用户的个人目录 &lt;code&gt;~/&lt;/code&gt; 中，通常叫dotfile 或 rc file ，如 &lt;code&gt;.zshrc&lt;/code&gt; ，&lt;code&gt;.vimrc&lt;/code&gt; 等。在初次使用一些软件时需要花大量时间对相应的 dotfile 进行配置，当需要在新系统上恢复多个软件配置或者在多台电脑上共享一台电脑对 dotfile 的修改时，逐一对各个 dotfile 进行管理非常不方便,&lt;code&gt;rcm&lt;/code&gt;(rc file management) 就是一个 dotfile 管理工具,用于方便管理 dotfile 。&lt;/p&gt;
+&lt;p&gt;rcm 主要是将所有希望用 rcm 管理的 dotfile 集中存储在一个目录中（默认 &lt;code&gt;~/.dotfiles&lt;/code&gt;），并在原配置文件位置创建被 rcm 管理的 dotfile 的软链接。&lt;/p&gt;
+&lt;p&gt;可在该集中存储目录中使用 git 进行版本控制，同时也可托管到 github 等 git 仓库中方便多台机器共享。若要使用别人分享的 rcm 目录下的 dotfile 时 rcm 可调用不同 dotfiles 目录下的文件进行使用。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/thoughtbot/rcm&quot;&gt;rcm github仓库&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://gitee.com/mirrors/rcm&quot;&gt;rcm gitee国内加速仓库&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PN532</title>
+    <link href="https://eonun.com/posts/9be60413/"/>
+    <id>https://eonun.com/posts/9be60413/</id>
+    <published>2021-01-16T04:23:02.000Z</published>
+    <updated>2021-01-16T04:32:59.467Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;PN532接线&quot;&gt;&lt;a href=&quot;#PN532接线&quot; class=&quot;headerlink&quot; title=&quot;PN532接线&quot;&gt;&lt;/a&gt;PN532接线&lt;/h1&gt;&lt;div class=&quot;table-container&quot;&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;PN532&lt;/th&gt;
+&lt;th&gt;USB 转 TTL 模块&lt;/th&gt;
+&lt;th&gt;USB 转 TTL 线&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;GND&lt;/td&gt;
+&lt;td&gt;GND&lt;/td&gt;
+&lt;td&gt;黑色&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;VCC&lt;/td&gt;
+&lt;td&gt;5.0V&lt;/td&gt;
+&lt;td&gt;红色&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TXD/SDA&lt;/td&gt;
+&lt;td&gt;RXD&lt;/td&gt;
+&lt;td&gt;白色&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;RXD/SCL&lt;/td&gt;
+&lt;td&gt;TXD&lt;/td&gt;
+&lt;td&gt;绿色&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;通常密钥A读  密钥B写&lt;/p&gt;
+&lt;p&gt;vim 十六进制功能:  &lt;code&gt;:%!xxd&lt;/code&gt; , &lt;strong&gt; neovim不支持&lt;/strong&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="RFID" scheme="https://eonun.com/tags/RFID/"/>
+    
+    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Nvidia独显驱动安装</title>
     <link href="https://eonun.com/posts/4aa02744/"/>
     <id>https://eonun.com/posts/4aa02744/</id>
     <published>2021-01-15T06:20:44.000Z</published>
-    <updated>2021-01-15T15:24:00.524Z</updated>
+    <updated>2021-01-15T15:35:05.534Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;驱动选择&quot;&gt;&lt;a href=&quot;#驱动选择&quot; class=&quot;headerlink&quot; title=&quot;驱动选择&quot;&gt;&lt;/a&gt;驱动选择&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;查看系统内核版本&lt;/strong&gt; ： &lt;code&gt;uname -r&lt;/code&gt;&lt;/p&gt;
@@ -423,102 +501,6 @@
     
     
     <category term="排行榜" scheme="https://eonun.com/tags/%E6%8E%92%E8%A1%8C%E6%A6%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker容器中使用systemctl报错</title>
-    <link href="https://eonun.com/posts/dcd841b9/"/>
-    <id>https://eonun.com/posts/dcd841b9/</id>
-    <published>2020-02-28T07:50:14.000Z</published>
-    <updated>2020-12-18T16:08:39.623Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;当在Dokcer容器中使用systemctl时报以下错误&quot;&gt;&lt;a href=&quot;#当在Dokcer容器中使用systemctl时报以下错误&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Docker" scheme="https://eonun.com/categories/Docker/"/>
-    
-    
-    <category term="Docker" scheme="https://eonun.com/tags/Docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DockerHub加速</title>
-    <link href="https://eonun.com/posts/e4bc92fe/"/>
-    <id>https://eonun.com/posts/e4bc92fe/</id>
-    <published>2020-02-27T14:46:45.000Z</published>
-    <updated>2020-12-18T16:08:39.623Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;DockerHub国内加速地址&quot;&gt;&lt;a href=&quot;#DockerHub国内加速地址&quot; class=&quot;headerlink&quot; title=&quot;DockerHub国内加速地址&quot;&gt;&lt;/a&gt;DockerHub国内加速地址&lt;/h1&gt;&lt;div class=&quot;table-container&quot;&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;加速地址&lt;/th&gt;
-&lt;th&gt;是否专属&lt;/th&gt;
-&lt;th&gt;备注&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;https://registry.docker-cn.com&quot;&gt;Docker中国官方&lt;/a&gt;: &lt;code&gt;https://registry.docker-cn.com&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;否&lt;/td&gt;
-&lt;td&gt;Docker Hub&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;https://daocloud.io/mirror&quot;&gt;DaoCloud&lt;/a&gt;: &lt;code&gt;http://f1361db2.m.daocloud.io&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;是,可登录，系统分配&lt;/td&gt;
-&lt;td&gt;Docker Hub&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;https://dockerhub.azk8s.cn&quot;&gt;Azure&lt;/a&gt;: &lt;code&gt;https://dockerhub.azk8s.cn&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;否&lt;/td&gt;
-&lt;td&gt;Docker Hub、GCR、Quay&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;https://docker.mirrors.ustc.edu.cn&quot;&gt;中国科技大学&lt;/a&gt; : &lt;code&gt;https://docker.mirrors.ustc.edu.cn&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;否&lt;/td&gt;
-&lt;td&gt;Docker Hub、GCR、Quay&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;https://cr.console.aliyun.com/&quot;&gt;阿里&lt;/a&gt;: &lt;code&gt;https://&amp;lt;your_code&amp;gt;.mirror.aliyuncs.com&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;是，登录获取专属地址&lt;/td&gt;
-&lt;td&gt;Docker Hub&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;https://reg-mirror.qiniu.com&quot;&gt;七牛&lt;/a&gt;: &lt;code&gt;https://reg-mirror.qiniu.com&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;否&lt;/td&gt;
-&lt;td&gt;Docker Hub、GCR、Quay&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;https://hub-mirror.c.163.com&quot;&gt;网易&lt;/a&gt;: &lt;code&gt;https://hub-mirror.c.163.com&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;否&lt;/td&gt;
-&lt;td&gt;Docker Hub&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;https://mirror.ccs.tencentyun.com&quot;&gt;腾讯&lt;/a&gt;: &lt;code&gt;https://mirror.ccs.tencentyun.com&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;否&lt;/td&gt;
-&lt;td&gt;Docker Hub&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;</summary>
-    
-    
-    
-    <category term="docker" scheme="https://eonun.com/categories/docker/"/>
-    
-    
-    <category term="docker" scheme="https://eonun.com/tags/docker/"/>
     
   </entry>
   
