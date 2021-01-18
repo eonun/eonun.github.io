@@ -6,7 +6,7 @@
   <link href="https://eonun.com/atom.xml" rel="self"/>
   
   <link href="https://eonun.com/"/>
-  <updated>2021-01-17T16:44:31.810Z</updated>
+  <updated>2021-01-17T16:44:41.323Z</updated>
   <id>https://eonun.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://eonun.com/posts/fc38e44e/"/>
     <id>https://eonun.com/posts/fc38e44e/</id>
     <published>2021-01-16T04:35:46.000Z</published>
-    <updated>2021-01-17T16:44:31.810Z</updated>
+    <updated>2021-01-17T16:44:41.323Z</updated>
     
     
     <summary type="html">&lt;p&gt;在Linux上各个程序的配置文件大多是以 &lt;code&gt;.&lt;/code&gt; 开头或以 &lt;code&gt;rc&lt;/code&gt; 结尾的文件，并存放于用户的个人目录 &lt;code&gt;~/&lt;/code&gt; 中，通常叫dotfile 或 rc file ，如 &lt;code&gt;.zshrc&lt;/code&gt; ，&lt;code&gt;.vimrc&lt;/code&gt; 等。在初次使用一些软件时需要花大量时间对相应的 dotfile 进行配置，当需要在新系统上恢复多个软件配置或者在多台电脑上共享一台电脑对 dotfile 的修改时，逐一对各个 dotfile 进行管理非常不方便,&lt;code&gt;rcm&lt;/code&gt;(rc file management) 就是一个 dotfile 管理工具,用于方便管理 dotfile 。&lt;/p&gt;
@@ -44,7 +44,7 @@
     <link href="https://eonun.com/posts/9be60413/"/>
     <id>https://eonun.com/posts/9be60413/</id>
     <published>2021-01-16T04:23:02.000Z</published>
-    <updated>2021-01-16T04:32:59.467Z</updated>
+    <updated>2021-01-17T16:44:41.326Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;PN532接线&quot;&gt;&lt;a href=&quot;#PN532接线&quot; class=&quot;headerlink&quot; title=&quot;PN532接线&quot;&gt;&lt;/a&gt;PN532接线&lt;/h1&gt;&lt;div class=&quot;table-container&quot;&gt;
@@ -168,16 +168,25 @@
     <link href="https://eonun.com/posts/711f903b/"/>
     <id>https://eonun.com/posts/711f903b/</id>
     <published>2020-12-28T13:21:29.000Z</published>
-    <updated>2020-12-30T12:16:53.678Z</updated>
+    <updated>2021-01-18T05:40:51.381Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;字体&quot;&gt;&lt;a href=&quot;#字体&quot; class=&quot;headerlink&quot; title=&quot;字体&quot;&gt;&lt;/a&gt;字体&lt;/h1&gt;&lt;h2 id=&quot;安装字体&quot;&gt;&lt;a href=&quot;#安装字体&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h1 id=&quot;字体&quot;&gt;&lt;a href=&quot;#字体&quot; class=&quot;headerlink&quot; title=&quot;字体&quot;&gt;&lt;/a&gt;字体&lt;/h1&gt;&lt;h2 id=&quot;安装字体&quot;&gt;&lt;a href=&quot;#安装字体&quot; class=&quot;headerlink&quot; title=&quot;安装字体&quot;&gt;&lt;/a&gt;安装字体&lt;/h2&gt;&lt;p&gt;查看已安装中文字体: &lt;code&gt;fc-list :lang=zh&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;ttf-roboto ttf-hack ttf-dejavu&lt;br&gt;noto-fonts  noto-fonts-cjk  noto-fonts-emoji&lt;br&gt;wqy-microhei wqy-zenhei wqy-bitmapfont ttf-symbola otf-font-awesome pango&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ttf-roboto : roboto 无衬线字体(英文)&lt;/li&gt;
+&lt;li&gt;ttf-dejavu : DejaVu 字体(英文)&lt;/li&gt;
+&lt;li&gt;ttf-hack : hack等宽(英文)&lt;/li&gt;
+&lt;li&gt;noto-fonts : Noto字体&lt;/li&gt;
+&lt;li&gt;noto-fonts-cjk : Noto中日韩字体&lt;/li&gt;
+&lt;li&gt;noto-fonts-emoji : Noto符号字体&lt;/li&gt;
+&lt;li&gt;wqy-microhei : 文泉驿微米黑，无衬线形式字体(中日韩)&lt;/li&gt;
+&lt;li&gt;wqy-zenhei : 文泉驿正黑体，黑体 (无衬线) 的中文轮廓字体，附带文泉驿点阵宋体 (也支持部分日韩字符)&lt;/li&gt;
+&lt;li&gt;wqy-bitmapfont : 文泉驿点阵宋体 (衬线) 中文字体&lt;/li&gt;
+&lt;li&gt;ttf-symbola : 提供许多 Unicode 符号，包括 Emoji&lt;/li&gt;
+&lt;li&gt;otf-font-awesome : 字体图标库&lt;/li&gt;
+&lt;li&gt;pango : 一个开放源的自由文本布局库&lt;/li&gt;
+&lt;/ul&gt;</summary>
     
     
     
@@ -257,7 +266,7 @@
     <link href="https://eonun.com/posts/d6d67009/"/>
     <id>https://eonun.com/posts/d6d67009/</id>
     <published>2020-12-12T05:45:20.000Z</published>
-    <updated>2020-12-18T16:08:39.669Z</updated>
+    <updated>2021-01-18T05:50:08.070Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;Hexo-next-主题配置美化&quot;&gt;&lt;a href=&quot;#Hexo-next-主题配置美化&quot; class=&quot;headerlink&quot; title=&quot;Hexo next 主题配置美化&quot;&gt;&lt;/a&gt;Hexo next 主题配置美化&lt;/h1&gt;&lt;p&gt; &lt;strong&gt;在博客根目录下操作&lt;/strong&gt;&lt;/p&gt;
