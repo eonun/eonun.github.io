@@ -664,33 +664,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Arch安装AUR软件时github下载软件包慢或不可获得的问题</title>
-    <url>/posts/518cc2d8/</url>
-    <content><![CDATA[<p>github的release，噩梦一般。当AUR里面调用缺省的curl去对付那些包的时候，90%的情况是无法成功的。即便成功也是苦等几十分钟。至少我的网络环境是这样。</p>
-<p><code>/etc/makepkg.conf</code> ： </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#-- The download utilities that makepkg should use to acquire sources</span><br><span class="line">#  Format: &#39;protocol::agent&#39;</span><br><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;curl -gqfC - --ftp-pasv --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;https::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>吧curl换成了axel</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;https::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br></pre></td></tr></table></figure>
-<p>但github不管多少线程都跑不动，改用镜像站下载</p>
-<p>github镜像站：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com.cnpmjs.org</span><br><span class="line">https:&#x2F;&#x2F;hub.fastgit.org</span><br></pre></td></tr></table></figure></p>
-<p>先<code>ping</code> 一下比较相应时间，选择优质的</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ping github.com</span><br><span class="line">ping github.com.cnpmjs.org</span><br><span class="line">ping fastgit.org</span><br></pre></td></tr></table></figure>
-<p>参考: <a href="https://www.cnblogs.com/seniortestingdev/p/13393785.html">让你的GitHub下载飞速提升到2M/s以上</a></p>
-<p>通过脚本换链接：</p>
-<p><code>axel_for_makepkg.sh</code> :</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="comment"># 该脚本用于处理yay安装软件时，由github下载缓慢甚至无法下载的问题</span></span><br><span class="line"><span class="comment"># 检测域名是不是github，如果是，则替换为镜像网站</span></span><br><span class="line"><span class="comment"># 采用axel代替curl进行10线程下载</span></span><br><span class="line"><span class="comment"># 实验用链接：</span></span><br><span class="line"><span class="comment"># https://download.fastgit.org/beekeeper-studio/beekeeper-studio/releases/download/v1.6.11/beekeeper-studio_1.6.11_amd64.deb</span></span><br><span class="line"><span class="comment"># https://github.com/beekeeper-studio/beekeeper-studio/releases/download/v1.6.11/beekeeper-studio_1.6.11_amd64.deb</span></span><br><span class="line"></span><br><span class="line">domin=`<span class="built_in">echo</span> <span class="variable">$2</span> | cut -f3 -d<span class="string">&#x27;/&#x27;</span>`;</span><br><span class="line">others=`<span class="built_in">echo</span> <span class="variable">$2</span> | cut -f4- -d<span class="string">&#x27;/&#x27;</span>`;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;<span class="variable">$domin</span>&quot;</span> <span class="keyword">in</span> </span><br><span class="line">    <span class="string">&quot;github.com&quot;</span>)</span><br><span class="line">    url=<span class="string">&quot;https://download.fastgit.org/&quot;</span><span class="variable">$others</span>;</span><br><span class="line">    ;;</span><br><span class="line">    *)</span><br><span class="line">    url=<span class="variable">$2</span>;</span><br><span class="line">    ;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;download from <span class="variable">$url</span>&quot;</span>;</span><br><span class="line">/usr/bin/axel -n 10 -a -o <span class="variable">$1</span> <span class="variable">$url</span>;</span><br></pre></td></tr></table></figure>
-<p>修改<code>/etc/makepkg.conf</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;https::~&#x2F;meshell&#x2F;fake_download_tools&#x2F;fake_axel_for_makepkg %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br></pre></td></tr></table></figure>
-<p>镜像不允许多线程下载哈哈，然而没关系，axel自动fallback成单线程</p>
-<p>参考: <a href="https://zhuanlan.zhihu.com/p/176987140">机智的解决arch/manjaro安装AUR软件时github下载软件包慢或不可获得的问题</a></p>
-]]></content>
-      <tags>
-        <tag>Arch</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Arch安装之后</title>
     <url>/posts/e2611cb/</url>
     <content><![CDATA[<h1 id="创建普通用户"><a href="#创建普通用户" class="headerlink" title="创建普通用户"></a>创建普通用户</h1><p>创建一个普通用户并创建其家目录和加入<code>whell</code>用户组:</p>
@@ -817,6 +790,33 @@
       <categories>
         <category>Linux</category>
       </categories>
+      <tags>
+        <tag>Arch</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Arch安装AUR软件时github下载软件包慢或不可获得的问题</title>
+    <url>/posts/518cc2d8/</url>
+    <content><![CDATA[<p>github的release，噩梦一般。当AUR里面调用缺省的curl去对付那些包的时候，90%的情况是无法成功的。即便成功也是苦等几十分钟。至少我的网络环境是这样。</p>
+<p><code>/etc/makepkg.conf</code> ： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#-- The download utilities that makepkg should use to acquire sources</span><br><span class="line">#  Format: &#39;protocol::agent&#39;</span><br><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;curl -gqfC - --ftp-pasv --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;https::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>吧curl换成了axel</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;https::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br></pre></td></tr></table></figure>
+<p>但github不管多少线程都跑不动，改用镜像站下载</p>
+<p>github镜像站：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com.cnpmjs.org</span><br><span class="line">https:&#x2F;&#x2F;hub.fastgit.org</span><br></pre></td></tr></table></figure></p>
+<p>先<code>ping</code> 一下比较相应时间，选择优质的</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ping github.com</span><br><span class="line">ping github.com.cnpmjs.org</span><br><span class="line">ping fastgit.org</span><br></pre></td></tr></table></figure>
+<p>参考: <a href="https://www.cnblogs.com/seniortestingdev/p/13393785.html">让你的GitHub下载飞速提升到2M/s以上</a></p>
+<p>通过脚本换链接：</p>
+<p><code>axel_for_makepkg.sh</code> :</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="comment"># 该脚本用于处理yay安装软件时，由github下载缓慢甚至无法下载的问题</span></span><br><span class="line"><span class="comment"># 检测域名是不是github，如果是，则替换为镜像网站</span></span><br><span class="line"><span class="comment"># 采用axel代替curl进行10线程下载</span></span><br><span class="line"><span class="comment"># 实验用链接：</span></span><br><span class="line"><span class="comment"># https://download.fastgit.org/beekeeper-studio/beekeeper-studio/releases/download/v1.6.11/beekeeper-studio_1.6.11_amd64.deb</span></span><br><span class="line"><span class="comment"># https://github.com/beekeeper-studio/beekeeper-studio/releases/download/v1.6.11/beekeeper-studio_1.6.11_amd64.deb</span></span><br><span class="line"></span><br><span class="line">domin=`<span class="built_in">echo</span> <span class="variable">$2</span> | cut -f3 -d<span class="string">&#x27;/&#x27;</span>`;</span><br><span class="line">others=`<span class="built_in">echo</span> <span class="variable">$2</span> | cut -f4- -d<span class="string">&#x27;/&#x27;</span>`;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;<span class="variable">$domin</span>&quot;</span> <span class="keyword">in</span> </span><br><span class="line">    <span class="string">&quot;github.com&quot;</span>)</span><br><span class="line">    url=<span class="string">&quot;https://download.fastgit.org/&quot;</span><span class="variable">$others</span>;</span><br><span class="line">    ;;</span><br><span class="line">    *)</span><br><span class="line">    url=<span class="variable">$2</span>;</span><br><span class="line">    ;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;download from <span class="variable">$url</span>&quot;</span>;</span><br><span class="line">/usr/bin/axel -n 10 -a -o <span class="variable">$1</span> <span class="variable">$url</span>;</span><br></pre></td></tr></table></figure>
+<p>修改<code>/etc/makepkg.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;https::~&#x2F;meshell&#x2F;fake_download_tools&#x2F;fake_axel_for_makepkg %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br></pre></td></tr></table></figure>
+<p>镜像不允许多线程下载哈哈，然而没关系，axel自动fallback成单线程</p>
+<p>参考: <a href="https://zhuanlan.zhihu.com/p/176987140">机智的解决arch/manjaro安装AUR软件时github下载软件包慢或不可获得的问题</a></p>
+]]></content>
       <tags>
         <tag>Arch</tag>
         <tag>Linux</tag>
@@ -10730,33 +10730,33 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
     <title>计算机等级考试三级信息安全技术章节习题1</title>
     <url>/posts/36c9221f/</url>
     <content><![CDATA[<p><strong>一、信息安全保障概述</strong></p>
-<h1 id="1-什么是信息？试比较分析书中有关信息的各种定义"><a href="#1-什么是信息？试比较分析书中有关信息的各种定义" class="headerlink" title="1 什么是信息？试比较分析书中有关信息的各种定义"></a>1 什么是信息？试比较分析书中有关信息的各种定义</h1><ul>
+<h1 id="什么是信息？试比较分析书中有关信息的各种定义"><a href="#什么是信息？试比较分析书中有关信息的各种定义" class="headerlink" title="什么是信息？试比较分析书中有关信息的各种定义"></a>什么是信息？试比较分析书中有关信息的各种定义</h1><ul>
 <li>钟义信定义信息为事物运动的状态和状态变化的方式（具有最大的普遍性）</li>
 <li>香农认为信息是用来减少不确定性的东西</li>
 <li>维纳认为信息是在人们适应外部世界且这种适应反作用于外部世界的过程中，同外部世界进行相互交换的内容的名称</li>
 </ul>
 <p>消息是信息的外壳，信息是消息的内核；消息是信息的笼统概念，信息是消息的精确概念<br>信号是信息的载体<br>数据是记录信息的一种形式<br>情报是指秘密的、专门的一类信息<br>知识是从信息中抽象出的产物</p>
 <a id="more"></a>
-<h1 id="2-简单描述信息技术发展的各个阶段"><a href="#2-简单描述信息技术发展的各个阶段" class="headerlink" title="2 简单描述信息技术发展的各个阶段"></a>2 简单描述信息技术发展的各个阶段</h1><ul>
+<h1 id="简单描述信息技术发展的各个阶段"><a href="#简单描述信息技术发展的各个阶段" class="headerlink" title="简单描述信息技术发展的各个阶段"></a>简单描述信息技术发展的各个阶段</h1><ul>
 <li>电讯技术的发明</li>
 <li>计算机技术的发展</li>
 <li>互联网技术的发展</li>
 </ul>
-<h1 id="3-信息技术对社会和个人有哪些影响？"><a href="#3-信息技术对社会和个人有哪些影响？" class="headerlink" title="3 信息技术对社会和个人有哪些影响？"></a>3 信息技术对社会和个人有哪些影响？</h1><p>信息技术已成为科学技术前沿</p>
+<h1 id="信息技术对社会和个人有哪些影响？"><a href="#信息技术对社会和个人有哪些影响？" class="headerlink" title="信息技术对社会和个人有哪些影响？"></a>信息技术对社会和个人有哪些影响？</h1><p>信息技术已成为科学技术前沿</p>
 <ul>
 <li>加速了社会生产力的发展和人们生活质量的提高</li>
 <li>促进了新技术的革新</li>
 <li>促进了新兴学科和交叉学科的产生和发展</li>
 <li>促进了人们的工作效率和生活质量的提高，以及工作方式和学习方式的改变，使得人们学习方式更灵活，内容更丰富</li>
 </ul>
-<h1 id="4-试说明信息安全发展的各个阶段"><a href="#4-试说明信息安全发展的各个阶段" class="headerlink" title="4 试说明信息安全发展的各个阶段"></a>4 试说明信息安全发展的各个阶段</h1><ul>
+<h1 id="试说明信息安全发展的各个阶段"><a href="#试说明信息安全发展的各个阶段" class="headerlink" title="试说明信息安全发展的各个阶段"></a>试说明信息安全发展的各个阶段</h1><ul>
 <li>通信保密阶段（20世纪40年代）：人们关注信息在通信过程中的安全性问题，即机密性，密码学死确保机密性的核心技术</li>
 <li>计算机安全阶段（20世纪60-70年代）：计算机安全概念逐步得到推行，多用户操作系统出现，人们对信息安全的关注扩到机密性、访问控制与认证</li>
 <li>信息安全保障阶段（20世纪90年代以后）</li>
 </ul>
-<h1 id="5-信息安全保障的含义是什么？"><a href="#5-信息安全保障的含义是什么？" class="headerlink" title="5 信息安全保障的含义是什么？"></a>5 信息安全保障的含义是什么？</h1><p>信息安全保障强调保护、检测、反应和恢复4种能力，围绕人员、技术和管理这3个层次，以支持机构的任务好职能为目标， 注重体系建设，强化组织与协调功能。</p>
+<h1 id="信息安全保障的含义是什么？"><a href="#信息安全保障的含义是什么？" class="headerlink" title="信息安全保障的含义是什么？"></a>信息安全保障的含义是什么？</h1><p>信息安全保障强调保护、检测、反应和恢复4种能力，围绕人员、技术和管理这3个层次，以支持机构的任务好职能为目标， 注重体系建设，强化组织与协调功能。</p>
 <p>预警（Warning） → 保护 → 监测 → 应急 → 恢复 → 反击（Counter-Attack） WPDRRC模型，使信息安全保障技术体系立于更加坚实的基础上</p>
-<h1 id="6-信息安全的基本属性有哪些？"><a href="#6-信息安全的基本属性有哪些？" class="headerlink" title="6 信息安全的基本属性有哪些？"></a>6 信息安全的基本属性有哪些？</h1><ul>
+<h1 id="信息安全的基本属性有哪些？"><a href="#信息安全的基本属性有哪些？" class="headerlink" title="信息安全的基本属性有哪些？"></a>信息安全的基本属性有哪些？</h1><ul>
 <li>完整性</li>
 <li>机密性</li>
 <li>可用性</li>
@@ -10764,7 +10764,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <li>可用性</li>
 <li>不可否认性</li>
 </ul>
-<h1 id="7-信息安全问题产生的根源是什么？"><a href="#7-信息安全问题产生的根源是什么？" class="headerlink" title="7 信息安全问题产生的根源是什么？"></a>7 信息安全问题产生的根源是什么？</h1><ul>
+<h1 id="信息安全问题产生的根源是什么？"><a href="#信息安全问题产生的根源是什么？" class="headerlink" title="信息安全问题产生的根源是什么？"></a>信息安全问题产生的根源是什么？</h1><ul>
 <li>信息安全内因：信息系统的复杂性<ul>
 <li>组成网络的通信和信息系统的自身缺陷，随着系统功能越来越强大，系统的复杂性不断增加，漏洞也就越多</li>
 <li>互联网的开放性，网络协议体系和实现是开放的，互联网缺少足够安全的设计，因此其中的漏洞会被熟悉协议的人利用</li>
@@ -10776,7 +10776,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 </ul>
 </li>
 </ul>
-<h1 id="8-简述信息安全的地位和作用"><a href="#8-简述信息安全的地位和作用" class="headerlink" title="8 简述信息安全的地位和作用"></a>8 简述信息安全的地位和作用</h1><p>信息安全具有头等重要的地位，是一切安全的重中之重</p>
+<h1 id="简述信息安全的地位和作用"><a href="#简述信息安全的地位和作用" class="headerlink" title="简述信息安全的地位和作用"></a>简述信息安全的地位和作用</h1><p>信息安全具有头等重要的地位，是一切安全的重中之重</p>
 <ul>
 <li>是网络时代国家生存和名族振兴的根本保障</li>
 </ul>
@@ -10786,7 +10786,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <li>是网络时代人类生存和文明发展的基本条件</li>
 </ul>
 <p>信息安全已经不仅仅是某个国家、某个政府的事情，它日益成为人类整体的安全，成为人类文明的安全</p>
-<h1 id="9-试着阐述信息安全保障框架体系"><a href="#9-试着阐述信息安全保障框架体系" class="headerlink" title="9 试着阐述信息安全保障框架体系"></a>9 试着阐述信息安全保障框架体系</h1><p>指信息系统的整个生命周期中，通过分析信息系统的风险，制定并执行相应的安全保障策略，从技术、管理、工程和人员等方面提出安全保障要求，确保信息系统的机密性、完整性和可用性，降低安全风险到可接受的程度，保障信息系统能够实现组织机构的使命。</p>
+<h1 id="试着阐述信息安全保障框架体系"><a href="#试着阐述信息安全保障框架体系" class="headerlink" title="试着阐述信息安全保障框架体系"></a>试着阐述信息安全保障框架体系</h1><p>指信息系统的整个生命周期中，通过分析信息系统的风险，制定并执行相应的安全保障策略，从技术、管理、工程和人员等方面提出安全保障要求，确保信息系统的机密性、完整性和可用性，降低安全风险到可接受的程度，保障信息系统能够实现组织机构的使命。</p>
 <p>信息安全保障体系涵盖3个方面：</p>
 <ul>
 <li>生命周期<ul>
@@ -10811,7 +10811,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 </ul>
 </li>
 </ul>
-<h1 id="10-简述-P2DR-模型并用公式表示之"><a href="#10-简述-P2DR-模型并用公式表示之" class="headerlink" title="10 简述 P2DR 模型并用公式表示之"></a>10 简述 P2DR 模型并用公式表示之</h1><p>动态网络安全体系的代表模型，也是动态安全模型的雏形，包括4个主要部分：策略（Policy）、防护（Protection）、检测（Detection）和响应（Response）</p>
+<h1 id="简述-P2DR-模型并用公式表示之"><a href="#简述-P2DR-模型并用公式表示之" class="headerlink" title="简述 P2DR 模型并用公式表示之"></a>简述 P2DR 模型并用公式表示之</h1><p>动态网络安全体系的代表模型，也是动态安全模型的雏形，包括4个主要部分：策略（Policy）、防护（Protection）、检测（Detection）和响应（Response）</p>
 <p>策略是模型的核心</p>
 <p>$P_t&gt;D_t+R_t$</p>
 <p>$P_t$ : 为了保护安全目标设置各种保护后时间，防护时间</p>
@@ -10820,7 +10820,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <p>防护时间大于检测时间加上响应时间，则入侵者危害安全目标之前就能检测到并及处理</p>
 <p>$E_t=D_t+R_t(P_t=0)$</p>
 <p>$P_t$ : 防护时间，$D_t$ : 检测时间，$R_t$ : 响应时间，$E_t$ : 暴露时间，越小系统越安全</p>
-<h1 id="11-IATF-的核心思想是什么？描述纵深防御战略的主要内容"><a href="#11-IATF-的核心思想是什么？描述纵深防御战略的主要内容" class="headerlink" title="11 IATF 的核心思想是什么？描述纵深防御战略的主要内容"></a>11 IATF 的核心思想是什么？描述纵深防御战略的主要内容</h1><p>IATF （Information Assurance Technical Framework，信息保障技术框架），核心思想是纵深防御战略，采用多层次、纵深的安全措施来保障用户信息及信息系统的 安全，人员、技术和操作是核心因素，要保障信息及信息系统的安全，三者缺一不可</p>
+<h1 id="IATF-的核心思想是什么？描述纵深防御战略的主要内容"><a href="#IATF-的核心思想是什么？描述纵深防御战略的主要内容" class="headerlink" title="IATF 的核心思想是什么？描述纵深防御战略的主要内容"></a>IATF 的核心思想是什么？描述纵深防御战略的主要内容</h1><p>IATF （Information Assurance Technical Framework，信息保障技术框架），核心思想是纵深防御战略，采用多层次、纵深的安全措施来保障用户信息及信息系统的 安全，人员、技术和操作是核心因素，要保障信息及信息系统的安全，三者缺一不可</p>
 <p>IATF 的3个主要核心要素： <strong>人员、技术、操作</strong></p>
 <p>使能够攻破一层或一类保护的攻击行为无法破坏整个信息基础设施，通过各个层次、各个技术框架领域中实施保障机制，才能最大限度地降低风险，防止攻击，保护信息系统的安全，技术是安全的基础，管理是安全的灵魂</p>
 <div class="table-container">
@@ -10841,14 +10841,14 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 </tbody>
 </table>
 </div>
-<h1 id="12-IATF-的-4-个技术框架和焦点域分别是什么？"><a href="#12-IATF-的-4-个技术框架和焦点域分别是什么？" class="headerlink" title="12 IATF 的 4 个技术框架和焦点域分别是什么？"></a>12 IATF 的 4 个技术框架和焦点域分别是什么？</h1><ul>
+<h1 id="IATF-的-4-个技术框架和焦点域分别是什么？"><a href="#IATF-的-4-个技术框架和焦点域分别是什么？" class="headerlink" title="IATF 的 4 个技术框架和焦点域分别是什么？"></a>IATF 的 4 个技术框架和焦点域分别是什么？</h1><ul>
 <li>保护本地计算环境</li>
 <li>保护区域边界</li>
 <li>保护网络及基础设施</li>
 <li>保护支撑性基础设施</li>
 </ul>
-<h1 id="13-信息安全保障工作基本内容有哪些？"><a href="#13-信息安全保障工作基本内容有哪些？" class="headerlink" title="13 信息安全保障工作基本内容有哪些？"></a>13 信息安全保障工作基本内容有哪些？</h1><p>保证国民经济基础设施的信息安全，抵御有关国家、地区、集团可能对我实施的信息战的威胁，打击国内外的高技术犯罪，保障国家安全、社会稳定和经济发展。信息安全战略防御的重点任务是：保障国民经济中的国家经济基础设施，包括金融、银行、税收、能源生产储备、粮油生产储备、水电气供应、交通运输、邮电通信、广播电视、商业贸易等的安全</p>
-<h1 id="14-简述信息安全测评的流程"><a href="#14-简述信息安全测评的流程" class="headerlink" title="14 简述信息安全测评的流程"></a>14 简述信息安全测评的流程</h1><p>信息安全风险评估通常采用的方式：配置检查、工具测试、专家访谈、资料审阅、专家评议</p>
+<h1 id="信息安全保障工作基本内容有哪些？"><a href="#信息安全保障工作基本内容有哪些？" class="headerlink" title="信息安全保障工作基本内容有哪些？"></a>信息安全保障工作基本内容有哪些？</h1><p>保证国民经济基础设施的信息安全，抵御有关国家、地区、集团可能对我实施的信息战的威胁，打击国内外的高技术犯罪，保障国家安全、社会稳定和经济发展。信息安全战略防御的重点任务是：保障国民经济中的国家经济基础设施，包括金融、银行、税收、能源生产储备、粮油生产储备、水电气供应、交通运输、邮电通信、广播电视、商业贸易等的安全</p>
+<h1 id="简述信息安全测评的流程"><a href="#简述信息安全测评的流程" class="headerlink" title="简述信息安全测评的流程"></a>简述信息安全测评的流程</h1><p>信息安全风险评估通常采用的方式：配置检查、工具测试、专家访谈、资料审阅、专家评议</p>
 <p>信息安全风险评估流程：</p>
 <ul>
 <li>受理申请<ul>
@@ -10874,7 +10874,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">op1&#x3D;&gt;operation: 委托单位提出申请，测评机构按商务流程受理</span><br><span class="line">op2&#x3D;&gt;operation: 委托单位按《测评文档准备指南》提交质料</span><br><span class="line">op3&#x3D;&gt;operation: 测评机构组织项目组审核提交的文档</span><br><span class="line">op4&#x3D;&gt;operation: 指导委托单位修改完善相关材料</span><br><span class="line">op5&#x3D;&gt;operation: 测评机构制定评估方案及计划、准备评估工具，协调有关工作</span><br><span class="line">op6&#x3D;&gt;operation: 按照评估计划实施现场评估</span><br><span class="line">op7&#x3D;&gt;operation: 根据现场评测结果对风险分析，制定风险列表</span><br><span class="line">op8&#x3D;&gt;operation: 与委托单位共同确定可接受风险范围，提出风险处置建议</span><br><span class="line">cond&#x3D;&gt;condition: 通过审核</span><br><span class="line"></span><br><span class="line">op1-&gt;op2-&gt;op3-&gt;cond(yes)-&gt;op5-&gt;op6-&gt;op7-&gt;op8</span><br><span class="line">cond(no)-&gt;op4-&gt;op3</span><br></pre></td></tr></table></figure>
-<h1 id="15-简述信息监控的流程"><a href="#15-简述信息监控的流程" class="headerlink" title="15 简述信息监控的流程"></a>15 简述信息监控的流程</h1><p>信息安全监控流程：</p>
+<h1 id="简述信息监控的流程"><a href="#简述信息监控的流程" class="headerlink" title="简述信息监控的流程"></a>简述信息监控的流程</h1><p>信息安全监控流程：</p>
 <ul>
 <li>受理申请<ul>
 <li>委托单位提出申请，测评机构按商务流程受理</li>
@@ -10905,7 +10905,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">op1&#x3D;&gt;operation: 委托单位提出申请，测评机构按商务流程受理</span><br><span class="line">op2&#x3D;&gt;operation: 委托单位按《测评文档准备指南》提交质料</span><br><span class="line">op3&#x3D;&gt;operation: 测评机构组织项目组审核提交的文档</span><br><span class="line">op4&#x3D;&gt;operation: 指导委托单位修改完善相关材料</span><br><span class="line">op5&#x3D;&gt;operation: 测评机构制定监控工作方案，准备监控工具和模板</span><br><span class="line">op6&#x3D;&gt;operation: 搭建监控工作环境，了解监控对象的管理方式</span><br><span class="line">op7&#x3D;&gt;operation: 采集监控数据</span><br><span class="line">op8&#x3D;&gt;operation: 分析监控数据</span><br><span class="line">op9&#x3D;&gt;operation: 安全事件预警</span><br><span class="line">op10&#x3D;&gt;operation: 安全姿态分析</span><br><span class="line">cond1&#x3D;&gt;condition: 通过审核</span><br><span class="line">cond2&#x3D;&gt;condition: 是否有安全事件</span><br><span class="line"></span><br><span class="line">op1-&gt;op2-&gt;op3-&gt;cond1(yes)-&gt;op5-&gt;op6-&gt;op7-&gt;op8-&gt;cond2(yes)-&gt;op9-&gt;op10</span><br><span class="line">cond1(no)-&gt;op4-&gt;op3</span><br><span class="line">cond2(no)-&gt;op7</span><br></pre></td></tr></table></figure>
-<h1 id="16-我国信息安全方面的主要法律法规有哪些？"><a href="#16-我国信息安全方面的主要法律法规有哪些？" class="headerlink" title="16 我国信息安全方面的主要法律法规有哪些？"></a>16 我国信息安全方面的主要法律法规有哪些？</h1><ul>
+<h1 id="我国信息安全方面的主要法律法规有哪些？"><a href="#我国信息安全方面的主要法律法规有哪些？" class="headerlink" title="我国信息安全方面的主要法律法规有哪些？"></a>我国信息安全方面的主要法律法规有哪些？</h1><ul>
 <li>《中华人民共和国计算机安全保护条例》</li>
 <li>《中华人民共和国商业密码管理条例》</li>
 <li>《中华人民共和国计算机信息网络国际管理暂行办法》</li>
@@ -10914,7 +10914,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <li>《中华人民共和国电子签名法》(2004.8.28发布，2005.4.1实施)</li>
 <li>《中华人们共和国网络安全法》(2016.11.7发布，2017.6.1实施)</li>
 </ul>
-<h1 id="17-简述常用的信息安全技术"><a href="#17-简述常用的信息安全技术" class="headerlink" title="17 简述常用的信息安全技术"></a>17 简述常用的信息安全技术</h1><ul>
+<h1 id="简述常用的信息安全技术"><a href="#简述常用的信息安全技术" class="headerlink" title="简述常用的信息安全技术"></a>简述常用的信息安全技术</h1><ul>
 <li>密码技术</li>
 <li>标识与认证技术</li>
 <li>授权与访问控制技术</li>
@@ -10939,7 +10939,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
     <title>计算机等级考试三级信息安全技术章节习题2</title>
     <url>/posts/afc073a5/</url>
     <content><![CDATA[<p><strong>二、信息安全技术与原理</strong></p>
-<h1 id="1-简述密码体制的构成"><a href="#1-简述密码体制的构成" class="headerlink" title="1 简述密码体制的构成"></a>1 简述密码体制的构成</h1><ul>
+<h1 id="简述密码体制的构成"><a href="#简述密码体制的构成" class="headerlink" title="简述密码体制的构成"></a>简述密码体制的构成</h1><ul>
 <li>消息空间：明文 <code>m</code> ，明文空间 <code>M</code></li>
 <li>密文空间：密文 <code>c</code> ，密文空间 <code>C</code></li>
 <li>密钥空间： 密钥 <code>k</code> ，密钥空间 <code>K</code></li>
@@ -10949,17 +10949,17 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <p>加密密钥通常表示为 $k_e$ ，解密密钥通常表示为 $k_d$</p>
 <p>$m=D<em>{k_d}(E</em>{k_d}(m))$</p>
 <a id="more"></a>
-<h1 id="2-简述分组密码与序列密码的区别"><a href="#2-简述分组密码与序列密码的区别" class="headerlink" title="2 简述分组密码与序列密码的区别"></a>2 简述分组密码与序列密码的区别</h1><p>对称密码体制根据明文加密方式分为分组密码和序列密码两种</p>
+<h1 id="简述分组密码与序列密码的区别"><a href="#简述分组密码与序列密码的区别" class="headerlink" title="简述分组密码与序列密码的区别"></a>简述分组密码与序列密码的区别</h1><p>对称密码体制根据明文加密方式分为分组密码和序列密码两种</p>
 <ul>
 <li>分组密码（分块密码），将明文消息编码表示后的位或字符序列，按指定的分组长度划分为多个分组，每个分组在密钥控制下变换成等长的输出，如果编码长度不是分组长度的整数倍，需对明文进行填充。常见分组密码: <strong>DES 、IDES 、AES</strong></li>
 <li>序列密码（流密码），将明文和密钥或分为位或字符序列，对明文序列中每一位或字符都用密钥序列中的对应分量来加密。常见序列密码：<strong>RC4 、SEAL 、ZUC 、ChaCha20 、Trivium</strong></li>
 </ul>
 <p>分组密码每一次加密一个明文组，而序列密码每一次加密一位或一个字符</p>
-<h1 id="3-简述对称密码和非对称密码体制的区别"><a href="#3-简述对称密码和非对称密码体制的区别" class="headerlink" title="3 简述对称密码和非对称密码体制的区别"></a>3 简述对称密码和非对称密码体制的区别</h1><ul>
+<h1 id="简述对称密码和非对称密码体制的区别"><a href="#简述对称密码和非对称密码体制的区别" class="headerlink" title="简述对称密码和非对称密码体制的区别"></a>简述对称密码和非对称密码体制的区别</h1><ul>
 <li>对称密码体制（单密钥密码体制），发送方与接收方共享相同的密钥（<strong>加密密钥与解密密钥相同</strong>），密钥管理困难，通信双方必须先预约相同的密钥后才能进行加密，任何对称加密算法的设计，混淆及扩散是两个重要的安全特性</li>
 <li>非对称密码体制（公开密钥密码体制，公钥密码体制），使用加密密钥 $K_e$ 控制加密，使用解密密钥 $K_d$ 控制解密，由计算复杂性确保通过加密密钥 $K_e$ 计算不能推出解密密钥 $K_d$ 。样公开 $K_e$ 也不会暴露 $K_d$ ，也不会损害密码的安全。公开了加密密钥，对解密密钥进行保密，从根本上客服了传统密码在密钥分配上的困难 </li>
 </ul>
-<h1 id="4-简述分组密码的工作模式"><a href="#4-简述分组密码的工作模式" class="headerlink" title="4 简述分组密码的工作模式"></a>4 简述分组密码的工作模式</h1><p>分组密码的工作模式是一种算法，刻画了如何利用分组密码提供安全服务，主要有5种工作模式</p>
+<h1 id="简述分组密码的工作模式"><a href="#简述分组密码的工作模式" class="headerlink" title="简述分组密码的工作模式"></a>简述分组密码的工作模式</h1><p>分组密码的工作模式是一种算法，刻画了如何利用分组密码提供安全服务，主要有5种工作模式</p>
 <ul>
 <li>电子密码本模式：利用分组密码对明文的各分组进行加密</li>
 <li>密码分组链模式：明文要与前面的密文进行异或运算然后被加密，形成密文链</li>
@@ -10967,12 +10967,12 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <li>输出反馈模式</li>
 <li>计数模式</li>
 </ul>
-<h1 id="5-什么是乘积密码，它的主要作用是什么？简述-DES-和-AES-所使用的两类乘积密码"><a href="#5-什么是乘积密码，它的主要作用是什么？简述-DES-和-AES-所使用的两类乘积密码" class="headerlink" title="5 什么是乘积密码，它的主要作用是什么？简述 DES 和 AES 所使用的两类乘积密码"></a>5 什么是乘积密码，它的主要作用是什么？简述 DES 和 AES 所使用的两类乘积密码</h1><p>乘积密码是采用 <code>m</code> 个函数 $f_1,f_2,···,f_m$ 复合，其中每个 $f_i$ 可能是一个代换或置换，代换和置换称为混淆和扩散的过程，破坏对称密码系统进行的各种统计分析 ，常见的乘积密码是迭代密码</p>
+<h1 id="什么是乘积密码，它的主要作用是什么？简述-DES-和-AES-所使用的两类乘积密码"><a href="#什么是乘积密码，它的主要作用是什么？简述-DES-和-AES-所使用的两类乘积密码" class="headerlink" title="什么是乘积密码，它的主要作用是什么？简述 DES 和 AES 所使用的两类乘积密码"></a>什么是乘积密码，它的主要作用是什么？简述 DES 和 AES 所使用的两类乘积密码</h1><p>乘积密码是采用 <code>m</code> 个函数 $f_1,f_2,···,f_m$ 复合，其中每个 $f_i$ 可能是一个代换或置换，代换和置换称为混淆和扩散的过程，破坏对称密码系统进行的各种统计分析 ，常见的乘积密码是迭代密码</p>
 <ul>
 <li>数据加密标准（DES）算法：分组大小64位，加密或解密密钥也为64位。有8位用来奇偶校验，真正起密钥作用的只有56位，除了子密钥的顺序不同外，其他部分完全相同 </li>
 <li>高级加密标准（AES）算法：分组长度固定为128位，密钥可为128、192或256位，在整体上采用SP网络组成圈函数，多圈迭代，S为混淆层起混淆作用，P为扩散层起扩散作用</li>
 </ul>
-<h1 id="6-简述-AES-、-IDEA-两类典型对称密码加密算法的工作原理，简述-RSA-算法的原理以及参数选择，简述-ECC-所依赖的数学难题"><a href="#6-简述-AES-、-IDEA-两类典型对称密码加密算法的工作原理，简述-RSA-算法的原理以及参数选择，简述-ECC-所依赖的数学难题" class="headerlink" title="6 简述 AES 、 IDEA 两类典型对称密码加密算法的工作原理，简述 RSA 算法的原理以及参数选择，简述 ECC 所依赖的数学难题"></a>6 简述 AES 、 IDEA 两类典型对称密码加密算法的工作原理，简述 RSA 算法的原理以及参数选择，简述 ECC 所依赖的数学难题</h1><ul>
+<h1 id="简述-AES-、-IDEA-两类典型对称密码加密算法的工作原理，简述-RSA-算法的原理以及参数选择，简述-ECC-所依赖的数学难题"><a href="#简述-AES-、-IDEA-两类典型对称密码加密算法的工作原理，简述-RSA-算法的原理以及参数选择，简述-ECC-所依赖的数学难题" class="headerlink" title="简述 AES 、 IDEA 两类典型对称密码加密算法的工作原理，简述 RSA 算法的原理以及参数选择，简述 ECC 所依赖的数学难题"></a>简述 AES 、 IDEA 两类典型对称密码加密算法的工作原理，简述 RSA 算法的原理以及参数选择，简述 ECC 所依赖的数学难题</h1><ul>
 <li>AES：AES算法处理的数据块被分成一个字符矩阵，每次加密操作都是在字节级上定义的。明文 <code>m</code> 执行初始的密钥加变换，将得到的输出作为迭代运输的输入，之后执行指定次数的迭代运输，每次迭代都将运行圈函数<code>F</code> ，圈函数 <code>F</code> 分为4层，第一层是 S 盒变换 ByteSub 是AES算法唯一的非线性变换起混淆作用，第二层行移位变换 ShiftRow ，第四层列混淆变换 MitColumn 是线性混合层矩阵行被位移，列被混叠，确保多伦之上的高度扩散，第四层为圈密钥加变换 AddRoundKey ，矩阵中的每个字节都将与子密钥进行异或</li>
 <li>IDEA：利用128位的密钥对64位的明文分组，经过连续加密产生64位的密文分组。使用3种函数混合组合来打乱数据，无法用化简的方式来分析密文与明文及密钥之间的关系，3个函数中任意两个函数都无法满足结合律和分配律</li>
 <li><p>RSA ： 基于一个十分简单的数论事实，将两个大素数相乘十分容易，但想要对乘积进行因式分解极其困难，因此可以将乘积公开作为加密密钥</p>
@@ -11009,7 +11009,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <li><p>ECC（椭圆曲线密码），椭圆曲线方程 $y^3=x^3+ax+b(mod\ p)$  <code>p</code> 为一个素数或 <code>2</code> 的幂（有时称椭圆曲线的秩(zhì)）且 $4a^3+27b^2≠0$，依赖椭圆曲线上的离散对数问题设计该密码</p>
 </li>
 </ul>
-<h1 id="7-设通信双方使用-RSA-加密体制，接收方的公开钥是-e-n-5-35-，接收到的密文是-c-10-，求明文-m"><a href="#7-设通信双方使用-RSA-加密体制，接收方的公开钥是-e-n-5-35-，接收到的密文是-c-10-，求明文-m" class="headerlink" title="7 设通信双方使用 RSA 加密体制，接收方的公开钥是 $(e,n)\ =\ (5,35)$ ，接收到的密文是 $c\ =\ 10$ ，求明文 $m$"></a>7 设通信双方使用 RSA 加密体制，接收方的公开钥是 $(e,n)\ =\ (5,35)$ ，接收到的密文是 $c\ =\ 10$ ，求明文 $m$</h1><script type="math/tex; mode=display">
+<h1 id="设通信双方使用-RSA-加密体制，接收方的公开钥是-e-n-5-35-，接收到的密文是-c-10-，求明文-m"><a href="#设通信双方使用-RSA-加密体制，接收方的公开钥是-e-n-5-35-，接收到的密文是-c-10-，求明文-m" class="headerlink" title="设通信双方使用 RSA 加密体制，接收方的公开钥是 $(e,n)\ =\ (5,35)$ ，接收到的密文是 $c\ =\ 10$ ，求明文 $m$"></a>设通信双方使用 RSA 加密体制，接收方的公开钥是 $(e,n)\ =\ (5,35)$ ，接收到的密文是 $c\ =\ 10$ ，求明文 $m$</h1><script type="math/tex; mode=display">
 n=pq\ ;\ \phi (n)=(p-1)(q-1)\ ;\ ed \equiv1\ mod\ \phi (n)\ \\
 c=m \wedge e\ mod\ n\ ;\ m=c\wedge d\ mod\ n \\
 ed \equiv 1\ mod\ \phi (n)\ \to\ ed\ mod\ \phi (n)=1 \\
@@ -11017,7 +11017,7 @@ n=5 \times 7\ ;\ \phi (n)=4 \times 6=24 \\
 5 \times d \equiv 1\ mod\ 24 \\
 d = 5 \\
 m = 10 \wedge 5\ mod\ 35 \\
-m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求和安全性分别是什么？"><a href="#8-什么是哈希函数？对哈希函数的基本要求和安全性分别是什么？" class="headerlink" title="8 什么是哈希函数？对哈希函数的基本要求和安全性分别是什么？"></a>8 什么是哈希函数？对哈希函数的基本要求和安全性分别是什么？</h1><p>哈希函数又叫散列函数、紧凑函数，只有加密过程没有解密过程，要求任意长度输入经过变换后得到固定长度的输出，也称为原消息的散列或消息摘要，理想的哈希函数对于不同的输入可以获得不同的哈希值。</p>
+m = 5</script><h1 id="什么是哈希函数？对哈希函数的基本要求和安全性分别是什么？"><a href="#什么是哈希函数？对哈希函数的基本要求和安全性分别是什么？" class="headerlink" title="什么是哈希函数？对哈希函数的基本要求和安全性分别是什么？"></a>什么是哈希函数？对哈希函数的基本要求和安全性分别是什么？</h1><p>哈希函数又叫散列函数、紧凑函数，只有加密过程没有解密过程，要求任意长度输入经过变换后得到固定长度的输出，也称为原消息的散列或消息摘要，理想的哈希函数对于不同的输入可以获得不同的哈希值。</p>
 <p>哈希函数特点：</p>
 <ul>
 <li>压缩</li>
@@ -11026,7 +11026,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>抗碰撞性</li>
 <li>高灵敏性</li>
 </ul>
-<h1 id="9-简述-SHA3-的工作原理"><a href="#9-简述-SHA3-的工作原理" class="headerlink" title="9 简述 SHA3 的工作原理"></a>9 简述 SHA3 的工作原理</h1><p>使用海绵机构，分为两个阶段吸收阶段和压榨阶段</p>
+<h1 id="简述-SHA3-的工作原理"><a href="#简述-SHA3-的工作原理" class="headerlink" title="简述 SHA3 的工作原理"></a>简述 SHA3 的工作原理</h1><p>使用海绵机构，分为两个阶段吸收阶段和压榨阶段</p>
 <ul>
 <li><p>吸收阶段</p>
 <p>消息先被填充切块，切成长度为 r 的 t 个分组（记为$x<em>0,x_1,···,x</em>{t-1}$），依次输入到函数f中，输入 b 比特的值输出也是 b 比特的值（$b=r+c$），SHA3中吧固定取 <code>1600</code> ，函数每次运行会“吸收”掉一个长度为 r 的消息分组，函数 f 运行 t 次后，整个消息就被“吸收”了</p>
@@ -11035,7 +11035,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <p>进入压榨阶段函数继续运行，但不再吸收消息分组，而是每次产生 r 个比特的输出值，直到输出值的长度满足算法需要为止，若 r 大于算法要求输出值的长度，则从压榨阶段的第一次输出中截取</p>
 </li>
 </ul>
-<h1 id="10-简述数字签名的作用及数字签名体制的两个过程。数字签名要预先使用单向哈希函数进行处理的原因是什么？"><a href="#10-简述数字签名的作用及数字签名体制的两个过程。数字签名要预先使用单向哈希函数进行处理的原因是什么？" class="headerlink" title="10 简述数字签名的作用及数字签名体制的两个过程。数字签名要预先使用单向哈希函数进行处理的原因是什么？"></a>10 简述数字签名的作用及数字签名体制的两个过程。数字签名要预先使用单向哈希函数进行处理的原因是什么？</h1><p>数字签名是一种以电子形式存在于数据信息中、附件中或逻辑上与之有联系的数据中，用于鉴别数据签署人的身份，表明签署人认可数据信息中所含信息的技术</p>
+<h1 id="简述数字签名的作用及数字签名体制的两个过程。数字签名要预先使用单向哈希函数进行处理的原因是什么？"><a href="#简述数字签名的作用及数字签名体制的两个过程。数字签名要预先使用单向哈希函数进行处理的原因是什么？" class="headerlink" title="简述数字签名的作用及数字签名体制的两个过程。数字签名要预先使用单向哈希函数进行处理的原因是什么？"></a>简述数字签名的作用及数字签名体制的两个过程。数字签名要预先使用单向哈希函数进行处理的原因是什么？</h1><p>数字签名是一种以电子形式存在于数据信息中、附件中或逻辑上与之有联系的数据中，用于鉴别数据签署人的身份，表明签署人认可数据信息中所含信息的技术</p>
 <p>把明文当成密文由解密算法得到数据，在由加密算法将数据恢复成明文，由于加解密算法不可分割，数据不能被其他人伪造，签名者也不能否份</p>
 <ul>
 <li><p>签名过程</p>
@@ -11051,29 +11051,29 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <p>只有 A 拥有 $K<em>{dA}$ 且公开的 $K</em>{eA}$ 在计算上不能求出保密的解密密钥 $K<em>{dA}$ ，所以签名只能 A 进行，因此 $K</em>{dA}$ 相当于A的印章或指纹，而 $S_A$ 就是 A 对 M 的签名，对此 A <strong>不能抵赖</strong>，其他人也<strong>不能伪造</strong></p>
 </li>
 </ul>
-<h1 id="11-简述在公钥体制下利用-Diffie-Hellman-方法产生共享密钥的方法"><a href="#11-简述在公钥体制下利用-Diffie-Hellman-方法产生共享密钥的方法" class="headerlink" title="11 简述在公钥体制下利用 Diffie-Hellman 方法产生共享密钥的方法"></a>11 简述在公钥体制下利用 Diffie-Hellman 方法产生共享密钥的方法</h1><p>Diffie-Hellman 是最典型的密钥交换协议算法，是一个匿名密钥交换协议</p>
+<h1 id="简述在公钥体制下利用-Diffie-Hellman-方法产生共享密钥的方法"><a href="#简述在公钥体制下利用-Diffie-Hellman-方法产生共享密钥的方法" class="headerlink" title="简述在公钥体制下利用 Diffie-Hellman 方法产生共享密钥的方法"></a>简述在公钥体制下利用 Diffie-Hellman 方法产生共享密钥的方法</h1><p>Diffie-Hellman 是最典型的密钥交换协议算法，是一个匿名密钥交换协议</p>
 <p>在 Diffie-Hellman 算法中有两个全局公开参数，分别是一个素数 p 和一个整数 g ，g 是 p 的原根。甲随机选取 b 计算出 $A=g^a\ mod\ p$ ，乙随机选取 b 计算出 $B=g^b\ mod\ p$ 甲乙交换 A 和 B ，分别计算出共享的密钥 $K=B^a\ mod\ p=A^a\ mod\ p$</p>
 <p>甲： $K=B^a\ mod\ p=(g^b)^a\ mod\ p=g^ab\ mod\ p$</p>
 <p>乙： $K=A^b\ mod\ p=(g^a)^b\ mod\ p=g^ab\ mod\ p$</p>
 <p>必须确保协议运行过程中收到的信息来自真实的对方</p>
-<h1 id="12-简述密钥分配的分类及各自的工作原理"><a href="#12-简述密钥分配的分类及各自的工作原理" class="headerlink" title="12 简述密钥分配的分类及各自的工作原理"></a>12 简述密钥分配的分类及各自的工作原理</h1><p>密钥分配方法：</p>
+<h1 id="简述密钥分配的分类及各自的工作原理"><a href="#简述密钥分配的分类及各自的工作原理" class="headerlink" title="简述密钥分配的分类及各自的工作原理"></a>简述密钥分配的分类及各自的工作原理</h1><p>密钥分配方法：</p>
 <ul>
 <li>公开发布：用户将自己的公钥发给其他用户，或向某一团体广播（简单，但任何人都能伪造）</li>
 <li>公用目录：建立一个公用的公钥动态目录，由一个可信的实体或组织来建立、维护及公钥分发（安全性更高，但公钥目录表可能被伪造，也易受到对手窜扰）</li>
 <li>公钥授权：一个公钥管理机构负责建立、维护通信各方的公钥动态目录表，用户都可靠的知道管理机构的公开密钥，且只有管理机构知道相应的秘密密钥（比前面更安全，但可能存在瓶颈，也可能被窜扰）</li>
 <li>公钥证书：用户通过公钥证书交换自己的公钥而无需与公钥管理机构联系，公钥证书管理机构(Certification Authority , CA) 为用户建立。用户可将自己的公开密钥通过公钥证书发给另一个用户，接收方可用 CA 的公钥对证书加以验证 （克服了公钥管理机构模式的不足）</li>
 </ul>
-<h1 id="13-什么是消息认证？为什么要进行消息认证？"><a href="#13-什么是消息认证？为什么要进行消息认证？" class="headerlink" title="13 什么是消息认证？为什么要进行消息认证？"></a>13 什么是消息认证？为什么要进行消息认证？</h1><p>消息认证：验证所收到的消息确实来自真正的发送方，并且未被篡改的过程</p>
+<h1 id="什么是消息认证？为什么要进行消息认证？"><a href="#什么是消息认证？为什么要进行消息认证？" class="headerlink" title="什么是消息认证？为什么要进行消息认证？"></a>什么是消息认证？为什么要进行消息认证？</h1><p>消息认证：验证所收到的消息确实来自真正的发送方，并且未被篡改的过程</p>
 <p>消息认证是为了防止：伪装、内容修改、顺序修改、计时修改</p>
-<h1 id="14-消息认证的方法有哪些？为什么人们一直用哈希函数而不用对称密码来构造消息认证？"><a href="#14-消息认证的方法有哪些？为什么人们一直用哈希函数而不用对称密码来构造消息认证？" class="headerlink" title="14 消息认证的方法有哪些？为什么人们一直用哈希函数而不用对称密码来构造消息认证？"></a>14 消息认证的方法有哪些？为什么人们一直用哈希函数而不用对称密码来构造消息认证？</h1><ul>
+<h1 id="消息认证的方法有哪些？为什么人们一直用哈希函数而不用对称密码来构造消息认证？"><a href="#消息认证的方法有哪些？为什么人们一直用哈希函数而不用对称密码来构造消息认证？" class="headerlink" title="消息认证的方法有哪些？为什么人们一直用哈希函数而不用对称密码来构造消息认证？"></a>消息认证的方法有哪些？为什么人们一直用哈希函数而不用对称密码来构造消息认证？</h1><ul>
 <li>消息加密 ：整个消息的密文作为认证码</li>
 <li>消息认证码：利用密钥生成一个固定长度的数据块，将该数据块附加在消息后</li>
 <li>哈希函数：是一种消息认证码的变形，通过输入可变大小的消息 m ，输出固定大小的哈希值 H(m)</li>
 </ul>
 <p>哈希值是所有消息位的函数，它具有错误检测能力，即改变消息的任何一位或多位都会导致哈希值的改变</p>
-<h1 id="15-简述基于-DES-的消息认证码的生成算法"><a href="#15-简述基于-DES-的消息认证码的生成算法" class="headerlink" title="15 简述基于 DES 的消息认证码的生成算法"></a>15 简述基于 DES 的消息认证码的生成算法</h1><p>MAC 算法是基于 DES 的使用最广泛的 MAC 算法之一，满足保密性和安全性</p>
+<h1 id="简述基于-DES-的消息认证码的生成算法"><a href="#简述基于-DES-的消息认证码的生成算法" class="headerlink" title="简述基于 DES 的消息认证码的生成算法"></a>简述基于 DES 的消息认证码的生成算法</h1><p>MAC 算法是基于 DES 的使用最广泛的 MAC 算法之一，满足保密性和安全性</p>
 <p>将需认证的数据分成大小为 64 位的分组 $D_1 ||D_2||···||D_N$ 若最后分组不足 64 位，则在其后填 0 直至成为 64 位。然后基于密文反馈链接(CBC) 的分组密码工作模式计算得到认证码</p>
-<h1 id="16-简述身份认证的协议"><a href="#16-简述身份认证的协议" class="headerlink" title="16 简述身份认证的协议"></a>16 简述身份认证的协议</h1><ul>
+<h1 id="简述身份认证的协议"><a href="#简述身份认证的协议" class="headerlink" title="简述身份认证的协议"></a>简述身份认证的协议</h1><ul>
 <li>基于口令的认证：口令是双方预先约定的秘密数据，用来验证用户知道什么</li>
 <li>基于对称密码的认证：建立一个鉴别服务器的可信权威机构密钥分发中心（KDC），拥有每个用户的秘密密钥，想通信则用户向鉴别服务器中申请会话密钥（两人共用一个密钥），在会话密钥的分配过程中，身份得到鉴别</li>
 <li>基于公钥密码的认证<ul>
@@ -11082,8 +11082,8 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 </ul>
 </li>
 </ul>
-<h1 id="17-描述使用-DES-算法实现的一次性口令的算法"><a href="#17-描述使用-DES-算法实现的一次性口令的算法" class="headerlink" title="17 描述使用 DES 算法实现的一次性口令的算法"></a>17 描述使用 DES 算法实现的一次性口令的算法</h1><p>系统生成一个随机数 r ，并对其进行加密得到 $E_K(r)$ ，将 $EK(r)$ 提供给用户，用户计算 $E_K(D_K(E_K(r))+1)$ ，并将值返回给系统，同时系统计算 $r+1$ ，系统将用户返回的值与系统自己计算的值进行比较，相等则系统认为用户为真，系统和用户必须持有相同的密钥</p>
-<h1 id="18-描述基于公钥密码的单向和双向身份认证过程"><a href="#18-描述基于公钥密码的单向和双向身份认证过程" class="headerlink" title="18 描述基于公钥密码的单向和双向身份认证过程"></a>18 描述基于公钥密码的单向和双向身份认证过程</h1><ul>
+<h1 id="描述使用-DES-算法实现的一次性口令的算法"><a href="#描述使用-DES-算法实现的一次性口令的算法" class="headerlink" title="描述使用 DES 算法实现的一次性口令的算法"></a>描述使用 DES 算法实现的一次性口令的算法</h1><p>系统生成一个随机数 r ，并对其进行加密得到 $E_K(r)$ ，将 $EK(r)$ 提供给用户，用户计算 $E_K(D_K(E_K(r))+1)$ ，并将值返回给系统，同时系统计算 $r+1$ ，系统将用户返回的值与系统自己计算的值进行比较，相等则系统认为用户为真，系统和用户必须持有相同的密钥</p>
+<h1 id="描述基于公钥密码的单向和双向身份认证过程"><a href="#描述基于公钥密码的单向和双向身份认证过程" class="headerlink" title="描述基于公钥密码的单向和双向身份认证过程"></a>描述基于公钥密码的单向和双向身份认证过程</h1><ul>
 <li><p>单向身份认证：双方知道对方的公钥</p>
 <ul>
 <li><p>A 发送一个随机数 $r_a$ 给 B</p>
@@ -11102,7 +11102,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 </ul>
 </li>
 </ul>
-<h1 id="19-简述数字签名的产生和验证过程"><a href="#19-简述数字签名的产生和验证过程" class="headerlink" title="19 简述数字签名的产生和验证过程"></a>19 简述数字签名的产生和验证过程</h1><ul>
+<h1 id="简述数字签名的产生和验证过程"><a href="#简述数字签名的产生和验证过程" class="headerlink" title="简述数字签名的产生和验证过程"></a>简述数字签名的产生和验证过程</h1><ul>
 <li><p>签名过程</p>
 <p>A用自己保密的解密密钥 $K<em>{dA}$ 对明文数据 M 进行签名: $S_A=D(M,K</em>{dA})$  （<strong>A 使用私钥对明文直接解密</strong>）</p>
 <p>$S<em>A$ 为 A 对 M 的签名，若不需保密A直接将 $S_A$ 发送个用户B，若需要保密则 A 查阅 PKDB 查到 B 的公开加密密钥 $K</em>{eB}$ ，并用 $K<em>{eB}$ 对 $S_A$ 进行加密得到密文 C ： $C=E(S_A,K</em>{eB})$ ，最后 A 把 C 发送给 B 并将 $S_A$ 或 C <strong>留底</strong> （<strong>使用 B 的公钥对 $S_A$ 进行加密</strong>）</p>
@@ -11116,7 +11116,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <p>只有 A 拥有 $K<em>{dA}$ 且公开的 $K</em>{eA}$ 在计算上不能求出保密的解密密钥 $K<em>{dA}$ ，所以签名只能 A 进行，因此 $K</em>{dA}$ 相当于A的印章或指纹，而 $S_A$ 就是 A 对 M 的签名，对此 A <strong>不能抵赖</strong>，其他人也<strong>不能伪造</strong></p>
 </li>
 </ul>
-<h1 id="20-举例说明访问控制中主体和客体，简述访问控制模型的分类及其优缺点"><a href="#20-举例说明访问控制中主体和客体，简述访问控制模型的分类及其优缺点" class="headerlink" title="20 举例说明访问控制中主体和客体，简述访问控制模型的分类及其优缺点"></a>20 举例说明访问控制中主体和客体，简述访问控制模型的分类及其优缺点</h1><ul>
+<h1 id="举例说明访问控制中主体和客体，简述访问控制模型的分类及其优缺点"><a href="#举例说明访问控制中主体和客体，简述访问控制模型的分类及其优缺点" class="headerlink" title="举例说明访问控制中主体和客体，简述访问控制模型的分类及其优缺点"></a>举例说明访问控制中主体和客体，简述访问控制模型的分类及其优缺点</h1><ul>
 <li>主体：一个<strong>主动</strong>的实体，提供对客体中的对象或数据的访问要求（可以是能访问信息的用户、程序、进程）</li>
 <li>客体：含有被访问信息的<strong>被动</strong>实体</li>
 </ul>
@@ -11128,7 +11128,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 </li>
 <li>强制访问控制（MAC）：强加给访问主体的，系统强制主体服从访问控制政策。主要特征是对所有主体及其控制的客体实施强制访问控制</li>
 </ul>
-<h1 id="21-举例说明访问能力表和访问控制表的应用"><a href="#21-举例说明访问能力表和访问控制表的应用" class="headerlink" title="21 举例说明访问能力表和访问控制表的应用"></a>21 举例说明访问能力表和访问控制表的应用</h1><ul>
+<h1 id="举例说明访问能力表和访问控制表的应用"><a href="#举例说明访问能力表和访问控制表的应用" class="headerlink" title="举例说明访问能力表和访问控制表的应用"></a>举例说明访问能力表和访问控制表的应用</h1><ul>
 <li>访问能力表(CL)：基于矩阵 <strong>行</strong> 的访问控制信息表</li>
 <li>访问控制表(ACL)：基于矩阵 <strong>列</strong> 的访问控制信息表</li>
 </ul>
@@ -11170,7 +11170,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 </tbody>
 </table>
 </div>
-<h1 id="22-描述Bell-LaPadula-模型和-Biba-模型的工作原理和区别"><a href="#22-描述Bell-LaPadula-模型和-Biba-模型的工作原理和区别" class="headerlink" title="22 描述Bell-LaPadula 模型和 Biba 模型的工作原理和区别"></a>22 描述Bell-LaPadula 模型和 Biba 模型的工作原理和区别</h1><ul>
+<h1 id="描述Bell-LaPadula-模型和-Biba-模型的工作原理和区别"><a href="#描述Bell-LaPadula-模型和-Biba-模型的工作原理和区别" class="headerlink" title="描述Bell-LaPadula 模型和 Biba 模型的工作原理和区别"></a>描述Bell-LaPadula 模型和 Biba 模型的工作原理和区别</h1><ul>
 <li><p>Bell-LaPadula（BLP）模型：不上读、不下写原则（不允许低安全等级读高敏感信息，不允许高敏感信息写入低敏感区），安全等级：无密、秘密、机密、绝密</p>
 <p>BLP存在不保护信息的完整性和可用性、不涉及访问控制等缺点</p>
 </li>
@@ -11181,7 +11181,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <ul>
 <li>Chinese Wall 模型是应用在多边安全系统中的安全模型（多个组织间访问控制系统）</li>
 </ul>
-<h1 id="23-简述-RADIUS-协议-、-TACACS-协议以及-Diameter-协议的区别"><a href="#23-简述-RADIUS-协议-、-TACACS-协议以及-Diameter-协议的区别" class="headerlink" title="23 简述 RADIUS 协议 、 TACACS 协议以及 Diameter 协议的区别"></a>23 简述 RADIUS 协议 、 TACACS 协议以及 Diameter 协议的区别</h1><ul>
+<h1 id="简述-RADIUS-协议-、-TACACS-协议以及-Diameter-协议的区别"><a href="#简述-RADIUS-协议-、-TACACS-协议以及-Diameter-协议的区别" class="headerlink" title="简述 RADIUS 协议 、 TACACS 协议以及 Diameter 协议的区别"></a>简述 RADIUS 协议 、 TACACS 协议以及 Diameter 协议的区别</h1><ul>
 <li>RADIUS 协议：拨号用户远程认证服务，一种网络协议，提供集中式 AAA 管理。一个客户端/服务器协议，运行在应用层，使用 UDP 协议，身份认证和授权使用1812端口，审计使用1813端口</li>
 <li>TACACS协议：终端访问控制器访问控制系统，允许远程访问服务器传递用户登录密码给认证服务器，认证服务器决定该用户是否可以登录系统。使用传输控制协议（TCP）</li>
 </ul>
@@ -11269,11 +11269,11 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 </tbody>
 </table>
 </div>
-<h1 id="24-简述单点登录机制及其实现原理"><a href="#24-简述单点登录机制及其实现原理" class="headerlink" title="24 简述单点登录机制及其实现原理"></a>24 简述单点登录机制及其实现原理</h1><p>将不同系统和应用程序所需的访问控制功能抽离出来。用户在使用时只需要在统一的单点登录方案下进行一次验证，便可以访问到自己所需的网络、信息和其他资源</p>
+<h1 id="简述单点登录机制及其实现原理"><a href="#简述单点登录机制及其实现原理" class="headerlink" title="简述单点登录机制及其实现原理"></a>简述单点登录机制及其实现原理</h1><p>将不同系统和应用程序所需的访问控制功能抽离出来。用户在使用时只需要在统一的单点登录方案下进行一次验证，便可以访问到自己所需的网络、信息和其他资源</p>
 <p>第一次访问时引导到认证系统进行登录，通过身份校验后给用户返回一个认证凭证 ticket ，用户再访问别的应用时将带着这个 ticket 作为自己的认证凭证，应用收到请求将 ticket 送到认证系统校验，检测 ticket 合法性，如果通过校验用户就不用再次登录就能访问别的应用系统了</p>
 <p>所有应用系统共享一个身份认证系统</p>
 <p>所有应用系统能够识别和提取 ticket 信息</p>
-<h1 id="25-简述审计和监控的作用及审计系统的组成"><a href="#25-简述审计和监控的作用及审计系统的组成" class="headerlink" title="25 简述审计和监控的作用及审计系统的组成"></a>25 简述审计和监控的作用及审计系统的组成</h1><p>通过安全审计能记录系统被访问的过程以及系统保护机制的运行状态，发现试图绕过保护机制的行为及时发现用户身份的变化，报告并阻碍绕过保护机制的行为并记录相关过程，为灾难恢复提供信息等</p>
+<h1 id="简述审计和监控的作用及审计系统的组成"><a href="#简述审计和监控的作用及审计系统的组成" class="headerlink" title="简述审计和监控的作用及审计系统的组成"></a>简述审计和监控的作用及审计系统的组成</h1><p>通过安全审计能记录系统被访问的过程以及系统保护机制的运行状态，发现试图绕过保护机制的行为及时发现用户身份的变化，报告并阻碍绕过保护机制的行为并记录相关过程，为灾难恢复提供信息等</p>
 <p>安全监控通过实时监控网络或主机活动，监控分析用户和系统的行为，审计系统配置和漏洞，评估敏感系统和数据的完整性，识别攻击行为对异常行为进行统计和跟踪，识别违反安全法规的行为，使用诱骗服务器记录黑客行为等功能，使管理员有效地监视、控制和评估网络或主机系统</p>
 <p>安全审计的两个目标：</p>
 <ul>
@@ -11281,7 +11281,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>优化审计记录的内容，审计分析机制应可以对一些特定资源辨识正常的行为</li>
 </ul>
 <p>升级系统通常由日志记录器、分析器、报告器 3 部分组成</p>
-<h1 id="26-简述恶意行为审计与监控的实现方法及网络信息内容审计的方法"><a href="#26-简述恶意行为审计与监控的实现方法及网络信息内容审计的方法" class="headerlink" title="26 简述恶意行为审计与监控的实现方法及网络信息内容审计的方法"></a>26 简述恶意行为审计与监控的实现方法及网络信息内容审计的方法</h1><p>恶意行为的监控分为主机监测和网络监测</p>
+<h1 id="简述恶意行为审计与监控的实现方法及网络信息内容审计的方法"><a href="#简述恶意行为审计与监控的实现方法及网络信息内容审计的方法" class="headerlink" title="简述恶意行为审计与监控的实现方法及网络信息内容审计的方法"></a>简述恶意行为审计与监控的实现方法及网络信息内容审计的方法</h1><p>恶意行为的监控分为主机监测和网络监测</p>
 <ul>
 <li>主机监测：在用户主机上安装反病毒软件和基于主机的入侵监测软件，对入侵主机的已知恶意代码进行检测和预警</li>
 <li>网络监测：在活动网路中被动监听网络流量，利用检测算法识别网络入侵行为</li>
@@ -11300,7 +11300,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
     <title>计算机等级考试三级信息安全技术章节习题3</title>
     <url>/posts/d8c74333/</url>
     <content><![CDATA[<p><strong>三、系统安全</strong></p>
-<h1 id="1-CPU-的两种模式是什么？如何切换模式？操作系统如何利用-CPU-模式和保护环来实现安全保护？"><a href="#1-CPU-的两种模式是什么？如何切换模式？操作系统如何利用-CPU-模式和保护环来实现安全保护？" class="headerlink" title="1 CPU 的两种模式是什么？如何切换模式？操作系统如何利用 CPU 模式和保护环来实现安全保护？"></a>1 CPU 的两种模式是什么？如何切换模式？操作系统如何利用 CPU 模式和保护环来实现安全保护？</h1><p>内核模式和用户模式</p>
+<h1 id="CPU-的两种模式是什么？如何切换模式？操作系统如何利用-CPU-模式和保护环来实现安全保护？"><a href="#CPU-的两种模式是什么？如何切换模式？操作系统如何利用-CPU-模式和保护环来实现安全保护？" class="headerlink" title="CPU 的两种模式是什么？如何切换模式？操作系统如何利用 CPU 模式和保护环来实现安全保护？"></a>CPU 的两种模式是什么？如何切换模式？操作系统如何利用 CPU 模式和保护环来实现安全保护？</h1><p>内核模式和用户模式</p>
 <p>操作系统运行在内核模式下，应用运行在用户模式下</p>
 <p>用户模式转到内核模式的唯一方法是触发一个特殊的硬件 <strong>自陷</strong> ，如</p>
 <ul>
@@ -11317,13 +11317,13 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>3 环：应用程序和用户活动</li>
 </ul>
 <a id="more"></a>
-<h1 id="2-简述系统调用的实现"><a href="#2-简述系统调用的实现" class="headerlink" title="2 简述系统调用的实现"></a>2 简述系统调用的实现</h1><p>操作系统的内核中设置了一组用于实现各种特定系统功能的子程序（过程），它们被提供给应用程序调用。在编程过程中，需要系统完成特定的功能时，可以通过调用系统中特定的子程序完成，这就是系统调用</p>
-<h1 id="3-进程管理如何实现？"><a href="#3-进程管理如何实现？" class="headerlink" title="3 进程管理如何实现？"></a>3 进程管理如何实现？</h1><p>管理单位：线程。进程管理实质上是对处理机执行时间的管理，进程是程序执行的一个实例，是运行着的程序。线程是为了节省资源而可以在同一进程中共享资源的一个执行单位。</p>
+<h1 id="简述系统调用的实现"><a href="#简述系统调用的实现" class="headerlink" title="简述系统调用的实现"></a>简述系统调用的实现</h1><p>操作系统的内核中设置了一组用于实现各种特定系统功能的子程序（过程），它们被提供给应用程序调用。在编程过程中，需要系统完成特定的功能时，可以通过调用系统中特定的子程序完成，这就是系统调用</p>
+<h1 id="进程管理如何实现？"><a href="#进程管理如何实现？" class="headerlink" title="进程管理如何实现？"></a>进程管理如何实现？</h1><p>管理单位：线程。进程管理实质上是对处理机执行时间的管理，进程是程序执行的一个实例，是运行着的程序。线程是为了节省资源而可以在同一进程中共享资源的一个执行单位。</p>
 <p>操作系统维护一个进程表，其中每一项代表一个进程。表中包含每个进程的状态、堆栈指针、内存分配、程序计数器和打开文件的使用状况。</p>
 <p>大多数CPU一次只执行一项任务。因此，系统会产生硬件和软件中断。当一个设备需要与 CPU 通信时，它必须等待它的中断信息被调。软件也同样如此，每个进程都有分配给它的中断信号。</p>
 <p>进程管理是通过中断实现的。用于进程管理的定时器产生中断，则系统暂停当前代码执行进入经常管理程序。而进程管理程序则分析当前各进程的优先级和等待顺序，选择合适的进程，将 CPU 的时间片交个它。</p>
-<h1 id="4-简述-UNIX-系统的守护进程"><a href="#4-简述-UNIX-系统的守护进程" class="headerlink" title="4 简述 UNIX 系统的守护进程"></a>4 简述 UNIX 系统的守护进程</h1><p>脱离于终端且在后台独立运行的进程，一个生存期较长的进程，通常独立于控制终端并且周期性地执行某种任务或等待处理某些发生的事件。系统引导装入时启动，在系统关闭时终止。大多数服务都通过守护进程实现，守护进程还能完成许多系统任务。</p>
-<h1 id="5-UNIX-系统基于访问权限的文件保护是如何工作的？为实现该策略，共需要多少个访问权限位？为什么？"><a href="#5-UNIX-系统基于访问权限的文件保护是如何工作的？为实现该策略，共需要多少个访问权限位？为什么？" class="headerlink" title="5 UNIX 系统基于访问权限的文件保护是如何工作的？为实现该策略，共需要多少个访问权限位？为什么？"></a>5 UNIX 系统基于访问权限的文件保护是如何工作的？为实现该策略，共需要多少个访问权限位？为什么？</h1><p>每一个文件和目录有3组权限与之相关：文件拥有者、所属分组成员、其他所有用户</p>
+<h1 id="简述-UNIX-系统的守护进程"><a href="#简述-UNIX-系统的守护进程" class="headerlink" title="简述 UNIX 系统的守护进程"></a>简述 UNIX 系统的守护进程</h1><p>脱离于终端且在后台独立运行的进程，一个生存期较长的进程，通常独立于控制终端并且周期性地执行某种任务或等待处理某些发生的事件。系统引导装入时启动，在系统关闭时终止。大多数服务都通过守护进程实现，守护进程还能完成许多系统任务。</p>
+<h1 id="UNIX-系统基于访问权限的文件保护是如何工作的？为实现该策略，共需要多少个访问权限位？为什么？"><a href="#UNIX-系统基于访问权限的文件保护是如何工作的？为实现该策略，共需要多少个访问权限位？为什么？" class="headerlink" title="UNIX 系统基于访问权限的文件保护是如何工作的？为实现该策略，共需要多少个访问权限位？为什么？"></a>UNIX 系统基于访问权限的文件保护是如何工作的？为实现该策略，共需要多少个访问权限位？为什么？</h1><p>每一个文件和目录有3组权限与之相关：文件拥有者、所属分组成员、其他所有用户</p>
 <p>每组权限有3个权限标识位控制权限：</p>
 <ul>
 <li>可读（r）</li>
@@ -11333,14 +11333,14 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <p>这 9 位合起来被称为模式位（Mode Bits）。通常用一列10个字符来表示，每个字符表示一个模式设置，还有一位指明文件类型。</p>
 <p><code>p</code> ：命名管道文件 ，<code>d</code> ：目录文件 , <code>l</code> ：符号连接文件 , <code>-</code> ：普通文件 , <code>s</code> ：socket文件 , <code>c</code> ：字符设备文件 ，<code>b</code> ：快设备文件</p>
 <p>权限位可以用一个八进制数来表示。可读(ｒ) : <code>4</code> , 可写(w): <code>2</code> ，可执行 (x): <code>1</code> ,  无：<code>0</code></p>
-<h1 id="6-UNIX-系统-Passwd-文件的作用是什么？如何删除一个用户？如何更改一个用户的密码？"><a href="#6-UNIX-系统-Passwd-文件的作用是什么？如何删除一个用户？如何更改一个用户的密码？" class="headerlink" title="6 UNIX 系统 Passwd 文件的作用是什么？如何删除一个用户？如何更改一个用户的密码？"></a>6 UNIX 系统 Passwd 文件的作用是什么？如何删除一个用户？如何更改一个用户的密码？</h1><p>用户的关键信息被存放在系统的 <code>/etc/passwd</code> 文件中。系统的每一个合法用户账号对应文件的一行记录，这行记录定义了每个用户账号的属性。</p>
+<h1 id="UNIX-系统-Passwd-文件的作用是什么？如何删除一个用户？如何更改一个用户的密码？"><a href="#UNIX-系统-Passwd-文件的作用是什么？如何删除一个用户？如何更改一个用户的密码？" class="headerlink" title="UNIX 系统 Passwd 文件的作用是什么？如何删除一个用户？如何更改一个用户的密码？"></a>UNIX 系统 Passwd 文件的作用是什么？如何删除一个用户？如何更改一个用户的密码？</h1><p>用户的关键信息被存放在系统的 <code>/etc/passwd</code> 文件中。系统的每一个合法用户账号对应文件的一行记录，这行记录定义了每个用户账号的属性。</p>
 <p>如果 <code>passwd</code> 字段中第一个字符是 <code>*</code> ，那表示该账号被查封，系统不允许该账号持有者登录。禁用账号在 <code>etc/passwd</code> 文件中用户名前 加<code>#</code></p>
 <p>也可使用命令 <code>user del xxx</code> 直接删除用户</p>
 <p>修改密码使用命令 <code>passwd xxx</code></p>
-<h1 id="7-UNIX-Linux-系统中，服务的启动方式和禁用方式是什么？"><a href="#7-UNIX-Linux-系统中，服务的启动方式和禁用方式是什么？" class="headerlink" title="7 UNIX/Linux 系统中，服务的启动方式和禁用方式是什么？"></a>7 UNIX/Linux 系统中，服务的启动方式和禁用方式是什么？</h1><p><code>systemctl start/stop xxx</code></p>
-<h1 id="8-简述-UNIX-系统的审计工具及其机制"><a href="#8-简述-UNIX-系统的审计工具及其机制" class="headerlink" title="8 简述 UNIX 系统的审计工具及其机制"></a>8 简述 UNIX 系统的审计工具及其机制</h1><p>UNIX\Linux 中，主要的审计工具是 syslogd 守护进程。通过配置可提供各种水平的系统审计和指定输出目录。</p>
+<h1 id="UNIX-Linux-系统中，服务的启动方式和禁用方式是什么？"><a href="#UNIX-Linux-系统中，服务的启动方式和禁用方式是什么？" class="headerlink" title="UNIX/Linux 系统中，服务的启动方式和禁用方式是什么？"></a>UNIX/Linux 系统中，服务的启动方式和禁用方式是什么？</h1><p><code>systemctl start/stop xxx</code></p>
+<h1 id="简述-UNIX-系统的审计工具及其机制"><a href="#简述-UNIX-系统的审计工具及其机制" class="headerlink" title="简述 UNIX 系统的审计工具及其机制"></a>简述 UNIX 系统的审计工具及其机制</h1><p>UNIX\Linux 中，主要的审计工具是 syslogd 守护进程。通过配置可提供各种水平的系统审计和指定输出目录。</p>
 <p><code>syslog.conf</code> 文件指明 syslogd 程序记录日志的行为，该程序在启动时查询配置文件。该文件由不同程序或消息分类的单个条目组成，每个占一行。对每类消息提供一个选择域和一个选择域，这些域由 tab 隔开。选择域指明消息的类型和优先级，动作域指明 syslogd 接收到一个与选择标准相匹配的消息时所执行的动作。</p>
-<h1 id="9-简述-Windows-操作系统的系统架构和关键系统组件"><a href="#9-简述-Windows-操作系统的系统架构和关键系统组件" class="headerlink" title="9 简述 Windows 操作系统的系统架构和关键系统组件"></a>9 简述 Windows 操作系统的系统架构和关键系统组件</h1><p>用户模式和内核模式构成。用户应用程序代码在用户模式下运行，操作系统代码（如系统服务和设备驱动程序）在内核模式下运行。内核模式是处理器的一种执行模式，它允许访问所有的系统内存和所有的CPU指令。操作系统软件的特权级别级别高于应用程序软件，这样处理器就为操作系统的设计者提供了一个必要的基础，保证了应用程序的不当行为在总体上不会破坏系统的稳定性。</p>
+<h1 id="简述-Windows-操作系统的系统架构和关键系统组件"><a href="#简述-Windows-操作系统的系统架构和关键系统组件" class="headerlink" title="简述 Windows 操作系统的系统架构和关键系统组件"></a>简述 Windows 操作系统的系统架构和关键系统组件</h1><p>用户模式和内核模式构成。用户应用程序代码在用户模式下运行，操作系统代码（如系统服务和设备驱动程序）在内核模式下运行。内核模式是处理器的一种执行模式，它允许访问所有的系统内存和所有的CPU指令。操作系统软件的特权级别级别高于应用程序软件，这样处理器就为操作系统的设计者提供了一个必要的基础，保证了应用程序的不当行为在总体上不会破坏系统的稳定性。</p>
 <p>管系统组件：</p>
 <ul>
 <li>环境子系统和子系统动态链接库</li>
@@ -11350,7 +11350,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>设备驱动程序</li>
 <li>系统支持进程</li>
 </ul>
-<h1 id="10-简述-Windows-操作系统进程安全管理的方法"><a href="#10-简述-Windows-操作系统进程安全管理的方法" class="headerlink" title="10 简述 Windows 操作系统进程安全管理的方法"></a>10 简述 Windows 操作系统进程安全管理的方法</h1><ul>
+<h1 id="简述-Windows-操作系统进程安全管理的方法"><a href="#简述-Windows-操作系统进程安全管理的方法" class="headerlink" title="简述 Windows 操作系统进程安全管理的方法"></a>简述 Windows 操作系统进程安全管理的方法</h1><ul>
 <li>任务管理器：提供系统正在运行的程序和进程的相关信息，可以实现监视计算机性能、查看网络状态、终止已停止响应的程序等功能</li>
 <li>Msinfo32：提供查看系统信息的工具，可以显示本地计算机上硬件、系统组件和软件环境的完整视图</li>
 <li>DOS命令行</li>
@@ -11383,7 +11383,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 </tbody>
 </table>
 </div>
-<h1 id="11-简述-Windows-操作系统的启动过程"><a href="#11-简述-Windows-操作系统的启动过程" class="headerlink" title="11 简述 Windows 操作系统的启动过程"></a>11 简述 Windows 操作系统的启动过程</h1><ul>
+<h1 id="简述-Windows-操作系统的启动过程"><a href="#简述-Windows-操作系统的启动过程" class="headerlink" title="简述 Windows 操作系统的启动过程"></a>简述 Windows 操作系统的启动过程</h1><ul>
 <li>预引导阶段：通电自检，读取并运行主引导记录 MBR</li>
 <li>引导阶段：初始化引导载入程序、操作系统选择、硬盘检测、硬件配置文件选择等4个步骤<ul>
 <li>初始化引导载入程序：读取文件系统驱动并成功找到硬盘上的分区后，引导载入程序初始化完成</li>
@@ -11396,15 +11396,15 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>初始化内核阶段：创建 <code>Hardware</code> 注册表键、对 <code>Control Set</code> 注册表键进行复制、载入和初始化设备驱动、启动服务</li>
 <li>登录阶段，会话管理器启动的 winlogon.exe 进程将会启动本地安全性授权 lsass.exe 子系统，加载图形化标识和验证并等待用户登录，登录过程中，后天可能仍然在加载一些非关键的设备驱动</li>
 </ul>
-<h1 id="12-某公司的一个部门需要设置一个-Windows-操作系统的共享文件夹，需要全公司都能读取该文件夹中的文件，但是不能对文件夹的内容进行任何修改或向这个共享文件夹中添加新的文件或文件夹。只有本部门的成员才能具有对文件夹内容进行修改的访问权限。为-Everyone-Group-组设置该文件夹以实现这个目标的最好策略是什么？"><a href="#12-某公司的一个部门需要设置一个-Windows-操作系统的共享文件夹，需要全公司都能读取该文件夹中的文件，但是不能对文件夹的内容进行任何修改或向这个共享文件夹中添加新的文件或文件夹。只有本部门的成员才能具有对文件夹内容进行修改的访问权限。为-Everyone-Group-组设置该文件夹以实现这个目标的最好策略是什么？" class="headerlink" title="12 某公司的一个部门需要设置一个 Windows 操作系统的共享文件夹，需要全公司都能读取该文件夹中的文件，但是不能对文件夹的内容进行任何修改或向这个共享文件夹中添加新的文件或文件夹。只有本部门的成员才能具有对文件夹内容进行修改的访问权限。为 Everyone Group 组设置该文件夹以实现这个目标的最好策略是什么？"></a>12 某公司的一个部门需要设置一个 Windows 操作系统的共享文件夹，需要全公司都能读取该文件夹中的文件，但是不能对文件夹的内容进行任何修改或向这个共享文件夹中添加新的文件或文件夹。只有本部门的成员才能具有对文件夹内容进行修改的访问权限。为 Everyone Group 组设置该文件夹以实现这个目标的最好策略是什么？</h1><p>设置该目录设置用户组 Everyone Group 的目录权限和文件权限为Read（RX），共享权限安全级别为 Read</p>
-<h1 id="13-什么是可信计算？其基本思想是什么？"><a href="#13-什么是可信计算？其基本思想是什么？" class="headerlink" title="13 什么是可信计算？其基本思想是什么？"></a>13 什么是可信计算？其基本思想是什么？</h1><p>可信的定义：一个实体是可信的，如果它的行为总以预期的方式，达到预期的目标。参与计算的组件，操作或过程在任意的条件下是可预测的，并能抵御病毒和物理干扰</p>
+<h1 id="某公司的一个部门需要设置一个-Windows-操作系统的共享文件夹，需要全公司都能读取该文件夹中的文件，但是不能对文件夹的内容进行任何修改或向这个共享文件夹中添加新的文件或文件夹。只有本部门的成员才能具有对文件夹内容进行修改的访问权限。为-Everyone-Group-组设置该文件夹以实现这个目标的最好策略是什么？"><a href="#某公司的一个部门需要设置一个-Windows-操作系统的共享文件夹，需要全公司都能读取该文件夹中的文件，但是不能对文件夹的内容进行任何修改或向这个共享文件夹中添加新的文件或文件夹。只有本部门的成员才能具有对文件夹内容进行修改的访问权限。为-Everyone-Group-组设置该文件夹以实现这个目标的最好策略是什么？" class="headerlink" title="某公司的一个部门需要设置一个 Windows 操作系统的共享文件夹，需要全公司都能读取该文件夹中的文件，但是不能对文件夹的内容进行任何修改或向这个共享文件夹中添加新的文件或文件夹。只有本部门的成员才能具有对文件夹内容进行修改的访问权限。为 Everyone Group 组设置该文件夹以实现这个目标的最好策略是什么？"></a>某公司的一个部门需要设置一个 Windows 操作系统的共享文件夹，需要全公司都能读取该文件夹中的文件，但是不能对文件夹的内容进行任何修改或向这个共享文件夹中添加新的文件或文件夹。只有本部门的成员才能具有对文件夹内容进行修改的访问权限。为 Everyone Group 组设置该文件夹以实现这个目标的最好策略是什么？</h1><p>设置该目录设置用户组 Everyone Group 的目录权限和文件权限为Read（RX），共享权限安全级别为 Read</p>
+<h1 id="什么是可信计算？其基本思想是什么？"><a href="#什么是可信计算？其基本思想是什么？" class="headerlink" title="什么是可信计算？其基本思想是什么？"></a>什么是可信计算？其基本思想是什么？</h1><p>可信的定义：一个实体是可信的，如果它的行为总以预期的方式，达到预期的目标。参与计算的组件，操作或过程在任意的条件下是可预测的，并能抵御病毒和物理干扰</p>
 <p>可信指计算机系统所提供的服务是可以论证其是可信赖的。这就是指从用户角度看，计算机系统所提供的服务是可信赖的，而且这种可信赖是可论证的</p>
 <p>可信 ≈ 安全 + 可靠</p>
 <p>可信计算机系统是能够提供系统的可靠性、可用性、信息和行为安全性的计算机系统</p>
-<h1 id="14-简述可信计算组织的可信平台模块与中国可信密码模块的结构及优缺点"><a href="#14-简述可信计算组织的可信平台模块与中国可信密码模块的结构及优缺点" class="headerlink" title="14 简述可信计算组织的可信平台模块与中国可信密码模块的结构及优缺点"></a>14 简述可信计算组织的可信平台模块与中国可信密码模块的结构及优缺点</h1><p>总体上是很成功的，以硬件芯片增强计算平台安全的基本思想，为可信计算平台提供了信任根。可信平台模块以密码技术支持了可信计算组织的可信度量、存储、报告功能，为用户提供确保平台系统资源完整性、数据安全存储和平台远程证明</p>
+<h1 id="简述可信计算组织的可信平台模块与中国可信密码模块的结构及优缺点"><a href="#简述可信计算组织的可信平台模块与中国可信密码模块的结构及优缺点" class="headerlink" title="简述可信计算组织的可信平台模块与中国可信密码模块的结构及优缺点"></a>简述可信计算组织的可信平台模块与中国可信密码模块的结构及优缺点</h1><p>总体上是很成功的，以硬件芯片增强计算平台安全的基本思想，为可信计算平台提供了信任根。可信平台模块以密码技术支持了可信计算组织的可信度量、存储、报告功能，为用户提供确保平台系统资源完整性、数据安全存储和平台远程证明</p>
 <p>存在一些不足，采用LPC总线与系统连接，不适合大数据量通信；缺少芯片本身物理安全方面的设计；可信测量根是一个软件模块，存储在可信平台模块之外，容易遭受恶意攻击；在密码配置方面存在一些不足，如密钥种类多、授权协议复杂、可信平台模块内部缺少对称密码等；可信平台模块的设计主要面向PC平台的，对于服务器和嵌入式移动运算平台并不完全适合。</p>
 <p>可信密码模块与可信平台模块相比，在设计上充分考虑了可信平台模块存在的不足，在芯片本身物理安全和密码配置方面等都有明显提升，可信密码模块包括密码计算区、受保护存储区和主计算区，提供多种密码算法，特别适用了自主密码算法SM2、SM3、SMS4、RNG，其目标是建立计算平台安全信任基。</p>
-<h1 id="15-什么是数据库的安全性？实现数据库安全性控制的常用方法和技术有哪些？"><a href="#15-什么是数据库的安全性？实现数据库安全性控制的常用方法和技术有哪些？" class="headerlink" title="15 什么是数据库的安全性？实现数据库安全性控制的常用方法和技术有哪些？"></a>15 什么是数据库的安全性？实现数据库安全性控制的常用方法和技术有哪些？</h1><p>数据库安全性指保护数据库，防止因用户非法使用数据库造成数据泄露、更改或破坏。数据库系统的安全保护措施是否有效是数据库系统主要的性能指标之一</p>
+<h1 id="什么是数据库的安全性？实现数据库安全性控制的常用方法和技术有哪些？"><a href="#什么是数据库的安全性？实现数据库安全性控制的常用方法和技术有哪些？" class="headerlink" title="什么是数据库的安全性？实现数据库安全性控制的常用方法和技术有哪些？"></a>什么是数据库的安全性？实现数据库安全性控制的常用方法和技术有哪些？</h1><p>数据库安全性指保护数据库，防止因用户非法使用数据库造成数据泄露、更改或破坏。数据库系统的安全保护措施是否有效是数据库系统主要的性能指标之一</p>
 <p>数据库安全性控制的常用方法包括用户标识和鉴别、存取控制、审计、数据加密等</p>
 <p>数据库提供两种存取控制机制：自主存取机制和强制存取机制。</p>
 <p>数据库 <code>SCHEMA</code> 、基本表 <code>TABLE</code> 、视图 <code>VIEW</code> 、索引 <code>INDEX</code></p>
@@ -11427,17 +11427,17 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>RESOURCE : 能创建基本表和视图，不能创建模式和新用户</li>
 <li>CONNECT : 不能创建新用户、模式和基本表，只能登录数据库</li>
 </ul>
-<h1 id="16-什么是数据库角色？如何利用数据库角色对用户授权？"><a href="#16-什么是数据库角色？如何利用数据库角色对用户授权？" class="headerlink" title="16 什么是数据库角色？如何利用数据库角色对用户授权？"></a>16 什么是数据库角色？如何利用数据库角色对用户授权？</h1><p>数据库角色是被命名的一组与数据库操作相关的权限，角色是授权的集合。可以为一组具有相同权限的用户创建一个角色，使用角色来管理数据库权限可以简化授权的过程</p>
+<h1 id="什么是数据库角色？如何利用数据库角色对用户授权？"><a href="#什么是数据库角色？如何利用数据库角色对用户授权？" class="headerlink" title="什么是数据库角色？如何利用数据库角色对用户授权？"></a>什么是数据库角色？如何利用数据库角色对用户授权？</h1><p>数据库角色是被命名的一组与数据库操作相关的权限，角色是授权的集合。可以为一组具有相同权限的用户创建一个角色，使用角色来管理数据库权限可以简化授权的过程</p>
 <p>使用 <code>CREATE ROLE</code> 语句创建角色：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE ROLE &lt;角色名&gt;</span><br></pre></td></tr></table></figure>
 <p>将创建的角色授予其他角色或用户：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CRANT &lt;角色1&gt; [,&lt;角色2&gt;] ··· </span><br><span class="line">TO &lt;角色a&gt; [,&lt;用户&gt;] ···</span><br><span class="line">[WITH ADMIN OPTION];</span><br></pre></td></tr></table></figure>
 <p>指定 <code>WITH ADMIN OPTION</code> 则获得某权限的角色或用户还可将该权限授予其他角色</p>
-<h1 id="17-什么是数据库审计？如何设置和取消审计功能"><a href="#17-什么是数据库审计？如何设置和取消审计功能" class="headerlink" title="17 什么是数据库审计？如何设置和取消审计功能"></a>17 什么是数据库审计？如何设置和取消审计功能</h1><p>把用户对数据库的所有操作自动记录下来放入审计日志中，数据库管理员可利用审计跟踪的信息，重现导致数据库现有状况的一系列事件，找出非法存取数据的人、时间和内容等</p>
+<h1 id="什么是数据库审计？如何设置和取消审计功能"><a href="#什么是数据库审计？如何设置和取消审计功能" class="headerlink" title="什么是数据库审计？如何设置和取消审计功能"></a>什么是数据库审计？如何设置和取消审计功能</h1><p>把用户对数据库的所有操作自动记录下来放入审计日志中，数据库管理员可利用审计跟踪的信息，重现导致数据库现有状况的一系列事件，找出非法存取数据的人、时间和内容等</p>
 <p>使用 <code>AUDIT</code> 语句设置审计功能，<code>NOAUDIT</code> 取消审计功能</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 对修改 SC 表结构和表数据的操作进行审计</span><br><span class="line">AUDIT ALTER, UPDATE</span><br><span class="line">ON SC;</span><br><span class="line"># 取消对 SC 表的一切审计</span><br><span class="line">NOAUDIT ALTER,UPDATE</span><br><span class="line">ON SC;</span><br></pre></td></tr></table></figure>
-<h1 id="18-视图机制有哪些优点？"><a href="#18-视图机制有哪些优点？" class="headerlink" title="18 视图机制有哪些优点？"></a>18 视图机制有哪些优点？</h1><p>可以限制用户的访问范围，通过视图机制把要保密的数据对无权存取这些数据的用户隐藏起来，从而自动地对数据提供一定程度的安全保护</p>
-<h1 id="19-数据库完整性约束条件可以分为哪几类？"><a href="#19-数据库完整性约束条件可以分为哪几类？" class="headerlink" title="19 数据库完整性约束条件可以分为哪几类？"></a>19 数据库完整性约束条件可以分为哪几类？</h1><p>数据库完整性：语义完整性、参照完整性、实体完整性</p>
+<h1 id="视图机制有哪些优点？"><a href="#视图机制有哪些优点？" class="headerlink" title="视图机制有哪些优点？"></a>视图机制有哪些优点？</h1><p>可以限制用户的访问范围，通过视图机制把要保密的数据对无权存取这些数据的用户隐藏起来，从而自动地对数据提供一定程度的安全保护</p>
+<h1 id="数据库完整性约束条件可以分为哪几类？"><a href="#数据库完整性约束条件可以分为哪几类？" class="headerlink" title="数据库完整性约束条件可以分为哪几类？"></a>数据库完整性约束条件可以分为哪几类？</h1><p>数据库完整性：语义完整性、参照完整性、实体完整性</p>
 <p>约束：</p>
 <ul>
 <li><code>PRIMARY KEY</code> 约束标识列或列集，这些列或列集的值唯一标识表中的行</li>
@@ -11446,7 +11446,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li><code>CHECK</code> 通过限制用户输入的值来加强域完整性。它指定应用于列中输入的所有值的布尔搜索条件，拒绝所有不取值为<code>TRUE</code> 的值，可为没列指定多个 <code>CHECK</code> 约束</li>
 <li><code>NOT NULL</code> 指定字段是否允许为空</li>
 </ul>
-<h1 id="20-设有如下两种关系模式"><a href="#20-设有如下两种关系模式" class="headerlink" title="20 设有如下两种关系模式"></a>20 设有如下两种关系模式</h1><p>职工(职工号,名称,年龄,职务,工资,部门号)，其中职工号为主键<br>部门(部门号,名称,经理名,电话)，其中部门号为主键<br>试用 SQL 的 CRANT 和 REVOKE 语句加上视图机制，完成以下授权定义或存取控制功能</p>
+<h1 id="设有如下两种关系模式"><a href="#设有如下两种关系模式" class="headerlink" title="设有如下两种关系模式"></a>设有如下两种关系模式</h1><p>职工(职工号,名称,年龄,职务,工资,部门号)，其中职工号为主键<br>部门(部门号,名称,经理名,电话)，其中部门号为主键<br>试用 SQL 的 CRANT 和 REVOKE 语句加上视图机制，完成以下授权定义或存取控制功能</p>
 <ul>
 <li>用户王明对两个表有 SELECT 权力</li>
 <li>用户李勇对两个表有 INSERT 和 DELETE 权力</li>
@@ -11455,21 +11455,21 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>用户王明对两个表有的所以权力（读、写、修改、删除数据），并具有给其他用户授权的权力</li>
 <li>用户杨兰具有查找每个部门职工中的最高工资、最低工资、平均工资的权力，但她不能查看每个人都工资</li>
 </ul>
-<h1 id="22-描述数据库安全防护的3个阶段"><a href="#22-描述数据库安全防护的3个阶段" class="headerlink" title="22 描述数据库安全防护的3个阶段"></a>22 描述数据库安全防护的3个阶段</h1><ul>
+<h1 id="描述数据库安全防护的3个阶段"><a href="#描述数据库安全防护的3个阶段" class="headerlink" title="描述数据库安全防护的3个阶段"></a>描述数据库安全防护的3个阶段</h1><ul>
 <li>事前检查：指采购及部署数据库阶段，对运行环境以及数据库本身安全特性进行检查，包括硬件环境与操作系统及数据库服务器的运行环境的安全检测、数据库漏洞检测两部分</li>
 <li>事中监控：对数据库运行期间客户端与数据库交互行为的监控，包括身份认证、访问控制以及交互数据的检测等</li>
 <li>事后审计：是指对日志文件的审计，用于分析、跟踪发现问题</li>
 </ul>
-<h1 id="23-试述数据库安全检测的3个层次及其内容"><a href="#23-试述数据库安全检测的3个层次及其内容" class="headerlink" title="23 试述数据库安全检测的3个层次及其内容"></a>23 试述数据库安全检测的3个层次及其内容</h1><ul>
+<h1 id="试述数据库安全检测的3个层次及其内容"><a href="#试述数据库安全检测的3个层次及其内容" class="headerlink" title="试述数据库安全检测的3个层次及其内容"></a>试述数据库安全检测的3个层次及其内容</h1><ul>
 <li>端口扫描：也称服务器发现，主要是对数据库的开放端口进行扫描，检查其中的安全缺陷，如开放了多余的服务器端口</li>
 <li>渗透测试：渗透测试是对数据库服务器进行黑河式的安全检测，检测前不知道数据库内部的任何信息，完全根据对数据库外围的信息收集，来对数据库的安全进行测试，找到其中的安全隐患。渗透测试的对象主要是数据库的身份验证系统和服务监听系统</li>
 <li>内部安全监测：深入数据库内，对数据库内部安全的相关对象进行完整的扫描和检测，包括安全元数据、内部审计、安全配置检查、漏洞检测和版本补丁检测等</li>
 </ul>
-<h1 id="24-说明事务处理中可以回退和不可以回退的语句各有哪些？"><a href="#24-说明事务处理中可以回退和不可以回退的语句各有哪些？" class="headerlink" title="24 说明事务处理中可以回退和不可以回退的语句各有哪些？"></a>24 说明事务处理中可以回退和不可以回退的语句各有哪些？</h1><ul>
+<h1 id="说明事务处理中可以回退和不可以回退的语句各有哪些？"><a href="#说明事务处理中可以回退和不可以回退的语句各有哪些？" class="headerlink" title="说明事务处理中可以回退和不可以回退的语句各有哪些？"></a>说明事务处理中可以回退和不可以回退的语句各有哪些？</h1><ul>
 <li>可回退：<code>INSERT</code> ,<code>UPDATE</code> , <code>DELETE</code></li>
 <li>不可回退： <code>SELECT</code> , <code>CREATE</code> , <code>DROP</code></li>
 </ul>
-<h1 id="25-试述数据库中的访问控制机制"><a href="#25-试述数据库中的访问控制机制" class="headerlink" title="25 试述数据库中的访问控制机制"></a>25 试述数据库中的访问控制机制</h1><p>数据库不允许未经授权的用户对数据库进行操。用户标识和鉴别是系统提供的最外层的安全措施。由系统提供一定的方法让用户标识自己的名字或身份，系统内部记录着所有合法用户的标识。每次用户要求进入系统时，由系统进行核实，通过鉴定后才能提供机器的使用权。</p>
+<h1 id="试述数据库中的访问控制机制"><a href="#试述数据库中的访问控制机制" class="headerlink" title="试述数据库中的访问控制机制"></a>试述数据库中的访问控制机制</h1><p>数据库不允许未经授权的用户对数据库进行操。用户标识和鉴别是系统提供的最外层的安全措施。由系统提供一定的方法让用户标识自己的名字或身份，系统内部记录着所有合法用户的标识。每次用户要求进入系统时，由系统进行核实，通过鉴定后才能提供机器的使用权。</p>
 <h1 id="一些命令"><a href="#一些命令" class="headerlink" title="一些命令"></a>一些命令</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 创建基本表</span><br><span class="line">CREATE TABLE 表名(</span><br><span class="line">字段名1 类型(宽度,小数),</span><br><span class="line">字段名1 类型(宽度,小数),</span><br><span class="line">···</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"># 修改、删除基本表</span><br><span class="line">ALTER TABLE &lt;表名&gt; &lt;指令&gt;(</span><br><span class="line">&lt;字段名1 类型(宽度,小数)&gt;,</span><br><span class="line">&lt;字段名1 类型(宽度,小数)&gt;,</span><br><span class="line">···</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">DROP TABLE &lt;表名&gt;;</span><br><span class="line"></span><br><span class="line"># 插入数据</span><br><span class="line">INSERT INTO &lt;表名&gt; [(&lt;字段名&gt;,&lt;字段名&gt;,···)];</span><br><span class="line">VALUES (&lt;表达式1&gt;,&lt;表达式2&gt;,···);</span><br><span class="line"></span><br><span class="line"># SELECT 查询</span><br><span class="line">SELECT &lt;表达式1&gt;,&lt;表达式2&gt;,··· &#x2F;&#x2F;查询目标</span><br><span class="line">FROM &lt;关系1&gt;,&lt;关系2&gt;,···  &#x2F;&#x2F;查询的源(所有关系的关系名)</span><br><span class="line">[WHERE &lt;条件&gt;]; &#x2F;&#x2F;查询目标必须满足的条件</span><br><span class="line"></span><br><span class="line"># 更新数据</span><br><span class="line">UPDATE &lt;表名&gt;</span><br><span class="line">SET &lt;更新表达式&gt;</span><br><span class="line">[WHERE &lt;条件&gt;];</span><br><span class="line"></span><br><span class="line"># 删除数据</span><br><span class="line">DELETE</span><br><span class="line">FROM &lt;表名&gt;</span><br><span class="line">WHERE &lt;条件&gt;;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
@@ -11483,46 +11483,46 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
     <title>计算机等级考试三级信息安全技术章节习题4</title>
     <url>/posts/46a3d690/</url>
     <content><![CDATA[<p><strong>四、网络安全</strong></p>
-<h1 id="1-简述-TCP-IP-协议架构的层次架构和各层包含的主要协议"><a href="#1-简述-TCP-IP-协议架构的层次架构和各层包含的主要协议" class="headerlink" title="1 简述 TCP/IP 协议架构的层次架构和各层包含的主要协议"></a>1 简述 TCP/IP 协议架构的层次架构和各层包含的主要协议</h1><ul>
+<h1 id="简述-TCP-IP-协议架构的层次架构和各层包含的主要协议"><a href="#简述-TCP-IP-协议架构的层次架构和各层包含的主要协议" class="headerlink" title="简述 TCP/IP 协议架构的层次架构和各层包含的主要协议"></a>简述 TCP/IP 协议架构的层次架构和各层包含的主要协议</h1><ul>
 <li>物理和数据链路层</li>
 <li>网络层：TCP/IP 体系结构最重要的一层，IP 协议族是网路层的基础协议包括用于路由选择的 <code>RIP</code> 、 <code>OSPF</code> 等路由协议，用于数据传输的 IP 协议，用于网络管理的 SNMP 协议,用于故障诊断的 ICMP 协议。</li>
 <li>传输层：TCP 协议提供端到端可靠数据传输，UDP 协议提供端到端不可靠传输。</li>
 <li>应用层：文件传输协议 FTP ，超文本传输协议 HTTP ，简单邮件传输协议 SMTP/POP3 ，域名系统 DNS ，远程终端登录协议 Telnet ，简单网络管理 SNMP 等。</li>
 </ul>
 <a id="more"></a>
-<h1 id="2-简述-ARP-协议欺骗的原理"><a href="#2-简述-ARP-协议欺骗的原理" class="headerlink" title="2 简述 ARP 协议欺骗的原理"></a>2 简述 ARP 协议欺骗的原理</h1><p>ARP 协议主要完成从 IP 地址到 MAC 地址的转换，主机中的 ARP 缓存表都有更新机制，每台主机在收到 ARP 数据包时就会更新自己的 ARP 缓存表。ARP 欺骗的原理就是恶意主机伪装并发送欺骗性的 ARP 数据包，致使其他主机收到欺骗性的 ARP 数据包后，更新其 ARP 缓存表，从而建立错误的 IP 地址与 MAC 地址的对应关系。</p>
-<h1 id="3-简述-ICMP-协议的功能"><a href="#3-简述-ICMP-协议的功能" class="headerlink" title="3 简述 ICMP 协议的功能"></a>3 简述 ICMP 协议的功能</h1><p>Internet 控制报文协议（Internet Control Message Protocol , ICMP）主要的作用是在 TCP/IP 网路中发送出错和控制消息，允许主机或网络设备报告差错或异常情况，从而提供一个错误侦测与反馈机制</p>
+<h1 id="简述-ARP-协议欺骗的原理"><a href="#简述-ARP-协议欺骗的原理" class="headerlink" title="简述 ARP 协议欺骗的原理"></a>简述 ARP 协议欺骗的原理</h1><p>ARP 协议主要完成从 IP 地址到 MAC 地址的转换，主机中的 ARP 缓存表都有更新机制，每台主机在收到 ARP 数据包时就会更新自己的 ARP 缓存表。ARP 欺骗的原理就是恶意主机伪装并发送欺骗性的 ARP 数据包，致使其他主机收到欺骗性的 ARP 数据包后，更新其 ARP 缓存表，从而建立错误的 IP 地址与 MAC 地址的对应关系。</p>
+<h1 id="简述-ICMP-协议的功能"><a href="#简述-ICMP-协议的功能" class="headerlink" title="简述 ICMP 协议的功能"></a>简述 ICMP 协议的功能</h1><p>Internet 控制报文协议（Internet Control Message Protocol , ICMP）主要的作用是在 TCP/IP 网路中发送出错和控制消息，允许主机或网络设备报告差错或异常情况，从而提供一个错误侦测与反馈机制</p>
 <p>主要功能是差错报告和查询</p>
-<h1 id="4-简述-TCP-协议的三次握手过程"><a href="#4-简述-TCP-协议的三次握手过程" class="headerlink" title="4 简述 TCP 协议的三次握手过程"></a>4 简述 TCP 协议的三次握手过程</h1><ul>
+<h1 id="简述-TCP-协议的三次握手过程"><a href="#简述-TCP-协议的三次握手过程" class="headerlink" title="简述 TCP 协议的三次握手过程"></a>简述 TCP 协议的三次握手过程</h1><ul>
 <li>A 主机向 B 主机发送 <code>SYN=1</code> 的数据包，希望建立同步连接，数据包序号 <code>SEQ=X</code> ，A 进入 <code>SYN_SENT</code> 状态</li>
 <li>B 收到数据包，同意建立连接，返回数据包 <code>SYN=1 , ACK=1</code> ，数据包序号 <code>SEQ=Y</code> ，确认号 <code>X+1</code>  ，B 进入 <code>SYN_RECV</code> 状态 </li>
 <li>A 收到返回的数据包，确认建立连接，发送数据包 <code>ACK=1</code> ，数据包序号 <code>SEQ=Y+1</code> ，确认号 <code>Y+1</code> ，A 、B 进入 <code>ESTABLISHED</code> 状态，TCP 连接成功</li>
 </ul>
 <p>请求包 <code>SYN</code></p>
 <p>应答包 <code>ACK</code></p>
-<h1 id="5-说明-TCP-全连接扫描、TCP-SYN-扫描和-TCP-FIN-扫描的原理和不同之处"><a href="#5-说明-TCP-全连接扫描、TCP-SYN-扫描和-TCP-FIN-扫描的原理和不同之处" class="headerlink" title="5 说明 TCP 全连接扫描、TCP SYN 扫描和 TCP FIN 扫描的原理和不同之处"></a>5 说明 TCP 全连接扫描、TCP SYN 扫描和 TCP FIN 扫描的原理和不同之处</h1><ul>
+<h1 id="说明-TCP-全连接扫描、TCP-SYN-扫描和-TCP-FIN-扫描的原理和不同之处"><a href="#说明-TCP-全连接扫描、TCP-SYN-扫描和-TCP-FIN-扫描的原理和不同之处" class="headerlink" title="说明 TCP 全连接扫描、TCP SYN 扫描和 TCP FIN 扫描的原理和不同之处"></a>说明 TCP 全连接扫描、TCP SYN 扫描和 TCP FIN 扫描的原理和不同之处</h1><ul>
 <li>TCP 全连接扫描：利用 TCP 协议三次握手原理来探测目标主机的网络端口是否处于打开状态。都尝试与目标主机建立正常的 TCP 三次握手的全连接。如果能建立起三次握手，则说明三次握手所连接的目标主机的端口是打开的，所有扫描过程容易被检测出来。</li>
 <li>TCP SYN 扫描：半连接扫描，利用前两次握手，降低了被发现的可能，同时提高了扫描性能。</li>
 <li>TCP FIN 扫描：发送 FIN 标识位为 1 的数据包给目标主机，若目标主机端口是开放的，则丢弃此包，不进行回应，若未开放，则返回一个 RST 标识位为 1 的数据包。由于不采用 TCP 三次握手连接方法，扫描行为更加隐秘，也称秘密扫描。这种方法适用于 UNIX 操作系统主机，有些操作系统（Windows NT）不论端口是否打开都回复 RST 这种方法就不适用了。</li>
 </ul>
-<h1 id="6-简述网络漏洞扫描和主机漏洞扫描的区别"><a href="#6-简述网络漏洞扫描和主机漏洞扫描的区别" class="headerlink" title="6 简述网络漏洞扫描和主机漏洞扫描的区别"></a>6 简述网络漏洞扫描和主机漏洞扫描的区别</h1><ul>
+<h1 id="简述网络漏洞扫描和主机漏洞扫描的区别"><a href="#简述网络漏洞扫描和主机漏洞扫描的区别" class="headerlink" title="简述网络漏洞扫描和主机漏洞扫描的区别"></a>简述网络漏洞扫描和主机漏洞扫描的区别</h1><ul>
 <li>网络漏洞扫描：网络漏洞扫描工具针对网络中的主机和网络设备，发送漏洞探测数据包进行漏洞的扫描，模拟攻击技术扫描出具体的漏洞类型，扫描工具中的漏洞脚本库中包含大量漏洞的模型攻击脚本或代码。网络漏洞扫描工具无法通过网络扫描没有网络服务功能的应用软件的漏洞</li>
 <li>主机漏洞扫描，主机漏洞扫描工具通过检测本机安装的操作系统和应用软件系统版本信息和补丁安装情况根据自身数据库中保留的最新补丁信息进行比较，判断是否存在某些为打补丁的漏洞</li>
 </ul>
-<h1 id="7-介绍基于-DNS服务器的欺骗技术原理"><a href="#7-介绍基于-DNS服务器的欺骗技术原理" class="headerlink" title="7 介绍基于 DNS服务器的欺骗技术原理"></a>7 介绍基于 DNS服务器的欺骗技术原理</h1><p>欺骗目标是 DNS 服务器。攻击者首先向 DNS 服务器发送域名对应 IP 地址的查询请求， DNS 服务器在没有此域名的条件下会向更高级别的 DNS 服务器上传查询请求。此时，攻击者可以 <strong>伪造更高级别 DNS 服务器返回的 DNS 应答包</strong> ，告知此 DNS 服务器要查询域名的 IP 地址，这个 IP 地址往往被设置为攻击者自己服务器的 IP 地址。被欺骗的 DNS 服务器收到 DNS 应答数据包后，将域名和对应的虚假 IP 地址记录到自身缓存中，当网络中有查询此域名时，就从缓存中找到虚假 IP 地址返回给用户，使用户访问的虚假 IP 地址对应的攻击者的服务器</p>
-<h1 id="8-说明网站挂马的概念及原理"><a href="#8-说明网站挂马的概念及原理" class="headerlink" title="8 说明网站挂马的概念及原理"></a>8 说明网站挂马的概念及原理</h1><p>网站中的网页被攻击者恶意修改后，添加了可以触发并下载恶意程序链接以及恶意程序代码和脚本</p>
+<h1 id="介绍基于-DNS服务器的欺骗技术原理"><a href="#介绍基于-DNS服务器的欺骗技术原理" class="headerlink" title="介绍基于 DNS服务器的欺骗技术原理"></a>介绍基于 DNS服务器的欺骗技术原理</h1><p>欺骗目标是 DNS 服务器。攻击者首先向 DNS 服务器发送域名对应 IP 地址的查询请求， DNS 服务器在没有此域名的条件下会向更高级别的 DNS 服务器上传查询请求。此时，攻击者可以 <strong>伪造更高级别 DNS 服务器返回的 DNS 应答包</strong> ，告知此 DNS 服务器要查询域名的 IP 地址，这个 IP 地址往往被设置为攻击者自己服务器的 IP 地址。被欺骗的 DNS 服务器收到 DNS 应答数据包后，将域名和对应的虚假 IP 地址记录到自身缓存中，当网络中有查询此域名时，就从缓存中找到虚假 IP 地址返回给用户，使用户访问的虚假 IP 地址对应的攻击者的服务器</p>
+<h1 id="说明网站挂马的概念及原理"><a href="#说明网站挂马的概念及原理" class="headerlink" title="说明网站挂马的概念及原理"></a>说明网站挂马的概念及原理</h1><p>网站中的网页被攻击者恶意修改后，添加了可以触发并下载恶意程序链接以及恶意程序代码和脚本</p>
 <p>挂马的前提是入侵网站服务器，具有网站中网页的修改权限，攻击者对网站中的网页进行修改，通过 iframe 内嵌框架、跨站脚本链接等内嵌链接机制，将恶意链接添加到网页中。恶意网页是被攻击者篡改或恶意构建的其他网站的网页，在恶意网页中往往被攻击者挂载了含有漏洞利用代码的文件或脚本，文件和脚本在用户访问恶意网页时会自动下载并执行，用户计算机中浏览器及插件漏洞会被利用并导致文件和脚本中指向或包括的木马病毒自动被下载和运行</p>
-<h1 id="9-说明-Dos-攻击的3种实现方式"><a href="#9-说明-Dos-攻击的3种实现方式" class="headerlink" title="9 说明 Dos 攻击的3种实现方式"></a>9 说明 Dos 攻击的3种实现方式</h1><ul>
+<h1 id="说明-Dos-攻击的3种实现方式"><a href="#说明-Dos-攻击的3种实现方式" class="headerlink" title="说明 Dos 攻击的3种实现方式"></a>说明 Dos 攻击的3种实现方式</h1><ul>
 <li>利用目标主机自身存在的拒绝服务型漏洞进行攻击</li>
 <li>耗尽目标主机 CPU 和内存等计算机资源的攻击</li>
 <li>耗尽目标主机网络带宽攻击</li>
 </ul>
-<h1 id="10-介绍-SYN-Flood-攻击的原理"><a href="#10-介绍-SYN-Flood-攻击的原理" class="headerlink" title="10 介绍 SYN-Flood 攻击的原理"></a>10 介绍 SYN-Flood 攻击的原理</h1><p>攻击者向目标主机发送第一次 SYN 握手请求数据包，伪造了此数据包的源 IP 地址为不存在或网络不可达的一个 IP 地址，地址不存在或网络不可达，所以没用第三次握手的响应数据包，主机就要等一段时间后才丢弃未完成的连接，这会占用一定的 CPU 和内存资源，攻击者通过大量伪造的 SYN 数据包，形成大量的半开连接，直至资源耗尽</p>
-<h1 id="11-介绍-ACK-Flood-攻击的原理"><a href="#11-介绍-ACK-Flood-攻击的原理" class="headerlink" title="11 介绍 ACK-Flood 攻击的原理"></a>11 介绍 ACK-Flood 攻击的原理</h1><p>利用握手过程，在发送 SYN 数据包给目标主机之前，将该数据包的源地址和目标地址都设置成目标主机的 IP 地址。这会导致目标主机向自己的 IP 地址响应 SYN+ACK 数据包，结果又向自己发送 ACK 消息并创建一个空连接，每个空连接都会保留至超时，当这样的连接数量很多时，系统资源将会被耗尽</p>
-<h1 id="12-介绍应用层脚本洪水攻击的原理"><a href="#12-介绍应用层脚本洪水攻击的原理" class="headerlink" title="12 介绍应用层脚本洪水攻击的原理"></a>12 介绍应用层脚本洪水攻击的原理</h1><p>应用层 DoS 攻击是脚本洪水攻击，攻击者利用代理服务器对 Web 服务器发送大量的 HTTP Get 请求，如果目标服务器的动态 Web 服务器，大量的 HTTP Get 请求主要是查询动态网页，这些请求会给后台的数据库服务器制造极大负载直至无法正常响应，从而使正常用户的访问也无法进行了</p>
+<h1 id="介绍-SYN-Flood-攻击的原理"><a href="#介绍-SYN-Flood-攻击的原理" class="headerlink" title="介绍 SYN-Flood 攻击的原理"></a>介绍 SYN-Flood 攻击的原理</h1><p>攻击者向目标主机发送第一次 SYN 握手请求数据包，伪造了此数据包的源 IP 地址为不存在或网络不可达的一个 IP 地址，地址不存在或网络不可达，所以没用第三次握手的响应数据包，主机就要等一段时间后才丢弃未完成的连接，这会占用一定的 CPU 和内存资源，攻击者通过大量伪造的 SYN 数据包，形成大量的半开连接，直至资源耗尽</p>
+<h1 id="介绍-ACK-Flood-攻击的原理"><a href="#介绍-ACK-Flood-攻击的原理" class="headerlink" title="介绍 ACK-Flood 攻击的原理"></a>介绍 ACK-Flood 攻击的原理</h1><p>利用握手过程，在发送 SYN 数据包给目标主机之前，将该数据包的源地址和目标地址都设置成目标主机的 IP 地址。这会导致目标主机向自己的 IP 地址响应 SYN+ACK 数据包，结果又向自己发送 ACK 消息并创建一个空连接，每个空连接都会保留至超时，当这样的连接数量很多时，系统资源将会被耗尽</p>
+<h1 id="介绍应用层脚本洪水攻击的原理"><a href="#介绍应用层脚本洪水攻击的原理" class="headerlink" title="介绍应用层脚本洪水攻击的原理"></a>介绍应用层脚本洪水攻击的原理</h1><p>应用层 DoS 攻击是脚本洪水攻击，攻击者利用代理服务器对 Web 服务器发送大量的 HTTP Get 请求，如果目标服务器的动态 Web 服务器，大量的 HTTP Get 请求主要是查询动态网页，这些请求会给后台的数据库服务器制造极大负载直至无法正常响应，从而使正常用户的访问也无法进行了</p>
 <p>针对动态脚本页面的网站服务器，脚本洪水攻击的效果很明显，由于这些网站大量前端脚本程序会调用后台数据库。而针对静态页面的网站服务器，由于不会调用后台数据库中的数据，攻击效果就不明显。由于脚本洪水攻击需要和网站服务器建立正常的 TCP 连接，因而会暴露攻击者的 IP 地址</p>
-<h1 id="13-举例说明-SQL-注入的原理"><a href="#13-举例说明-SQL-注入的原理" class="headerlink" title="13 举例说明 SQL 注入的原理"></a>13 举例说明 SQL 注入的原理</h1><p>Web应用程序在接收到用户的请求参数后，如果咩有对请求参数进行严格的过滤或检查，而直接将用户的请求参数作为拼接 SQL 语句的一部分进行解释执行，则攻击者就可以通过构造一段 SQL 代码片段作为请求参数提交给 Web 应用程序，从而使这段 SQL 代码得到后台数据库程序的解释执行，使攻击者能查询操作后台数据库</p>
-<h1 id="14-举例说明跨站脚本攻击的原理"><a href="#14-举例说明跨站脚本攻击的原理" class="headerlink" title="14 举例说明跨站脚本攻击的原理"></a>14 举例说明跨站脚本攻击的原理</h1><p>利用网站程序对 Web 页面中输入的数据过滤不严格或未做过滤的漏洞，攻击者往 Web 页面中恶意脚本代码，当用户浏览页面时，使用户的浏览器会自动加载并执行页面中插入的恶意脚本代码，从而实现在用户浏览器中显示攻击者的恶意脚本、控制用户浏览器或窃取用户资料的目的</p>
+<h1 id="举例说明-SQL-注入的原理"><a href="#举例说明-SQL-注入的原理" class="headerlink" title="举例说明 SQL 注入的原理"></a>举例说明 SQL 注入的原理</h1><p>Web应用程序在接收到用户的请求参数后，如果咩有对请求参数进行严格的过滤或检查，而直接将用户的请求参数作为拼接 SQL 语句的一部分进行解释执行，则攻击者就可以通过构造一段 SQL 代码片段作为请求参数提交给 Web 应用程序，从而使这段 SQL 代码得到后台数据库程序的解释执行，使攻击者能查询操作后台数据库</p>
+<h1 id="举例说明跨站脚本攻击的原理"><a href="#举例说明跨站脚本攻击的原理" class="headerlink" title="举例说明跨站脚本攻击的原理"></a>举例说明跨站脚本攻击的原理</h1><p>利用网站程序对 Web 页面中输入的数据过滤不严格或未做过滤的漏洞，攻击者往 Web 页面中恶意脚本代码，当用户浏览页面时，使用户的浏览器会自动加载并执行页面中插入的恶意脚本代码，从而实现在用户浏览器中显示攻击者的恶意脚本、控制用户浏览器或窃取用户资料的目的</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?</span> php</span><br><span class="line">    <span class="variable">$user</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;user&#x27;</span>];</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Hello&quot;</span> .<span class="variable">$user</span>;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>如果用户提交请求 <code>xxx.com/xss.php?user=&lt;scropt&gt;alert(/xss/)&lt;/scropt&gt;</code> 代码将被返回给客户端比嗯执行后显示在浏览器中</p>
 <ul>
@@ -11530,26 +11530,26 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>存储型 XSS ：持久型跨站脚本攻击， XSS 保存在服务器端（如攻击者将恶意数据嵌入到博客或BBS 社区的帖子内容中，用户查看对应的博客或帖子时，其中的攻击脚本将被执行）</li>
 <li>DOM-based XSS ：基于文档对象模型的跨站脚本攻击，通过 JavaScript 脚本动态修改 DOM 结构，进而导致XSS 漏洞</li>
 </ul>
-<h1 id="15-解释说明跨站请求伪造攻击的概念及原理"><a href="#15-解释说明跨站请求伪造攻击的概念及原理" class="headerlink" title="15 解释说明跨站请求伪造攻击的概念及原理"></a>15 解释说明跨站请求伪造攻击的概念及原理</h1><p>跨站请求伪造攻击（Cross Site Request Forgery，CSRF）属于伪造客户端请求，让用户访问攻击者构造的网页，执行网页中的恶意脚本，伪造用户的请求，对用户有登录权限的网站空间实施攻击。通过攻击者的站点对用户可登录的站点发起的攻击，而且攻击脚本利用的是伪造的用户请求，因此被称为跨站点请求伪造攻击。</p>
+<h1 id="解释说明跨站请求伪造攻击的概念及原理"><a href="#解释说明跨站请求伪造攻击的概念及原理" class="headerlink" title="解释说明跨站请求伪造攻击的概念及原理"></a>解释说明跨站请求伪造攻击的概念及原理</h1><p>跨站请求伪造攻击（Cross Site Request Forgery，CSRF）属于伪造客户端请求，让用户访问攻击者构造的网页，执行网页中的恶意脚本，伪造用户的请求，对用户有登录权限的网站空间实施攻击。通过攻击者的站点对用户可登录的站点发起的攻击，而且攻击脚本利用的是伪造的用户请求，因此被称为跨站点请求伪造攻击。</p>
 <p>当用户通过用户名和口令完成对目标 Web 应用服务器的登录验证后，用户的浏览器会存储登录验证后由 Web 应用服务器返回给浏览器的会话认证信息，即 Cookie 数据。用户针对该 Web 应用服务器的 HTTP 请求，用户的浏览器都会自动通过保存的 Cookie 通过验证，而不用输入用户名和口令。</p>
 <p>攻击者可以在自己控制网站的页面中编写对用户的 Web 应用空间发起的伪造 HTTP 表单的恶意代码，然后诱骗用户浏览攻击者构造的页面，执行页面中嵌入的恶意代码。恶意代码在受害用户不知道的情况下，通过保存在用户浏览器中的 Cookie 通过用户 Web 应用空间的验证后，以用户的身份执行 HTTP 表单请求操作，泄漏 Web 应用中用户的敏感数据或是篡改 Web 应用中的相关数据。</p>
-<h1 id="16-解释说明木马的端口反弹技术"><a href="#16-解释说明木马的端口反弹技术" class="headerlink" title="16 解释说明木马的端口反弹技术"></a>16 解释说明木马的端口反弹技术</h1><p>木马的服务端程序从内网主动发起对外连接请求，连接到外网木马的客户端。反弹式木马是服务端主动发起连接请求，而客户端是被动的等待连接，木马服务端通过设置固定的客户端 IP 地址和连接端口，直接回连木马的客户端程序。还有动态 IP 地址的木马客户端，利用一台被控制的代理服务器保存每次改变后的客户端的 IP 地址和待连接的端口，木马服务端每次启动时，先连接代理服务器获取客户端的动态 IP 地址和端口信息</p>
-<h1 id="17-说明防火墙的-NAT-原理"><a href="#17-说明防火墙的-NAT-原理" class="headerlink" title="17 说明防火墙的 NAT 原理"></a>17 说明防火墙的 NAT 原理</h1><p>网络地址翻译技术（Network Address Translation , NAT）能将单位内网只用的内部 IP 地址翻译为合法的公网 IP 地址，这使内网使用内部 IP 地址的计算机无线变动也能与外网连接。</p>
+<h1 id="解释说明木马的端口反弹技术"><a href="#解释说明木马的端口反弹技术" class="headerlink" title="解释说明木马的端口反弹技术"></a>解释说明木马的端口反弹技术</h1><p>木马的服务端程序从内网主动发起对外连接请求，连接到外网木马的客户端。反弹式木马是服务端主动发起连接请求，而客户端是被动的等待连接，木马服务端通过设置固定的客户端 IP 地址和连接端口，直接回连木马的客户端程序。还有动态 IP 地址的木马客户端，利用一台被控制的代理服务器保存每次改变后的客户端的 IP 地址和待连接的端口，木马服务端每次启动时，先连接代理服务器获取客户端的动态 IP 地址和端口信息</p>
+<h1 id="说明防火墙的-NAT-原理"><a href="#说明防火墙的-NAT-原理" class="headerlink" title="说明防火墙的 NAT 原理"></a>说明防火墙的 NAT 原理</h1><p>网络地址翻译技术（Network Address Translation , NAT）能将单位内网只用的内部 IP 地址翻译为合法的公网 IP 地址，这使内网使用内部 IP 地址的计算机无线变动也能与外网连接。</p>
 <p>NAT 将内部 IP 地址翻译为公网 IP 地址。当外部公网响应的数据包返回给 NAT 后，NAT 再将其翻译为内网 IP 地址发给内网的主机，从而实现内网主机与外网的正常通信，解决了 IPv4 地址不足的问题。同时因为外网主机只能看到数据包来自 NAT 翻译后的公网 IP 地址，而看不到内网主机的内部 IP 地址，所以 NAT 可保护及隐藏内网计算机。</p>
-<h1 id="18-说明防火墙的包过滤技术和动态检测技术的区别"><a href="#18-说明防火墙的包过滤技术和动态检测技术的区别" class="headerlink" title="18 说明防火墙的包过滤技术和动态检测技术的区别"></a>18 说明防火墙的包过滤技术和动态检测技术的区别</h1><p>内外网之间传输的数据包按照某些特征事先设置一系列的安全规则（或安全策略）进行过滤或筛选。包过滤防火墙检查每一条规则。如果发现数据包中的信息与某规则相符，则允许或拒绝这个数据包穿过防火墙进行传输。如果没有规则能符合，则防火墙会使用默认规则。一般情况默认规则就是要求防火墙丢弃该包</p>
+<h1 id="说明防火墙的包过滤技术和动态检测技术的区别"><a href="#说明防火墙的包过滤技术和动态检测技术的区别" class="headerlink" title="说明防火墙的包过滤技术和动态检测技术的区别"></a>说明防火墙的包过滤技术和动态检测技术的区别</h1><p>内外网之间传输的数据包按照某些特征事先设置一系列的安全规则（或安全策略）进行过滤或筛选。包过滤防火墙检查每一条规则。如果发现数据包中的信息与某规则相符，则允许或拒绝这个数据包穿过防火墙进行传输。如果没有规则能符合，则防火墙会使用默认规则。一般情况默认规则就是要求防火墙丢弃该包</p>
 <p>状态检测技术也称动态包过滤技术，不像包过滤防火墙仅靠设置静态的包过滤规则来镜像数据包的过滤拦截，而是增加对数据包连接状态变化的额外考虑。防火墙的核心部分建立数据的连接状态表，对在内外网间传输的数据包以会话角度进行检测，利用状态表跟踪每一个会话状态，记录有用的信息以帮助识别不同的会话</p>
 <p>和包过滤防火墙相比，状态检测防火墙动态记录连接的各种状态，可以在连接终止后及时阻断后续连接，防止伪造流量通过；可有效阻止更多伪造网络地址的 DoS 攻击，而且不用为了大量的正常访问请求而长久地开放大量端口。</p>
-<h1 id="19-说明入侵检测系统和入侵防御系统功能的区别"><a href="#19-说明入侵检测系统和入侵防御系统功能的区别" class="headerlink" title="19 说明入侵检测系统和入侵防御系统功能的区别"></a>19 说明入侵检测系统和入侵防御系统功能的区别</h1><p>入侵检测系统（Intrusion Detection System , IDS）工作在计算机网络系统中的关键节点上，通过实时收集和分析计算机网络或系统中的信息来检查是否出现违反安全策略的行为和是否存在入侵的迹象，进而达到提示入侵、预防攻击的目的。是对防火墙有益的补充，它对网络和主机行为进行检测，提供内部攻击、外部攻击和误操作的实施监控，增强了网络的安全性。入侵检测系统可以实现事前警告、事中防护和事后取证。</p>
+<h1 id="说明入侵检测系统和入侵防御系统功能的区别"><a href="#说明入侵检测系统和入侵防御系统功能的区别" class="headerlink" title="说明入侵检测系统和入侵防御系统功能的区别"></a>说明入侵检测系统和入侵防御系统功能的区别</h1><p>入侵检测系统（Intrusion Detection System , IDS）工作在计算机网络系统中的关键节点上，通过实时收集和分析计算机网络或系统中的信息来检查是否出现违反安全策略的行为和是否存在入侵的迹象，进而达到提示入侵、预防攻击的目的。是对防火墙有益的补充，它对网络和主机行为进行检测，提供内部攻击、外部攻击和误操作的实施监控，增强了网络的安全性。入侵检测系统可以实现事前警告、事中防护和事后取证。</p>
 <p>入侵防御系统（Intrusion Prevention System , IPS）作为一种在线部署的产品，能够提供主动的、实时的防护，其设计目标在与准确监测网络流量，自动分析对各类网络攻击行为，并对应用层的威胁和攻击进行实时阻断，而入侵检测系统只是在监测到恶意流量的同时或之后才简单地告警。</p>
 <p>入侵防御系统的检测技术和入侵检测系统是相似的，可以在网络层、传输层和应用层进行攻击行为的检测和防御。和入侵检测系统在网络中旁边部署不同的是，入侵防御系统是通过直接串联到网络链路中实现其防御功能的。当入侵防御系统接收到外部数据流量时，如果检测到数据包中的攻击特征，就会自动地将此数据包丢掉或采取措施将攻击源阻断，从而将攻击数据包挡在网络边界之外。</p>
-<h1 id="20-说明防火墙和入侵防御系统功能的区别"><a href="#20-说明防火墙和入侵防御系统功能的区别" class="headerlink" title="20 说明防火墙和入侵防御系统功能的区别"></a>20 说明防火墙和入侵防御系统功能的区别</h1><p>防火墙位于可惜和不可信网络间，通过检测和过滤网络交换的信息，达到保护内部可信网络的目的</p>
+<h1 id="说明防火墙和入侵防御系统功能的区别"><a href="#说明防火墙和入侵防御系统功能的区别" class="headerlink" title="说明防火墙和入侵防御系统功能的区别"></a>说明防火墙和入侵防御系统功能的区别</h1><p>防火墙位于可惜和不可信网络间，通过检测和过滤网络交换的信息，达到保护内部可信网络的目的</p>
 <p>入侵防御系统采用串联方式部署在网络中，实现网络层、传输层和应用层的全面检测和拦截，具有拦截恶意流量、实现对传输内容的深度检测和安全防护、对网络流量检测的同时进行过滤等功能</p>
-<h1 id="21-介绍-PKI-中基于数字证书的信任链传递关系原理"><a href="#21-介绍-PKI-中基于数字证书的信任链传递关系原理" class="headerlink" title="21 介绍 PKI 中基于数字证书的信任链传递关系原理"></a>21 介绍 PKI 中基于数字证书的信任链传递关系原理</h1><p>公共密钥基础设施（Public Key Infrastructure , PKI）</p>
+<h1 id="介绍-PKI-中基于数字证书的信任链传递关系原理"><a href="#介绍-PKI-中基于数字证书的信任链传递关系原理" class="headerlink" title="介绍 PKI 中基于数字证书的信任链传递关系原理"></a>介绍 PKI 中基于数字证书的信任链传递关系原理</h1><p>公共密钥基础设施（Public Key Infrastructure , PKI）</p>
 <p>证书认证机构（Certificate Authority , CA）</p>
 <p>证书注册机构（Registration Authority , RA）</p>
 <p>证书办法系统（Certificate Distribution System , CDS）</p>
 <p>通过真实的数字证书来相信网络用户身份的真实性是通过信任链的传递关系来保证的。证书是由证书认证机构颁发的，证书认证机构颁发证书之前要对申请证书者的身份进行确认，只有经过身份核实的才签发证书。且证书中含有证书认证机构的数字签名。如果证书中的信息被篡改，则可通过证书认证机构公钥验证出来。在可以信任证书认证机构的条件下，证书认证机构又信任证书拥有者，因此给证书拥有者颁发来数字证书。如果能验证数字证书是真实的没有被篡改过，则借由这个信任链的传递关系就可以通过真实的数字证书确认并相信在数字证书中证书拥有者的身份。简而言之，证书拥有者可以通过数字证书向网络系统中的其他实体证明自己的身份。</p>
-<h1 id="22-介绍-SSL-协议的连接过程"><a href="#22-介绍-SSL-协议的连接过程" class="headerlink" title="22 介绍 SSL 协议的连接过程"></a>22 介绍 SSL 协议的连接过程</h1><ul>
+<h1 id="介绍-SSL-协议的连接过程"><a href="#介绍-SSL-协议的连接过程" class="headerlink" title="介绍 SSL 协议的连接过程"></a>介绍 SSL 协议的连接过程</h1><ul>
 <li>客户端发送 ClientHello 请求</li>
 <li>服务器发送 ServerHello 消息</li>
 <li>如果服务器请求客户端提供证书，客户端将发送 Certificate 消息，将数字证书发给服务器，服务器对该证书进行验证</li>
@@ -11569,73 +11569,73 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
     <title>计算机等级考试三级信息安全技术章节习题5</title>
     <url>/posts/31a4e606/</url>
     <content><![CDATA[<p><strong>五、应用安全</strong></p>
-<h1 id="1-简述软件漏洞概念中包含的3个要素"><a href="#1-简述软件漏洞概念中包含的3个要素" class="headerlink" title="1 简述软件漏洞概念中包含的3个要素"></a>1 简述软件漏洞概念中包含的3个要素</h1><ul>
+<h1 id="简述软件漏洞概念中包含的3个要素"><a href="#简述软件漏洞概念中包含的3个要素" class="headerlink" title="简述软件漏洞概念中包含的3个要素"></a>简述软件漏洞概念中包含的3个要素</h1><ul>
 <li>漏洞是计算机系统本身存在的缺陷</li>
 <li>漏洞的存在和利用都有一定的环境要求</li>
 <li>漏洞存在的本身是没有危害的，只有被攻击者恶意利用，才能给计算机带来威胁和损失</li>
 </ul>
 <a id="more"></a>
-<h1 id="2-简述软件漏洞的四个特点"><a href="#2-简述软件漏洞的四个特点" class="headerlink" title="2 简述软件漏洞的四个特点"></a>2 简述软件漏洞的四个特点</h1><ul>
+<h1 id="简述软件漏洞的四个特点"><a href="#简述软件漏洞的四个特点" class="headerlink" title="简述软件漏洞的四个特点"></a>简述软件漏洞的四个特点</h1><ul>
 <li>危害性大</li>
 <li>影响广泛</li>
 <li>存在的长久性</li>
 <li>隐蔽性</li>
 </ul>
-<h1 id="3-按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？"><a href="#3-按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？" class="headerlink" title="3 按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？"></a>3 按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？</h1><ul>
+<h1 id="按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？"><a href="#按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？" class="headerlink" title="按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？"></a>按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？</h1><ul>
 <li>本地利用漏洞</li>
 <li>远程利用漏洞</li>
 </ul>
-<h1 id="4-根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？"><a href="#4-根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？" class="headerlink" title="4 根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？"></a>4 根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？</h1><ul>
+<h1 id="根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？"><a href="#根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？" class="headerlink" title="根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？"></a>根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？</h1><ul>
 <li>0day 漏洞：指未公开状态的漏洞</li>
 <li>1day 漏洞：发布补丁时间不长的漏洞</li>
 <li>已公开漏洞</li>
 </ul>
-<h1 id="5-描述软件漏洞危险等级的划分"><a href="#5-描述软件漏洞危险等级的划分" class="headerlink" title="5 描述软件漏洞危险等级的划分"></a>5 描述软件漏洞危险等级的划分</h1><ul>
+<h1 id="描述软件漏洞危险等级的划分"><a href="#描述软件漏洞危险等级的划分" class="headerlink" title="描述软件漏洞危险等级的划分"></a>描述软件漏洞危险等级的划分</h1><ul>
 <li>紧急，危险级别最高的等级，微软定义为严重</li>
 <li>重要，微软定义为重要</li>
 <li>中危，微软定义为中等</li>
 <li>低危，微软定义为警告</li>
 </ul>
-<h1 id="6-简单说明国内外知名漏洞库及其包含漏洞信息的特点"><a href="#6-简单说明国内外知名漏洞库及其包含漏洞信息的特点" class="headerlink" title="6 简单说明国内外知名漏洞库及其包含漏洞信息的特点"></a>6 简单说明国内外知名漏洞库及其包含漏洞信息的特点</h1><ul>
+<h1 id="简单说明国内外知名漏洞库及其包含漏洞信息的特点"><a href="#简单说明国内外知名漏洞库及其包含漏洞信息的特点" class="headerlink" title="简单说明国内外知名漏洞库及其包含漏洞信息的特点"></a>简单说明国内外知名漏洞库及其包含漏洞信息的特点</h1><ul>
 <li>CVE ： 通用漏洞列表，软件漏洞行业标准，安全漏洞命名机制的规范化标准化，成为评价相应入侵检测和漏洞扫描等工具和数据库的基准</li>
 <li>BygTraq ：安全焦点的 BugTraq邮件列表， 被认为是互联网上最广泛且最可信的安全信息源，包含的漏洞列表是目前最大的漏洞数据库之一，很多最新的的技术讨论和很多 0day 漏洞都是出现在这里，并以 CVE 交叉索引，漏洞编号 BID </li>
 <li>NVD ：美国国家漏洞数据库，目前世界上数据量最大，条目最多的漏洞数据库之一，与 CVE 同步和兼容</li>
 <li>CNNVD ：中国国家信息安全漏洞库，是中国信息安全测评中心切实履行漏洞分析和风险评估的职能，负载建设运维国际级信息安全漏洞库，为我国信息安全保障提供基础服务。定向通报服务是测评中心面向各级政府机关及企事业单位，及时、准确推送涵盖以漏洞信息为核心的各类数据及应用服务</li>
 <li>CNVD ：国家互联网应急中心，是工信部领导下的国家级安全应急机构，是 CNCERT 联合国内重要信息系统单位、基础电信运营商、网络安全厂商、软件厂商和互联网企业建立的信息安全漏洞信息共享知识库</li>
 </ul>
-<h1 id="7-介绍缓冲区溢出的原理"><a href="#7-介绍缓冲区溢出的原理" class="headerlink" title="7 介绍缓冲区溢出的原理"></a>7 介绍缓冲区溢出的原理</h1><p>缓冲区是一块连续的内存区域，用于存放程序运行时加载到内存的运行代码和数据。缓冲区溢出是指程序运行时，向固定大小的缓冲区写入超出其容量的数据，多余的数据会越过缓冲区的边界覆盖相邻内存空间，从而造成溢出。缓冲区的大小是由用户输入的数据决定的，如果程序不对用户输入的超长数据做长度检查，同时用户又对程序进行非法操作或错误输入，就会造成缓冲区溢出。</p>
+<h1 id="介绍缓冲区溢出的原理"><a href="#介绍缓冲区溢出的原理" class="headerlink" title="介绍缓冲区溢出的原理"></a>介绍缓冲区溢出的原理</h1><p>缓冲区是一块连续的内存区域，用于存放程序运行时加载到内存的运行代码和数据。缓冲区溢出是指程序运行时，向固定大小的缓冲区写入超出其容量的数据，多余的数据会越过缓冲区的边界覆盖相邻内存空间，从而造成溢出。缓冲区的大小是由用户输入的数据决定的，如果程序不对用户输入的超长数据做长度检查，同时用户又对程序进行非法操作或错误输入，就会造成缓冲区溢出。</p>
 <p>缓冲区溢出攻击是指发送缓冲区溢出时，溢出的数据会覆盖相邻内存空间的返回地址、函数指针、堆管理结构等合法数据，从而使程序运行失败，或发生转向去执行其他程序代码，或执行预先注入内存缓冲区中的代码。</p>
-<h1 id="8-说明操作系统的内存管理机制"><a href="#8-说明操作系统的内存管理机制" class="headerlink" title="8 说明操作系统的内存管理机制"></a>8 说明操作系统的内存管理机制</h1><p>操作系统中的每一个进程都会被分配一块独立的虚拟地址空间，用以保存进程运行时的数据和代码，虚拟地址空间是实际空间的映射。</p>
+<h1 id="说明操作系统的内存管理机制"><a href="#说明操作系统的内存管理机制" class="headerlink" title="说明操作系统的内存管理机制"></a>说明操作系统的内存管理机制</h1><p>操作系统中的每一个进程都会被分配一块独立的虚拟地址空间，用以保存进程运行时的数据和代码，虚拟地址空间是实际空间的映射。</p>
 <p><strong>堆（heap）是先进先出的数据结构，往高地址增长</strong></p>
 <p><strong>栈（stack）是后进先出的数据结构，往低地址增长</strong></p>
-<h1 id="9-介绍堆溢出和栈溢出的原理"><a href="#9-介绍堆溢出和栈溢出的原理" class="headerlink" title="9 介绍堆溢出和栈溢出的原理"></a>9 介绍堆溢出和栈溢出的原理</h1><p>堆是内存中用于存放动态数据的区域，堆空间由地址向高地址方向增长，堆溢出指堆中发生缓冲区溢出，利用堆溢出向内存单元写入任意数据，实现改写内存中的关键数据，达到攻击目的</p>
+<h1 id="介绍堆溢出和栈溢出的原理"><a href="#介绍堆溢出和栈溢出的原理" class="headerlink" title="介绍堆溢出和栈溢出的原理"></a>介绍堆溢出和栈溢出的原理</h1><p>堆是内存中用于存放动态数据的区域，堆空间由地址向高地址方向增长，堆溢出指堆中发生缓冲区溢出，利用堆溢出向内存单元写入任意数据，实现改写内存中的关键数据，达到攻击目的</p>
 <p>栈的存取采用先进后出的策略，程序用它来保存函数调用时的有关信息，如函数参数、返回地址，函数中的非静态局部变量存放在栈中，栈溢出是缓冲区中最简单的一种，通过溢出数据覆盖返回地址，程序会转到覆盖后的地址指向的程序</p>
-<h1 id="10-介绍格式化字符串漏洞、整数溢出漏洞的原理"><a href="#10-介绍格式化字符串漏洞、整数溢出漏洞的原理" class="headerlink" title="10 介绍格式化字符串漏洞、整数溢出漏洞的原理"></a>10 介绍格式化字符串漏洞、整数溢出漏洞的原理</h1><p>C 语言中的格式化函数允许可变参数，它根据传人的格式字符串获知可变参数的个数和类型，并依据格式化符号进行参数的输出。如果调用这些函数时，给出了格式符号串，但没有提供实际对应参数，这些函数会将格式化字符串后面的多个栈中的内容弹出作为参数，并根据格式化符号将其输出</p>
+<h1 id="介绍格式化字符串漏洞、整数溢出漏洞的原理"><a href="#介绍格式化字符串漏洞、整数溢出漏洞的原理" class="headerlink" title="介绍格式化字符串漏洞、整数溢出漏洞的原理"></a>介绍格式化字符串漏洞、整数溢出漏洞的原理</h1><p>C 语言中的格式化函数允许可变参数，它根据传人的格式字符串获知可变参数的个数和类型，并依据格式化符号进行参数的输出。如果调用这些函数时，给出了格式符号串，但没有提供实际对应参数，这些函数会将格式化字符串后面的多个栈中的内容弹出作为参数，并根据格式化符号将其输出</p>
 <p>整数分为无符号和有符号两类，对整数进行加、乘等运算时，计算的结果大于该类型的整数所表示的范围，就会发生整数溢出，分为：存储溢出、运算溢出、符号问题</p>
-<h1 id="11-介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理"><a href="#11-介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理" class="headerlink" title="11 介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理"></a>11 介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理</h1><ul>
+<h1 id="介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理"><a href="#介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理" class="headerlink" title="介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理"></a>介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理</h1><ul>
 <li><p>数组越界漏洞：由于不正确的数组访问造成，通过精心构造超出数组范围的索引值，就能对任意内存地址进行读写操作</p>
 </li>
 <li><p>写污点值到污点地址漏洞：通过精心选择污点地址和污点值，列用这种漏洞就能改写系统内核的关键数据结构。污点值为可能引发漏洞的输入值，污点地址为触发漏洞的潜在地址。</p>
 </li>
 <li>内存地址对象破坏性调用漏洞：指某对象保存的内存地址写入一个变量中，攻击者通过调用初始化或释放功能的异常操作，将保存对象的内存地址进行释放，从而导致读取变量中保存的内存地址以期访问某对象的过程，从而触发内存访问异常。 </li>
 </ul>
-<h1 id="12-介绍漏洞利用的概念和-shellcode-的编写方法"><a href="#12-介绍漏洞利用的概念和-shellcode-的编写方法" class="headerlink" title="12 介绍漏洞利用的概念和 shellcode 的编写方法"></a>12 介绍漏洞利用的概念和 shellcode 的编写方法</h1><p>实施攻击前，需要做大量的调试工作，包括了解存放缓冲区溢出漏洞的程序有几个输入参数，哪个输入参数会造成缓冲区溢出，如何构造输入参数的长度和内容，以便使缓冲区的偏移距离恰好能覆盖返回地址，并将攻击者构造的可执行 shellcode 代码的地址写入到返回地址。根据软件漏洞具体条件构造相应输入参数和 shellcode 代码，最终实现获得程序控制权的工程，就是漏洞利用，一般用 exploit 来表示。</p>
+<h1 id="介绍漏洞利用的概念和-shellcode-的编写方法"><a href="#介绍漏洞利用的概念和-shellcode-的编写方法" class="headerlink" title="介绍漏洞利用的概念和 shellcode 的编写方法"></a>介绍漏洞利用的概念和 shellcode 的编写方法</h1><p>实施攻击前，需要做大量的调试工作，包括了解存放缓冲区溢出漏洞的程序有几个输入参数，哪个输入参数会造成缓冲区溢出，如何构造输入参数的长度和内容，以便使缓冲区的偏移距离恰好能覆盖返回地址，并将攻击者构造的可执行 shellcode 代码的地址写入到返回地址。根据软件漏洞具体条件构造相应输入参数和 shellcode 代码，最终实现获得程序控制权的工程，就是漏洞利用，一般用 exploit 来表示。</p>
 <p>shellcode 代码是一段机器指令，可实现攻击者指定的操作，shellcode 通称缓冲区溢出攻击中植入的一段以获得执行权限的代码</p>
 <p>shellcode 可用 C 语言编写，编译后用 OllyDbg加载其可执行文件，在从中选中所需的机器代码，也可通过 IDA Pro 等反编译工具从 PE 文件中得到对应的机器代码</p>
 <p>对于Linux 系统 shellcode 中要实现的功能主要是通过系统调用来完成，而每个系统调用都有固定的系统调用号</p>
 <p>对于 Windows 系统，虽然 Windows 也有系统调用，但都是封装在高级的 API 中调用的，且不同的 Service Pack 版本的操作系统其 API 都可能有所改动，所以不可能直接调用。需要采用动态的方法获取 API 地址，从而编写 shellcode </p>
-<h1 id="13-针对静态的-shellcode-地址、动态变化的-shellcode-地址分别说明其漏洞利用技术的原理"><a href="#13-针对静态的-shellcode-地址、动态变化的-shellcode-地址分别说明其漏洞利用技术的原理" class="headerlink" title="13 针对静态的 shellcode 地址、动态变化的 shellcode 地址分别说明其漏洞利用技术的原理"></a>13 针对静态的 shellcode 地址、动态变化的 shellcode 地址分别说明其漏洞利用技术的原理</h1><p>存在溢出漏洞的程序是一个操作系统每次启动都要加载的程序，操作系统启动时为其分配的内存地址一般是固定的，则函数调用时分配的栈帧地址也是固定的，溢出后写入栈帧的 shellcode 代码其内存地址也是静态不变的，所以可以直接将 shellcode 代码在栈帧中的静态地址覆盖原有返回地址。在函数返回使，通过新的返回地址指向 shellcode 代码地址，从而执行 shellcode 代码</p>
+<h1 id="针对静态的-shellcode-地址、动态变化的-shellcode-地址分别说明其漏洞利用技术的原理"><a href="#针对静态的-shellcode-地址、动态变化的-shellcode-地址分别说明其漏洞利用技术的原理" class="headerlink" title="针对静态的 shellcode 地址、动态变化的 shellcode 地址分别说明其漏洞利用技术的原理"></a>针对静态的 shellcode 地址、动态变化的 shellcode 地址分别说明其漏洞利用技术的原理</h1><p>存在溢出漏洞的程序是一个操作系统每次启动都要加载的程序，操作系统启动时为其分配的内存地址一般是固定的，则函数调用时分配的栈帧地址也是固定的，溢出后写入栈帧的 shellcode 代码其内存地址也是静态不变的，所以可以直接将 shellcode 代码在栈帧中的静态地址覆盖原有返回地址。在函数返回使，通过新的返回地址指向 shellcode 代码地址，从而执行 shellcode 代码</p>
 <p>有些软件的漏洞存在与某些动态链接库中，这些动态链接库在进程运行时被动态加载，因而在下一次这些动态链接库被重新装载到内存中，其在内存中的栈帧地址时动态变化的，则植入的 shellcode 代码在内存中的其实地址也时变化的。在这种情况下，需要让溢出发生时，覆盖返回地址后新写入的返回地址能自动定位到 shellcode  的起始地址。</p>
-<h1 id="14-说明针对堆漏洞的-Heap-Spray-漏洞利用的技术"><a href="#14-说明针对堆漏洞的-Heap-Spray-漏洞利用的技术" class="headerlink" title="14 说明针对堆漏洞的 Heap Spray 漏洞利用的技术"></a>14 说明针对堆漏洞的 Heap Spray 漏洞利用的技术</h1><p>Heap Spray 也称为堆喷洒技术，在 shellcode 的前面加上大量的滑板指令，组成一个非常长的注入的代码段。然后向系统申请大量内存，并且反复用这个注入代码段来填充。这样就使得内存空间被大量的注入代码占用，攻击者在结合漏洞利用技术，只要使程序跳转到堆中被填充了注入代码的任何地址，程序指令就会顺者滑板指令最终执行到 shellcode 代码</p>
+<h1 id="说明针对堆漏洞的-Heap-Spray-漏洞利用的技术"><a href="#说明针对堆漏洞的-Heap-Spray-漏洞利用的技术" class="headerlink" title="说明针对堆漏洞的 Heap Spray 漏洞利用的技术"></a>说明针对堆漏洞的 Heap Spray 漏洞利用的技术</h1><p>Heap Spray 也称为堆喷洒技术，在 shellcode 的前面加上大量的滑板指令，组成一个非常长的注入的代码段。然后向系统申请大量内存，并且反复用这个注入代码段来填充。这样就使得内存空间被大量的注入代码占用，攻击者在结合漏洞利用技术，只要使程序跳转到堆中被填充了注入代码的任何地址，程序指令就会顺者滑板指令最终执行到 shellcode 代码</p>
 <p>滑板指令由大量 NOP 空指令 <code>0x90</code>  填充组成的指令序列，当遇到这些 NOP 指令时，CPU 指令指针会一个指令接一个指令地执行，总结不做任何具体操作，直到滑过最后一个滑板指令后，接着执行这些指令后面的其它指令，往往后面接着的时 shellcode代码，Heap Spray 技术通过使用类 NOP 指令来进行覆盖，对 shellcode 地址的跳转准确性要求不大，从而增加来缓冲区溢出攻击的成功率</p>
-<h1 id="15-说明微软操作系统中几种常用的漏洞防护技术"><a href="#15-说明微软操作系统中几种常用的漏洞防护技术" class="headerlink" title="15 说明微软操作系统中几种常用的漏洞防护技术"></a>15 说明微软操作系统中几种常用的漏洞防护技术</h1><ul>
+<h1 id="说明微软操作系统中几种常用的漏洞防护技术"><a href="#说明微软操作系统中几种常用的漏洞防护技术" class="headerlink" title="说明微软操作系统中几种常用的漏洞防护技术"></a>说明微软操作系统中几种常用的漏洞防护技术</h1><ul>
 <li>GS Stack protection ：栈保护技术，是一项缓冲区溢出的检测防护技术</li>
 <li>DEP ：数据执行保护技术，可以设置内存堆栈区的代码为不可执行状态，从而方法溢出后代码的执行</li>
 <li>ASLR ： 地址分布随机化，是一项将系统关键地址随机化，从而使攻击者无法获得需啊唷跳转的精确地址的技术，打乱系统中存在的固定地址</li>
 <li>SafeSEH ：Windows 异常处理机制所采用的重要数据结构链表</li>
 <li>SEHOP 结构化异常处理覆盖保护，是微软针对 SEH 攻击提纯的一种防护方案</li>
 </ul>
-<h1 id="16-说明软件开发生命周期的概念和阶段划分"><a href="#16-说明软件开发生命周期的概念和阶段划分" class="headerlink" title="16 说明软件开发生命周期的概念和阶段划分"></a>16 说明软件开发生命周期的概念和阶段划分</h1><p>软件编码人员进行软件开放过程中，一般都会遵循相应的软件开发生命周期模型用于指导编码的整个过程。计算机软件产品从需求分析、设计、编码、测试、发布到维护，类似于经历一个生命的孕育、诞生、成长、成熟、衰亡的周期，一般称为软件开发生命周期。</p>
+<h1 id="说明软件开发生命周期的概念和阶段划分"><a href="#说明软件开发生命周期的概念和阶段划分" class="headerlink" title="说明软件开发生命周期的概念和阶段划分"></a>说明软件开发生命周期的概念和阶段划分</h1><p>软件编码人员进行软件开放过程中，一般都会遵循相应的软件开发生命周期模型用于指导编码的整个过程。计算机软件产品从需求分析、设计、编码、测试、发布到维护，类似于经历一个生命的孕育、诞生、成长、成熟、衰亡的周期，一般称为软件开发生命周期。</p>
 <ul>
 <li>问题的定义于规划：确定开发目标，可行性分析，指定开发计划</li>
 <li>需求分析：对软件需要的各个功能进行详细分析</li>
@@ -11644,13 +11644,13 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>软件测试：发现软件设计或软件编码中存在的问题并进行修改，保证软件的质量</li>
 <li>运行维护：纠错性维护和改进性维护</li>
 </ul>
-<h1 id="17-介绍软件开发生命周期的几种模型"><a href="#17-介绍软件开发生命周期的几种模型" class="headerlink" title="17 介绍软件开发生命周期的几种模型"></a>17 介绍软件开发生命周期的几种模型</h1><ul>
+<h1 id="介绍软件开发生命周期的几种模型"><a href="#介绍软件开发生命周期的几种模型" class="headerlink" title="介绍软件开发生命周期的几种模型"></a>介绍软件开发生命周期的几种模型</h1><ul>
 <li>瀑布模型/改进的瀑布模型：需求 → 分析 → 设计 → 编码 → 测试 等几个阶段，每个阶段都明确定义了产出物和验证的准则，每个阶段完成后阻止相关的评审和验证，通过后进入到下一阶段。为了提高效率，并行开发适当地重叠各个阶段的过程</li>
 <li>螺旋模型：需求 → 分析 → 设计 → 开发 → 测试，加强了软件开发各个阶段的管理和控制，多阶段转化到多迭代过程中。每次迭代都包含六个步骤：确定目标和替代方案、识别项目的风险、堆技术方案进行评、开发出本次迭代的交付物、计划下一次迭代过程、提交下一次迭代的步骤和方案。螺旋模型实现了每个阶段过程中的目标制定、风险分析、交付物的评估验证，保证了软件具有较高的代码质量</li>
 <li>迭代模型：遵循需求 → 设计 → 开发的瀑布模型，开发阶段可以包括多次迭代，逐步精化和修正</li>
 <li>快速原型模型：也称敏捷开发，根据需求在短时间内完成可以演示的软件产品，只实现部分功能或最重要的功能</li>
 </ul>
-<h1 id="18-说明微软公司采用的软件安全开发生命周期模型12个阶段的内容"><a href="#18-说明微软公司采用的软件安全开发生命周期模型12个阶段的内容" class="headerlink" title="18 说明微软公司采用的软件安全开发生命周期模型12个阶段的内容"></a>18 说明微软公司采用的软件安全开发生命周期模型12个阶段的内容</h1><ul>
+<h1 id="说明微软公司采用的软件安全开发生命周期模型12个阶段的内容"><a href="#说明微软公司采用的软件安全开发生命周期模型12个阶段的内容" class="headerlink" title="说明微软公司采用的软件安全开发生命周期模型12个阶段的内容"></a>说明微软公司采用的软件安全开发生命周期模型12个阶段的内容</h1><ul>
 <li>第 0 阶段，准备阶段：通过教育培训，培养开发团队员工的安全意识</li>
 <li>第 1 阶段，项目启动阶段：在项目启动时，需要将项目涉及的安全问题都分析到位，以使软件产品更安全可靠</li>
 <li>第 2 阶段，定义需要遵守的安全设计原则：在编码阶段开始前，需要在设计阶段对软件安全特性进行较多考虑，并定义出安全设计的原则</li>
@@ -11665,9 +11665,9 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>第 11 阶段，产品发布</li>
 <li>第 12 阶段，安全响应执行</li>
 </ul>
-<h1 id="19-说明主要的软件静态和动态安全检测技术"><a href="#19-说明主要的软件静态和动态安全检测技术" class="headerlink" title="19 说明主要的软件静态和动态安全检测技术"></a>19 说明主要的软件静态和动态安全检测技术</h1><p>静态完全检测技术包括词法分析、数据流分析、污点传播分析、符号执行、模型检查、定理证明等</p>
+<h1 id="说明主要的软件静态和动态安全检测技术"><a href="#说明主要的软件静态和动态安全检测技术" class="headerlink" title="说明主要的软件静态和动态安全检测技术"></a>说明主要的软件静态和动态安全检测技术</h1><p>静态完全检测技术包括词法分析、数据流分析、污点传播分析、符号执行、模型检查、定理证明等</p>
 <p>动态安全检测技术主要包括模糊测试、智能模糊车上和动态污点分析等</p>
-<h1 id="20-详细介绍基于软件技术的软件安全保护技术"><a href="#20-详细介绍基于软件技术的软件安全保护技术" class="headerlink" title="20 详细介绍基于软件技术的软件安全保护技术"></a>20 详细介绍基于软件技术的软件安全保护技术</h1><ul>
+<h1 id="详细介绍基于软件技术的软件安全保护技术"><a href="#详细介绍基于软件技术的软件安全保护技术" class="headerlink" title="详细介绍基于软件技术的软件安全保护技术"></a>详细介绍基于软件技术的软件安全保护技术</h1><ul>
 <li>注册信息验证技术</li>
 <li>软件防篡改技术</li>
 <li>代码混淆技术</li>
@@ -11675,20 +11675,20 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>软件加壳技术</li>
 <li>反调试反跟踪技术</li>
 </ul>
-<h1 id="21-说明恶意程序主要的传播技术"><a href="#21-说明恶意程序主要的传播技术" class="headerlink" title="21 说明恶意程序主要的传播技术"></a>21 说明恶意程序主要的传播技术</h1><ul>
+<h1 id="说明恶意程序主要的传播技术"><a href="#说明恶意程序主要的传播技术" class="headerlink" title="说明恶意程序主要的传播技术"></a>说明恶意程序主要的传播技术</h1><ul>
 <li>网站挂马</li>
 <li>诱骗下载</li>
 <li>通过移动存储介质传播</li>
 <li>通过电子邮件和即时通信软件传播</li>
 <li>通过局域网传播</li>
 </ul>
-<h1 id="22-说明恶意程序的4种检测技术"><a href="#22-说明恶意程序的4种检测技术" class="headerlink" title="22 说明恶意程序的4种检测技术"></a>22 说明恶意程序的4种检测技术</h1><ul>
+<h1 id="说明恶意程序的4种检测技术"><a href="#说明恶意程序的4种检测技术" class="headerlink" title="说明恶意程序的4种检测技术"></a>说明恶意程序的4种检测技术</h1><ul>
 <li>特征码查杀技术：针对已知病毒木马等恶意程序进行分析，提前典型代码特征添加到特征库中，然后根据恶意程序的特征码对文件或内存进行扫描匹配，匹配成功则检测出相应特征码对应的恶意程序</li>
 <li>启发式查杀技术：通过事先分析恶意程序执行指令的顺序或特定行为的组合情况等特征，建立检测的基准行为或指令的样本库，并以这些基准行为或指令的特征来检测并确定是否是恶意程序</li>
 <li>虚拟机查杀技术：在扫描恶意程序时，通过将恶意程序加载到虚拟机环境中运行，从而让恶意程序自动脱壳还原为原有状态，再进行检测查杀的技术</li>
 <li>主动防御技术：通过事先挂钩系统服务派发表 SSDT 中的多个 API 函数，类如进程创建、线程创建、DLL插入等系统函数，实现对恶意程序进行全面监控</li>
 </ul>
-<h1 id="23-介绍10种常见的-Web-安全威胁手段"><a href="#23-介绍10种常见的-Web-安全威胁手段" class="headerlink" title="23 介绍10种常见的 Web 安全威胁手段"></a>23 介绍10种常见的 Web 安全威胁手段</h1><ul>
+<h1 id="介绍10种常见的-Web-安全威胁手段"><a href="#介绍10种常见的-Web-安全威胁手段" class="headerlink" title="介绍10种常见的 Web 安全威胁手段"></a>介绍10种常见的 Web 安全威胁手段</h1><ul>
 <li>注入</li>
 <li>跨站脚本</li>
 <li>跨站请求伪造</li>
@@ -11712,30 +11712,30 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
     <title>计算机等级考试三级信息安全技术章节习题6</title>
     <url>/posts/a8adb7bc/</url>
     <content><![CDATA[<p><strong>六、信息安全管理</strong></p>
-<h1 id="填空"><a href="#填空" class="headerlink" title="填空"></a>填空</h1><h1 id="1-信息安全的一个重要原则是"><a href="#1-信息安全的一个重要原则是" class="headerlink" title="1 信息安全的一个重要原则是 ___"></a>1 信息安全的一个重要原则是 <strong>___</strong></h1><p>技(术)管(理)并重</p>
+<h1 id="填空"><a href="#填空" class="headerlink" title="填空"></a>填空</h1><h2 id="信息安全的一个重要原则是"><a href="#信息安全的一个重要原则是" class="headerlink" title="信息安全的一个重要原则是 ___"></a>信息安全的一个重要原则是 <strong>___</strong></h2><p>技(术)管(理)并重</p>
 <a id="more"></a>
-<h1 id="2-信息安全的3个基本属性是-、-和"><a href="#2-信息安全的3个基本属性是-、-和" class="headerlink" title="2 信息安全的3个基本属性是 ___、___和___"></a>2 信息安全的3个基本属性是 <strong>___、___和___</strong></h1><p>机密性、完整性、可用性</p>
-<h1 id="3-风险评估的结果可以用许多方法来提交，主要包含-、-和"><a href="#3-风险评估的结果可以用许多方法来提交，主要包含-、-和" class="headerlink" title="3 风险评估的结果可以用许多方法来提交，主要包含 \_、___和___"></a>3 风险评估的结果可以用许多方法来提交，主要包含 <strong><em>\</em>_、___和___</strong></h1><p>信息支持分类表、权重标准分析表、漏洞风险等级表</p>
-<h1 id="4-信息安全管理中的风险计算公式为"><a href="#4-信息安全管理中的风险计算公式为" class="headerlink" title="4 信息安全管理中的风险计算公式为 ___"></a>4 信息安全管理中的风险计算公式为 <strong>___</strong></h1><p>风险 ＝ 出现漏洞的可能性 × 信息资产的价值 － 当前控制减轻的风险概率 ＋ 对漏洞了解的不确定性</p>
-<h1 id="5-进行信息安全管理措施中，事故响应的4个阶段分别为-、-、-、-p355"><a href="#5-进行信息安全管理措施中，事故响应的4个阶段分别为-、-、-、-p355" class="headerlink" title="5 进行信息安全管理措施中，事故响应的4个阶段分别为 ___、___、___、___ p355"></a>5 进行信息安全管理措施中，事故响应的4个阶段分别为 <strong>___、___、___、___</strong> p355</h1><p>计划、检测、反应、恢复</p>
-<h1 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h1><h1 id="1-简述如何确定一个信息系统的安全保护等级"><a href="#1-简述如何确定一个信息系统的安全保护等级" class="headerlink" title="1 简述如何确定一个信息系统的安全保护等级"></a>1 简述如何确定一个信息系统的安全保护等级</h1><p>第一级，信息系统受到破坏后，会对公民法人和其他组织的合法权益造成损害，但不损害国家安全、社会秩序和公共利益</p>
+<h2 id="信息安全的3个基本属性是-、-和"><a href="#信息安全的3个基本属性是-、-和" class="headerlink" title="信息安全的3个基本属性是 ___、___和___"></a>信息安全的3个基本属性是 <strong>___、___和___</strong></h2><p>机密性、完整性、可用性</p>
+<h2 id="风险评估的结果可以用许多方法来提交，主要包含-、-和"><a href="#风险评估的结果可以用许多方法来提交，主要包含-、-和" class="headerlink" title="风险评估的结果可以用许多方法来提交，主要包含 \_、___和___"></a>风险评估的结果可以用许多方法来提交，主要包含 <strong><em>\</em>_、___和___</strong></h2><p>信息支持分类表、权重标准分析表、漏洞风险等级表</p>
+<h2 id="信息安全管理中的风险计算公式为"><a href="#信息安全管理中的风险计算公式为" class="headerlink" title="信息安全管理中的风险计算公式为 ___"></a>信息安全管理中的风险计算公式为 <strong>___</strong></h2><p>风险 ＝ 出现漏洞的可能性 × 信息资产的价值 － 当前控制减轻的风险概率 ＋ 对漏洞了解的不确定性</p>
+<h2 id="进行信息安全管理措施中，事故响应的4个阶段分别为-、-、-、-p355"><a href="#进行信息安全管理措施中，事故响应的4个阶段分别为-、-、-、-p355" class="headerlink" title="进行信息安全管理措施中，事故响应的4个阶段分别为 ___、___、___、___ p355"></a>进行信息安全管理措施中，事故响应的4个阶段分别为 <strong>___、___、___、___</strong> p355</h2><p>计划、检测、反应、恢复</p>
+<h1 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h1><h2 id="简述如何确定一个信息系统的安全保护等级"><a href="#简述如何确定一个信息系统的安全保护等级" class="headerlink" title="简述如何确定一个信息系统的安全保护等级"></a>简述如何确定一个信息系统的安全保护等级</h2><p>第一级，信息系统受到破坏后，会对公民法人和其他组织的合法权益造成损害，但不损害国家安全、社会秩序和公共利益</p>
 <p>第二级，信息系统受到破坏后，会对公民法人和其他组织的合法权益产生严重损害，或对社会秩序和公共利益造成损害，但不损害国家安全</p>
 <p>第四级，信息系统受到破坏后，会对社会秩序和公共利益造成特别严重损害，或对国家安全造成严重损害</p>
 <p>第五级，信息系统受到破坏后，会国家安全造成特别严重损害</p>
-<h1 id="2-简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点"><a href="#2-简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点" class="headerlink" title="2 简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点"></a>2 简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点</h1><p>通信保密阶段、计算机安全阶段、信息安全保障阶段</p>
-<h1 id="3-在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？"><a href="#3-在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？" class="headerlink" title="3 在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？"></a>3 在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？</h1><ul>
+<h2 id="简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点"><a href="#简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点" class="headerlink" title="简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点"></a>简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点</h2><p>通信保密阶段、计算机安全阶段、信息安全保障阶段</p>
+<h2 id="在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？"><a href="#在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？" class="headerlink" title="在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？"></a>在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？</h2><ul>
 <li>努力遵循法律法规的行为，已北相关机构认识</li>
 <li>体系文件完全符合标准要求</li>
 <li>体系已被有效实施，即组织结构在风险评估的基础上，识别出需要保护的关键信息资产、制定信息安全方针、确定安全控制目标与控制方式并实施、完成体系审核与评估活动并采取相应的纠正预防措施</li>
 </ul>
-<h1 id="4-简述自评估和检查评估的区别及优缺点"><a href="#4-简述自评估和检查评估的区别及优缺点" class="headerlink" title="4 简述自评估和检查评估的区别及优缺点"></a>4 简述自评估和检查评估的区别及优缺点</h1><h1 id="5-信息安全风险包括哪些方面？"><a href="#5-信息安全风险包括哪些方面？" class="headerlink" title="5 信息安全风险包括哪些方面？"></a>5 信息安全风险包括哪些方面？</h1><p>指威胁源采用恰当的威胁方式利用脆弱性造成不良后果。风险管理重的风险种类有很多，如纯粹风险、投机风险、财产风险、责任风险、人生风险、信任风险、环境风险、职业风险、自然风险、巨灾风险、社会风险、政治风险、经济风险、税收风险、法规风险等</p>
-<h1 id="6-如何理解信息安全管理中的业务持续性管理与灾难恢复？"><a href="#6-如何理解信息安全管理中的业务持续性管理与灾难恢复？" class="headerlink" title="6 如何理解信息安全管理中的业务持续性管理与灾难恢复？"></a>6 如何理解信息安全管理中的业务持续性管理与灾难恢复？</h1><p>灾难恢复计划是为灾难做准备和从灾难中恢复的计划。应急计划小组必须区分灾难和事故，但在攻击发生前，这是不可能区分出来的。一个事件最初归类为事故，但后来常常判定为一个灾难。此时，机构可以改变事故相应方式，采取行动，取保价值最高的资产安全，即使在短期内被破坏的风险较大，但仍在较长事件内保有价值。另为，灾难恢复计划的关键是恢复主站点上的操作，使机构运转起来。DRP 的目标是恢复到灾难前的状态</p>
-<h1 id="7-访问控制有哪几类？"><a href="#7-访问控制有哪几类？" class="headerlink" title="7 访问控制有哪几类？"></a>7 访问控制有哪几类？</h1><ul>
+<h2 id="简述自评估和检查评估的区别及优缺点"><a href="#简述自评估和检查评估的区别及优缺点" class="headerlink" title="简述自评估和检查评估的区别及优缺点"></a>简述自评估和检查评估的区别及优缺点</h2><h2 id="信息安全风险包括哪些方面？"><a href="#信息安全风险包括哪些方面？" class="headerlink" title="信息安全风险包括哪些方面？"></a>信息安全风险包括哪些方面？</h2><p>指威胁源采用恰当的威胁方式利用脆弱性造成不良后果。风险管理重的风险种类有很多，如纯粹风险、投机风险、财产风险、责任风险、人生风险、信任风险、环境风险、职业风险、自然风险、巨灾风险、社会风险、政治风险、经济风险、税收风险、法规风险等</p>
+<h2 id="如何理解信息安全管理中的业务持续性管理与灾难恢复？"><a href="#如何理解信息安全管理中的业务持续性管理与灾难恢复？" class="headerlink" title="如何理解信息安全管理中的业务持续性管理与灾难恢复？"></a>如何理解信息安全管理中的业务持续性管理与灾难恢复？</h2><p>灾难恢复计划是为灾难做准备和从灾难中恢复的计划。应急计划小组必须区分灾难和事故，但在攻击发生前，这是不可能区分出来的。一个事件最初归类为事故，但后来常常判定为一个灾难。此时，机构可以改变事故相应方式，采取行动，取保价值最高的资产安全，即使在短期内被破坏的风险较大，但仍在较长事件内保有价值。另为，灾难恢复计划的关键是恢复主站点上的操作，使机构运转起来。DRP 的目标是恢复到灾难前的状态</p>
+<h2 id="访问控制有哪几类？"><a href="#访问控制有哪几类？" class="headerlink" title="访问控制有哪几类？"></a>访问控制有哪几类？</h2><ul>
 <li>预防性访问控制</li>
 <li>探查性访问控制</li>
 <li>纠正性访问控制</li>
 </ul>
-<h1 id="8-如何确定安全策略是否达到组织机构所需的安全目标？"><a href="#8-如何确定安全策略是否达到组织机构所需的安全目标？" class="headerlink" title="8 如何确定安全策略是否达到组织机构所需的安全目标？"></a>8 如何确定安全策略是否达到组织机构所需的安全目标？</h1><ul>
+<h2 id="如何确定安全策略是否达到组织机构所需的安全目标？"><a href="#如何确定安全策略是否达到组织机构所需的安全目标？" class="headerlink" title="如何确定安全策略是否达到组织机构所需的安全目标？"></a>如何确定安全策略是否达到组织机构所需的安全目标？</h2><ul>
 <li>安全策略是否符合法律、法规、技术标准及合同要求</li>
 <li>管理层是否已批准了安全策略，并明确承诺支持策略的实施</li>
 <li>安全策略是否损害来组织机构、员工及第三方的利益</li>
@@ -11743,11 +11743,11 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>安全策略是否满足组织机构在各个方面的安全要求</li>
 <li>安全策略是否已传达给组织结构重的员工与相关利益方，并得到了他们的同意</li>
 </ul>
-<h1 id="9-在制定业务持续性计划时，要采取哪些策略？"><a href="#9-在制定业务持续性计划时，要采取哪些策略？" class="headerlink" title="9 在制定业务持续性计划时，要采取哪些策略？"></a>9 在制定业务持续性计划时，要采取哪些策略？</h1><p>3 重选项：热站点、暖站点和冷站点，3 重共享功能：时间共享、服务台和共有协议</p>
+<h2 id="在制定业务持续性计划时，要采取哪些策略？"><a href="#在制定业务持续性计划时，要采取哪些策略？" class="headerlink" title="在制定业务持续性计划时，要采取哪些策略？"></a>在制定业务持续性计划时，要采取哪些策略？</h2><p>3 重选项：热站点、暖站点和冷站点，3 重共享功能：时间共享、服务台和共有协议</p>
 <p>热站点：完全配置好的计算机设备</p>
 <p>暖站点：提供与热站点相同的许多服务和选项，不包括实际应用程序，或未安装和配置的应用程序</p>
 <p>冷站点：只提供初步的服务和功能</p>
-<h1 id="10-简述信息系统开发和实施的安全原则"><a href="#10-简述信息系统开发和实施的安全原则" class="headerlink" title="10 简述信息系统开发和实施的安全原则"></a>10 简述信息系统开发和实施的安全原则</h1><ul>
+<h2 id="简述信息系统开发和实施的安全原则"><a href="#简述信息系统开发和实施的安全原则" class="headerlink" title="简述信息系统开发和实施的安全原则"></a>简述信息系统开发和实施的安全原则</h2><ul>
 <li>主管参与</li>
 <li>优化和创新</li>
 <li>充分利用信息资源</li>
@@ -11755,8 +11755,8 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>有效安全控制</li>
 <li>适用发展变化</li>
 </ul>
-<h1 id="11-我国信息安全事件分级分类方法有哪些？"><a href="#11-我国信息安全事件分级分类方法有哪些？" class="headerlink" title="11 我国信息安全事件分级分类方法有哪些？"></a>11 我国信息安全事件分级分类方法有哪些？</h1><h1 id="12-应急计划小组的成员可由哪些人员组成？"><a href="#12-应急计划小组的成员可由哪些人员组成？" class="headerlink" title="12 应急计划小组的成员可由哪些人员组成？"></a>12 应急计划小组的成员可由哪些人员组成？</h1><p>成员应是各利益团体的经理或代表。业务经理熟悉改领域的操作过程，所以应提供其活动的细节，说明他们能承受多大危险。项目小组的信息技术经理应熟悉可处于风险之中的系统和所需的 IRP、DRP 和 BCP ，以提供计划过程重的技术内容。信息安全经理需要监视项目的安全计划，提供威胁、漏洞、攻击的信息和计划过程中需要的恢复需求。</p>
-<h1 id="13-组织机构需求信息安全管理体系认证的目的有哪些？"><a href="#13-组织机构需求信息安全管理体系认证的目的有哪些？" class="headerlink" title="13 组织机构需求信息安全管理体系认证的目的有哪些？"></a>13 组织机构需求信息安全管理体系认证的目的有哪些？</h1><ul>
+<h2 id="我国信息安全事件分级分类方法有哪些？"><a href="#我国信息安全事件分级分类方法有哪些？" class="headerlink" title="我国信息安全事件分级分类方法有哪些？"></a>我国信息安全事件分级分类方法有哪些？</h2><h2 id="应急计划小组的成员可由哪些人员组成？"><a href="#应急计划小组的成员可由哪些人员组成？" class="headerlink" title="应急计划小组的成员可由哪些人员组成？"></a>应急计划小组的成员可由哪些人员组成？</h2><p>成员应是各利益团体的经理或代表。业务经理熟悉改领域的操作过程，所以应提供其活动的细节，说明他们能承受多大危险。项目小组的信息技术经理应熟悉可处于风险之中的系统和所需的 IRP、DRP 和 BCP ，以提供计划过程重的技术内容。信息安全经理需要监视项目的安全计划，提供威胁、漏洞、攻击的信息和计划过程中需要的恢复需求。</p>
+<h2 id="组织机构需求信息安全管理体系认证的目的有哪些？"><a href="#组织机构需求信息安全管理体系认证的目的有哪些？" class="headerlink" title="组织机构需求信息安全管理体系认证的目的有哪些？"></a>组织机构需求信息安全管理体系认证的目的有哪些？</h2><ul>
 <li>获得最佳的信息安全运行方式</li>
 <li>保证商业安全</li>
 <li>降低风险</li>
@@ -11768,12 +11768,12 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>保证可持续发展</li>
 <li>符合法律法规的要求</li>
 </ul>
-<h1 id="14-具有什么特征的攻击才能被界定为事故？"><a href="#14-具有什么特征的攻击才能被界定为事故？" class="headerlink" title="14 具有什么特征的攻击才能被界定为事故？"></a>14 具有什么特征的攻击才能被界定为事故？</h1><p>事故是对信息资产的一个攻击，它明显威胁着信息资源的机密性、完整性和可用性。如果发生了威胁信息的行为并且已完成，则盖行为就界定为一个事故。</p>
-<h1 id="15-工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？"><a href="#15-工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？" class="headerlink" title="15 工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？"></a>15 工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？</h1><p>定期对不同岗位的人员进行考核，考核包括政治思想、保密观念和业务技术等多各方面</p>
+<h2 id="具有什么特征的攻击才能被界定为事故？"><a href="#具有什么特征的攻击才能被界定为事故？" class="headerlink" title="具有什么特征的攻击才能被界定为事故？"></a>具有什么特征的攻击才能被界定为事故？</h2><p>事故是对信息资产的一个攻击，它明显威胁着信息资源的机密性、完整性和可用性。如果发生了威胁信息的行为并且已完成，则盖行为就界定为一个事故。</p>
+<h2 id="工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？"><a href="#工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？" class="headerlink" title="工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？"></a>工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？</h2><p>定期对不同岗位的人员进行考核，考核包括政治思想、保密观念和业务技术等多各方面</p>
 <p>定期对系统的所以工作人员从政治思想业务水平、工作表现等方面进行考核，对不适于接触信息系统能够的人员要适时调离</p>
 <p>员工从一般岗位转到信息安全重要岗位，组织机构也应当对其进行信用检查。对于处在有相当权力位置的人员，这种检查应定期进行</p>
-<h1 id="16-风险评估中，风险值由哪些因素决定？请写出计算公式"><a href="#16-风险评估中，风险值由哪些因素决定？请写出计算公式" class="headerlink" title="16 风险评估中，风险值由哪些因素决定？请写出计算公式"></a>16 风险评估中，风险值由哪些因素决定？请写出计算公式</h1><p>风险 ＝ 出现漏洞的可能性 × 信息资产的价值 － 当前控制减轻的风险概率 ＋ 对漏洞了解的不确定性</p>
-<h1 id="17-为保证网络通信线路的安全，应注意哪几个方面？"><a href="#17-为保证网络通信线路的安全，应注意哪几个方面？" class="headerlink" title="17 为保证网络通信线路的安全，应注意哪几个方面？"></a>17 为保证网络通信线路的安全，应注意哪几个方面？</h1><ul>
+<h2 id="风险评估中，风险值由哪些因素决定？请写出计算公式"><a href="#风险评估中，风险值由哪些因素决定？请写出计算公式" class="headerlink" title="风险评估中，风险值由哪些因素决定？请写出计算公式"></a>风险评估中，风险值由哪些因素决定？请写出计算公式</h2><p>风险 ＝ 出现漏洞的可能性 × 信息资产的价值 － 当前控制减轻的风险概率 ＋ 对漏洞了解的不确定性</p>
+<h2 id="为保证网络通信线路的安全，应注意哪几个方面？"><a href="#为保证网络通信线路的安全，应注意哪几个方面？" class="headerlink" title="为保证网络通信线路的安全，应注意哪几个方面？"></a>为保证网络通信线路的安全，应注意哪几个方面？</h2><ul>
 <li>用于数据传输的线路应符合有关标准，如线路噪声不应超标等</li>
 <li>传输线路应采用屏蔽电缆并有露天保护或埋于地下，要求远距离电线路或强电磁场反射源，以减少由于干预引起的数据错误</li>
 <li>铺设电缆应采用金属套装、屏蔽电缆或加装金属套装，以减少各种辐射对路线的干扰，定期检查各线段及接点，更换老化变质的电缆</li>
@@ -11783,7 +11783,7 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>如果条件许可或是信息安全需要，可以使用光缆，光缆对非法窃听很敏感，但容易被发现</li>
 <li>调试解调器应放置在收监视的区域，以便即时发现和防止外来连接的企图，调制解调器的连接应定期检验，以检验是否有篡改行为</li>
 </ul>
-<h1 id="18-信息安全管理认证的依据与范围、申请认证的基本条件有哪些？"><a href="#18-信息安全管理认证的依据与范围、申请认证的基本条件有哪些？" class="headerlink" title="18 信息安全管理认证的依据与范围、申请认证的基本条件有哪些？"></a>18 信息安全管理认证的依据与范围、申请认证的基本条件有哪些？</h1><p>认证的依据：BS7799-2：1999标准</p>
+<h2 id="信息安全管理认证的依据与范围、申请认证的基本条件有哪些？"><a href="#信息安全管理认证的依据与范围、申请认证的基本条件有哪些？" class="headerlink" title="信息安全管理认证的依据与范围、申请认证的基本条件有哪些？"></a>信息安全管理认证的依据与范围、申请认证的基本条件有哪些？</h2><p>认证的依据：BS7799-2：1999标准</p>
 <p>认证范围通常与它实施安全管理体系的范围是相同的但，并不需要必须相同</p>
 <p>基本条件：</p>
 <ul>
@@ -11791,13 +11791,13 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>体系文件完全符合标准要求</li>
 <li>体系已被有效实施，即组织结构在风险评估的基础上，识别出需要保护的关键信息资产、制定信息安全方针、确定安全控制目标与控制方式并实施、完成体系审核与评估活动并采取相应的纠正预防措施</li>
 </ul>
-<h1 id="19-系统运行阶段的维护活动通常有哪几类？"><a href="#19-系统运行阶段的维护活动通常有哪几类？" class="headerlink" title="19 系统运行阶段的维护活动通常有哪几类？"></a>19 系统运行阶段的维护活动通常有哪几类？</h1><ul>
+<h2 id="系统运行阶段的维护活动通常有哪几类？"><a href="#系统运行阶段的维护活动通常有哪几类？" class="headerlink" title="系统运行阶段的维护活动通常有哪几类？"></a>系统运行阶段的维护活动通常有哪几类？</h2><ul>
 <li>改正性维护：诊断和改正在使用过程重发现的系统错误</li>
 <li>适合性维护：修改系统以适应环境的变化</li>
 <li>完善性维护：根据用户的要求改进或扩充系统使其更完善</li>
 <li>预防性维护：修改系统为将来的维护活动做准备</li>
 </ul>
-<h1 id="20-简述影响维护代价的技术因素和非技术因素"><a href="#20-简述影响维护代价的技术因素和非技术因素" class="headerlink" title="20 简述影响维护代价的技术因素和非技术因素"></a>20 简述影响维护代价的技术因素和非技术因素</h1><ul>
+<h2 id="简述影响维护代价的技术因素和非技术因素"><a href="#简述影响维护代价的技术因素和非技术因素" class="headerlink" title="简述影响维护代价的技术因素和非技术因素"></a>简述影响维护代价的技术因素和非技术因素</h2><ul>
 <li>技术因素<ul>
 <li>软件对运行环境的依赖性</li>
 <li>编程语言</li>
@@ -11826,61 +11826,61 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
     <title>计算机等级考试三级信息安全技术章节习题7</title>
     <url>/posts/dfaa872a/</url>
     <content><![CDATA[<p><strong>七、信息安全标准与法规</strong></p>
-<h1 id="填空"><a href="#填空" class="headerlink" title="填空"></a>填空</h1><h1 id="1-信息技术安全评价的通用标准（CC）是由-、-、-、-、-、-6个国家于1996年联合提出的"><a href="#1-信息技术安全评价的通用标准（CC）是由-、-、-、-、-、-6个国家于1996年联合提出的" class="headerlink" title="1 信息技术安全评价的通用标准（CC）是由 ___、___、___、___、___、___ 6个国家于1996年联合提出的"></a>1 信息技术安全评价的通用标准（CC）是由 <strong>___、___、___、___、___、___</strong> 6个国家于1996年联合提出的</h1><p>美国、加拿大、英国、法国、德国、荷兰</p>
+<h1 id="填空"><a href="#填空" class="headerlink" title="填空"></a>填空</h1><h2 id="信息技术安全评价的通用标准（CC）是由-、-、-、-、-、-6个国家于1996年联合提出的"><a href="#信息技术安全评价的通用标准（CC）是由-、-、-、-、-、-6个国家于1996年联合提出的" class="headerlink" title="信息技术安全评价的通用标准（CC）是由 ___、___、___、___、___、___ 6个国家于1996年联合提出的"></a>信息技术安全评价的通用标准（CC）是由 <strong>___、___、___、___、___、___</strong> 6个国家于1996年联合提出的</h2><p>美国、加拿大、英国、法国、德国、荷兰</p>
 <a id="more"></a>
-<h1 id="2-CC将评估过程划分为-和-两个部分"><a href="#2-CC将评估过程划分为-和-两个部分" class="headerlink" title="2 CC将评估过程划分为 ___和___ 两个部分"></a>2 CC将评估过程划分为 <strong>___和___</strong> 两个部分</h1><p>功能、保证</p>
-<h1 id="3-CC评估等级每一级均需评估7个功能类，分别是-、-、-、-、-、-、"><a href="#3-CC评估等级每一级均需评估7个功能类，分别是-、-、-、-、-、-、" class="headerlink" title="3 CC评估等级每一级均需评估7个功能类，分别是 ___、___、___、___、___、___、___"></a>3 CC评估等级每一级均需评估7个功能类，分别是 <strong>___、___、___、___、___、___、___</strong></h1><p>EAL1 到 EAL7：</p>
+<h2 id="CC将评估过程划分为-和-两个部分"><a href="#CC将评估过程划分为-和-两个部分" class="headerlink" title="CC将评估过程划分为 ___和___ 两个部分"></a>CC将评估过程划分为 <strong>___和___</strong> 两个部分</h2><p>功能、保证</p>
+<h2 id="CC评估等级每一级均需评估7个功能类，分别是-、-、-、-、-、-、"><a href="#CC评估等级每一级均需评估7个功能类，分别是-、-、-、-、-、-、" class="headerlink" title="CC评估等级每一级均需评估7个功能类，分别是 ___、___、___、___、___、___、___"></a>CC评估等级每一级均需评估7个功能类，分别是 <strong>___、___、___、___、___、___、___</strong></h2><p>EAL1 到 EAL7：</p>
 <p>配置管理、分发和操作、开发过程、指导文献、生命期的技术支持、测试、脆弱性评估</p>
-<h1 id="4-信息安全管理基本技术要求从-、-、-、-、-5个层面提出（4）"><a href="#4-信息安全管理基本技术要求从-、-、-、-、-5个层面提出（4）" class="headerlink" title="4 信息安全管理基本技术要求从 ___、___、___、___、___ 5个层面提出（4）"></a>4 信息安全管理基本技术要求从 <strong>___、___、___、___、___</strong> 5个层面提出（4）</h1><p>安全通信网络、安全区域边界、安全计算环境、安全管理中心</p>
-<h1 id="5-信息安全管理基本管理要求从-、-、-、-、-5个方面提出"><a href="#5-信息安全管理基本管理要求从-、-、-、-、-5个方面提出" class="headerlink" title="5 信息安全管理基本管理要求从 ___、___、___、___、___ 5个方面提出"></a>5 信息安全管理基本管理要求从 <strong>___、___、___、___、___</strong> 5个方面提出</h1><p>安全管理制度、安全管理机构、安全管理人员、建设管理、运维管理</p>
-<h1 id="6-与信息安全标准化有关的主要国际化组织有-、-、-等"><a href="#6-与信息安全标准化有关的主要国际化组织有-、-、-等" class="headerlink" title="6 与信息安全标准化有关的主要国际化组织有 ___、___、___ 等"></a>6 与信息安全标准化有关的主要国际化组织有 <strong>___、___、___</strong> 等</h1><p>国际标准组织（ISO）、国际电工委员会（IEC）、国际电信联盟（ITU）</p>
-<h1 id="7-与信息安全相关的法律条文有-、-、-等"><a href="#7-与信息安全相关的法律条文有-、-、-等" class="headerlink" title="7 与信息安全相关的法律条文有 ___、___、___ 等"></a>7 与信息安全相关的法律条文有 <strong>___、___、___</strong> 等</h1><p>网络安全法、保守国家秘密法、电子签名法</p>
-<h1 id="8-CNITSEC-是-的简称"><a href="#8-CNITSEC-是-的简称" class="headerlink" title="8 CNITSEC 是 ___ 的简称"></a>8 CNITSEC 是 <strong>___</strong> 的简称</h1><p>中国信息安全测评中心</p>
-<h1 id="9-ISO13335-标准首次给出了关于IT安全的-、-、-、-、-、-6个方面的含义"><a href="#9-ISO13335-标准首次给出了关于IT安全的-、-、-、-、-、-6个方面的含义" class="headerlink" title="9 ISO13335 标准首次给出了关于IT安全的 ___、___、___、___、___、___ 6个方面的含义"></a>9 ISO13335 标准首次给出了关于IT安全的 <strong>___、___、___、___、___、___</strong> 6个方面的含义</h1><p>保密性、完整性、可用性、审计性、认证性、 可靠性</p>
-<h1 id="10-《计算机信息系统安全保护等级划分准则》将信息系统安全分为-、-、-、-、-5个等级"><a href="#10-《计算机信息系统安全保护等级划分准则》将信息系统安全分为-、-、-、-、-5个等级" class="headerlink" title="10 《计算机信息系统安全保护等级划分准则》将信息系统安全分为 ___、___、___、___、___ 5个等级"></a>10 《计算机信息系统安全保护等级划分准则》将信息系统安全分为 <strong>___、___、___、___、___</strong> 5个等级</h1><ul>
+<h2 id="信息安全管理基本技术要求从-、-、-、-、-5个层面提出（4）"><a href="#信息安全管理基本技术要求从-、-、-、-、-5个层面提出（4）" class="headerlink" title="信息安全管理基本技术要求从 ___、___、___、___、___ 5个层面提出（4）"></a>信息安全管理基本技术要求从 <strong>___、___、___、___、___</strong> 5个层面提出（4）</h2><p>安全通信网络、安全区域边界、安全计算环境、安全管理中心</p>
+<h2 id="信息安全管理基本管理要求从-、-、-、-、-5个方面提出"><a href="#信息安全管理基本管理要求从-、-、-、-、-5个方面提出" class="headerlink" title="信息安全管理基本管理要求从 ___、___、___、___、___ 5个方面提出"></a>信息安全管理基本管理要求从 <strong>___、___、___、___、___</strong> 5个方面提出</h2><p>安全管理制度、安全管理机构、安全管理人员、建设管理、运维管理</p>
+<h2 id="与信息安全标准化有关的主要国际化组织有-、-、-等"><a href="#与信息安全标准化有关的主要国际化组织有-、-、-等" class="headerlink" title="与信息安全标准化有关的主要国际化组织有 ___、___、___ 等"></a>与信息安全标准化有关的主要国际化组织有 <strong>___、___、___</strong> 等</h2><p>国际标准组织（ISO）、国际电工委员会（IEC）、国际电信联盟（ITU）</p>
+<h2 id="与信息安全相关的法律条文有-、-、-等"><a href="#与信息安全相关的法律条文有-、-、-等" class="headerlink" title="与信息安全相关的法律条文有 ___、___、___ 等"></a>与信息安全相关的法律条文有 <strong>___、___、___</strong> 等</h2><p>网络安全法、保守国家秘密法、电子签名法</p>
+<h2 id="CNITSEC-是-的简称"><a href="#CNITSEC-是-的简称" class="headerlink" title="CNITSEC 是 ___ 的简称"></a>CNITSEC 是 <strong>___</strong> 的简称</h2><p>中国信息安全测评中心</p>
+<h2 id="ISO13335-标准首次给出了关于IT安全的-、-、-、-、-、-6个方面的含义"><a href="#ISO13335-标准首次给出了关于IT安全的-、-、-、-、-、-6个方面的含义" class="headerlink" title="ISO13335 标准首次给出了关于IT安全的 ___、___、___、___、___、___ 6个方面的含义"></a>ISO13335 标准首次给出了关于IT安全的 <strong>___、___、___、___、___、___</strong> 6个方面的含义</h2><p>保密性、完整性、可用性、审计性、认证性、 可靠性</p>
+<h2 id="《计算机信息系统安全保护等级划分准则》将信息系统安全分为-、-、-、-、-5个等级"><a href="#《计算机信息系统安全保护等级划分准则》将信息系统安全分为-、-、-、-、-5个等级" class="headerlink" title="《计算机信息系统安全保护等级划分准则》将信息系统安全分为 ___、___、___、___、___ 5个等级"></a>《计算机信息系统安全保护等级划分准则》将信息系统安全分为 <strong>___、___、___、___、___</strong> 5个等级</h2><ul>
 <li>第一级：用户自主<strong>保护</strong>级；</li>
 <li>第二级：<strong>系统</strong>审计<strong>保护</strong>级；</li>
 <li>第三级：<strong>安全</strong>标记<strong>保护</strong>级；</li>
 <li>第四级：结构化<strong>保护</strong>级；</li>
 <li>第<strong>五</strong>级：访问验证<strong>保护</strong>级。</li>
 </ul>
-<h1 id="11-《信息系统安全保护等级划分准则》中提出了定级的4个要素-、-、-、"><a href="#11-《信息系统安全保护等级划分准则》中提出了定级的4个要素-、-、-、" class="headerlink" title="11 《信息系统安全保护等级划分准则》中提出了定级的4个要素 : ___、___、___、___"></a>11 《信息系统安全保护等级划分准则》中提出了定级的4个要素 : <strong>___、___、___、___</strong></h1><p>信息系统所属类型、业务数据类型、信息系统服务范围i、业务自动化处理程度</p>
-<h1 id="12-国家秘密的保密期限，除另有规定外，绝密级不超过-，机密级不超过-，秘密级不超"><a href="#12-国家秘密的保密期限，除另有规定外，绝密级不超过-，机密级不超过-，秘密级不超" class="headerlink" title="12 国家秘密的保密期限，除另有规定外，绝密级不超过 ___ ，机密级不超过 ___ ，秘密级不超 ___"></a>12 国家秘密的保密期限，除另有规定外，绝密级不超过 <strong>___</strong> ，机密级不超过 <strong>___</strong> ，秘密级不超 <strong>___</strong></h1><p>30年、20年、10年</p>
-<h1 id="13-称持有电子签名制作数据并以本人身份或者以其所代表的人的名义实施电子签名的人为"><a href="#13-称持有电子签名制作数据并以本人身份或者以其所代表的人的名义实施电子签名的人为" class="headerlink" title="13 称持有电子签名制作数据并以本人身份或者以其所代表的人的名义实施电子签名的人为 ___"></a>13 称持有电子签名制作数据并以本人身份或者以其所代表的人的名义实施电子签名的人为 <strong>___</strong></h1><p>电子签名人</p>
-<h1 id="14-信息系统的安全保护等级由-和-两个定级要素决定"><a href="#14-信息系统的安全保护等级由-和-两个定级要素决定" class="headerlink" title="14 信息系统的安全保护等级由 ___和___ 两个定级要素决定"></a>14 信息系统的安全保护等级由 <strong>___和___</strong> 两个定级要素决定</h1><p>等级保护对象受到破坏时所侵害的客体、客体造成侵害的程度</p>
-<h1 id="15-商用密码技术属于国家秘密。国家对商用密码产品的-、-、-、-实行专控管理"><a href="#15-商用密码技术属于国家秘密。国家对商用密码产品的-、-、-、-实行专控管理" class="headerlink" title="15 商用密码技术属于国家秘密。国家对商用密码产品的 ___、___、___、___ 实行专控管理"></a>15 商用密码技术属于国家秘密。国家对商用密码产品的 <strong>___、___、___、___</strong> 实行专控管理</h1><p>科研、生产、销售、使用</p>
-<h1 id="16-《计算机信息系统安全保护等级划分准则》主要的安全考核指标有-、-、-、-等"><a href="#16-《计算机信息系统安全保护等级划分准则》主要的安全考核指标有-、-、-、-等" class="headerlink" title="16 《计算机信息系统安全保护等级划分准则》主要的安全考核指标有 ___、___、___、___ 等"></a>16 《计算机信息系统安全保护等级划分准则》主要的安全考核指标有 <strong>___、___、___、___</strong> 等</h1><p>公民、法人和其他组织的合法权益</p>
+<h2 id="《信息系统安全保护等级划分准则》中提出了定级的4个要素-、-、-、"><a href="#《信息系统安全保护等级划分准则》中提出了定级的4个要素-、-、-、" class="headerlink" title="《信息系统安全保护等级划分准则》中提出了定级的4个要素 : ___、___、___、___"></a>《信息系统安全保护等级划分准则》中提出了定级的4个要素 : <strong>___、___、___、___</strong></h2><p>信息系统所属类型、业务数据类型、信息系统服务范围i、业务自动化处理程度</p>
+<h2 id="国家秘密的保密期限，除另有规定外，绝密级不超过-，机密级不超过-，秘密级不超"><a href="#国家秘密的保密期限，除另有规定外，绝密级不超过-，机密级不超过-，秘密级不超" class="headerlink" title="国家秘密的保密期限，除另有规定外，绝密级不超过 ___ ，机密级不超过 ___ ，秘密级不超 ___"></a>国家秘密的保密期限，除另有规定外，绝密级不超过 <strong>___</strong> ，机密级不超过 <strong>___</strong> ，秘密级不超 <strong>___</strong></h2><p>30年、20年、10年</p>
+<h2 id="称持有电子签名制作数据并以本人身份或者以其所代表的人的名义实施电子签名的人为"><a href="#称持有电子签名制作数据并以本人身份或者以其所代表的人的名义实施电子签名的人为" class="headerlink" title="称持有电子签名制作数据并以本人身份或者以其所代表的人的名义实施电子签名的人为 ___"></a>称持有电子签名制作数据并以本人身份或者以其所代表的人的名义实施电子签名的人为 <strong>___</strong></h2><p>电子签名人</p>
+<h2 id="信息系统的安全保护等级由-和-两个定级要素决定"><a href="#信息系统的安全保护等级由-和-两个定级要素决定" class="headerlink" title="信息系统的安全保护等级由 ___和___ 两个定级要素决定"></a>信息系统的安全保护等级由 <strong>___和___</strong> 两个定级要素决定</h2><p>等级保护对象受到破坏时所侵害的客体、客体造成侵害的程度</p>
+<h2 id="商用密码技术属于国家秘密。国家对商用密码产品的-、-、-、-实行专控管理"><a href="#商用密码技术属于国家秘密。国家对商用密码产品的-、-、-、-实行专控管理" class="headerlink" title="商用密码技术属于国家秘密。国家对商用密码产品的 ___、___、___、___ 实行专控管理"></a>商用密码技术属于国家秘密。国家对商用密码产品的 <strong>___、___、___、___</strong> 实行专控管理</h2><p>科研、生产、销售、使用</p>
+<h2 id="《计算机信息系统安全保护等级划分准则》主要的安全考核指标有-、-、-、-等"><a href="#《计算机信息系统安全保护等级划分准则》主要的安全考核指标有-、-、-、-等" class="headerlink" title="《计算机信息系统安全保护等级划分准则》主要的安全考核指标有 ___、___、___、___ 等"></a>《计算机信息系统安全保护等级划分准则》主要的安全考核指标有 <strong>___、___、___、___</strong> 等</h2><p>公民、法人和其他组织的合法权益</p>
 <p>社会秩序</p>
 <p>公共利益</p>
 <p>国际安全</p>
-<h1 id="17-涉密信息系统建设使用单位应当依据涉密信息系统分级保护管理规范和技术标准，按照-、-、-三级的不同要求"><a href="#17-涉密信息系统建设使用单位应当依据涉密信息系统分级保护管理规范和技术标准，按照-、-、-三级的不同要求" class="headerlink" title="17 涉密信息系统建设使用单位应当依据涉密信息系统分级保护管理规范和技术标准，按照 ___、___、___ 三级的不同要求"></a>17 涉密信息系统建设使用单位应当依据涉密信息系统分级保护管理规范和技术标准，按照 <strong>___、___、___</strong> 三级的不同要求</h1><p>绝密、机密、秘密</p>
-<h1 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h1><h1 id="1-加强信息安全保障工作的主要原则包括哪些？"><a href="#1-加强信息安全保障工作的主要原则包括哪些？" class="headerlink" title="1 加强信息安全保障工作的主要原则包括哪些？"></a>1 加强信息安全保障工作的主要原则包括哪些？</h1><ul>
+<h2 id="涉密信息系统建设使用单位应当依据涉密信息系统分级保护管理规范和技术标准，按照-、-、-三级的不同要求"><a href="#涉密信息系统建设使用单位应当依据涉密信息系统分级保护管理规范和技术标准，按照-、-、-三级的不同要求" class="headerlink" title="涉密信息系统建设使用单位应当依据涉密信息系统分级保护管理规范和技术标准，按照 ___、___、___ 三级的不同要求"></a>涉密信息系统建设使用单位应当依据涉密信息系统分级保护管理规范和技术标准，按照 <strong>___、___、___</strong> 三级的不同要求</h2><p>绝密、机密、秘密</p>
+<h1 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h1><h2 id="加强信息安全保障工作的主要原则包括哪些？"><a href="#加强信息安全保障工作的主要原则包括哪些？" class="headerlink" title="加强信息安全保障工作的主要原则包括哪些？"></a>加强信息安全保障工作的主要原则包括哪些？</h2><ul>
 <li>尊重维护网络空间主权</li>
 <li>和平利用网络空间</li>
 <li>依法治理网络空间</li>
 <li>统筹网络安全与发展</li>
 </ul>
-<h1 id="2-信息系统的安全保护等级分为哪五级？"><a href="#2-信息系统的安全保护等级分为哪五级？" class="headerlink" title="2 信息系统的安全保护等级分为哪五级？"></a>2 信息系统的安全保护等级分为哪五级？</h1><p>第一级，信息系统受到破坏后，会对公民法人和其他组织的合法权益造成损害，但不损害国家安全、社会秩序和公共利益</p>
+<h2 id="信息系统的安全保护等级分为哪五级？"><a href="#信息系统的安全保护等级分为哪五级？" class="headerlink" title="信息系统的安全保护等级分为哪五级？"></a>信息系统的安全保护等级分为哪五级？</h2><p>第一级，信息系统受到破坏后，会对公民法人和其他组织的合法权益造成损害，但不损害国家安全、社会秩序和公共利益</p>
 <p>第二级，信息系统受到破坏后，会对公民法人和其他组织的合法权益产生严重损害，或对社会秩序和公共利益造成损害，但不损害国家安全</p>
 <p>第四级，信息系统受到破坏后，会对社会秩序和公共利益造成特别严重损害，或对国家安全造成严重损害</p>
 <p>第五级，信息系统受到破坏后，会国家安全造成特别严重损害</p>
-<h1 id="3-国家秘密的密级分为哪三级？各级简要描述是什么？"><a href="#3-国家秘密的密级分为哪三级？各级简要描述是什么？" class="headerlink" title="3 国家秘密的密级分为哪三级？各级简要描述是什么？"></a>3 国家秘密的密级分为哪三级？各级简要描述是什么？</h1><p>绝密、机密、秘密</p>
+<h2 id="国家秘密的密级分为哪三级？各级简要描述是什么？"><a href="#国家秘密的密级分为哪三级？各级简要描述是什么？" class="headerlink" title="国家秘密的密级分为哪三级？各级简要描述是什么？"></a>国家秘密的密级分为哪三级？各级简要描述是什么？</h2><p>绝密、机密、秘密</p>
 <p>绝密级国家秘密是最重要的国家秘密，泄漏会使国家安全和利益遭受特别严重的损害</p>
 <p>机密级国家秘密是重要的国家秘密，泄漏会使国家安全和利益遭受严重的损害</p>
 <p>秘密级国家秘密是一般的国家秘密，泄漏会使国家安全和利益遭受损害</p>
-<h1 id="4-加强政府信息系统安全和保密管理工作应坚持的四项基本要求是什么？"><a href="#4-加强政府信息系统安全和保密管理工作应坚持的四项基本要求是什么？" class="headerlink" title="4 加强政府信息系统安全和保密管理工作应坚持的四项基本要求是什么？"></a>4 加强政府信息系统安全和保密管理工作应坚持的四项基本要求是什么？</h1><h1 id="5-法律意义上电子签名视为可靠需同时符合哪些条件？"><a href="#5-法律意义上电子签名视为可靠需同时符合哪些条件？" class="headerlink" title="5 法律意义上电子签名视为可靠需同时符合哪些条件？"></a>5 法律意义上电子签名视为可靠需同时符合哪些条件？</h1><ul>
+<h2 id="加强政府信息系统安全和保密管理工作应坚持的四项基本要求是什么？"><a href="#加强政府信息系统安全和保密管理工作应坚持的四项基本要求是什么？" class="headerlink" title="加强政府信息系统安全和保密管理工作应坚持的四项基本要求是什么？"></a>加强政府信息系统安全和保密管理工作应坚持的四项基本要求是什么？</h2><h2 id="法律意义上电子签名视为可靠需同时符合哪些条件？"><a href="#法律意义上电子签名视为可靠需同时符合哪些条件？" class="headerlink" title="法律意义上电子签名视为可靠需同时符合哪些条件？"></a>法律意义上电子签名视为可靠需同时符合哪些条件？</h2><ul>
 <li>电子签名制作数据用于电子签名时，属于电子签名人专有</li>
 <li>签署时电子签名制作数据仅由电子签名人控制</li>
 <li>签署后对电子签名的任何改动能够被发现</li>
 <li>签署后对数据电文内容和形式的任何改动能够被发现。当事人也可以选择使用符合其约定的可靠条件的电子签名</li>
 </ul>
-<h1 id="6-审查数据电文作为证据的真实性，应当考虑什么因素？"><a href="#6-审查数据电文作为证据的真实性，应当考虑什么因素？" class="headerlink" title="6 审查数据电文作为证据的真实性，应当考虑什么因素？"></a>6 审查数据电文作为证据的真实性，应当考虑什么因素？</h1><ul>
+<h2 id="审查数据电文作为证据的真实性，应当考虑什么因素？"><a href="#审查数据电文作为证据的真实性，应当考虑什么因素？" class="headerlink" title="审查数据电文作为证据的真实性，应当考虑什么因素？"></a>审查数据电文作为证据的真实性，应当考虑什么因素？</h2><ul>
 <li>生产、存储或传递数据电文方法的可靠性</li>
 <li>保持内容完整性方法的可靠性</li>
 <li>用以鉴别发件人方法的可靠性</li>
 <li>其他相关因素</li>
 </ul>
-<h1 id="7-简述《信息技术安全性评估准则》-CC-所确定的标准的优点"><a href="#7-简述《信息技术安全性评估准则》-CC-所确定的标准的优点" class="headerlink" title="7 简述《信息技术安全性评估准则》(CC)所确定的标准的优点"></a>7 简述《信息技术安全性评估准则》(CC)所确定的标准的优点</h1><ul>
+<h2 id="简述《信息技术安全性评估准则》-CC-所确定的标准的优点"><a href="#简述《信息技术安全性评估准则》-CC-所确定的标准的优点" class="headerlink" title="简述《信息技术安全性评估准则》(CC)所确定的标准的优点"></a>简述《信息技术安全性评估准则》(CC)所确定的标准的优点</h2><ul>
 <li>提倡安全工程的思想，通过信息安全产品的评估，确保产品的安全性</li>
 <li>通过参数化，解决安全特性在不同产品与系统间存在的差异</li>
 <li>不再强调功能的级别，而是强调保证的级别，注重非技术性因素的评价</li>
@@ -11888,12 +11888,12 @@ m = 5</script><h1 id="8-什么是哈希函数？对哈希函数的基本要求�
 <li>将公认的安全需求制定成相关的标准文档，用户可以直接使用，利于标准的推广以及用户间的共享</li>
 <li>安全功能、安全保证及安全评价之间相互独立，安全功能需求定义来所期望的安全行为，安全保证需求是有效实施安全措施的基础，而安全评价则是测定安全功能需求与保证需求的可性程度</li>
 </ul>
-<h1 id="8-销售商用密码产品，应当向国家密码管理机构提出申请，并应当具备什么条件？"><a href="#8-销售商用密码产品，应当向国家密码管理机构提出申请，并应当具备什么条件？" class="headerlink" title="8 销售商用密码产品，应当向国家密码管理机构提出申请，并应当具备什么条件？"></a>8 销售商用密码产品，应当向国家密码管理机构提出申请，并应当具备什么条件？</h1><ul>
+<h2 id="销售商用密码产品，应当向国家密码管理机构提出申请，并应当具备什么条件？"><a href="#销售商用密码产品，应当向国家密码管理机构提出申请，并应当具备什么条件？" class="headerlink" title="销售商用密码产品，应当向国家密码管理机构提出申请，并应当具备什么条件？"></a>销售商用密码产品，应当向国家密码管理机构提出申请，并应当具备什么条件？</h2><ul>
 <li>有熟悉商用秘密产品知识和承担售后服务的人员</li>
 <li>有完善的销售服务和安全管理规章制度</li>
 <li>有独立的法人资格</li>
 </ul>
-<h1 id="9-我国网络空间安全战略的目标是什么？"><a href="#9-我国网络空间安全战略的目标是什么？" class="headerlink" title="9 我国网络空间安全战略的目标是什么？"></a>9 我国网络空间安全战略的目标是什么？</h1><p>以总体国家安全观为指导，贯彻落实创新、协调、绿色、开放、共享的发展理念，增强风险意识和危机意识，统筹国内国际两个大局，统筹发展安全两件大事，积极防御、有效应付，推进网络空间和平、安全、开放、合法、有序，维护国家主权、安全、发展利益，实现建设网络强国的战略目标</p>
+<h2 id="我国网络空间安全战略的目标是什么？"><a href="#我国网络空间安全战略的目标是什么？" class="headerlink" title="我国网络空间安全战略的目标是什么？"></a>我国网络空间安全战略的目标是什么？</h2><p>以总体国家安全观为指导，贯彻落实创新、协调、绿色、开放、共享的发展理念，增强风险意识和危机意识，统筹国内国际两个大局，统筹发展安全两件大事，积极防御、有效应付，推进网络空间和平、安全、开放、合法、有序，维护国家主权、安全、发展利益，实现建设网络强国的战略目标</p>
 ]]></content>
       <categories>
         <category>NCRE</category>
