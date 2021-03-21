@@ -6,7 +6,7 @@
   <link href="https://eonun.com/atom.xml" rel="self"/>
   
   <link href="https://eonun.com/"/>
-  <updated>2021-03-19T10:35:44.616Z</updated>
+  <updated>2021-03-21T10:12:55.327Z</updated>
   <id>https://eonun.com/</id>
   
   <author>
@@ -15,6 +15,46 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OpenWrt插件</title>
+    <link href="https://eonun.com/posts/d0352c7e/"/>
+    <id>https://eonun.com/posts/d0352c7e/</id>
+    <published>2021-03-21T09:46:16.000Z</published>
+    <updated>2021-03-21T10:12:55.327Z</updated>
+    
+    
+    <summary type="html">有东西被加密了, 请输入密码查看.</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
+    
+    
+    <category term="OpenWrt" scheme="https://eonun.com/tags/OpenWrt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OpenWrt编译</title>
+    <link href="https://eonun.com/posts/f0343180/"/>
+    <id>https://eonun.com/posts/f0343180/</id>
+    <published>2021-03-21T02:21:54.000Z</published>
+    <updated>2021-03-21T09:42:03.108Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;OpenWrt&quot;&gt;&lt;a href=&quot;#OpenWrt&quot; class=&quot;headerlink&quot; title=&quot;OpenWrt&quot;&gt;&lt;/a&gt;OpenWrt&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/OpenWrt&quot;&gt;OpenWrt WiKi&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://openwrt.org/zh/start&quot;&gt;OpenWrt 官网&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/LEDE&quot;&gt;LEDE WiKi&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
+    
+    
+    <category term="OpenWrt" scheme="https://eonun.com/tags/OpenWrt/"/>
+    
+  </entry>
   
   <entry>
     <title>计算机等级考试三级信息安全技术章节习题7</title>
@@ -487,48 +527,6 @@
     
     
     <category term="Hexo" scheme="https://eonun.com/tags/Hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hexo主题更新美化</title>
-    <link href="https://eonun.com/posts/d6d67009/"/>
-    <id>https://eonun.com/posts/d6d67009/</id>
-    <published>2020-12-12T05:45:20.000Z</published>
-    <updated>2021-01-18T05:50:08.070Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;Hexo-next-主题配置美化&quot;&gt;&lt;a href=&quot;#Hexo-next-主题配置美化&quot; class=&quot;headerlink&quot; title=&quot;Hexo next 主题配置美化&quot;&gt;&lt;/a&gt;Hexo next 主题配置美化&lt;/h1&gt;&lt;p&gt; &lt;strong&gt;在博客根目录下操作&lt;/strong&gt;&lt;/p&gt;
-&lt;h2 id=&quot;下载使用next主题&quot;&gt;&lt;a href=&quot;#下载使用next主题&quot; class=&quot;headerlink&quot; title=&quot;下载使用next主题&quot;&gt;&lt;/a&gt;下载使用next主题&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git &lt;span class=&quot;built_in&quot;&gt;clone&lt;/span&gt; https://github.com/theme-next/hexo-theme-next themes/next&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;vim _config.yml		&lt;span class=&quot;comment&quot;&gt;#修改配置使用主题&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;figure class=&quot;highlight yml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;theme:next&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;&lt;strong&gt;官方不建议直接修改主题文件下的内容，这不利于升级&lt;/strong&gt;&lt;br&gt;&lt;figure class=&quot;highlight sh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;cp themes/next/_config.yml _config.next.yml  &lt;span class=&quot;comment&quot;&gt;# 复制主题文件到主目录&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;Hexo 配置文件(&lt;code&gt;$blog/_config.yml&lt;/code&gt;)中的 &lt;code&gt;theme_config&lt;/code&gt; 的优先级最高，其次是 &lt;code&gt;$blog/_config.[theme].yml&lt;/code&gt; 文件，最后是位于主题目录下的 &lt;code&gt;_config.yml&lt;/code&gt; 文件&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="Hexo" scheme="https://eonun.com/tags/Hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ArchLinux代理</title>
-    <link href="https://eonun.com/posts/a83bb0/"/>
-    <id>https://eonun.com/posts/a83bb0/</id>
-    <published>2020-12-11T13:48:46.000Z</published>
-    <updated>2020-12-18T16:08:39.609Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;环境变量代理&quot;&gt;&lt;a href=&quot;#环境变量代理&quot; class=&quot;headerlink&quot; title=&quot;环境变量代理&quot;&gt;&lt;/a&gt;环境变量代理&lt;/h1&gt;&lt;h2 id=&quot;普通代理&quot;&gt;&lt;a href=&quot;#普通代理&quot; class=&quot;headerlink&quot; title=&quot;普通代理&quot;&gt;&lt;/a&gt;普通代理&lt;/h2&gt;&lt;p&gt;要将代理环境变量提供给所有用户和所有应用程序，将命令添加到脚本中,如:&lt;code&gt;/etc/profile.d/proxy.sh&lt;/code&gt;,然后脚本必须有可执行限。 当使用Xfce之类的桌面环境时，此方法很有用。 例如Xfce通过此方法设置的变量运行Chromium浏览器进行Chromium浏览器代理。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
-    
-    
-    <category term="Arch" scheme="https://eonun.com/tags/Arch/"/>
-    
-    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
     
   </entry>
   
