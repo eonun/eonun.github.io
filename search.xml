@@ -1826,6 +1826,152 @@ live2d-widget-model-z16<br>
       </tags>
   </entry>
   <entry>
+    <title>Hexo进阶</title>
+    <url>/posts/4530c0eb/</url>
+    <content><![CDATA[<h1 id="Next-主题进阶"><a href="#Next-主题进阶" class="headerlink" title="Next 主题进阶"></a>Next 主题进阶</h1><h2 id="阅读书签"><a href="#阅读书签" class="headerlink" title="阅读书签"></a>阅读书签</h2><p>允许用户保存阅读进度。用户只需单击页面左上角的书签图标即可保存滚动位置。当下次访问博客时，可自动恢复该页面的打书签的位置</p>
+<figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">bookmark:</span>	</span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>	</span><br><span class="line">  <span class="attr">color:</span> <span class="string">&quot;#222&quot;</span></span><br><span class="line">  <span class="attr">save:</span> <span class="string">auto</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="字数统计与阅读时长"><a href="#字数统计与阅读时长" class="headerlink" title="字数统计与阅读时长"></a>字数统计与阅读时长</h2><p>安装插件:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yarn add hexo-symbols-count-time</span><br></pre></td></tr></table></figure>
+<p>配置:</p>
+<p>主题配置文件:</p>
+<figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">separated_meta:</span> <span class="literal">true</span> 		<span class="comment"># 统计信息不换行显示</span></span><br><span class="line">  <span class="attr">item_text_post:</span> <span class="literal">true</span> 		<span class="comment"># 是否显示“本文字数/阅读时长”等描述文字</span></span><br><span class="line">  <span class="attr">item_text_total:</span> <span class="literal">false</span> 	<span class="comment"># 底部footer信息中是否显示“本文字数/阅读时长”等描述文字</span></span><br><span class="line">  <span class="attr">awl:</span> <span class="number">4</span> 					<span class="comment"># 平均字符长度</span></span><br><span class="line">  <span class="attr">wpm:</span> <span class="number">275</span> 					<span class="comment"># 阅读速度, 一分钟阅读的字数</span></span><br></pre></td></tr></table></figure>
+<p>站点配置文件添加:</p>
+<figure class="highlight yml"><figcaption><span>$blog/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># 新增文章字数统计</span></span><br><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="comment">#文章内是否显示</span></span><br><span class="line">  <span class="attr">symbols:</span> <span class="literal">true</span> 	<span class="comment"># 文章字数</span></span><br><span class="line">  <span class="attr">time:</span> <span class="literal">true</span> 		<span class="comment"># 阅读时长</span></span><br><span class="line">  <span class="comment"># 网页底部是否显示</span></span><br><span class="line">  <span class="attr">total_symbols:</span> <span class="literal">false</span> 	<span class="comment"># 所有文章总字数</span></span><br><span class="line">  <span class="attr">total_time:</span> <span class="literal">false</span> 	<span class="comment"># 所有文章阅读中时长</span></span><br></pre></td></tr></table></figure>
+<h2 id="进度"><a href="#进度" class="headerlink" title="进度"></a>进度</h2><figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># 浏览进度</span></span><br><span class="line"><span class="attr">back2top:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> 			<span class="comment"># 是否提供一键置顶 </span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">scrollpercent:</span> <span class="literal">true</span> 	<span class="comment"># 是否显示当前阅读进度</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 阅读进度</span></span><br><span class="line"><span class="attr">reading_progress:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">top</span></span><br><span class="line">  <span class="attr">color:</span> <span class="string">&quot;#37c6c0&quot;</span></span><br><span class="line">  <span class="attr">height:</span> <span class="string">3px</span></span><br></pre></td></tr></table></figure>
+<h2 id="图片延迟加载"><a href="#图片延迟加载" class="headerlink" title="图片延迟加载"></a>图片延迟加载</h2><p>访问到图片位置时才请求图片资源，可提高博客的访问速度</p>
+<p><a href="https://github.com/theme-next/theme-next-jquery-lazyload">theme-next-jquery-lazyload</a></p>
+<p>开启配置:</p>
+<figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">lazyload:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Lazyload</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="string">//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js</span></span><br><span class="line">  <span class="comment"># lazyload: //cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js</span></span><br><span class="line">  <span class="comment"># lazyload:</span></span><br></pre></td></tr></table></figure>
+<h2 id="图片灯箱"><a href="#图片灯箱" class="headerlink" title="图片灯箱"></a>图片灯箱</h2><p>添加灯箱功能，实现点击图片后放大图片，支持幻灯片播放、全屏播放、缩略图、分享等</p>
+<p><a href="https://github.com/fancyapps/fancybox">fancyBox</a></p>
+<p><a href="https://github.com/theme-next/theme-next-fancybox3">theme-next-fancybox3 </a></p>
+<p>开启配置:</p>
+<figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">fancybox:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># FancyBox</span></span><br><span class="line">  <span class="attr">jquery:</span> <span class="string">//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js</span></span><br><span class="line">  <span class="attr">fancybox:</span> <span class="string">//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js</span></span><br><span class="line">  <span class="attr">fancybox_css:</span> <span class="string">//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css</span></span><br><span class="line">  <span class="comment">#jquery:</span></span><br><span class="line">  <span class="comment">#fancybox:</span></span><br><span class="line">  <span class="comment">#fancybox_css:</span></span><br></pre></td></tr></table></figure>
+<h2 id="代码高亮主题"><a href="#代码高亮主题" class="headerlink" title="代码高亮主题"></a>代码高亮主题</h2><p>NexT 使用 <a href="https://github.com/chriskempson/tomorrow-theme">Tomorrow Theme</a> 作为代码高亮，共5款主题可供选择。 默认使用的是 白色(normal) 主题，可选值有 <code>normal</code>，<code>night</code>， <code>night blue</code>， <code>night bright</code>， <code>night eighties</code></p>
+<p>normal: <img data-src="Tomorrow.png" alt="normal">   night: <img data-src="Tomorrow-Night.png" alt="night"><br>night blue: <img data-src="Tomorrow-Night-Blue.png" alt="night blue"> night bright: <img data-src="Tomorrow-Night-Bright.png" alt="night bright"><br>night eighties: <img data-src="Tomorrow-Night-Eighties.png" alt="night eighties"></p>
+<figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">   <span class="attr">highlight_theme:</span> <span class="string">normal</span></span><br></pre></td></tr></table></figure>
+<h2 id="代码块复制按钮"><a href="#代码块复制按钮" class="headerlink" title="代码块复制按钮"></a>代码块复制按钮</h2><figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">  <span class="attr">copy_button:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span>      	<span class="comment"># 启用复制按钮</span></span><br><span class="line">    <span class="attr">show_result:</span> <span class="literal">true</span>  	<span class="comment"># 点击复制完后是否显示 复制成功 结果提示</span></span><br></pre></td></tr></table></figure>
+<h1 id="Hexo进阶"><a href="#Hexo进阶" class="headerlink" title="Hexo进阶"></a>Hexo进阶</h1><h2 id="博文"><a href="#博文" class="headerlink" title="博文"></a>博文</h2><p>在 <code>$blog/scaffolds/</code> 中定义了多个模板，在新建文章时，Hexo 会根据 <code>scaffolds</code> 文件夹内相对应的文件来建立文件</p>
+<p>官方默认模板:</p>
+<ul>
+<li><code>post</code> : 不指定模板时默认使用(由 <code>$blog/_config.yml</code> 中的 <code>default_layout</code> 参数控制默认值)，创建的文件将放在 <code>source/_posts</code></li>
+<li><code>draft</code> : 草稿模板,避免写到一半的文章被发布,创建的文件将放在<code>source/_drafts</code></li>
+<li><code>page</code> : 给站点添加子模块面页(如分类模块,分类模块,关于模块),创建的文件放于 <code>source/</code></li>
+</ul>
+<p><code>draft</code> 布局用于创建草稿，<code>source/_drafts</code>下的文档不会渲染到网站中，当文章需要数天才能完成，建议使用草稿模板布局</p>
+<p>也可将新建文档时的默认布局设置为 <code>draft</code>，每次创建的默认布局都将时草稿</p>
+<figure class="highlight diff"><figcaption><span>$blog/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="deletion">- default_layout: post</span></span><br><span class="line"><span class="addition">+ default_layout: draft</span></span><br></pre></td></tr></table></figure>
+<p>如需渲染草稿使用: <code>hexo server --draft</code><br>将草稿发布为正式文章: <code>hexo publish [layout] &lt;filename&gt;</code> ，命令会将 <code>$blog/source/_drafts</code> 下的文章移动到 <code>$blog/source/_posts</code> （用 mv 也可以)</p>
+<p><strong>新建模板</strong>:</p>
+<p>想实现发不同类型的文章，比如娱乐、技术等，可先创建需要的模板，通过 <code>hexo new [layout] &lt;title&gt;</code> 新建该模板布局(layout)的文章，文章会默认被创建在 <code>source/_posts</code> 中</p>
+<p>新建一个模板只需在 <code>scaffolds</code> 下创建一个模板文件即可，Hexo 默认安装了 <code>hexo-renderer-marked</code> 和 <code>hexo-renderer-ejs</code> 因此不仅可以用 Markdown 写作，还可以用 EJS 写作,即可创建 <code>md</code> 和 <code>ejs</code> 扩展名的模板。如果安装了 <code>hexo-renderer-pug</code>，甚至可以用 Pug 模板语言书写文章</p>
+<figure class="highlight md"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags: []</span><br><span class="line">categories: []</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">等等其他内容可自行添加</span><br></pre></td></tr></table></figure>
+<p>属性：</p>
+<ul>
+<li><code>title</code>：定义了博文的标题</li>
+<li><code>date</code>：定义了创作此博文的时间</li>
+<li><code>tags</code>：定义了博文的标签</li>
+<li><code>categories</code>：定义了博文的种类</li>
+</ul>
+<p>Hexo 默认以标题做为文件名称，可编辑 <code>new_post_name</code> 参数来改变默认的文件名称，举例来说，设为 <code>:year-:month-:day-:title.md</code> 可方便通过日期来管理文章。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>:title</code></td>
+<td style="text-align:left">标题（小写，空格将会被替换为短杠）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>:year</code></td>
+<td style="text-align:left">建立的年份(4位)，如， 2015</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>:month</code></td>
+<td style="text-align:left">建立的月份（2位），如， 04</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>:i_month</code></td>
+<td style="text-align:left">建立的月份（无前导零），如， 4</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>:day</code></td>
+<td style="text-align:left">建立的日期（2位），如， 07</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>:i_day</code></td>
+<td style="text-align:left">建立的日期（无前导零），如， 7</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="博文用资源"><a href="#博文用资源" class="headerlink" title="博文用资源"></a>博文用资源</h2><p>资源（Asset）代表 <code>source</code> 中除了文章以外的所有文件，如图片、CSS、JS 文件等。若 Hexo项目中只有少量图片，那最简单的方法就是将它们放在 <code>source/images</code> 文件夹中。然后通过 <code>![](/images/image.jpg)</code> 访问,若图片很多可以考虑使用图床</p>
+<p>当某个文章要引用一些特定资源时，可开启文章资源文件夹到目的，在创建文章的同时创建一个同名文件夹用于存放资源</p>
+<figure class="highlight yml"><figcaption><span>$blog/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>然后就可用 Hexo 的<a href="https://hexo.io/docs/tag-plugins">标签插件</a>调用资源</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;% asset_path &lt;slug&gt; %&#125;</span><br><span class="line">&#123;% asset_img &lt;slug&gt; [title] %&#125;</span><br><span class="line">&#123;% asset_link &lt;slug&gt; [title] %&#125;</span><br></pre></td></tr></table></figure>
+<p>如将图片 <code>example.jpg</code> 放入资源文件夹中，可通过以下标签插件引用:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;% asset_img example.jpg This is an example image %&#125;</span><br></pre></td></tr></table></figure>
+<p>hexo-renderer-marked 3.1.0 引入了一个新选项，无需使用 <code>asset_img</code> 标签插件即可将图片嵌入markdown:</p>
+<figure class="highlight yml"><figcaption><span>$blog/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">marked:</span></span><br><span class="line">  <span class="attr">prependRoot:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">postAsset:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>然后通过使用 <code>![](image.jpg)</code> 引用资源文件夹中的内容</p>
+<h2 id="永久链接"><a href="#永久链接" class="headerlink" title="永久链接"></a>永久链接</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yarn add hexo-abbrlink</span><br></pre></td></tr></table></figure>
+<figure class="highlight diff"><figcaption><span>$blog/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="deletion">- permalink: :year/:month/:day/:title/</span></span><br><span class="line"><span class="addition">+ permalink: posts/:abbrlink/</span></span><br><span class="line"></span><br><span class="line"><span class="addition">+ abbrlink:</span></span><br><span class="line"><span class="addition">+  alg: crc32  # 算法：crc16(default) and crc32</span></span><br><span class="line"><span class="addition">+  rep: hex    # 进制：dec(default) and hex</span></span><br></pre></td></tr></table></figure>
+<h2 id="代码块进阶"><a href="#代码块进阶" class="headerlink" title="代码块进阶"></a>代码块进阶</h2><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">​``` [language] [title] [url] [link text]</span><br><span class="line"></span><br><span class="line">代码块</span><br><span class="line"></span><br><span class="line">​```</span><br></pre></td></tr></table></figure>
+<p>各参数如下：</p>
+<ul>
+<li><code>langugae</code>：语言名称，引导渲染引擎正确解析并高亮显示关键字</li>
+<li><code>title</code>：代码块标题，显示在左上角</li>
+<li><code>url</code>：链接地址，如果没有指定 link text 则会在右上角显示 link</li>
+<li><code>link text</code>：链接名称，指定 <code>url</code> 后有效，会显示在右上角 <code>url</code> 必须为有效链接地址才以链接的形式显示在右上角，否则将作为标题显示在左上角。<br>以 <code>url</code> 为分界，左侧除了第一个单词会被解析为 <code>language</code>，其他所有单词都会被解析为 <code>title</code>，而右侧的所有单词都会被解析为 <code>link text</code>。 如果不想填写 <code>title</code>，需要在 <code>language</code> 和 <code>url</code> 之间添加至少三个空格</li>
+</ul>
+<h1 id="更多进阶参考"><a href="#更多进阶参考" class="headerlink" title="更多进阶参考"></a>更多进阶参考</h1><p><a href="https://tding.top/tags/Hexo/">小丁的个人博客</a></p>
+<p><a href="https://jrbcode.gitee.io/tags/Hexo/">CodeHeap</a></p>
+<p><a href="http://yearito.cn/tags/Hexo/">Yearito’s Blog</a></p>
+<p><a href="https://hexo.io/zh-cn/docs/">Hexo doc</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo配置支持MathJax</title>
+    <url>/posts/e318a4e5/</url>
+    <content><![CDATA[<h1 id="替换Marked"><a href="#替换Marked" class="headerlink" title="替换Marked"></a>替换Marked</h1><p>  <code>hexo</code> 默认的渲染引擎是<code>marked</code>，但是 <code>marked</code> 不支持 <code>MathJax</code>。 <code>pandoc</code>和<code>kramed</code> ，能够支持<code>MathJax</code>。</p>
+<p><a href="https://github.com/wzpan/hexo-renderer-pandoc">pandoc项目</a></p>
+<p><a href="https://github.com/sun11/hexo-renderer-kramed">kramed项目</a></p>
+<p>先卸载原来默认的渲染引擎<code>hexo-renderer-marked</code>，然后安装<code>hexo-renderer-pandoc</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yarn remove hexo-renderer-marked</span><br><span class="line">yarn add hexo-renderer-pandoc</span><br></pre></td></tr></table></figure>
+<p>安装 <code>hexo-renderer-pandoc</code> 还需要安装 <code>pandoc</code> (version &gt;=2.0) 渲染器支持，Arch 安装: <code>sudo pacman -S pandoc</code></p>
+<p><code>hexo-renderer-kramed</code> 是基于 <code>hexo-renderer-marked</code> 改的，所以不用单独安装渲染器，但 <code>next</code> 官方不推荐使用。</p>
+<a id="more"></a>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><strong>博客目录下</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim themes/next/_config.yml</span><br></pre></td></tr></table></figure>
+<p>找到<code>math</code>配置项开启</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Math Formulas Render Support</span></span><br><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 默认值（true）将按需加载mathjax / katex脚本去渲染在Front-matter中具有`mathjax：true`的页面。</span></span><br><span class="line">  <span class="comment"># 如果将其设置为false，它将在每一页加载mathjax/katex脚本</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的MathJax支持所需的hexo-renderer-pandoc（或hexo-renderer-kramed）</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># https://mhchem.github.io/MathJax-mhchem/</span></span><br><span class="line">    <span class="attr">mhchem:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的Katex支持需要hexo-renderer-markdown-it-plus（或带有markdown-it-katex插件的hexo-renderer-markdown-it）</span></span><br><span class="line">  <span class="attr">katex:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex</span></span><br><span class="line">    <span class="attr">copy_tex:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p><strong>在需要使用Mathjax的文章<code>Front-matter</code>中添加<code>mathjax: true</code></strong></p>
+<figure class="highlight md"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 文章名</span><br><span class="line">category: 分类</span><br><span class="line">date: 2019/10/09</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<h1 id="方案2"><a href="#方案2" class="headerlink" title="方案2"></a>方案2</h1><p>  另一种方案是使用<a href="https://github.com/CHENXCHEN/hexo-renderer-markdown-it-plus">hexo-renderer-markdown-it-plus</a></p>
+<p>参考:<a href="https://ranmaosong.github.io/2017/11/29/hexo-support-mathjax/">如何在hexo中支持Mathjax?</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>MathJax</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>IBus-Rime输入法安装配置</title>
     <url>/posts/98511854/</url>
     <content><![CDATA[<p>  Ibus是Linux上打输入法引擎，搜狗使用的是Fcitx引擎，但受够了搜狗的中文乱码问题(花了三天在网找各种方案尝试都没解决)，且Gnome桌面已经集成了IBus,现在决定跳槽IBus,虽然没有了像搜狗输入法那样的好看皮肤，但比没法输入好。</p>
@@ -3767,6 +3913,30 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>Manjaro有线网卡驱动</title>
+    <url>/posts/496f126/</url>
+    <content><![CDATA[<p>Manjaro有线网卡驱动可能会装成非对应的版本，造成无法使用以太网，需要卸载原有驱动安装对应的匹配驱动</p>
+<h1 id="查看并卸载原驱动"><a href="#查看并卸载原驱动" class="headerlink" title="查看并卸载原驱动"></a>查看并卸载原驱动</h1><p>使用 <code>lspci | grep net</code> 查询网卡设备信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➤ lspci | grep net</span><br><span class="line">04:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111&#x2F;8168&#x2F;8411 PCI Express Gigabit Ethernet Controller (rev 15)</span><br></pre></td></tr></table></figure>
+<p>使用 <code>lspci -k | grep -A 4 net</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➤ lspci -k | grep -A 4 net</span><br><span class="line">04:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111&#x2F;8168&#x2F;8411 PCI Express Gigabit Ethernet Controller (rev 15)</span><br><span class="line">	Subsystem: Acer Incorporated [ALI] Device 1133</span><br><span class="line">	Kernel driver in use: r8169</span><br><span class="line">	Kernel modules: r8169</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>查询原驱动文件的位置，删除或备份</p>
+<p>以 <code>r8169</code> 驱动为例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">modinfo r8169 |grep filename</span><br><span class="line"></span><br><span class="line"># 备份</span><br><span class="line">mv &#x2F;lib&#x2F;modules&#x2F;5.10.7-3-MANJARO&#x2F;kernel&#x2F;drivers&#x2F;net&#x2F;ethernet&#x2F;realtek&#x2F;r8169.ko.xz ~&#x2F;r8169.ko.xz.backup</span><br><span class="line"></span><br><span class="line"># 卸载</span><br><span class="line">rmmod r8169</span><br><span class="line"></span><br><span class="line"># 查询是否成功，若无结果则成功</span><br><span class="line">lsmod | grep r8169</span><br></pre></td></tr></table></figure>
+<h1 id="安装正确的驱动"><a href="#安装正确的驱动" class="headerlink" title="安装正确的驱动"></a>安装正确的驱动</h1><p>通过查询我的网卡是 <code>RTL8111/8168/8411</code> ，使用命令 <code>sudo pacman -Ss rxxxx</code> 搜索存在驱动 <code>r8168</code> ，选择相应内核版本的进行安装即可 (<code>sudo pacman -S linux510-r8168</code>)。</p>
+<p>尝试挂载 (<code>sudo modprobe r8168</code>) 或重启系统，重启后就能使用了。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://segmentfault.com/a/1190000037617931">Manjaro安装有线网卡驱动</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Manjaro</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Manjaro自定义脚本开机运行</title>
     <url>/posts/48f576ac/</url>
     <content><![CDATA[<h1 id="通过启动器"><a href="#通过启动器" class="headerlink" title="通过启动器"></a>通过启动器</h1><p><strong>现在需要开机运行自定义脚本<code>~/my_shell.sh</code></strong></p>
@@ -4162,27 +4332,212 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
-    <title>Manjaro有线网卡驱动</title>
-    <url>/posts/496f126/</url>
-    <content><![CDATA[<p>Manjaro有线网卡驱动可能会装成非对应的版本，造成无法使用以太网，需要卸载原有驱动安装对应的匹配驱动</p>
-<h1 id="查看并卸载原驱动"><a href="#查看并卸载原驱动" class="headerlink" title="查看并卸载原驱动"></a>查看并卸载原驱动</h1><p>使用 <code>lspci | grep net</code> 查询网卡设备信息</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➤ lspci | grep net</span><br><span class="line">04:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111&#x2F;8168&#x2F;8411 PCI Express Gigabit Ethernet Controller (rev 15)</span><br></pre></td></tr></table></figure>
-<p>使用 <code>lspci -k | grep -A 4 net</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➤ lspci -k | grep -A 4 net</span><br><span class="line">04:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111&#x2F;8168&#x2F;8411 PCI Express Gigabit Ethernet Controller (rev 15)</span><br><span class="line">	Subsystem: Acer Incorporated [ALI] Device 1133</span><br><span class="line">	Kernel driver in use: r8169</span><br><span class="line">	Kernel modules: r8169</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>查询原驱动文件的位置，删除或备份</p>
-<p>以 <code>r8169</code> 驱动为例：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">modinfo r8169 |grep filename</span><br><span class="line"></span><br><span class="line"># 备份</span><br><span class="line">mv &#x2F;lib&#x2F;modules&#x2F;5.10.7-3-MANJARO&#x2F;kernel&#x2F;drivers&#x2F;net&#x2F;ethernet&#x2F;realtek&#x2F;r8169.ko.xz ~&#x2F;r8169.ko.xz.backup</span><br><span class="line"></span><br><span class="line"># 卸载</span><br><span class="line">rmmod r8169</span><br><span class="line"></span><br><span class="line"># 查询是否成功，若无结果则成功</span><br><span class="line">lsmod | grep r8169</span><br></pre></td></tr></table></figure>
-<h1 id="安装正确的驱动"><a href="#安装正确的驱动" class="headerlink" title="安装正确的驱动"></a>安装正确的驱动</h1><p>通过查询我的网卡是 <code>RTL8111/8168/8411</code> ，使用命令 <code>sudo pacman -Ss rxxxx</code> 搜索存在驱动 <code>r8168</code> ，选择相应内核版本的进行安装即可 (<code>sudo pacman -S linux510-r8168</code>)。</p>
-<p>尝试挂载 (<code>sudo modprobe r8168</code>) 或重启系统，重启后就能使用了。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://segmentfault.com/a/1190000037617931">Manjaro安装有线网卡驱动</a></p>
+    <title>Markdown代码块支持的语言</title>
+    <url>/posts/6ab127e3/</url>
+    <content><![CDATA[<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>关键字</th>
+<th>调用的js</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AppleScript</td>
+<td>applescript</td>
+<td>shBrushAppleScript.js</td>
+<td></td>
+</tr>
+<tr>
+<td>ActionScript 3.0</td>
+<td>actionscript3 , as3</td>
+<td>shBrushAS3.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Shell</td>
+<td>bash , shell</td>
+<td>shBrushBash.js</td>
+<td></td>
+</tr>
+<tr>
+<td>ColdFusion</td>
+<td>coldfusion , cf</td>
+<td>shBrushColdFusion.js</td>
+<td></td>
+</tr>
+<tr>
+<td>C</td>
+<td>cpp , c</td>
+<td>shBrushCpp.js</td>
+<td></td>
+</tr>
+<tr>
+<td>C#</td>
+<td>c# , c-sharp , csharp</td>
+<td>shBrushCSharp.js</td>
+<td></td>
+</tr>
+<tr>
+<td>CSS</td>
+<td>css</td>
+<td>shBrushCss.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Delphi</td>
+<td>delphi , pascal , pas</td>
+<td>shBrushDelphi.js</td>
+<td></td>
+</tr>
+<tr>
+<td>diff&amp;patch</td>
+<td>diff patch</td>
+<td>shBrushDiff.js</td>
+<td>代码版本冲突差异</td>
+</tr>
+<tr>
+<td>Erlang</td>
+<td>erl , erlang</td>
+<td>shBrushErlang.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Groovy</td>
+<td>groovy</td>
+<td>shBrushGroovy.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Java</td>
+<td>java</td>
+<td>shBrushJava.js</td>
+<td></td>
+</tr>
+<tr>
+<td>JavaFX</td>
+<td>jfx , javafx</td>
+<td>shBrushJavaFX.js</td>
+<td></td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td>js , jscript , javascript</td>
+<td>shBrushJScript.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Perl</td>
+<td>perl , pl , Perl</td>
+<td>shBrushPerl.js</td>
+<td></td>
+</tr>
+<tr>
+<td>PHP</td>
+<td>php</td>
+<td>shBrushPhp.js</td>
+<td></td>
+</tr>
+<tr>
+<td>text</td>
+<td>text , plain</td>
+<td>shBrushPlain.js</td>
+<td>普通文本</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>py , python</td>
+<td>shBrushPython.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Ruby</td>
+<td>ruby , rails , ror , rb</td>
+<td>shBrushRuby.js</td>
+<td></td>
+</tr>
+<tr>
+<td>SASS&amp;SCSS</td>
+<td>sass , scss</td>
+<td>shBrushSass.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Scala</td>
+<td>scala</td>
+<td>shBrushScala.js</td>
+<td></td>
+</tr>
+<tr>
+<td>SQL</td>
+<td>sql</td>
+<td>shBrushSql.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Visual Basic</td>
+<td>vb , vbnet</td>
+<td>shBrushVb.js</td>
+<td></td>
+</tr>
+<tr>
+<td>XML</td>
+<td>xml , xhtml , xslt , html</td>
+<td>shBrushXml.js</td>
+<td></td>
+</tr>
+<tr>
+<td>Objective C</td>
+<td>objc , obj-c</td>
+<td>shBrushObjectiveC.js</td>
+<td></td>
+</tr>
+<tr>
+<td>F#</td>
+<td>f# f-sharp , fsharp</td>
+<td>shBrushFSharp.js</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>xpp , dynamics-xpp</td>
+<td>shBrushDynamics.js</td>
+<td></td>
+</tr>
+<tr>
+<td>R</td>
+<td>r , s , splus</td>
+<td>shBrushR.js</td>
+<td></td>
+</tr>
+<tr>
+<td>matlab</td>
+<td>matlab</td>
+<td>shBrushMatlab.js</td>
+<td></td>
+</tr>
+<tr>
+<td>swift</td>
+<td>swift</td>
+<td>shBrushSwift.js</td>
+<td></td>
+</tr>
+<tr>
+<td>GO</td>
+<td>go , golang</td>
+<td>shBrushGo.js</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>diff</strong>:</p>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line">test</span><br><span class="line"><span class="deletion">- test</span></span><br><span class="line"><span class="addition">+ test</span></span><br></pre></td></tr></table></figure>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
-        <tag>Linux</tag>
-        <tag>Manjaro</tag>
+        <tag>Markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -5827,7 +6182,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
     <label for="hbePass">您好, 这里需要密码.</label>
     <div class="bottom-line"></div>
   </div>
-  <script id="hbeData" type="hbeData" data-hmacdigest="76b9478f8ad74669dd50fe80e106a9a870f4d52b8083625a5112b65593bfd0b1">09b153ef4c848791b2c131c622d5338173ba1828442df228ccffeaa3acaa29494426be78ca82c7b9af5143c4ab0d2bd4fa32e8a13294652ff68d49bc1cd45bd263fd0704f7667275b8555edc4216a0eec573e5a7decf7fe3459130c11c8084613fd3562645f60ece1b689202dcd9f243962ae8c04908602f946b87fb83c9da83ea7d74ae8f016a2dbec36b00f3102f10df966c28f52500431590797fe7fca56ae23697c822582d0fa30443ef1c291298f3ac4bf4f236e87adfb996d905e4b932136cdad9e88c5a9a95e03de2e4263ae49bb9f7869db4cd1c621fb9d32dfc16870504a3f531b72025128d8bc0fa055593ab67eec19cafca510a799423dbc42ede1006926d0cfe835db955ef389eaabadd676ca0910ae689a5385ae3fd472503271eb71d82e28e7d512b1b605981ca13fdd6a8e2b4c876d1e62ee6c7638db53c3e233fb1db7f22d0ea01d0667319e88ddf339dfe4cf986ac1293892f11c440d15c1cade187548bfd6af1286ae65c9cfe4a2b21c033e901768788447ec2d4c5280d9fd38a4bb86654ac0148665bb34653e97e0e9a01367c2379953f2a42c2e5a26648d229f4845ba472f229ff2f7f41fc3b6c2341ffcc32b5eedf913cfee42414930b4f3fd634d8e51aba41a091d9c3df16aa3152f370483df4605b9ec8797eff4491291ac3f09bc5cb19a51956d63b3a09c3d4233b49b450ef6a6cc801521d1af9cf1e67b66f96beb188bb2fc127ab14dbec73f9347cbbcdf863c59e52646088dd0d2db10836fef3585e70b2700464b21f13eaf3f3e4594740ea24046b9525a5fee2dc8e5cc66d1914dad9a09e762ba6106e678bc577c9a55c06042ecb16171bbdd9dabc2ceaa76d316ecf87a5dab97776adb72df1ea0a7b9bdaf06b38d9a513075d44b01dabda9cd2cb0d44881f2b8ffb178d0d9aa20a485094f8aab940ca2115d153bacfdb6c96d3f842bc81fa88de6d910046590e1765269cdcf6b368bff3f3523ba0b08b27ace837c50b6c85f19a231f9f397f67f158bc0829d7fe2f87fafec4418eb2f012ad9da3c18ad79e479489ac16b88e66804799a700475b798497d53987a354645fb752830beda3596d541399c03640dc985e7af8cc0af24ae0288eed711626b15d33d888351a2450ea17b4c74cb4f6c9fa5b62592331ded78e1fc1718e38ca709332ba01a8c3b63831a8545d92b8b438f2df477e827287f84b7dd18a9b8ac7b9b8575ec3138daccc46b7dfaf1768962a18a78a92dd8620387b349b847b161ecc2d8ff74d968ad9116fe9cbb0ca08d2db4d8e6699ac27c8ec8a4c9d24ad7b52b6b2af9bd4758c9455c708057a6154a948c46a55b1bcfe7ca6d8cd9559248f39fac3e9ab0b5c51c5da722c94214f8c0e77b42c102ddc759c7f291d0fbd2076b83fd4bb1cf58f531a0b8c1660b5a09d769c9646fbb3c5c190f594ded15620c28886bafeea879368f67bff19fa317dc3d650a115fa0c4d075aa5507fdcdbb49855542ab3a535845c20093dbac511a45a03f9a0c25dac715eebf291d0b164bafb95714b6be12e4093ffc74dcdebcf216bf2f7300ffe341183c3214454b2d28a496bb5f7742402383dfd060ffe35345ade16f07540c76e596415310cfb47bf705ae6d79f3d8b71297110cf56580e269e8dcc7ce2f588dca4cc5c970fc12c291b050366531fbb1ac5a734754b5c290ecec214b2887705d3e86f52be1b7e752d9b125c559e4eaa4120d7402cf7499d3f64514da5902e9a717e3f12c94bc6d0284d015d4fb9b012fcd49685e3e96d340563fe657158b7caf8101021b229fa7f77457bab54677475234bf58b86ded1f520fb6c1aa86bb90b812e6316c2c49f21fe0afca132715aae999ae794446622be2d635938c387a2f57144e491b9b6b0d118f054e41cb194fbb23dcc89e4e1eea73bac1cbc5dea0bddc0a0f26bf06dacee40abe102041c69120f08ce98c6b1f376996ef8636e92bf6ecf65908469243e505d5db0b43adc704a7ae707e3c349001381f5b98076064908ba690b994ae0f9e6</script>
+  <script id="hbeData" type="hbeData" data-hmacdigest="18401b52c983bfacb1ad6aa0b2976ff778317573fc53c99af7a3449c5a4fc522">09b153ef4c848791b2c131c622d5338173ba1828442df228ccffeaa3acaa29494426be78ca82c7b9af5143c4ab0d2bd4fa32e8a13294652ff68d49bc1cd45bd263fd0704f7667275b8555edc4216a0eec573e5a7decf7fe3459130c11c8084613fd3562645f60ece1b689202dcd9f243962ae8c04908602f946b87fb83c9da83ea7d74ae8f016a2dbec36b00f3102f10df966c28f52500431590797fe7fca56ae23697c822582d0fa30443ef1c291298f3ac4bf4f236e87adfb996d905e4b932136cdad9e88c5a9a95e03de2e4263ae49bb9f7869db4cd1c621fb9d32dfc16870504a3f531b72025128d8bc0fa055593ab67eec19cafca510a799423dbc42ede1006926d0cfe835db955ef389eaabadd676ca0910ae689a5385ae3fd472503271eb71d82e28e7d512b1b605981ca13fdd6a8e2b4c876d1e62ee6c7638db53c3e233fb1db7f22d0ea01d0667319e88ddf339dfe4cf986ac1293892f11c440d15c1cade187548bfd6af1286ae65c9cfe4a2b21c033e901768788447ec2d4c5280d9fd38a4bb86654ac0148665bb34653e97e0e9a01367c2379953f2a42c2e5a26648d229f4845ba472f229ff2f7f41fc3b6c2341ffcc32b5eedf913cfee42414930b4f3fd634d8e51aba41a091d9c3df16aa3152f370483df4605b9ec8797eff4491291ac3f09bc5cb19a51956d63b3a09c3d4233b49b450ef6a6cc801521d1af9cf1e67b66f96beb188bb2fc127ab14dbec73f9347cbbcdf863c59e52646088dd0d2db10836fef3585e70b2700464b21f13eaf3f3e4594740ea24046b9525a5fee2dc8e5cc66d1914dad9a09e762ba6106e678bc577c9a55c06042ecb16171bbdd9dabc2ceaa76d316ecf87a5dab97776adb72df1ea0a7b9bdaf06b38d9a513075d44b01dabda9cd2cb0d44881f2b8ffb178d0d9aa20a485094f8aab940ca2115d153bacfdb6c96d3f842bc81fa88de6d910046590e1765269cdcf6b368bff3f3523ba0b08b27ace837c50b6c85f19a231f9f397f67f158bc0829d7fe2f87fafec4418eb2f012ad9da3c18ad79e479489ac16b88e66804799a700475b798497d5682ff75d6dc7a64bcb85f736a587ab92ca337e1d7f33f07c0887ade07dd4fba39fc49a013e287fade509b6e7eb415678bfcf0ddbc8dc6e140689b7698003015fdf021280beded5567cdd00c6ec575d56a6faffdccd7f38c35b1b6a1a050ae0f2d19ca37e0f04629d26f74dde297729156ec9d5892a87679aea91be7a42977c22235181de365f514cb50f189cf233311782568a637502aff55343b30fc60e8853aa219b4424491766d87eb244be322eab9edd9800f538b6f95099dbfe4c40e9cb1f76040b5d03a2d8140e85ee95176178e2b70f17302a5e242d90d6cdf5c1f38f93aaa83f991edb8a1a8c9290987eb27ab30184102db9544e2724afc63ef66175dbe38f25b108f0662c19b69b7be7c7d7ee1e3b154790cfd5083e96956af4d25fe0cab76be9d82550cad202b199f02e909698ac607264d5c9d8a1fb124350ea666125557c02f97bff8e0344fb7e26ffd60fc5cf8178a70ac55f7b19cec6ad44e2b230877f9943f05e2d58b7a95ba3167931cee669d24e338bb9bb33d53dd3d755d9c81386378ac15700bbc058270f2e0b220ae994234ec6dbe8c8f9f768e98491da39d49960b6ab8d46a2b8c809aa65bc9a1907ace4565be81a0ecf95cd8cbe23c789652d02777f59e3e6cb79892e006469f8f8dbf3525cabf7c4cdf60ccc49a1c31aa551c2b6b813e25ebc49589c42c772eb053aa01c244e734879ed41b7560411954e7eb9bd476892ec43deb24972bbceb465599b917d163b2e077ccc4db48a06d8add834b590770d2a62b42f770dae0f95560d2fa8374290b9e128bca062148829f42f4f088080754e2d58fe7867527853469fcc795f55ff3db7fb73f3e354bd7de8a064d937f42c130c06492da0428e4a33659aa62d31e37cb1e8cbae4a1320a72640de38da6589e00df528b08175e4c20b28b25b5546d7f149888465ace31787839d779403c7bfc25c659654b6d45769aa04aa90c790f709e43436074ec7fb024fde4beb277695957e49ad2c78cff9eaa315ebffadd3fc71b3cafcb10a7f64d3a63adc00926fcd8cb286fb1775018d864f6fa3694f00d3a6f0ecd67bd774</script>
 </div>
 <script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
       <categories>
@@ -5846,7 +6201,26 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <a id="more"></a>
 <h1 id="编译准备"><a href="#编译准备" class="headerlink" title="编译准备"></a>编译准备</h1><p><strong>国内请尽量全局科学上网</strong></p>
 <h2 id="安装工具依赖"><a href="#安装工具依赖" class="headerlink" title="安装工具依赖"></a>安装工具依赖</h2><p>需要以下工具来编译OpenWrt，软件包名称在发行版之间有所不同。 <strong>在<a href="https://openwrt.org/docs/guide-developer/build-system/install-buildsystem">Build system setup</a>中找到不同发行版上软件包的列表。</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">gcc-6+ binutils bzip2 flex python3.6+ perl make4.1+ find grep diff unzip gawk getopt subversion libz-dev libc-dev rsync <span class="built_in">which</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>binutils</code></li>
+<li><code>bzip2</code></li>
+<li><code>diff</code></li>
+<li><code>find</code></li>
+<li><code>flex</code></li>
+<li><code>gawk</code></li>
+<li><code>gcc-6+</code></li>
+<li><code>getopt</code></li>
+<li><code>grep</code></li>
+<li><code>libc-dev</code></li>
+<li><code>libz-dev</code></li>
+<li><code>make4.1+</code></li>
+<li><code>perl</code></li>
+<li><code>python3.6+</code></li>
+<li><code>rsync</code></li>
+<li><code>subversion</code></li>
+<li><code>unzip</code></li>
+<li><code>which</code></li>
+</ul>
 <h2 id="获取源码"><a href="#获取源码" class="headerlink" title="获取源码"></a>获取源码</h2><p><strong>原生 OpenWrt:</strong></p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/openwrt/openwrt.git</span><br></pre></td></tr></table></figure>
 <p><strong>lean OpenWrt(LEDE):</strong></p>
@@ -5873,13 +6247,16 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <li><a href="https://github.com/kenzok8/openwrt-packages">kenzok8/openwrt-packages</a></li>
 <li><a href="https://github.com/liuran001/openwrt-packages">liuran001/openwrt-packages</a></li>
 </ul>
-<p>进入源码库中 <code>package</code> 中，运行：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/kenzok8/openwrt-packages.git</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/liuran001/openwrt-packages.git</span><br></pre></td></tr></table></figure>
+<p>在文件 <code>feeds.conf.default</code> 中添加：</p>
+<figure class="highlight sh"><figcaption><span>feeds.conf.default</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># kenzok8仓库</span></span><br><span class="line">src-git kenzo https://github.com/kenzok8/openwrt-packages</span><br><span class="line"><span class="comment"># kenzok8的需要安装依赖</span></span><br><span class="line">src-git small https://github.com/kenzok8/small</span><br><span class="line"></span><br><span class="line"><span class="comment"># liuran001仓库</span></span><br><span class="line">src-git liuran001_packages https://github.com/liuran001/openwrt-packages</span><br></pre></td></tr></table></figure>
+<p>执行命令获取并安装</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">./scripts/feeds update -a &amp;&amp; ./scripts/feeds install -a</span><br></pre></td></tr></table></figure>
 <h3 id="单独添加需要的插件"><a href="#单独添加需要的插件" class="headerlink" title="单独添加需要的插件"></a>单独添加需要的插件</h3><p>在 github 搜索 <code>luci-app</code> 找到需要的插件,如：<a href="https://github.com/rufengsuixing/luci-app-adguardhome">rufengsuixing/luci-app-adguardhome</a> 。</p>
 <p>将插件源码 <code>clone</code> 到 <code>package</code> 下新建的一个目录中，然后在配置中勾选编译，也可使用插件作者编译完成的在路由器管理界面进行安装，也可通过 ssh 使用 <code>opkg install xxxx</code> 安装，使用 <code>opkg remove xxxx</code> 卸载。</p>
 <h1 id="Github-Action自动编译"><a href="#Github-Action自动编译" class="headerlink" title="Github Action自动编译"></a>Github Action自动编译</h1><p>借助 GitHub Actions 的 OpenWrt 在线集成自动编译，可以不要求自己的硬件或系统达到要求即可进行编译。</p>
 <p><a href="https://github.com/P3TERX/Actions-OpenWrt">P3TERX/Actions-OpenWrt</a></p>
 <p><a href="https://github.com/KFERMercer/OpenWrt-CI">KFERMercer/OpenWrt-CI</a></p>
+<h1 id="编译前自定义IP"><a href="#编译前自定义IP" class="headerlink" title="编译前自定义IP"></a>编译前自定义IP</h1><p>修改 <code>package/base-files/files/bin/config_generate</code> 中的 <code>192.168.1.1</code> 的后两位即可</p>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -6314,121 +6691,246 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
   </entry>
   <entry>
-    <title>Hexo进阶</title>
-    <url>/posts/4530c0eb/</url>
-    <content><![CDATA[<h1 id="Next-主题进阶"><a href="#Next-主题进阶" class="headerlink" title="Next 主题进阶"></a>Next 主题进阶</h1><h2 id="阅读书签"><a href="#阅读书签" class="headerlink" title="阅读书签"></a>阅读书签</h2><p>允许用户保存阅读进度。用户只需单击页面左上角的书签图标即可保存滚动位置。当下次访问博客时，可自动恢复该页面的打书签的位置</p>
-<figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">bookmark:</span>	</span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>	</span><br><span class="line">  <span class="attr">color:</span> <span class="string">&quot;#222&quot;</span></span><br><span class="line">  <span class="attr">save:</span> <span class="string">auto</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h2 id="字数统计与阅读时长"><a href="#字数统计与阅读时长" class="headerlink" title="字数统计与阅读时长"></a>字数统计与阅读时长</h2><p>安装插件:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yarn add hexo-symbols-count-time</span><br></pre></td></tr></table></figure>
-<p>配置:</p>
-<p>主题配置文件:</p>
-<figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">separated_meta:</span> <span class="literal">true</span> 		<span class="comment"># 统计信息不换行显示</span></span><br><span class="line">  <span class="attr">item_text_post:</span> <span class="literal">true</span> 		<span class="comment"># 是否显示“本文字数/阅读时长”等描述文字</span></span><br><span class="line">  <span class="attr">item_text_total:</span> <span class="literal">false</span> 	<span class="comment"># 底部footer信息中是否显示“本文字数/阅读时长”等描述文字</span></span><br><span class="line">  <span class="attr">awl:</span> <span class="number">4</span> 					<span class="comment"># 平均字符长度</span></span><br><span class="line">  <span class="attr">wpm:</span> <span class="number">275</span> 					<span class="comment"># 阅读速度, 一分钟阅读的字数</span></span><br></pre></td></tr></table></figure>
-<p>站点配置文件添加:</p>
-<figure class="highlight yml"><figcaption><span>$blog/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># 新增文章字数统计</span></span><br><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="comment">#文章内是否显示</span></span><br><span class="line">  <span class="attr">symbols:</span> <span class="literal">true</span> 	<span class="comment"># 文章字数</span></span><br><span class="line">  <span class="attr">time:</span> <span class="literal">true</span> 		<span class="comment"># 阅读时长</span></span><br><span class="line">  <span class="comment"># 网页底部是否显示</span></span><br><span class="line">  <span class="attr">total_symbols:</span> <span class="literal">false</span> 	<span class="comment"># 所有文章总字数</span></span><br><span class="line">  <span class="attr">total_time:</span> <span class="literal">false</span> 	<span class="comment"># 所有文章阅读中时长</span></span><br></pre></td></tr></table></figure>
-<h2 id="进度"><a href="#进度" class="headerlink" title="进度"></a>进度</h2><figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># 浏览进度</span></span><br><span class="line"><span class="attr">back2top:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> 			<span class="comment"># 是否提供一键置顶 </span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">scrollpercent:</span> <span class="literal">true</span> 	<span class="comment"># 是否显示当前阅读进度</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 阅读进度</span></span><br><span class="line"><span class="attr">reading_progress:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">top</span></span><br><span class="line">  <span class="attr">color:</span> <span class="string">&quot;#37c6c0&quot;</span></span><br><span class="line">  <span class="attr">height:</span> <span class="string">3px</span></span><br></pre></td></tr></table></figure>
-<h2 id="图片延迟加载"><a href="#图片延迟加载" class="headerlink" title="图片延迟加载"></a>图片延迟加载</h2><p>访问到图片位置时才请求图片资源，可提高博客的访问速度</p>
-<p><a href="https://github.com/theme-next/theme-next-jquery-lazyload">theme-next-jquery-lazyload</a></p>
-<p>开启配置:</p>
-<figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">lazyload:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Lazyload</span></span><br><span class="line">  <span class="attr">lazyload:</span> <span class="string">//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js</span></span><br><span class="line">  <span class="comment"># lazyload: //cdnjs.cloudflare.com/ajax/libs/lozad.js/1.14.0/lozad.min.js</span></span><br><span class="line">  <span class="comment"># lazyload:</span></span><br></pre></td></tr></table></figure>
-<h2 id="图片灯箱"><a href="#图片灯箱" class="headerlink" title="图片灯箱"></a>图片灯箱</h2><p>添加灯箱功能，实现点击图片后放大图片，支持幻灯片播放、全屏播放、缩略图、分享等</p>
-<p><a href="https://github.com/fancyapps/fancybox">fancyBox</a></p>
-<p><a href="https://github.com/theme-next/theme-next-fancybox3">theme-next-fancybox3 </a></p>
-<p>开启配置:</p>
-<figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">fancybox:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># FancyBox</span></span><br><span class="line">  <span class="attr">jquery:</span> <span class="string">//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js</span></span><br><span class="line">  <span class="attr">fancybox:</span> <span class="string">//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js</span></span><br><span class="line">  <span class="attr">fancybox_css:</span> <span class="string">//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css</span></span><br><span class="line">  <span class="comment">#jquery:</span></span><br><span class="line">  <span class="comment">#fancybox:</span></span><br><span class="line">  <span class="comment">#fancybox_css:</span></span><br></pre></td></tr></table></figure>
-<h2 id="代码高亮主题"><a href="#代码高亮主题" class="headerlink" title="代码高亮主题"></a>代码高亮主题</h2><p>NexT 使用 <a href="https://github.com/chriskempson/tomorrow-theme">Tomorrow Theme</a> 作为代码高亮，共5款主题可供选择。 默认使用的是 白色(normal) 主题，可选值有 <code>normal</code>，<code>night</code>， <code>night blue</code>， <code>night bright</code>， <code>night eighties</code></p>
-<p>normal: <img data-src="Tomorrow.png" alt="normal">   night: <img data-src="Tomorrow-Night.png" alt="night"><br>night blue: <img data-src="Tomorrow-Night-Blue.png" alt="night blue"> night bright: <img data-src="Tomorrow-Night-Bright.png" alt="night bright"><br>night eighties: <img data-src="Tomorrow-Night-Eighties.png" alt="night eighties"></p>
-<figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">   <span class="attr">highlight_theme:</span> <span class="string">normal</span></span><br></pre></td></tr></table></figure>
-<h2 id="代码块复制按钮"><a href="#代码块复制按钮" class="headerlink" title="代码块复制按钮"></a>代码块复制按钮</h2><figure class="highlight yml"><figcaption><span>$blog/_config.next.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">  <span class="attr">copy_button:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span>      	<span class="comment"># 启用复制按钮</span></span><br><span class="line">    <span class="attr">show_result:</span> <span class="literal">true</span>  	<span class="comment"># 点击复制完后是否显示 复制成功 结果提示</span></span><br></pre></td></tr></table></figure>
-<h1 id="Hexo进阶"><a href="#Hexo进阶" class="headerlink" title="Hexo进阶"></a>Hexo进阶</h1><h2 id="博文"><a href="#博文" class="headerlink" title="博文"></a>博文</h2><p>在 <code>$blog/scaffolds/</code> 中定义了多个模板，在新建文章时，Hexo 会根据 <code>scaffolds</code> 文件夹内相对应的文件来建立文件</p>
-<p>官方默认模板:</p>
-<ul>
-<li><code>post</code> : 不指定模板时默认使用(由 <code>$blog/_config.yml</code> 中的 <code>default_layout</code> 参数控制默认值)，创建的文件将放在 <code>source/_posts</code></li>
-<li><code>draft</code> : 草稿模板,避免写到一半的文章被发布,创建的文件将放在<code>source/_drafts</code></li>
-<li><code>page</code> : 给站点添加子模块面页(如分类模块,分类模块,关于模块),创建的文件放于 <code>source/</code></li>
-</ul>
-<p><code>draft</code> 布局用于创建草稿，<code>source/_drafts</code>下的文档不会渲染到网站中，当文章需要数天才能完成，建议使用草稿模板布局</p>
-<p>也可将新建文档时的默认布局设置为 <code>draft</code>，每次创建的默认布局都将时草稿</p>
-<figure class="highlight diff"><figcaption><span>$blog/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="deletion">- default_layout: post</span></span><br><span class="line"><span class="addition">+ default_layout: draft</span></span><br></pre></td></tr></table></figure>
-<p>如需渲染草稿使用: <code>hexo server --draft</code><br>将草稿发布为正式文章: <code>hexo publish [layout] &lt;filename&gt;</code> ，命令会将 <code>$blog/source/_drafts</code> 下的文章移动到 <code>$blog/source/_posts</code> （用 mv 也可以)</p>
-<p><strong>新建模板</strong>:</p>
-<p>想实现发不同类型的文章，比如娱乐、技术等，可先创建需要的模板，通过 <code>hexo new [layout] &lt;title&gt;</code> 新建该模板布局(layout)的文章，文章会默认被创建在 <code>source/_posts</code> 中</p>
-<p>新建一个模板只需在 <code>scaffolds</code> 下创建一个模板文件即可，Hexo 默认安装了 <code>hexo-renderer-marked</code> 和 <code>hexo-renderer-ejs</code> 因此不仅可以用 Markdown 写作，还可以用 EJS 写作,即可创建 <code>md</code> 和 <code>ejs</code> 扩展名的模板。如果安装了 <code>hexo-renderer-pug</code>，甚至可以用 Pug 模板语言书写文章</p>
-<figure class="highlight md"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags: []</span><br><span class="line">categories: []</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">等等其他内容可自行添加</span><br></pre></td></tr></table></figure>
-<p>属性：</p>
-<ul>
-<li><code>title</code>：定义了博文的标题</li>
-<li><code>date</code>：定义了创作此博文的时间</li>
-<li><code>tags</code>：定义了博文的标签</li>
-<li><code>categories</code>：定义了博文的种类</li>
-</ul>
-<p>Hexo 默认以标题做为文件名称，可编辑 <code>new_post_name</code> 参数来改变默认的文件名称，举例来说，设为 <code>:year-:month-:day-:title.md</code> 可方便通过日期来管理文章。</p>
+    <title>git入手</title>
+    <url>/posts/71f63e37/</url>
+    <content><![CDATA[<h1 id="首次设置Git的user-name-和-email"><a href="#首次设置Git的user-name-和-email" class="headerlink" title="首次设置Git的user name 和 email"></a>首次设置Git的user name 和 email</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;eonun&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;eonun@qq.com&quot;</span></span><br></pre></td></tr></table></figure>
+<h1 id="Git的基础命令"><a href="#Git的基础命令" class="headerlink" title="Git的基础命令"></a>Git的基础命令</h1><a id="more"></a>
+<p><code>master</code>：默认开发分支         <code>Head</code>：默认开发分支<br><code>origin</code>：默认远程版本库     <code>Head^</code>：Head的父提交</p>
 <div class="table-container">
 <table>
 <thead>
 <tr>
-<th style="text-align:center">变量</th>
-<th style="text-align:left">描述</th>
+<th style="text-align:left">命令</th>
+<th style="text-align:left">功能</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center"><code>:title</code></td>
-<td style="text-align:left">标题（小写，空格将会被替换为短杠）</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"><strong>创建版本库</strong></td>
 </tr>
 <tr>
-<td style="text-align:center"><code>:year</code></td>
-<td style="text-align:left">建立的年份(4位)，如， 2015</td>
+<td style="text-align:left"><code>git clone &lt;url&gt;</code></td>
+<td style="text-align:left">克隆远程版本库</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>:month</code></td>
-<td style="text-align:left">建立的月份（2位），如， 04</td>
+<td style="text-align:left"><code>git init</code></td>
+<td style="text-align:left">初始化本地库</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>:i_month</code></td>
-<td style="text-align:left">建立的月份（无前导零），如， 4</td>
+<td style="text-align:left">`find . -name “.git”</td>
+<td style="text-align:left">xargs rm -Rf`</td>
+<td>删除本地仓库</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>:day</code></td>
-<td style="text-align:left">建立的日期（2位），如， 07</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"><strong>修改和提交</strong></td>
 </tr>
 <tr>
-<td style="text-align:center"><code>:i_day</code></td>
-<td style="text-align:left">建立的日期（无前导零），如， 7</td>
+<td style="text-align:left"><code>git status</code></td>
+<td style="text-align:left">查看状态</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git diff</code></td>
+<td style="text-align:left">查看变更内容</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git add --all</code></td>
+<td style="text-align:left">跟踪所有文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git add &lt;file&gt;</code></td>
+<td style="text-align:left">跟踪指定文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git mv &lt;old&gt; &lt;new&gt;</code></td>
+<td style="text-align:left">文件改名</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git rm &lt;file&gt;</code></td>
+<td style="text-align:left">删除文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git rm --cached &lt;file&gt;</code></td>
+<td style="text-align:left">停止跟踪但不删除</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git commit -m &quot;message&quot;</code></td>
+<td style="text-align:left">提交所有更新过的文件，并添加提交信息 message</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git commit --amend</code></td>
+<td style="text-align:left">修改最后一次提交</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><strong>查看提交历史</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git log</code></td>
+<td style="text-align:left">查看提交历史</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git log -p &lt;file&gt;</code></td>
+<td style="text-align:left">查看指定文件的提交历史</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git blame &lt;file&gt;</code></td>
+<td style="text-align:left">以列表形式查看指定文件提交历史</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><strong>撤销</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git reset --hard HEAD</code></td>
+<td style="text-align:left">撤销工作目录中所有未提交文件的修改内容</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git checkout HEAD &lt;file&gt;</code></td>
+<td style="text-align:left">撤销指定的未提交文件的修改内容</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git revert &lt;commit&gt;</code></td>
+<td style="text-align:left">撤销指定的提交</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><strong>分支与标签</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git branch</code></td>
+<td style="text-align:left">显示所有本地分支</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git checkout &lt;branch/tag&gt;</code></td>
+<td style="text-align:left">切换到指定分支或标签</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git branch &lt;new-branch&gt;</code></td>
+<td style="text-align:left">创建新分支</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git branch -d &lt;branch&gt;</code></td>
+<td style="text-align:left">删除本地分支</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git tag</code></td>
+<td style="text-align:left">列出所有本地标签</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git tag &lt;tagname&gt;</code></td>
+<td style="text-align:left">基于最新提交创建标签</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git tag -d &lt;tagname&gt;</code></td>
+<td style="text-align:left">删除标签</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><strong>合并与衍合</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git merge &lt;branch&gt;</code></td>
+<td style="text-align:left">合并指定分支到当前分支</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git rebase &lt;branch&gt;</code></td>
+<td style="text-align:left">衍合指定分支到当前分支</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><strong>远程操作</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git remote -v</code></td>
+<td style="text-align:left">查看远程版本库信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git remote show &lt;remote&gt;</code></td>
+<td style="text-align:left">查看指定远程版本库信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git remote add &lt;remote&gt; &lt;url&gt;</code></td>
+<td style="text-align:left">添加远程版本库</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git fetch &lt;remote&gt;</code></td>
+<td style="text-align:left">从远程库获取代码</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git pull &lt;remote&gt;</code></td>
+<td style="text-align:left">下载代码及快速合并</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git push &lt;remote&gt; &lt;branch&gt;</code></td>
+<td style="text-align:left">上传代码及快速合并</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git push &lt;remote&gt; :&lt;branch/tag-name&gt;</code></td>
+<td style="text-align:left">删除远程分之或标签</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git push --tage</code></td>
+<td style="text-align:left">上传所有标签</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><strong>暂存</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git stash</code></td>
+<td style="text-align:left">暂存</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git stash list</code></td>
+<td style="text-align:left">查看所有暂存信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>git stash apply stash@&#123;0&#125;</code></td>
+<td style="text-align:left">恢复 stash@{0}</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h2 id="博文用资源"><a href="#博文用资源" class="headerlink" title="博文用资源"></a>博文用资源</h2><p>资源（Asset）代表 <code>source</code> 中除了文章以外的所有文件，如图片、CSS、JS 文件等。若 Hexo项目中只有少量图片，那最简单的方法就是将它们放在 <code>source/images</code> 文件夹中。然后通过 <code>![](/images/image.jpg)</code> 访问,若图片很多可以考虑使用图床</p>
-<p>当某个文章要引用一些特定资源时，可开启文章资源文件夹到目的，在创建文章的同时创建一个同名文件夹用于存放资源</p>
-<figure class="highlight yml"><figcaption><span>$blog/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>然后就可用 Hexo 的<a href="https://hexo.io/docs/tag-plugins">标签插件</a>调用资源</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;% asset_path &lt;slug&gt; %&#125;</span><br><span class="line">&#123;% asset_img &lt;slug&gt; [title] %&#125;</span><br><span class="line">&#123;% asset_link &lt;slug&gt; [title] %&#125;</span><br></pre></td></tr></table></figure>
-<p>如将图片 <code>example.jpg</code> 放入资源文件夹中，可通过以下标签插件引用:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;% asset_img example.jpg This is an example image %&#125;</span><br></pre></td></tr></table></figure>
-<p>hexo-renderer-marked 3.1.0 引入了一个新选项，无需使用 <code>asset_img</code> 标签插件即可将图片嵌入markdown:</p>
-<figure class="highlight yml"><figcaption><span>$blog/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">marked:</span></span><br><span class="line">  <span class="attr">prependRoot:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">postAsset:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>然后通过使用 <code>![](image.jpg)</code> 引用资源文件夹中的内容</p>
-<h2 id="永久链接"><a href="#永久链接" class="headerlink" title="永久链接"></a>永久链接</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yarn add hexo-abbrlink</span><br></pre></td></tr></table></figure>
-<figure class="highlight diff"><figcaption><span>$blog/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="deletion">- permalink: :year/:month/:day/:title/</span></span><br><span class="line"><span class="addition">+ permalink: posts/:abbrlink/</span></span><br><span class="line"></span><br><span class="line"><span class="addition">+ abbrlink:</span></span><br><span class="line"><span class="addition">+  alg: crc32  # 算法：crc16(default) and crc32</span></span><br><span class="line"><span class="addition">+  rep: hex    # 进制：dec(default) and hex</span></span><br></pre></td></tr></table></figure>
-<h2 id="代码块进阶"><a href="#代码块进阶" class="headerlink" title="代码块进阶"></a>代码块进阶</h2><figure class="highlight text"><table><tr><td class="code"><pre><span class="line">​``` [language] [title] [url] [link text]</span><br><span class="line"></span><br><span class="line">代码块</span><br><span class="line"></span><br><span class="line">​```</span><br></pre></td></tr></table></figure>
-<p>各参数如下：</p>
-<ul>
-<li><code>langugae</code>：语言名称，引导渲染引擎正确解析并高亮显示关键字</li>
-<li><code>title</code>：代码块标题，显示在左上角</li>
-<li><code>url</code>：链接地址，如果没有指定 link text 则会在右上角显示 link</li>
-<li><code>link text</code>：链接名称，指定 <code>url</code> 后有效，会显示在右上角 <code>url</code> 必须为有效链接地址才以链接的形式显示在右上角，否则将作为标题显示在左上角。<br>以 <code>url</code> 为分界，左侧除了第一个单词会被解析为 <code>language</code>，其他所有单词都会被解析为 <code>title</code>，而右侧的所有单词都会被解析为 <code>link text</code>。 如果不想填写 <code>title</code>，需要在 <code>language</code> 和 <code>url</code> 之间添加至少三个空格</li>
-</ul>
-<h1 id="更多进阶参考"><a href="#更多进阶参考" class="headerlink" title="更多进阶参考"></a>更多进阶参考</h1><p><a href="https://tding.top/tags/Hexo/">小丁的个人博客</a></p>
-<p><a href="https://jrbcode.gitee.io/tags/Hexo/">CodeHeap</a></p>
-<p><a href="http://yearito.cn/tags/Hexo/">Yearito’s Blog</a></p>
-<p><a href="https://hexo.io/zh-cn/docs/">Hexo doc</a></p>
-]]></content>
+<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="Git-工作区-暂存区-版本库"><a href="#Git-工作区-暂存区-版本库" class="headerlink" title="Git 工作区/暂存区/版本库"></a>Git 工作区/暂存区/版本库</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init   把指定目录变成 Git 可以管理的仓库</span><br><span class="line"></span><br><span class="line">git status   查看仓库当前的状态</span><br><span class="line"></span><br><span class="line">git diff   查看具体修改内容</span><br><span class="line"></span><br><span class="line">git add &lt;file&gt;   用如下命令把文件添加到仓库</span><br><span class="line"></span><br><span class="line">git commit -m &quot;&lt;message&gt;&quot;   把文件提交到仓库</span><br><span class="line"></span><br><span class="line">git log (--pretty&#x3D;oneline)   查看提交记录（简略信息）</span><br><span class="line"></span><br><span class="line">git reset --hard HEAD^^   回退到上上个版本</span><br><span class="line"></span><br><span class="line">git reset --hard HEAD~100   回退到前100个版本</span><br><span class="line"></span><br><span class="line">git reset --hard 1094a   回退到版本号为 1094a... 的版本</span><br><span class="line"></span><br><span class="line">git reflog   查看操作记录（可查看回退前的版本号）</span><br><span class="line"></span><br><span class="line">git diff HEAD -- &lt;file&gt;   查看工作区和最新版本的区别</span><br><span class="line"></span><br><span class="line">git checkout -- r&lt;file&gt;   撤销文件在工作区的全部修改</span><br><span class="line"></span><br><span class="line">git reset HEAD &lt;file&gt;   撤销暂存区的修改，放回工作区</span><br><span class="line"></span><br><span class="line">rm &lt;file&gt;&#x2F;git rm &lt;file&gt;   删除文件并放到暂存区</span><br></pre></td></tr></table></figure>
+<h2 id="远程仓库创与推送"><a href="#远程仓库创与推送" class="headerlink" title="远程仓库创与推送"></a>远程仓库创与推送</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add origin git@github.com:xxx&#x2F;xxx.git    与远程库关联</span><br><span class="line"></span><br><span class="line">git push (-u) origin master   推送 master 分支到远程库</span><br><span class="line"></span><br><span class="line">git clone git@github.com:xxx&#x2F;xxx.git  克隆</span><br><span class="line"></span><br><span class="line">git remote (-v)   查看远程库信息</span><br><span class="line"></span><br><span class="line">git remote rm origin   删除已有的远程库</span><br></pre></td></tr></table></figure>
+<h1 id="github配置shh-key"><a href="#github配置shh-key" class="headerlink" title="github配置shh-key"></a>github配置shh-key</h1><p><strong>生成秘钥</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;eonun@qq.com&quot;</span></span><br><span class="line"><span class="comment"># 输入全路径文件名（默认:~/.ssh/id_rsa），输入密码（默认：空），一路回车默认也可</span></span><br><span class="line"><span class="comment"># 生成两个文件：id_rsa 和 id_rsa.pub</span></span><br></pre></td></tr></table></figure>
+<p><strong>将秘钥添加到<code>ssh-agent</code></strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-add ~/.ssh/id_rsa</span><br><span class="line">ssh-add -l		<span class="comment"># 显示已添加</span></span><br></pre></td></tr></table></figure>
+<p><strong>在<code>Github</code>添加<code>ssh-key</code></strong><br>到github里 <code>Settings</code> &gt; <code>SSH and GPG keys</code> &gt; <code>SSH keys</code> 添加秘钥<br>秘钥内容是<code>xxx_rsa.pub</code>的内容</p>
+<p><strong>测试</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure><br>出现：</p>
+<blockquote>
+<p>The authenticity of host ‘github.com (207.97.227.239)’ can’t be established.<br>RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.<br>Are you sure you want to continue connecting (yes/no)?</p>
+</blockquote>
+<p>输入<code>yse</code>出现：</p>
+<blockquote>
+<p>Hi eonun! You’ve successfully authenticated, but GitHub does not provide shell access.</p>
+</blockquote>
+<p>若出现<code>Hi</code>后是用户名，说明成功了</p>
+<p><strong>修改<code>.git</code>下<code>config</code>中的<code>url</code></strong><br>修改前：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">url &#x3D; https:&#x2F;&#x2F;github.com&#x2F;eonun&#x2F;eonun.github.io.git</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>修改为：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">url &#x3D; git@github.com:eonun&#x2F;eonun.github.io.git</span><br></pre></td></tr></table></figure></p>
+<h1 id="配置多平台ssh-key"><a href="#配置多平台ssh-key" class="headerlink" title="配置多平台ssh-key"></a>配置多平台ssh-key</h1><p><strong>分别生成<code>shh-key</code></strong><br>或者都使用同一个秘钥<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&#x27;eonun@qq.com&#x27;</span> -f ~/.ssh/gitee_id_rsa</span><br><span class="line">ssh-keygen -t rsa -C <span class="string">&#x27;eonun@qq.com&#x27;</span> -f ~/.ssh/github_id_rsa</span><br><span class="line">ssh-keygen -t rsa -C <span class="string">&#x27;eonun@qq.com&#x27;</span>		<span class="comment">#使用都使用同一个秘钥也可以</span></span><br><span class="line"><span class="comment"># -f 指定秘钥文件</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>配置</strong><br>新建<code>~/.ssh/config</code>添加内容：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># gitee</span><br><span class="line">Host gitee.com</span><br><span class="line">HostName gitee.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;gitee_id_rsa</span><br><span class="line"></span><br><span class="line"># github</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;github_id_rsa</span><br><span class="line"></span><br><span class="line"># coding</span><br><span class="line">Host eonun.coding.net</span><br><span class="line">HostName eonun.coding.net</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;id_rsa.pub</span><br></pre></td></tr></table></figure>
+<p><code>Host</code>和<code>HostName</code>填写<code>git</code>服务器的域名，<code>IdentityFile</code>指定私钥的路径</p>
+<p><strong>测试</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br><span class="line">ssh -T git@github.com</span><br><span class="line">ssh -T git@eonun.coding.net</span><br></pre></td></tr></table></figure></p>
+<h1 id="例"><a href="#例" class="headerlink" title="例"></a>例</h1><h2 id="新建仓库"><a href="#新建仓库" class="headerlink" title="新建仓库"></a>新建仓库</h2><p><strong>Code所在根目录执行</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure><br><strong>将项目的所有文件添加到仓库中</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure><br><strong>添加README</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git add README.md</span><br></pre></td></tr></table></figure><br><strong>提交到仓库</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git commit -m &quot;注释语句&quot;</span><br></pre></td></tr></table></figure><br><strong>将本地的仓库关联到GitHub，改成自己的地址</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add origin https:&#x2F;&#x2F;github.com&#x2F;xxxxx&#x2F;Test.git</span><br></pre></td></tr></table></figure><br><strong>上传前pull一下</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git pull origin master</span><br></pre></td></tr></table></figure><br><strong>上传代码到远程仓库</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure><br>中间可能会让你输入Username和Password，你只要输入github的账号和密码就行了。执行完后，如果没有异常，等待执行完就上传成功了。</p>
+<h2 id="更新仓库"><a href="#更新仓库" class="headerlink" title="更新仓库"></a>更新仓库</h2><p><strong>查看当前的git仓库状态</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure><br><strong>更新全部</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git add *</span><br></pre></td></tr></table></figure><br><strong>接着添加更新说明</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git commit -m &quot;更新说明&quot;</span><br></pre></td></tr></table></figure><br><strong>先git pull,拉取当前分支最新代码</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure><br>出现：<code>fatal: 拒绝合并无关的历史</code>时使用<code>--allow-unrelated-histories</code>忽略版本不同造成的影响</p>
+<p><strong>push到远程master分支上</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<p><strong>不出意外，打开GitHub已经同步了</strong></p>
+<h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><p><strong>查看所有分支</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch --all</span><br></pre></td></tr></table></figure><br><strong>重命名git远程分支</strong></p>
+<p><strong>1、重命名远程分支对应的本地分支</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch -m old_local_branch_name new_local_branch_name</span><br></pre></td></tr></table></figure></p>
+<p><strong>2、删除远程分支</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push origin :old_local_branch_name</span><br></pre></td></tr></table></figure></p>
+<p><strong>3、重新推送新命名的本地分支</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push origin new_local_branch_name</span><br></pre></td></tr></table></figure></p>
+<h1 id="书籍：中文-英文"><a href="#书籍：中文-英文" class="headerlink" title="书籍：中文 英文"></a>书籍：<a href="https://git-scm.com/book/zh/v2">中文</a> <a href="https://git-scm.com/book/en/v2">英文</a></h1>]]></content>
       <categories>
-        <category>Hexo</category>
+        <category>技能</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
+        <tag>笔记</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -8712,34 +9214,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
   </entry>
   <entry>
-    <title>Hexo配置支持MathJax</title>
-    <url>/posts/e318a4e5/</url>
-    <content><![CDATA[<h1 id="替换Marked"><a href="#替换Marked" class="headerlink" title="替换Marked"></a>替换Marked</h1><p>  <code>hexo</code> 默认的渲染引擎是<code>marked</code>，但是 <code>marked</code> 不支持 <code>MathJax</code>。 <code>pandoc</code>和<code>kramed</code> ，能够支持<code>MathJax</code>。</p>
-<p><a href="https://github.com/wzpan/hexo-renderer-pandoc">pandoc项目</a></p>
-<p><a href="https://github.com/sun11/hexo-renderer-kramed">kramed项目</a></p>
-<p>先卸载原来默认的渲染引擎<code>hexo-renderer-marked</code>，然后安装<code>hexo-renderer-pandoc</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yarn remove hexo-renderer-marked</span><br><span class="line">yarn add hexo-renderer-pandoc</span><br></pre></td></tr></table></figure>
-<p>安装 <code>hexo-renderer-pandoc</code> 还需要安装 <code>pandoc</code> (version &gt;=2.0) 渲染器支持，Arch 安装: <code>sudo pacman -S pandoc</code></p>
-<p><code>hexo-renderer-kramed</code> 是基于 <code>hexo-renderer-marked</code> 改的，所以不用单独安装渲染器，但 <code>next</code> 官方不推荐使用。</p>
-<a id="more"></a>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><strong>博客目录下</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim themes/next/_config.yml</span><br></pre></td></tr></table></figure>
-<p>找到<code>math</code>配置项开启</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Math Formulas Render Support</span></span><br><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 默认值（true）将按需加载mathjax / katex脚本去渲染在Front-matter中具有`mathjax：true`的页面。</span></span><br><span class="line">  <span class="comment"># 如果将其设置为false，它将在每一页加载mathjax/katex脚本</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的MathJax支持所需的hexo-renderer-pandoc（或hexo-renderer-kramed）</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">    <span class="comment"># https://mhchem.github.io/MathJax-mhchem/</span></span><br><span class="line">    <span class="attr">mhchem:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 完整的Katex支持需要hexo-renderer-markdown-it-plus（或带有markdown-it-katex插件的hexo-renderer-markdown-it）</span></span><br><span class="line">  <span class="attr">katex:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex</span></span><br><span class="line">    <span class="attr">copy_tex:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<p><strong>在需要使用Mathjax的文章<code>Front-matter</code>中添加<code>mathjax: true</code></strong></p>
-<figure class="highlight md"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 文章名</span><br><span class="line">category: 分类</span><br><span class="line">date: 2019/10/09</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<h1 id="方案2"><a href="#方案2" class="headerlink" title="方案2"></a>方案2</h1><p>  另一种方案是使用<a href="https://github.com/CHENXCHEN/hexo-renderer-markdown-it-plus">hexo-renderer-markdown-it-plus</a></p>
-<p>参考:<a href="https://ranmaosong.github.io/2017/11/29/hexo-support-mathjax/">如何在hexo中支持Mathjax?</a></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>MathJax</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>先电云计算IAAS</title>
     <url>/posts/3b6f3669/</url>
     <content><![CDATA[<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><h3 id="controller-amp-compute"><a href="#controller-amp-compute" class="headerlink" title="controller&amp;compute"></a>controller&amp;compute</h3><p><strong><code>vi /etc/sysconfig/network-scripts/ifcfg-eng</code></strong></p>
@@ -9158,21 +9632,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
-    <title>内网渗透命令</title>
-    <url>/posts/d7b00f79/</url>
-    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ipconfig &#x2F;all                      ------ 查询本机IP段，所在域等</span><br><span class="line">net user                           ------ 本机用户列表</span><br><span class="line">net localhroup administrators      ------ 本机管理员[通常含有域用户]</span><br><span class="line">net user &#x2F;domain                   ------ 查询域用户</span><br><span class="line">net group &#x2F;domain                  ------ 查询域里面的工作组</span><br><span class="line">net group &quot;domain admins&quot; &#x2F;domain  ------ 查询域管理员用户组</span><br><span class="line">net localgroup administrators &#x2F;domain    ------ 登录本机的域管理员</span><br><span class="line">net localgroup administrators workgroup\user001 &#x2F;add   ------域用户添加到本机</span><br><span class="line">net group &quot;domain controllers&quot; &#x2F;domain                         ------ 查看域控制器(如果有多台)</span><br><span class="line">net time &#x2F;domain          ------ 判断主域，主域服务器都做时间服务器</span><br><span class="line">net config workstation   ------ 当前登录域</span><br><span class="line">net session                  ------ 查看当前会话</span><br><span class="line">net use \\ip\ipc$ pawword &#x2F;user:username      ------ 建立IPC会话[空连接-***]</span><br><span class="line">net share                    ------  查看SMB指向的路径[即共享]</span><br><span class="line">net view                      ------ 查询同一域内机器列表</span><br><span class="line">net view \\ip                ------ 查询某IP共享</span><br><span class="line">net view &#x2F;domain         ------ 查询域列表</span><br><span class="line">net view &#x2F;domain:domainname        ------ 查看workgroup域中计算机列表</span><br><span class="line">net start                                         ------ 查看当前运行的服务</span><br><span class="line">net accounts                                   ------  查看本地密码策略</span><br><span class="line">net accounts &#x2F;domain                      ------  查看域密码策略</span><br><span class="line">nbtstat –A ip                                   ------netbios 查询</span><br><span class="line">netstat –an&#x2F;ano&#x2F;anb                        ------ 网络连接查询</span><br><span class="line">route print                                      ------ 路由表</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dsquery computer       ----- finds computers in the directory.</span><br><span class="line">dsquery contact           ----- finds contacts in thedirectory.</span><br><span class="line">dsquery subnet            ----- finds subnets in thedirectory.</span><br><span class="line">dsquery group             ----- finds groups in thedirectory.</span><br><span class="line">dsquery ou                   ----- finds organizationalunits in the directory.</span><br><span class="line">dsquery site                 ----- finds sites in thedirectory.</span><br><span class="line">dsquery server             ----- finds domain controllers inthe directory.</span><br><span class="line">dsquery user                ----- finds users in thedirectory.</span><br><span class="line">dsquery quota              ----- finds quota specificationsin the directory.</span><br><span class="line">dsquery partition         ----- finds partitions in thedirectory.</span><br><span class="line">dsquery *                     ----- finds any object inthe directory by using a generic LDAP query.</span><br><span class="line">dsquery server –domain Yahoo.com | dsget server–dnsname –site ---搜索域内域控制器的DNS主机名和站点名</span><br><span class="line">dsquery computer domainroot –name *-xp –limit 10----- 搜索域内以-xp结尾的机器10台</span><br><span class="line">dsquery user domainroot –name admin* -limit ---- 搜索域内以admin开头的用户10个</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#注:dsquery来源于Windows Server 2003 Administration Tools Pack</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tasklist &#x2F;V                                                      ----- 查看进程[显示对应用户]</span><br><span class="line">tasklist &#x2F;S ip &#x2F;U domain\username &#x2F;P &#x2F;V             ----- 查看远程计算机进程列表</span><br><span class="line">qprocess *                                                    ----- 类似tasklist</span><br><span class="line">qprocess &#x2F;SERVER:IP                                      ----- 远程查看计算机进程列表</span><br><span class="line">nslookup –qt-MX Yahoo.com                           ----- 查看邮件服务器</span><br><span class="line">whoami &#x2F;all                                                   ----- 查询当前用户权限等</span><br><span class="line">set                                                              ----- 查看系统环境变量</span><br><span class="line">systeminfo                                                    ----- 查看系统信息</span><br><span class="line">qwinsta                                                        ----- 查看登录情况</span><br><span class="line">qwinsta &#x2F;SERVER:IP                                       ----- 查看远程登录情况</span><br><span class="line">fsutil fsinfo drives                                           ----- 查看所有盘符</span><br><span class="line">gpupdate &#x2F;force                                            ----- 更新</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 域策略</span><br><span class="line"></span><br><span class="line">wmic bios                                      -----看bios信息</span><br><span class="line">wmic qfe                                           ----- 查看补丁信息</span><br><span class="line">wmic qfe get hotfixid                                     ----- 查看补丁-Patch号</span><br><span class="line">wmic startup                                                 ----- 查看启动项</span><br><span class="line">wmic service                                                 ----- 查看服务</span><br><span class="line">wmic os                                                       ----- 查看OS信息</span><br><span class="line">wmic process get caption,executablepath,commandline</span><br><span class="line">wmic process call create “process_name” (executes a program)</span><br><span class="line">wmic process where name&#x3D;”process_name” call terminate (terminates program)</span><br><span class="line">wmic logicaldisk where drivetype&#x3D;3 get name, freespace, systemname, filesystem, size,</span><br><span class="line">volumeserialnumber (hard drive information)</span><br><span class="line">wmic useraccount (usernames, sid, and various security related goodies)</span><br><span class="line">wmic useraccount get &#x2F;ALL</span><br><span class="line">wmic share get &#x2F;ALL (you can use ? for gets help ! )</span><br><span class="line">wmic startup list full (this can be a huge list!!!)</span><br><span class="line">wmic &#x2F;node:&quot;hostname&quot; bios get serialnumber (this can be great for finding warranty info about target)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>安全</category>
-      </categories>
-      <tags>
-        <tag>安全</tag>
-        <tag>命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>安全书籍</title>
     <url>/posts/37be0068/</url>
     <content><![CDATA[<h1 id="在线安全书籍"><a href="#在线安全书籍" class="headerlink" title="在线安全书籍"></a>在线安全书籍</h1><h2 id="Web安全书籍"><a href="#Web安全书籍" class="headerlink" title="Web安全书籍"></a>Web安全书籍</h2><p><a href="https://wizardforcel.gitbooks.io/web-hacking-101/">Web Hacking 101 中文版</a><br><a href="https://wizardforcel.gitbooks.io/kali-linux-web-pentest-cookbook/">Kali Linux Web渗透测试秘籍 中文版</a><br><a href="https://t0data.gitbooks.io/burpsuite/">Kali Linux burpsuite实战指南</a><br><a href="https://github.com/qazbnm456/awesome-web-security/">Web安全资料和资源列表</a></p>
@@ -9192,6 +9651,21 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
         <tag>安全</tag>
         <tag>Hacker</tag>
         <tag>书籍</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>内网渗透命令</title>
+    <url>/posts/d7b00f79/</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ipconfig &#x2F;all                      ------ 查询本机IP段，所在域等</span><br><span class="line">net user                           ------ 本机用户列表</span><br><span class="line">net localhroup administrators      ------ 本机管理员[通常含有域用户]</span><br><span class="line">net user &#x2F;domain                   ------ 查询域用户</span><br><span class="line">net group &#x2F;domain                  ------ 查询域里面的工作组</span><br><span class="line">net group &quot;domain admins&quot; &#x2F;domain  ------ 查询域管理员用户组</span><br><span class="line">net localgroup administrators &#x2F;domain    ------ 登录本机的域管理员</span><br><span class="line">net localgroup administrators workgroup\user001 &#x2F;add   ------域用户添加到本机</span><br><span class="line">net group &quot;domain controllers&quot; &#x2F;domain                         ------ 查看域控制器(如果有多台)</span><br><span class="line">net time &#x2F;domain          ------ 判断主域，主域服务器都做时间服务器</span><br><span class="line">net config workstation   ------ 当前登录域</span><br><span class="line">net session                  ------ 查看当前会话</span><br><span class="line">net use \\ip\ipc$ pawword &#x2F;user:username      ------ 建立IPC会话[空连接-***]</span><br><span class="line">net share                    ------  查看SMB指向的路径[即共享]</span><br><span class="line">net view                      ------ 查询同一域内机器列表</span><br><span class="line">net view \\ip                ------ 查询某IP共享</span><br><span class="line">net view &#x2F;domain         ------ 查询域列表</span><br><span class="line">net view &#x2F;domain:domainname        ------ 查看workgroup域中计算机列表</span><br><span class="line">net start                                         ------ 查看当前运行的服务</span><br><span class="line">net accounts                                   ------  查看本地密码策略</span><br><span class="line">net accounts &#x2F;domain                      ------  查看域密码策略</span><br><span class="line">nbtstat –A ip                                   ------netbios 查询</span><br><span class="line">netstat –an&#x2F;ano&#x2F;anb                        ------ 网络连接查询</span><br><span class="line">route print                                      ------ 路由表</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dsquery computer       ----- finds computers in the directory.</span><br><span class="line">dsquery contact           ----- finds contacts in thedirectory.</span><br><span class="line">dsquery subnet            ----- finds subnets in thedirectory.</span><br><span class="line">dsquery group             ----- finds groups in thedirectory.</span><br><span class="line">dsquery ou                   ----- finds organizationalunits in the directory.</span><br><span class="line">dsquery site                 ----- finds sites in thedirectory.</span><br><span class="line">dsquery server             ----- finds domain controllers inthe directory.</span><br><span class="line">dsquery user                ----- finds users in thedirectory.</span><br><span class="line">dsquery quota              ----- finds quota specificationsin the directory.</span><br><span class="line">dsquery partition         ----- finds partitions in thedirectory.</span><br><span class="line">dsquery *                     ----- finds any object inthe directory by using a generic LDAP query.</span><br><span class="line">dsquery server –domain Yahoo.com | dsget server–dnsname –site ---搜索域内域控制器的DNS主机名和站点名</span><br><span class="line">dsquery computer domainroot –name *-xp –limit 10----- 搜索域内以-xp结尾的机器10台</span><br><span class="line">dsquery user domainroot –name admin* -limit ---- 搜索域内以admin开头的用户10个</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#注:dsquery来源于Windows Server 2003 Administration Tools Pack</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tasklist &#x2F;V                                                      ----- 查看进程[显示对应用户]</span><br><span class="line">tasklist &#x2F;S ip &#x2F;U domain\username &#x2F;P &#x2F;V             ----- 查看远程计算机进程列表</span><br><span class="line">qprocess *                                                    ----- 类似tasklist</span><br><span class="line">qprocess &#x2F;SERVER:IP                                      ----- 远程查看计算机进程列表</span><br><span class="line">nslookup –qt-MX Yahoo.com                           ----- 查看邮件服务器</span><br><span class="line">whoami &#x2F;all                                                   ----- 查询当前用户权限等</span><br><span class="line">set                                                              ----- 查看系统环境变量</span><br><span class="line">systeminfo                                                    ----- 查看系统信息</span><br><span class="line">qwinsta                                                        ----- 查看登录情况</span><br><span class="line">qwinsta &#x2F;SERVER:IP                                       ----- 查看远程登录情况</span><br><span class="line">fsutil fsinfo drives                                           ----- 查看所有盘符</span><br><span class="line">gpupdate &#x2F;force                                            ----- 更新</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 域策略</span><br><span class="line"></span><br><span class="line">wmic bios                                      -----看bios信息</span><br><span class="line">wmic qfe                                           ----- 查看补丁信息</span><br><span class="line">wmic qfe get hotfixid                                     ----- 查看补丁-Patch号</span><br><span class="line">wmic startup                                                 ----- 查看启动项</span><br><span class="line">wmic service                                                 ----- 查看服务</span><br><span class="line">wmic os                                                       ----- 查看OS信息</span><br><span class="line">wmic process get caption,executablepath,commandline</span><br><span class="line">wmic process call create “process_name” (executes a program)</span><br><span class="line">wmic process where name&#x3D;”process_name” call terminate (terminates program)</span><br><span class="line">wmic logicaldisk where drivetype&#x3D;3 get name, freespace, systemname, filesystem, size,</span><br><span class="line">volumeserialnumber (hard drive information)</span><br><span class="line">wmic useraccount (usernames, sid, and various security related goodies)</span><br><span class="line">wmic useraccount get &#x2F;ALL</span><br><span class="line">wmic share get &#x2F;ALL (you can use ? for gets help ! )</span><br><span class="line">wmic startup list full (this can be a huge list!!!)</span><br><span class="line">wmic &#x2F;node:&quot;hostname&quot; bios get serialnumber (this can be great for finding warranty info about target)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
+        <tag>命令</tag>
       </tags>
   </entry>
   <entry>
@@ -9301,458 +9775,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
       <tags>
         <tag>镜像站</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Markdown代码块支持的语言</title>
-    <url>/posts/6ab127e3/</url>
-    <content><![CDATA[<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>关键字</th>
-<th>调用的js</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AppleScript</td>
-<td>applescript</td>
-<td>shBrushAppleScript.js</td>
-<td></td>
-</tr>
-<tr>
-<td>ActionScript 3.0</td>
-<td>actionscript3 , as3</td>
-<td>shBrushAS3.js</td>
-<td></td>
-</tr>
-<tr>
-<td>Shell</td>
-<td>bash , shell</td>
-<td>shBrushBash.js</td>
-<td></td>
-</tr>
-<tr>
-<td>ColdFusion</td>
-<td>coldfusion , cf</td>
-<td>shBrushColdFusion.js</td>
-<td></td>
-</tr>
-<tr>
-<td>C</td>
-<td>cpp , c</td>
-<td>shBrushCpp.js</td>
-<td></td>
-</tr>
-<tr>
-<td>C#</td>
-<td>c# , c-sharp , csharp</td>
-<td>shBrushCSharp.js</td>
-<td></td>
-</tr>
-<tr>
-<td>CSS</td>
-<td>css</td>
-<td>shBrushCss.js</td>
-<td></td>
-</tr>
-<tr>
-<td>Delphi</td>
-<td>delphi , pascal , pas</td>
-<td>shBrushDelphi.js</td>
-<td></td>
-</tr>
-<tr>
-<td>diff&amp;patch</td>
-<td>diff patch</td>
-<td>shBrushDiff.js</td>
-<td>代码版本冲突差异</td>
-</tr>
-<tr>
-<td>Erlang</td>
-<td>erl , erlang</td>
-<td>shBrushErlang.js</td>
-<td></td>
-</tr>
-<tr>
-<td>Groovy</td>
-<td>groovy</td>
-<td>shBrushGroovy.js</td>
-<td></td>
-</tr>
-<tr>
-<td>Java</td>
-<td>java</td>
-<td>shBrushJava.js</td>
-<td></td>
-</tr>
-<tr>
-<td>JavaFX</td>
-<td>jfx , javafx</td>
-<td>shBrushJavaFX.js</td>
-<td></td>
-</tr>
-<tr>
-<td>JavaScript</td>
-<td>js , jscript , javascript</td>
-<td>shBrushJScript.js</td>
-<td></td>
-</tr>
-<tr>
-<td>Perl</td>
-<td>perl , pl , Perl</td>
-<td>shBrushPerl.js</td>
-<td></td>
-</tr>
-<tr>
-<td>PHP</td>
-<td>php</td>
-<td>shBrushPhp.js</td>
-<td></td>
-</tr>
-<tr>
-<td>text</td>
-<td>text , plain</td>
-<td>shBrushPlain.js</td>
-<td>普通文本</td>
-</tr>
-<tr>
-<td>Python</td>
-<td>py , python</td>
-<td>shBrushPython.js</td>
-<td></td>
-</tr>
-<tr>
-<td>Ruby</td>
-<td>ruby , rails , ror , rb</td>
-<td>shBrushRuby.js</td>
-<td></td>
-</tr>
-<tr>
-<td>SASS&amp;SCSS</td>
-<td>sass , scss</td>
-<td>shBrushSass.js</td>
-<td></td>
-</tr>
-<tr>
-<td>Scala</td>
-<td>scala</td>
-<td>shBrushScala.js</td>
-<td></td>
-</tr>
-<tr>
-<td>SQL</td>
-<td>sql</td>
-<td>shBrushSql.js</td>
-<td></td>
-</tr>
-<tr>
-<td>Visual Basic</td>
-<td>vb , vbnet</td>
-<td>shBrushVb.js</td>
-<td></td>
-</tr>
-<tr>
-<td>XML</td>
-<td>xml , xhtml , xslt , html</td>
-<td>shBrushXml.js</td>
-<td></td>
-</tr>
-<tr>
-<td>Objective C</td>
-<td>objc , obj-c</td>
-<td>shBrushObjectiveC.js</td>
-<td></td>
-</tr>
-<tr>
-<td>F#</td>
-<td>f# f-sharp , fsharp</td>
-<td>shBrushFSharp.js</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>xpp , dynamics-xpp</td>
-<td>shBrushDynamics.js</td>
-<td></td>
-</tr>
-<tr>
-<td>R</td>
-<td>r , s , splus</td>
-<td>shBrushR.js</td>
-<td></td>
-</tr>
-<tr>
-<td>matlab</td>
-<td>matlab</td>
-<td>shBrushMatlab.js</td>
-<td></td>
-</tr>
-<tr>
-<td>swift</td>
-<td>swift</td>
-<td>shBrushSwift.js</td>
-<td></td>
-</tr>
-<tr>
-<td>GO</td>
-<td>go , golang</td>
-<td>shBrushGo.js</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><strong>diff</strong>:</p>
-<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line">test</span><br><span class="line"><span class="deletion">- test</span></span><br><span class="line"><span class="addition">+ test</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Markdown</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git入手</title>
-    <url>/posts/71f63e37/</url>
-    <content><![CDATA[<h1 id="首次设置Git的user-name-和-email"><a href="#首次设置Git的user-name-和-email" class="headerlink" title="首次设置Git的user name 和 email"></a>首次设置Git的user name 和 email</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;eonun&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;eonun@qq.com&quot;</span></span><br></pre></td></tr></table></figure>
-<h1 id="Git的基础命令"><a href="#Git的基础命令" class="headerlink" title="Git的基础命令"></a>Git的基础命令</h1><a id="more"></a>
-<p><code>master</code>：默认开发分支         <code>Head</code>：默认开发分支<br><code>origin</code>：默认远程版本库     <code>Head^</code>：Head的父提交</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">命令</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"><strong>创建版本库</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git clone &lt;url&gt;</code></td>
-<td style="text-align:left">克隆远程版本库</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git init</code></td>
-<td style="text-align:left">初始化本地库</td>
-</tr>
-<tr>
-<td style="text-align:left">`find . -name “.git”</td>
-<td style="text-align:left">xargs rm -Rf`</td>
-<td>删除本地仓库</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"><strong>修改和提交</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git status</code></td>
-<td style="text-align:left">查看状态</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git diff</code></td>
-<td style="text-align:left">查看变更内容</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git add --all</code></td>
-<td style="text-align:left">跟踪所有文件</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git add &lt;file&gt;</code></td>
-<td style="text-align:left">跟踪指定文件</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git mv &lt;old&gt; &lt;new&gt;</code></td>
-<td style="text-align:left">文件改名</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git rm &lt;file&gt;</code></td>
-<td style="text-align:left">删除文件</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git rm --cached &lt;file&gt;</code></td>
-<td style="text-align:left">停止跟踪但不删除</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git commit -m &quot;message&quot;</code></td>
-<td style="text-align:left">提交所有更新过的文件，并添加提交信息 message</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git commit --amend</code></td>
-<td style="text-align:left">修改最后一次提交</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"><strong>查看提交历史</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git log</code></td>
-<td style="text-align:left">查看提交历史</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git log -p &lt;file&gt;</code></td>
-<td style="text-align:left">查看指定文件的提交历史</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git blame &lt;file&gt;</code></td>
-<td style="text-align:left">以列表形式查看指定文件提交历史</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"><strong>撤销</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git reset --hard HEAD</code></td>
-<td style="text-align:left">撤销工作目录中所有未提交文件的修改内容</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git checkout HEAD &lt;file&gt;</code></td>
-<td style="text-align:left">撤销指定的未提交文件的修改内容</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git revert &lt;commit&gt;</code></td>
-<td style="text-align:left">撤销指定的提交</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"><strong>分支与标签</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git branch</code></td>
-<td style="text-align:left">显示所有本地分支</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git checkout &lt;branch/tag&gt;</code></td>
-<td style="text-align:left">切换到指定分支或标签</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git branch &lt;new-branch&gt;</code></td>
-<td style="text-align:left">创建新分支</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git branch -d &lt;branch&gt;</code></td>
-<td style="text-align:left">删除本地分支</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git tag</code></td>
-<td style="text-align:left">列出所有本地标签</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git tag &lt;tagname&gt;</code></td>
-<td style="text-align:left">基于最新提交创建标签</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git tag -d &lt;tagname&gt;</code></td>
-<td style="text-align:left">删除标签</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"><strong>合并与衍合</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git merge &lt;branch&gt;</code></td>
-<td style="text-align:left">合并指定分支到当前分支</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git rebase &lt;branch&gt;</code></td>
-<td style="text-align:left">衍合指定分支到当前分支</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"><strong>远程操作</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git remote -v</code></td>
-<td style="text-align:left">查看远程版本库信息</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git remote show &lt;remote&gt;</code></td>
-<td style="text-align:left">查看指定远程版本库信息</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git remote add &lt;remote&gt; &lt;url&gt;</code></td>
-<td style="text-align:left">添加远程版本库</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git fetch &lt;remote&gt;</code></td>
-<td style="text-align:left">从远程库获取代码</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git pull &lt;remote&gt;</code></td>
-<td style="text-align:left">下载代码及快速合并</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git push &lt;remote&gt; &lt;branch&gt;</code></td>
-<td style="text-align:left">上传代码及快速合并</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git push &lt;remote&gt; :&lt;branch/tag-name&gt;</code></td>
-<td style="text-align:left">删除远程分之或标签</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git push --tage</code></td>
-<td style="text-align:left">上传所有标签</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"><strong>暂存</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git stash</code></td>
-<td style="text-align:left">暂存</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git stash list</code></td>
-<td style="text-align:left">查看所有暂存信息</td>
-</tr>
-<tr>
-<td style="text-align:left"><code>git stash apply stash@&#123;0&#125;</code></td>
-<td style="text-align:left">恢复 stash@{0}</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="Git-工作区-暂存区-版本库"><a href="#Git-工作区-暂存区-版本库" class="headerlink" title="Git 工作区/暂存区/版本库"></a>Git 工作区/暂存区/版本库</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init   把指定目录变成 Git 可以管理的仓库</span><br><span class="line"></span><br><span class="line">git status   查看仓库当前的状态</span><br><span class="line"></span><br><span class="line">git diff   查看具体修改内容</span><br><span class="line"></span><br><span class="line">git add &lt;file&gt;   用如下命令把文件添加到仓库</span><br><span class="line"></span><br><span class="line">git commit -m &quot;&lt;message&gt;&quot;   把文件提交到仓库</span><br><span class="line"></span><br><span class="line">git log (--pretty&#x3D;oneline)   查看提交记录（简略信息）</span><br><span class="line"></span><br><span class="line">git reset --hard HEAD^^   回退到上上个版本</span><br><span class="line"></span><br><span class="line">git reset --hard HEAD~100   回退到前100个版本</span><br><span class="line"></span><br><span class="line">git reset --hard 1094a   回退到版本号为 1094a... 的版本</span><br><span class="line"></span><br><span class="line">git reflog   查看操作记录（可查看回退前的版本号）</span><br><span class="line"></span><br><span class="line">git diff HEAD -- &lt;file&gt;   查看工作区和最新版本的区别</span><br><span class="line"></span><br><span class="line">git checkout -- r&lt;file&gt;   撤销文件在工作区的全部修改</span><br><span class="line"></span><br><span class="line">git reset HEAD &lt;file&gt;   撤销暂存区的修改，放回工作区</span><br><span class="line"></span><br><span class="line">rm &lt;file&gt;&#x2F;git rm &lt;file&gt;   删除文件并放到暂存区</span><br></pre></td></tr></table></figure>
-<h2 id="远程仓库创与推送"><a href="#远程仓库创与推送" class="headerlink" title="远程仓库创与推送"></a>远程仓库创与推送</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add origin git@github.com:xxx&#x2F;xxx.git    与远程库关联</span><br><span class="line"></span><br><span class="line">git push (-u) origin master   推送 master 分支到远程库</span><br><span class="line"></span><br><span class="line">git clone git@github.com:xxx&#x2F;xxx.git  克隆</span><br><span class="line"></span><br><span class="line">git remote (-v)   查看远程库信息</span><br><span class="line"></span><br><span class="line">git remote rm origin   删除已有的远程库</span><br></pre></td></tr></table></figure>
-<h1 id="github配置shh-key"><a href="#github配置shh-key" class="headerlink" title="github配置shh-key"></a>github配置shh-key</h1><p><strong>生成秘钥</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;eonun@qq.com&quot;</span></span><br><span class="line"><span class="comment"># 输入全路径文件名（默认:~/.ssh/id_rsa），输入密码（默认：空），一路回车默认也可</span></span><br><span class="line"><span class="comment"># 生成两个文件：id_rsa 和 id_rsa.pub</span></span><br></pre></td></tr></table></figure>
-<p><strong>将秘钥添加到<code>ssh-agent</code></strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-add ~/.ssh/id_rsa</span><br><span class="line">ssh-add -l		<span class="comment"># 显示已添加</span></span><br></pre></td></tr></table></figure>
-<p><strong>在<code>Github</code>添加<code>ssh-key</code></strong><br>到github里 <code>Settings</code> &gt; <code>SSH and GPG keys</code> &gt; <code>SSH keys</code> 添加秘钥<br>秘钥内容是<code>xxx_rsa.pub</code>的内容</p>
-<p><strong>测试</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure><br>出现：</p>
-<blockquote>
-<p>The authenticity of host ‘github.com (207.97.227.239)’ can’t be established.<br>RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.<br>Are you sure you want to continue connecting (yes/no)?</p>
-</blockquote>
-<p>输入<code>yse</code>出现：</p>
-<blockquote>
-<p>Hi eonun! You’ve successfully authenticated, but GitHub does not provide shell access.</p>
-</blockquote>
-<p>若出现<code>Hi</code>后是用户名，说明成功了</p>
-<p><strong>修改<code>.git</code>下<code>config</code>中的<code>url</code></strong><br>修改前：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">url &#x3D; https:&#x2F;&#x2F;github.com&#x2F;eonun&#x2F;eonun.github.io.git</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>修改为：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">url &#x3D; git@github.com:eonun&#x2F;eonun.github.io.git</span><br></pre></td></tr></table></figure></p>
-<h1 id="配置多平台ssh-key"><a href="#配置多平台ssh-key" class="headerlink" title="配置多平台ssh-key"></a>配置多平台ssh-key</h1><p><strong>分别生成<code>shh-key</code></strong><br>或者都使用同一个秘钥<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&#x27;eonun@qq.com&#x27;</span> -f ~/.ssh/gitee_id_rsa</span><br><span class="line">ssh-keygen -t rsa -C <span class="string">&#x27;eonun@qq.com&#x27;</span> -f ~/.ssh/github_id_rsa</span><br><span class="line">ssh-keygen -t rsa -C <span class="string">&#x27;eonun@qq.com&#x27;</span>		<span class="comment">#使用都使用同一个秘钥也可以</span></span><br><span class="line"><span class="comment"># -f 指定秘钥文件</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>配置</strong><br>新建<code>~/.ssh/config</code>添加内容：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># gitee</span><br><span class="line">Host gitee.com</span><br><span class="line">HostName gitee.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;gitee_id_rsa</span><br><span class="line"></span><br><span class="line"># github</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;github_id_rsa</span><br><span class="line"></span><br><span class="line"># coding</span><br><span class="line">Host eonun.coding.net</span><br><span class="line">HostName eonun.coding.net</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;id_rsa.pub</span><br></pre></td></tr></table></figure>
-<p><code>Host</code>和<code>HostName</code>填写<code>git</code>服务器的域名，<code>IdentityFile</code>指定私钥的路径</p>
-<p><strong>测试</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@gitee.com</span><br><span class="line">ssh -T git@github.com</span><br><span class="line">ssh -T git@eonun.coding.net</span><br></pre></td></tr></table></figure></p>
-<h1 id="例"><a href="#例" class="headerlink" title="例"></a>例</h1><h2 id="新建仓库"><a href="#新建仓库" class="headerlink" title="新建仓库"></a>新建仓库</h2><p><strong>Code所在根目录执行</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure><br><strong>将项目的所有文件添加到仓库中</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure><br><strong>添加README</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git add README.md</span><br></pre></td></tr></table></figure><br><strong>提交到仓库</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git commit -m &quot;注释语句&quot;</span><br></pre></td></tr></table></figure><br><strong>将本地的仓库关联到GitHub，改成自己的地址</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add origin https:&#x2F;&#x2F;github.com&#x2F;xxxxx&#x2F;Test.git</span><br></pre></td></tr></table></figure><br><strong>上传前pull一下</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git pull origin master</span><br></pre></td></tr></table></figure><br><strong>上传代码到远程仓库</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure><br>中间可能会让你输入Username和Password，你只要输入github的账号和密码就行了。执行完后，如果没有异常，等待执行完就上传成功了。</p>
-<h2 id="更新仓库"><a href="#更新仓库" class="headerlink" title="更新仓库"></a>更新仓库</h2><p><strong>查看当前的git仓库状态</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure><br><strong>更新全部</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git add *</span><br></pre></td></tr></table></figure><br><strong>接着添加更新说明</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git commit -m &quot;更新说明&quot;</span><br></pre></td></tr></table></figure><br><strong>先git pull,拉取当前分支最新代码</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure><br>出现：<code>fatal: 拒绝合并无关的历史</code>时使用<code>--allow-unrelated-histories</code>忽略版本不同造成的影响</p>
-<p><strong>push到远程master分支上</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
-<p><strong>不出意外，打开GitHub已经同步了</strong></p>
-<h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><p><strong>查看所有分支</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch --all</span><br></pre></td></tr></table></figure><br><strong>重命名git远程分支</strong></p>
-<p><strong>1、重命名远程分支对应的本地分支</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git branch -m old_local_branch_name new_local_branch_name</span><br></pre></td></tr></table></figure></p>
-<p><strong>2、删除远程分支</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push origin :old_local_branch_name</span><br></pre></td></tr></table></figure></p>
-<p><strong>3、重新推送新命名的本地分支</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push origin new_local_branch_name</span><br></pre></td></tr></table></figure></p>
-<h1 id="书籍：中文-英文"><a href="#书籍：中文-英文" class="headerlink" title="书籍：中文 英文"></a>书籍：<a href="https://git-scm.com/book/zh/v2">中文</a> <a href="https://git-scm.com/book/en/v2">英文</a></h1>]]></content>
-      <categories>
-        <category>技能</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
