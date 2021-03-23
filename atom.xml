@@ -185,7 +185,7 @@
     <link href="https://eonun.com/posts/afc073a5/"/>
     <id>https://eonun.com/posts/afc073a5/</id>
     <published>2021-03-15T16:18:37.000Z</published>
-    <updated>2021-03-19T10:37:02.451Z</updated>
+    <updated>2021-03-23T03:36:09.874Z</updated>
     
     
     <summary type="html">&lt;p&gt;&lt;strong&gt;二、信息安全技术与原理&lt;/strong&gt;&lt;/p&gt;
@@ -196,8 +196,8 @@
 &lt;li&gt;加密算法 &lt;code&gt;E&lt;/code&gt; ，$c=E_k(m)$ 或 $c=E(m,k)$&lt;/li&gt;
 &lt;li&gt;解密算法 &lt;code&gt;D&lt;/code&gt; ，$m=D_k(c)$ 或 $m=D(c,k)$&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;加密密钥通常表示为 $k_e$ ，解密密钥通常表示为 $k_d$&lt;/p&gt;
-&lt;p&gt;$m=D&lt;em&gt;{k_d}(E&lt;/em&gt;{k_d}(m))$&lt;/p&gt;</summary>
+&lt;p&gt;加密密钥通常表示为 $k_e$ ，解密密钥通常表示为 $k_d$ :&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;m=D_{k_d}(E_{k_d}(m))&lt;/script&gt;</summary>
     
     
     
