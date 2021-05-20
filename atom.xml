@@ -6,7 +6,7 @@
   <link href="https://eonun.com/atom.xml" rel="self"/>
   
   <link href="https://eonun.com/"/>
-  <updated>2021-03-22T16:00:42.987Z</updated>
+  <updated>2021-05-20T08:38:10.233Z</updated>
   <id>https://eonun.com/</id>
   
   <author>
@@ -15,6 +15,378 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>路由器开源固件</title>
+    <link href="https://eonun.com/posts/69b91060/"/>
+    <id>https://eonun.com/posts/69b91060/</id>
+    <published>2021-05-20T08:33:49.000Z</published>
+    <updated>2021-05-20T08:38:10.233Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;新人入坑科普：OpenWRT、LEDE、潘多拉、华硕、梅林、老毛子&quot;&gt;&lt;a href=&quot;#新人入坑科普：OpenWRT、LEDE、潘多拉、华硕、梅林、老毛子&quot; class=&quot;headerlink&quot; title=&quot;新人入坑科普：OpenWRT、LEDE、潘多拉、华硕、梅林、老毛子&quot;&gt;&lt;/a&gt;新人入坑科普：OpenWRT、LEDE、潘多拉、华硕、梅林、老毛子&lt;/h1&gt;&lt;p&gt;新入坑的同学肯定有此疑问，想刷系统，不知道买哪个路由，也不知道这些系统的区别，更不知道应该选哪个。&lt;br&gt;说这些之前应该先提一嘴Linksys，2003年推出了WRT54G的路由。由于被发现Linksys用了很多开源代码，所以被很高的呼声要求开源。Linksys脸皮薄，于是就开源了(这一点很多国内厂家脸皮厚的很)。从此开启了路由系统发展的精彩舞台。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="路由器" scheme="https://eonun.com/categories/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+    
+    <category term="路由器" scheme="https://eonun.com/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL快速入门</title>
+    <link href="https://eonun.com/posts/120a3d84/"/>
+    <id>https://eonun.com/posts/120a3d84/</id>
+    <published>2021-05-20T08:32:27.000Z</published>
+    <updated>2021-05-20T08:38:10.213Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;什么是SQL&quot;&gt;&lt;a href=&quot;#什么是SQL&quot; class=&quot;headerlink&quot; title=&quot;什么是SQL&quot;&gt;&lt;/a&gt;什么是SQL&lt;/h1&gt;&lt;p&gt;SQL (Structured Query Language) 译为结构化查询语言，是一种在数据库管理系统(RDBMS,Relational Database Management System) 中查询数据，或通过 RDBMS 对数据库中的数据进行修改的语言。&lt;/p&gt;
+&lt;p&gt;常见 RDBMS ：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Oracle Database : 甲骨文的&lt;/li&gt;
+&lt;li&gt;SQL Server : 微软的&lt;/li&gt;
+&lt;li&gt;DB2 : IBM的&lt;/li&gt;
+&lt;li&gt;PostgreSQL : 开源&lt;/li&gt;
+&lt;li&gt;MySQL : 开源&lt;/li&gt;
+&lt;li&gt;MariaDB : MySQL的一个分支,甲骨文收购MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;不同 RDBMS 略有不同，由于 MySQL 是开源的,可免费获取，很多大企都在使用 MySQL ,所以本文将以 MySQL 的 SQL 对 SQL 进行讲解。&lt;/p&gt;
+&lt;p&gt;SQL 的查询过程是: 用户在客户端通过 SQL 语句，将需要的数据或对数据进行的操作请求发送给 RDBMS ，RDBMS 根据语句内容返回请求的数据，或对存储在数据库中的数据进行更新。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="SQL" scheme="https://eonun.com/categories/SQL/"/>
+    
+    
+    <category term="SQL" scheme="https://eonun.com/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Arch独立显卡驱动安装</title>
+    <link href="https://eonun.com/posts/4578a678/"/>
+    <id>https://eonun.com/posts/4578a678/</id>
+    <published>2021-05-20T08:30:26.000Z</published>
+    <updated>2021-05-20T08:42:00.265Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;  Linux到独立显卡分开源驱动和闭源驱动两种，开源驱动不能完全发挥独立显卡到性能，闭源驱动使用&lt;code&gt;bumblebee&lt;/code&gt; 的 &lt;code&gt;optirun&lt;/code&gt; 的兼容性不好。而 &lt;code&gt;optimus-manager&lt;/code&gt; 可以设置开机默认使用 Intel 还是 Nvidia ，可以随时在这两者之间切换。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Arch" scheme="https://eonun.com/categories/Arch/"/>
+    
+    
+    <category term="Arch" scheme="https://eonun.com/tags/Arch/"/>
+    
+    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
+    
+    <category term="显卡" scheme="https://eonun.com/tags/%E6%98%BE%E5%8D%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker-Compose模板文件</title>
+    <link href="https://eonun.com/posts/6c72393/"/>
+    <id>https://eonun.com/posts/6c72393/</id>
+    <published>2021-05-20T08:25:46.000Z</published>
+    <updated>2021-05-20T08:38:10.213Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;Docker-Compose-模板文件&quot;&gt;&lt;a href=&quot;#Docker-Compose-模板文件&quot; class=&quot;headerlink&quot; title=&quot;Docker Compose 模板文件&quot;&gt;&lt;/a&gt;Docker Compose 模板文件&lt;/h1&gt;&lt;p&gt;模板文件是使用 &lt;code&gt;Compose&lt;/code&gt; 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 &lt;code&gt;docker run&lt;/code&gt; 相关参数的含义都是类似的。&lt;/p&gt;
+&lt;p&gt;默认的模板文件名称为 &lt;code&gt;docker-compose.yml&lt;/code&gt;，格式为 YAML 格式。&lt;/p&gt;
+&lt;figure class=&quot;highlight yaml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;version:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;quot;3&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;services:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;webapp:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;image:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;examples/web&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;ports:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;bullet&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;quot;80:80&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;volumes:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;bullet&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;quot;/data&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="Docker" scheme="https://eonun.com/categories/Docker/"/>
+    
+    
+    <category term="Docker" scheme="https://eonun.com/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Arch插拔外接电源时自动设置屏幕亮度</title>
+    <link href="https://eonun.com/posts/695f0723/"/>
+    <id>https://eonun.com/posts/695f0723/</id>
+    <published>2021-05-20T08:24:03.000Z</published>
+    <updated>2021-05-20T08:38:10.203Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;在 &lt;code&gt;/etc/acpi/handler.sh&lt;/code&gt; 脚本中添加条件亮度的代码实现&lt;/p&gt;
+&lt;p&gt;通过 &lt;code&gt;ls /sys/class/backlight/&lt;/code&gt; 查看显卡设备,通过修改 &lt;code&gt;/sys/class/backlight/设备/brightness&lt;/code&gt; 文件的值能直接控制屏幕亮度&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Arch" scheme="https://eonun.com/categories/Arch/"/>
+    
+    
+    <category term="Arch" scheme="https://eonun.com/tags/Arch/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vim光标插件</title>
+    <link href="https://eonun.com/posts/955b2cca/"/>
+    <id>https://eonun.com/posts/955b2cca/</id>
+    <published>2021-05-20T08:22:29.000Z</published>
+    <updated>2021-05-20T08:38:10.233Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/tpope/vim-surround&quot;&gt;vim-surround&lt;/a&gt;&lt;br&gt;方便编辑括号，括号，引号，XML标标签等的插件&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/terryma/vim-multiple-cursors&quot;&gt;vim-multiple-cursors&lt;/a&gt;&lt;br&gt;多光标操作，方便对词进行操作的插件&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="vim" scheme="https://eonun.com/categories/vim/"/>
+    
+    
+    <category term="vim" scheme="https://eonun.com/tags/vim/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>i3block配置</title>
+    <link href="https://eonun.com/posts/e91fcb84/"/>
+    <id>https://eonun.com/posts/e91fcb84/</id>
+    <published>2021-05-20T08:11:59.000Z</published>
+    <updated>2021-05-20T08:38:10.233Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;配置文件&quot;&gt;&lt;a href=&quot;#配置文件&quot; class=&quot;headerlink&quot; title=&quot;配置文件&quot;&gt;&lt;/a&gt;配置文件&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$XDG_CONFIG_HOME/i3blocks/config&lt;/code&gt; (&lt;code&gt;~/.config/i3blocks/config&lt;/code&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;/.i3blocks.conf&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;$XDG_CONFIG_DIRS/i3blocks/config&lt;/code&gt; (&lt;code&gt;/etc/xdg/i3blocks/config&lt;/code&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;/etc/i3blocks.conf&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="i3" scheme="https://eonun.com/categories/i3/"/>
+    
+    
+    <category term="i3" scheme="https://eonun.com/tags/i3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>i3wm配置美化</title>
+    <link href="https://eonun.com/posts/5f24aa49/"/>
+    <id>https://eonun.com/posts/5f24aa49/</id>
+    <published>2021-05-20T08:10:35.000Z</published>
+    <updated>2021-05-20T08:45:10.197Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;i3自动运行&quot;&gt;&lt;a href=&quot;#i3自动运行&quot; class=&quot;headerlink&quot; title=&quot;i3自动运行&quot;&gt;&lt;/a&gt;i3自动运行&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; XXX	&lt;span class=&quot;comment&quot;&gt;# i3在初始化时执行的命令或脚本,重启i3时，exec不会执行&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;exec_always XXX &lt;span class=&quot;comment&quot;&gt;# 重启i3时执行的命令或脚本&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 启动不支持启动提醒的脚本或程序时，鼠标指针会逗留在忙碌状态，为排除此现象，可用`--no-startup-id`指令。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; --no-startup-id XXX&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;exec_always --no-startup-id XXX&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="i3" scheme="https://eonun.com/categories/i3/"/>
+    
+    
+    <category term="i3wm" scheme="https://eonun.com/tags/i3wm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Firefox便捷版制作</title>
+    <link href="https://eonun.com/posts/abb290b8/"/>
+    <id>https://eonun.com/posts/abb290b8/</id>
+    <published>2021-05-20T08:06:51.000Z</published>
+    <updated>2021-05-20T08:38:10.213Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;配置文件&quot;&gt;&lt;a href=&quot;#配置文件&quot; class=&quot;headerlink&quot; title=&quot;配置文件&quot;&gt;&lt;/a&gt;配置文件&lt;/h1&gt;&lt;h2 id=&quot;Windows&quot;&gt;&lt;a href=&quot;#Windows&quot; class=&quot;headerlink&quot; title=&quot;Windows&quot;&gt;&lt;/a&gt;Windows&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;地址栏输入 &lt;code&gt;about:profiles&lt;/code&gt; 打开配置文件保存目录，存有 &lt;code&gt;.default&lt;/code&gt; 后缀的目录为配置文件目录。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;也可直接访问，&lt;code&gt;%APPDATA%\Mozilla\Firefox\Profiles\&lt;/code&gt; 进入配置文件保存目录。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="工具" scheme="https://eonun.com/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="Firefox" scheme="https://eonun.com/tags/Firefox/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>路由器固件</title>
+    <link href="https://eonun.com/posts/747a95c0/"/>
+    <id>https://eonun.com/posts/747a95c0/</id>
+    <published>2021-05-20T07:59:33.000Z</published>
+    <updated>2021-05-20T08:38:10.233Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;固件&quot;&gt;&lt;a href=&quot;#固件&quot; class=&quot;headerlink&quot; title=&quot;固件&quot;&gt;&lt;/a&gt;固件&lt;/h1&gt;&lt;p&gt;Openwrt/LEDE更加适合需要自己定制系统的人，更加偏向于类似linux系统界面操作&lt;/p&gt;
+&lt;p&gt;padavan使用别人封装好了的系统更方便，更加适用于脚本操作,padavan 可通过 &lt;a href=&quot;http://my.router&quot;&gt;http://my.router&lt;/a&gt; 访问管理&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="路由器" scheme="https://eonun.com/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>开源固件的前世今生</title>
+    <link href="https://eonun.com/posts/7b2b089f/"/>
+    <id>https://eonun.com/posts/7b2b089f/</id>
+    <published>2021-05-20T07:57:48.000Z</published>
+    <updated>2021-05-20T08:38:10.233Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;开源固件的前世今生&quot;&gt;&lt;a href=&quot;#开源固件的前世今生&quot; class=&quot;headerlink&quot; title=&quot;开源固件的前世今生&quot;&gt;&lt;/a&gt;开源固件的前世今生&lt;/h1&gt;&lt;h2 id=&quot;为何华硕固件开源？&quot;&gt;&lt;a href=&quot;#为何华硕固件开源？&quot; class=&quot;headerlink&quot; title=&quot;为何华硕固件开源？&quot;&gt;&lt;/a&gt;为何华硕固件开源？&lt;/h2&gt;&lt;p&gt;2003年Linksys公司推出WRT-54G，一款基于MIPS架构的无线路由器，WRT-54G操作系统以Linux取代vXworks，哥伦比亚大学法学院教授Eben Moglen向Linksys提出开源要求。&lt;br&gt;2003年7月，Linksys迫于压力，开源了WRT54G的firmware。&lt;br&gt;2004年1月出现所谓的OpenWRT，第一个版本是基于Linksys源码及uclibc中的buildroot项目。&lt;br&gt;2005年初，BrainSlayer发布了一个新的发行版：DD-WRT。接着又有HyperWRT、Tomato。&lt;/p&gt;
+&lt;p&gt;从此以后，开源路由器系统蓬勃发展，并吸引了很多厂家的加入 。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="路由器" scheme="https://eonun.com/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>家用路由器选择</title>
+    <link href="https://eonun.com/posts/f9c662f8/"/>
+    <id>https://eonun.com/posts/f9c662f8/</id>
+    <published>2021-05-20T07:56:14.000Z</published>
+    <updated>2021-05-20T08:38:10.233Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;种类&quot;&gt;&lt;a href=&quot;#种类&quot; class=&quot;headerlink&quot; title=&quot;种类&quot;&gt;&lt;/a&gt;种类&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;硬路由&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;骨干网络路由    &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;企业级路由&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;家用路由&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;软路由&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;成品路由&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;自组路由&lt;/p&gt;
+&lt;p&gt;软路由可玩性高，功能更多，更强大，配合AP更强&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    
+    <category term="路由器" scheme="https://eonun.com/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XSS跨站脚本攻击</title>
+    <link href="https://eonun.com/posts/db4b83e4/"/>
+    <id>https://eonun.com/posts/db4b83e4/</id>
+    <published>2021-05-20T07:52:34.000Z</published>
+    <updated>2021-05-20T08:38:10.223Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;XSS&quot;&gt;&lt;a href=&quot;#XSS&quot; class=&quot;headerlink&quot; title=&quot;XSS&quot;&gt;&lt;/a&gt;XSS&lt;/h1&gt;&lt;p&gt;Cross Site Scription,跨站脚本攻击 ,为了与 Cascading Style Sheet (CSS,层叠样式表) 区分将 Cross (意为:交叉)改为交叉形的X作为缩写，故成了叉SS,XSS 。是一种通过将恶意代码注入到网页脚本中的攻击，攻击成功后攻击者可获取到 Cookie 、以受攻击者身份进行操作等行为。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
+    
+    <category term="XSS" scheme="https://eonun.com/tags/XSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PHP一句话</title>
+    <link href="https://eonun.com/posts/77b49f04/"/>
+    <id>https://eonun.com/posts/77b49f04/</id>
+    <published>2021-05-20T07:49:59.000Z</published>
+    <updated>2021-05-20T08:38:10.213Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;一句话木马原理&quot;&gt;&lt;a href=&quot;#一句话木马原理&quot; class=&quot;headerlink&quot; title=&quot;一句话木马原理&quot;&gt;&lt;/a&gt;一句话木马原理&lt;/h1&gt;&lt;p&gt;&lt;code&gt;&amp;lt;?php @eval($_POST[&amp;#39;hack&amp;#39;]);?&amp;gt;&lt;/code&gt; 是一句话后面中最经典的一种，，其原理是：通过 &lt;code&gt;POST&lt;/code&gt; 、&lt;code&gt;GET&lt;/code&gt; 、&lt;code&gt;COOKIE&lt;/code&gt; 三种方式获取参数 &lt;code&gt;hack&lt;/code&gt; 的值，通过 &lt;code&gt;eval()&lt;/code&gt; 函数执行 &lt;code&gt;hack&lt;/code&gt; 中的PHP代码，这样就能通过一句话木马在网站执行传递过去的任意PHP语句。&lt;/p&gt;
+&lt;p&gt;经典一句话木马大多只有两个部分：可执行函数部分和接收数据部分&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
+    
+    <category term="木马" scheme="https://eonun.com/tags/%E6%9C%A8%E9%A9%AC/"/>
+    
+    <category term="PHP" scheme="https://eonun.com/tags/PHP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL注入</title>
+    <link href="https://eonun.com/posts/e73517db/"/>
+    <id>https://eonun.com/posts/e73517db/</id>
+    <published>2021-05-20T07:48:01.000Z</published>
+    <updated>2021-05-20T08:38:10.223Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;原理与分类&quot;&gt;&lt;a href=&quot;#原理与分类&quot; class=&quot;headerlink&quot; title=&quot;原理与分类&quot;&gt;&lt;/a&gt;原理与分类&lt;/h1&gt;&lt;h2 id=&quot;原理&quot;&gt;&lt;a href=&quot;#原理&quot; class=&quot;headerlink&quot; title=&quot;原理&quot;&gt;&lt;/a&gt;原理&lt;/h2&gt;&lt;p&gt;在 OWASP 发布的 top 10 漏洞里，注入漏洞一直是危害排名第一的，数据库注入漏洞是危害最大也是最受关注的漏洞。SQL 注入是指攻击者通过往原有的 SQL 语句中注入恶意的 SQL 命令，破坏原有语句结构,通过执行这些恶意语句欺骗数据库执行，导致数据库信息泄漏，其危害是巨大的，常常会导致整个数据库被脱库。&lt;/p&gt;
+&lt;h2 id=&quot;分类&quot;&gt;&lt;a href=&quot;#分类&quot; class=&quot;headerlink&quot; title=&quot;分类&quot;&gt;&lt;/a&gt;分类&lt;/h2&gt;&lt;h3 id=&quot;按参数类型分&quot;&gt;&lt;a href=&quot;#按参数类型分&quot; class=&quot;headerlink&quot; title=&quot;按参数类型分&quot;&gt;&lt;/a&gt;按参数类型分&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;数字型: 注入点参数为整数&lt;/li&gt;
+&lt;li&gt;字符型: 注入点参数为字符&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
+    
+    <category term="SQL" scheme="https://eonun.com/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DVWA通关过程</title>
+    <link href="https://eonun.com/posts/3eeec4be/"/>
+    <id>https://eonun.com/posts/3eeec4be/</id>
+    <published>2021-05-20T07:44:10.000Z</published>
+    <updated>2021-05-20T08:38:10.213Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;搭建&quot;&gt;&lt;a href=&quot;#搭建&quot; class=&quot;headerlink&quot; title=&quot;搭建&quot;&gt;&lt;/a&gt;搭建&lt;/h1&gt;&lt;h2 id=&quot;准备：&quot;&gt;&lt;a href=&quot;#准备：&quot; class=&quot;headerlink&quot; title=&quot;准备：&quot;&gt;&lt;/a&gt;准备：&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;phpStudy&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/digininja/DVWA&quot;&gt;DVWA&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;配置hosts&quot;&gt;&lt;a href=&quot;#配置hosts&quot; class=&quot;headerlink&quot; title=&quot;配置hosts&quot;&gt;&lt;/a&gt;配置hosts&lt;/h2&gt;&lt;p&gt;&lt;code&gt;dvwa.loacl&lt;/code&gt; 为靶机&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;hack.loacl&lt;/code&gt; 为攻击机&lt;/p&gt;
+&lt;h2 id=&quot;修改配置&quot;&gt;&lt;a href=&quot;#修改配置&quot; class=&quot;headerlink&quot; title=&quot;修改配置&quot;&gt;&lt;/a&gt;修改配置&lt;/h2&gt;&lt;figure class=&quot;highlight ini&quot;&gt;&lt;figcaption&gt;&lt;span&gt;$phpstudy\PHPTutorial\WWW\DVWA\php.ini&lt;/span&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;magic_quotes_gpc&lt;/span&gt; = &lt;span class=&quot;literal&quot;&gt;Off&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;alLow_url_fopen&lt;/span&gt; = &lt;span class=&quot;literal&quot;&gt;on&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;alLow_url_include&lt;/span&gt; = &lt;span class=&quot;literal&quot;&gt;on&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
+    
+    <category term="DVWA" scheme="https://eonun.com/tags/DVWA/"/>
+    
+  </entry>
   
   <entry>
     <title>OpenWrt插件</title>
@@ -93,440 +465,6 @@
     
     
     <category term="NCRE" scheme="https://eonun.com/tags/NCRE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>计算机等级考试三级信息安全技术章节习题5</title>
-    <link href="https://eonun.com/posts/31a4e606/"/>
-    <id>https://eonun.com/posts/31a4e606/</id>
-    <published>2021-03-15T16:23:26.000Z</published>
-    <updated>2021-03-19T10:26:42.217Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;strong&gt;五、应用安全&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&quot;简述软件漏洞概念中包含的3个要素&quot;&gt;&lt;a href=&quot;#简述软件漏洞概念中包含的3个要素&quot; class=&quot;headerlink&quot; title=&quot;简述软件漏洞概念中包含的3个要素&quot;&gt;&lt;/a&gt;简述软件漏洞概念中包含的3个要素&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;漏洞是计算机系统本身存在的缺陷&lt;/li&gt;
-&lt;li&gt;漏洞的存在和利用都有一定的环境要求&lt;/li&gt;
-&lt;li&gt;漏洞存在的本身是没有危害的，只有被攻击者恶意利用，才能给计算机带来威胁和损失&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/categories/NCRE/"/>
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/tags/NCRE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>计算机等级考试三级信息安全技术章节习题4</title>
-    <link href="https://eonun.com/posts/46a3d690/"/>
-    <id>https://eonun.com/posts/46a3d690/</id>
-    <published>2021-03-15T16:22:15.000Z</published>
-    <updated>2021-03-19T10:25:19.413Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;strong&gt;四、网络安全&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&quot;简述-TCP-IP-协议架构的层次架构和各层包含的主要协议&quot;&gt;&lt;a href=&quot;#简述-TCP-IP-协议架构的层次架构和各层包含的主要协议&quot; class=&quot;headerlink&quot; title=&quot;简述 TCP/IP 协议架构的层次架构和各层包含的主要协议&quot;&gt;&lt;/a&gt;简述 TCP/IP 协议架构的层次架构和各层包含的主要协议&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;物理和数据链路层&lt;/li&gt;
-&lt;li&gt;网络层：TCP/IP 体系结构最重要的一层，IP 协议族是网路层的基础协议包括用于路由选择的 &lt;code&gt;RIP&lt;/code&gt; 、 &lt;code&gt;OSPF&lt;/code&gt; 等路由协议，用于数据传输的 IP 协议，用于网络管理的 SNMP 协议,用于故障诊断的 ICMP 协议。&lt;/li&gt;
-&lt;li&gt;传输层：TCP 协议提供端到端可靠数据传输，UDP 协议提供端到端不可靠传输。&lt;/li&gt;
-&lt;li&gt;应用层：文件传输协议 FTP ，超文本传输协议 HTTP ，简单邮件传输协议 SMTP/POP3 ，域名系统 DNS ，远程终端登录协议 Telnet ，简单网络管理 SNMP 等。&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/categories/NCRE/"/>
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/tags/NCRE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>计算机等级考试三级信息安全技术章节习题3</title>
-    <link href="https://eonun.com/posts/d8c74333/"/>
-    <id>https://eonun.com/posts/d8c74333/</id>
-    <published>2021-03-15T16:21:09.000Z</published>
-    <updated>2021-03-19T10:23:55.212Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;strong&gt;三、系统安全&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&quot;CPU-的两种模式是什么？如何切换模式？操作系统如何利用-CPU-模式和保护环来实现安全保护？&quot;&gt;&lt;a href=&quot;#CPU-的两种模式是什么？如何切换模式？操作系统如何利用-CPU-模式和保护环来实现安全保护？&quot; class=&quot;headerlink&quot; title=&quot;CPU 的两种模式是什么？如何切换模式？操作系统如何利用 CPU 模式和保护环来实现安全保护？&quot;&gt;&lt;/a&gt;CPU 的两种模式是什么？如何切换模式？操作系统如何利用 CPU 模式和保护环来实现安全保护？&lt;/h1&gt;&lt;p&gt;内核模式和用户模式&lt;/p&gt;
-&lt;p&gt;操作系统运行在内核模式下，应用运行在用户模式下&lt;/p&gt;
-&lt;p&gt;用户模式转到内核模式的唯一方法是触发一个特殊的硬件 &lt;strong&gt;自陷&lt;/strong&gt; ，如&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;中断，通常是由外部硬件引发的，如 I/O 或时钟&lt;/li&gt;
-&lt;li&gt;异常，如除数为零、访问非法或不属于该进程的内存&lt;/li&gt;
-&lt;li&gt;显示地执行自陷命令&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;内环中执行的进程比在外环中执行的进程有更高的权限，内环只允许最可信的组件和进程在其中执行，内环中执行的进程往往处于内核模式，在外环工作的进程侧处于用户模式。&lt;/p&gt;
-&lt;p&gt;保护环支持多任务操作系统所要求的可用性、完整性和机密性要求，进程运行所在的环编号越小，进程的可信度越高，常见保护环结构提供4个保护环：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;0 环：操作系统内核&lt;/li&gt;
-&lt;li&gt;1 环：操作系统的其他部分&lt;/li&gt;
-&lt;li&gt;2 环： I/O 驱动程序和实用工具&lt;/li&gt;
-&lt;li&gt;3 环：应用程序和用户活动&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/categories/NCRE/"/>
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/tags/NCRE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>计算机等级考试三级信息安全技术章节习题2</title>
-    <link href="https://eonun.com/posts/afc073a5/"/>
-    <id>https://eonun.com/posts/afc073a5/</id>
-    <published>2021-03-15T16:18:37.000Z</published>
-    <updated>2021-03-23T03:36:09.874Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;strong&gt;二、信息安全技术与原理&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&quot;简述密码体制的构成&quot;&gt;&lt;a href=&quot;#简述密码体制的构成&quot; class=&quot;headerlink&quot; title=&quot;简述密码体制的构成&quot;&gt;&lt;/a&gt;简述密码体制的构成&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;消息空间：明文 &lt;code&gt;m&lt;/code&gt; ，明文空间 &lt;code&gt;M&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;密文空间：密文 &lt;code&gt;c&lt;/code&gt; ，密文空间 &lt;code&gt;C&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;密钥空间： 密钥 &lt;code&gt;k&lt;/code&gt; ，密钥空间 &lt;code&gt;K&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;加密算法 &lt;code&gt;E&lt;/code&gt; ，$c=E_k(m)$ 或 $c=E(m,k)$&lt;/li&gt;
-&lt;li&gt;解密算法 &lt;code&gt;D&lt;/code&gt; ，$m=D_k(c)$ 或 $m=D(c,k)$&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;加密密钥通常表示为 $k_e$ ，解密密钥通常表示为 $k_d$ :&lt;/p&gt;
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;m=D_{k_d}(E_{k_d}(m))&lt;/script&gt;</summary>
-    
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/categories/NCRE/"/>
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/tags/NCRE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>计算机等级考试三级信息安全技术章节习题1</title>
-    <link href="https://eonun.com/posts/36c9221f/"/>
-    <id>https://eonun.com/posts/36c9221f/</id>
-    <published>2021-03-15T16:15:36.000Z</published>
-    <updated>2021-03-19T10:36:55.827Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;strong&gt;一、信息安全保障概述&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&quot;什么是信息？试比较分析书中有关信息的各种定义&quot;&gt;&lt;a href=&quot;#什么是信息？试比较分析书中有关信息的各种定义&quot; class=&quot;headerlink&quot; title=&quot;什么是信息？试比较分析书中有关信息的各种定义&quot;&gt;&lt;/a&gt;什么是信息？试比较分析书中有关信息的各种定义&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;钟义信定义信息为事物运动的状态和状态变化的方式（具有最大的普遍性）&lt;/li&gt;
-&lt;li&gt;香农认为信息是用来减少不确定性的东西&lt;/li&gt;
-&lt;li&gt;维纳认为信息是在人们适应外部世界且这种适应反作用于外部世界的过程中，同外部世界进行相互交换的内容的名称&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;消息是信息的外壳，信息是消息的内核；消息是信息的笼统概念，信息是消息的精确概念&lt;br&gt;信号是信息的载体&lt;br&gt;数据是记录信息的一种形式&lt;br&gt;情报是指秘密的、专门的一类信息&lt;br&gt;知识是从信息中抽象出的产物&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/categories/NCRE/"/>
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/tags/NCRE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Arch系软件降级</title>
-    <link href="https://eonun.com/posts/40b8a711/"/>
-    <id>https://eonun.com/posts/40b8a711/</id>
-    <published>2021-03-15T15:28:10.000Z</published>
-    <updated>2021-03-15T15:57:03.679Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;滚动更新优缺点&quot;&gt;&lt;a href=&quot;#滚动更新优缺点&quot; class=&quot;headerlink&quot; title=&quot;滚动更新优缺点&quot;&gt;&lt;/a&gt;滚动更新优缺点&lt;/h1&gt;&lt;p&gt;滚动更新带来的好处是，可以让我们用上最新的软件包，但也有一定的缺点，那就是更新软件时一些动态库的引用会出现错误。&lt;/p&gt;
-&lt;p&gt;引用动态库出现的错误原因：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;软件使用了过旧的动态库文件，最新的动态库已经不再保留这些库文件。&lt;/li&gt;
-&lt;li&gt;软件使用了过新的动态库文件，系统软件源中最新的动态库版本还是旧版本，还不是真正的最新。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;出现更新后不能打开软件时，在未得到开发者解决这些 bug 前可以考虑降级到能运行的版本运行。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
-    
-    
-    <category term="Arch" scheme="https://eonun.com/tags/Arch/"/>
-    
-    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Manjaro有线网卡驱动</title>
-    <link href="https://eonun.com/posts/496f126/"/>
-    <id>https://eonun.com/posts/496f126/</id>
-    <published>2021-01-25T15:54:54.000Z</published>
-    <updated>2021-03-15T15:43:39.965Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;Manjaro有线网卡驱动可能会装成非对应的版本，造成无法使用以太网，需要卸载原有驱动安装对应的匹配驱动&lt;/p&gt;
-&lt;h1 id=&quot;查看并卸载原驱动&quot;&gt;&lt;a href=&quot;#查看并卸载原驱动&quot; class=&quot;headerlink&quot; title=&quot;查看并卸载原驱动&quot;&gt;&lt;/a&gt;查看并卸载原驱动&lt;/h1&gt;&lt;p&gt;使用 &lt;code&gt;lspci | grep net&lt;/code&gt; 查询网卡设备信息&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;➤ lspci | grep net&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;04:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111&amp;#x2F;8168&amp;#x2F;8411 PCI Express Gigabit Ethernet Controller (rev 15)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;使用 &lt;code&gt;lspci -k | grep -A 4 net&lt;/code&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;➤ lspci -k | grep -A 4 net&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;04:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111&amp;#x2F;8168&amp;#x2F;8411 PCI Express Gigabit Ethernet Controller (rev 15)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	Subsystem: Acer Incorporated [ALI] Device 1133&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	Kernel driver in use: r8169&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	Kernel modules: r8169&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
-    
-    
-    
-    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
-    
-    
-    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
-    
-    <category term="Manjaro" scheme="https://eonun.com/tags/Manjaro/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Dotfile管理</title>
-    <link href="https://eonun.com/posts/fc38e44e/"/>
-    <id>https://eonun.com/posts/fc38e44e/</id>
-    <published>2021-01-16T04:35:46.000Z</published>
-    <updated>2021-01-17T16:44:41.323Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;在Linux上各个程序的配置文件大多是以 &lt;code&gt;.&lt;/code&gt; 开头或以 &lt;code&gt;rc&lt;/code&gt; 结尾的文件，并存放于用户的个人目录 &lt;code&gt;~/&lt;/code&gt; 中，通常叫dotfile 或 rc file ，如 &lt;code&gt;.zshrc&lt;/code&gt; ，&lt;code&gt;.vimrc&lt;/code&gt; 等。在初次使用一些软件时需要花大量时间对相应的 dotfile 进行配置，当需要在新系统上恢复多个软件配置或者在多台电脑上共享一台电脑对 dotfile 的修改时，逐一对各个 dotfile 进行管理非常不方便,&lt;code&gt;rcm&lt;/code&gt;(rc file management) 就是一个 dotfile 管理工具,用于方便管理 dotfile 。&lt;/p&gt;
-&lt;p&gt;rcm 主要是将所有希望用 rcm 管理的 dotfile 集中存储在一个目录中（默认 &lt;code&gt;~/.dotfiles&lt;/code&gt;），并在原配置文件位置创建被 rcm 管理的 dotfile 的软链接。&lt;/p&gt;
-&lt;p&gt;可在该集中存储目录中使用 git 进行版本控制，同时也可托管到 github 等 git 仓库中方便多台机器共享。若要使用别人分享的 rcm 目录下的 dotfile 时 rcm 可调用不同 dotfiles 目录下的文件进行使用。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/thoughtbot/rcm&quot;&gt;rcm github仓库&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://gitee.com/mirrors/rcm&quot;&gt;rcm gitee国内加速仓库&lt;/a&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
-    
-    
-    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PN532</title>
-    <link href="https://eonun.com/posts/9be60413/"/>
-    <id>https://eonun.com/posts/9be60413/</id>
-    <published>2021-01-16T04:23:02.000Z</published>
-    <updated>2021-01-17T16:44:41.326Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;PN532接线&quot;&gt;&lt;a href=&quot;#PN532接线&quot; class=&quot;headerlink&quot; title=&quot;PN532接线&quot;&gt;&lt;/a&gt;PN532接线&lt;/h1&gt;&lt;div class=&quot;table-container&quot;&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;PN532&lt;/th&gt;
-&lt;th&gt;USB 转 TTL 模块&lt;/th&gt;
-&lt;th&gt;USB 转 TTL 线&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;GND&lt;/td&gt;
-&lt;td&gt;GND&lt;/td&gt;
-&lt;td&gt;黑色&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;VCC&lt;/td&gt;
-&lt;td&gt;5.0V&lt;/td&gt;
-&lt;td&gt;红色&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;TXD/SDA&lt;/td&gt;
-&lt;td&gt;RXD&lt;/td&gt;
-&lt;td&gt;白色&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;RXD/SCL&lt;/td&gt;
-&lt;td&gt;TXD&lt;/td&gt;
-&lt;td&gt;绿色&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;通常密钥A读  密钥B写&lt;/p&gt;
-&lt;p&gt;vim 十六进制功能:  &lt;code&gt;:%!xxd&lt;/code&gt; , &lt;strong&gt; neovim不支持&lt;/strong&gt;&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
-    
-    
-    <category term="RFID" scheme="https://eonun.com/tags/RFID/"/>
-    
-    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Nvidia独显驱动安装</title>
-    <link href="https://eonun.com/posts/4aa02744/"/>
-    <id>https://eonun.com/posts/4aa02744/</id>
-    <published>2021-01-15T06:20:44.000Z</published>
-    <updated>2021-01-15T15:35:05.534Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;驱动选择&quot;&gt;&lt;a href=&quot;#驱动选择&quot; class=&quot;headerlink&quot; title=&quot;驱动选择&quot;&gt;&lt;/a&gt;驱动选择&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;查看系统内核版本&lt;/strong&gt; ： &lt;code&gt;uname -r&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;查看显卡情况&lt;/strong&gt; : &lt;code&gt;lspci -k | grep -A 2 -E &amp;quot;(VGA|3D)&amp;quot;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;根据显卡型号选择驱动版本&lt;/strong&gt; :&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;查找代号(如 NV50, NVC0等）： &lt;a href=&quot;https://nouveau.freedesktop.org/wiki/CodeNames/&quot;&gt;英伟达代号查询页&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;若上面的页面找不到显卡的型号，可到&lt;a href=&quot;http://www.nvidia.com/object/IO_32667.html&quot;&gt;英伟达历史型号列表页&lt;/a&gt;查找&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.nvidia.com/Download/index.aspx&quot;&gt;英伟达驱动下载站&lt;/a&gt;查找&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
-    
-    
-    <category term="Arch" scheme="https://eonun.com/tags/Arch/"/>
-    
-    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux分区</title>
-    <link href="https://eonun.com/posts/293749eb/"/>
-    <id>https://eonun.com/posts/293749eb/</id>
-    <published>2020-12-30T02:47:20.000Z</published>
-    <updated>2020-12-30T02:53:10.434Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;分区&quot;&gt;&lt;a href=&quot;#分区&quot; class=&quot;headerlink&quot; title=&quot;分区&quot;&gt;&lt;/a&gt;分区&lt;/h1&gt;&lt;p&gt;&lt;code&gt;fdisk /dev/sdX&lt;/code&gt; 对磁盘X进行分区&lt;/p&gt;
-&lt;figure class=&quot;highlight sh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;命令(输入 m 获取帮助)：m&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;帮助：&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  GPT&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   M   进入 保护/混合 MBR&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  常规&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   d   删除分区&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   F   列出未分区的空闲区&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   l   列出已知分区类型&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   n   添加新分区&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   p   打印分区表&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   t   更改分区类型&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   v   检查分区表&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   i   打印某个分区的相关信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  杂项&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   m   打印此菜单&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   x   更多功能(仅限专业人员)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  脚本&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   I   从 sfdisk 脚本文件加载磁盘布局&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   O   将磁盘布局转储为 sfdisk 脚本文件&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  保存并退出&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   w   将分区表写入磁盘并退出&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   q   退出而不保存更改&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  新建空磁盘标签&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   g   新建一份 GPT 分区表&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   G   新建一份空 GPT (IRIX) 分区表&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   o   新建一份的空 DOS 分区表&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   s   新建一份空 Sun 分区表&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
-    
-    
-    
-    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
-    
-    
-    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux上运行安卓应用</title>
-    <link href="https://eonun.com/posts/80bea61a/"/>
-    <id>https://eonun.com/posts/80bea61a/</id>
-    <published>2020-12-29T04:03:50.000Z</published>
-    <updated>2020-12-30T02:53:10.431Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;麟卓安卓是北京麟卓信息科技有限公司为扩展linux应用生态倾力研发的一款中间件产品，能让大量安卓应用在Linux操作系统上使用。&lt;/p&gt;
-&lt;p&gt;运行环境&lt;br&gt;建议硬件环境&lt;br&gt;CPU:（1）主频大于2GHz （2）x86架构 （3）64位&lt;br&gt;内存： 大于4G&lt;br&gt;硬盘容量：  大于500G&lt;br&gt;显卡型号：  Nvidia,AMD,Intel&lt;/p&gt;
-&lt;p&gt;建议软件环境: 64位Linux主流发行版，如： Ubuntu18.04 ,Manjora, Fedora27, Arch&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="Arch" scheme="https://eonun.com/tags/Arch/"/>
-    
-    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux字体美化</title>
-    <link href="https://eonun.com/posts/711f903b/"/>
-    <id>https://eonun.com/posts/711f903b/</id>
-    <published>2020-12-28T13:21:29.000Z</published>
-    <updated>2021-01-18T05:40:51.381Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;字体&quot;&gt;&lt;a href=&quot;#字体&quot; class=&quot;headerlink&quot; title=&quot;字体&quot;&gt;&lt;/a&gt;字体&lt;/h1&gt;&lt;h2 id=&quot;安装字体&quot;&gt;&lt;a href=&quot;#安装字体&quot; class=&quot;headerlink&quot; title=&quot;安装字体&quot;&gt;&lt;/a&gt;安装字体&lt;/h2&gt;&lt;p&gt;查看已安装中文字体: &lt;code&gt;fc-list :lang=zh&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;ttf-roboto ttf-hack ttf-dejavu&lt;br&gt;noto-fonts  noto-fonts-cjk  noto-fonts-emoji&lt;br&gt;wqy-microhei wqy-zenhei wqy-bitmapfont ttf-symbola otf-font-awesome pango&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;ttf-roboto : roboto 无衬线字体(英文)&lt;/li&gt;
-&lt;li&gt;ttf-dejavu : DejaVu 字体(英文)&lt;/li&gt;
-&lt;li&gt;ttf-hack : hack等宽(英文)&lt;/li&gt;
-&lt;li&gt;noto-fonts : Noto字体&lt;/li&gt;
-&lt;li&gt;noto-fonts-cjk : Noto中日韩字体&lt;/li&gt;
-&lt;li&gt;noto-fonts-emoji : Noto符号字体&lt;/li&gt;
-&lt;li&gt;wqy-microhei : 文泉驿微米黑，无衬线形式字体(中日韩)&lt;/li&gt;
-&lt;li&gt;wqy-zenhei : 文泉驿正黑体，黑体 (无衬线) 的中文轮廓字体，附带文泉驿点阵宋体 (也支持部分日韩字符)&lt;/li&gt;
-&lt;li&gt;wqy-bitmapfont : 文泉驿点阵宋体 (衬线) 中文字体&lt;/li&gt;
-&lt;li&gt;ttf-symbola : 提供许多 Unicode 符号，包括 Emoji&lt;/li&gt;
-&lt;li&gt;otf-font-awesome : 字体图标库&lt;/li&gt;
-&lt;li&gt;pango : 一个开放源的自由文本布局库&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    
-    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hexo进阶</title>
-    <link href="https://eonun.com/posts/4530c0eb/"/>
-    <id>https://eonun.com/posts/4530c0eb/</id>
-    <published>2020-12-17T12:10:11.000Z</published>
-    <updated>2020-12-25T09:57:01.669Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;Next-主题进阶&quot;&gt;&lt;a href=&quot;#Next-主题进阶&quot; class=&quot;headerlink&quot; title=&quot;Next 主题进阶&quot;&gt;&lt;/a&gt;Next 主题进阶&lt;/h1&gt;&lt;h2 id=&quot;阅读书签&quot;&gt;&lt;a href=&quot;#阅读书签&quot; class=&quot;headerlink&quot; title=&quot;阅读书签&quot;&gt;&lt;/a&gt;阅读书签&lt;/h2&gt;&lt;p&gt;允许用户保存阅读进度。用户只需单击页面左上角的书签图标即可保存滚动位置。当下次访问博客时，可自动恢复该页面的打书签的位置&lt;/p&gt;
-&lt;figure class=&quot;highlight yml&quot;&gt;&lt;figcaption&gt;&lt;span&gt;$blog/_config.next.yml&lt;/span&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;bookmark:&lt;/span&gt;	&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;enable:&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;	&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;color:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;quot;#222&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;save:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;auto&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
-    
-    
-    
-    <category term="Hexo" scheme="https://eonun.com/categories/Hexo/"/>
-    
-    
-    <category term="Hexo" scheme="https://eonun.com/tags/Hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Markdown代码块支持的语言</title>
-    <link href="https://eonun.com/posts/6ab127e3/"/>
-    <id>https://eonun.com/posts/6ab127e3/</id>
-    <published>2020-12-17T04:18:43.000Z</published>
-    <updated>2020-12-18T16:08:39.633Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;div</summary>
-        
-      
-    
-    
-    
-    
-    <category term="Markdown" scheme="https://eonun.com/tags/Markdown/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hexo装live2D宠物Next主题的访问记数不显示</title>
-    <link href="https://eonun.com/posts/8dba4e05/"/>
-    <id>https://eonun.com/posts/8dba4e05/</id>
-    <published>2020-12-16T04:22:02.000Z</published>
-    <updated>2021-01-02T15:53:37.202Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;Hexo 开启Live2D宠物后 Next 主题中的访问计数会不显示，可能是样式表中的参数冲突，需要对计数脚本中以下内容进行一些修改&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;span class=&amp;quot;post-meta-item&amp;quot; id=&amp;quot;busuanzi_container_site_uv&amp;quot; style=&amp;quot;display: none;&amp;quot;&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;span class=&amp;quot;post-meta-item&amp;quot; id=&amp;quot;busuanzi_container_site_pv&amp;quot; style=&amp;quot;display: none;&amp;quot;&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;span class=&amp;quot;site-uv&amp;quot; title=&amp;quot;&amp;#123;&amp;#123; __(&#39;footer.total_visitors&#39;) &amp;#125;&amp;#125;&amp;quot;&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;span class=&amp;quot;site-pv&amp;quot; title=&amp;quot;&amp;#123;&amp;#123; __(&#39;footer.total_views&#39;) &amp;#125;&amp;#125;&amp;quot;&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    
-    <category term="Hexo" scheme="https://eonun.com/tags/Hexo/"/>
     
   </entry>
   
