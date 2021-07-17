@@ -1090,224 +1090,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Docker-Compose模板文件</title>
-    <url>/posts/6c72393/</url>
-    <content><![CDATA[<h1 id="Docker-Compose-模板文件"><a href="#Docker-Compose-模板文件" class="headerlink" title="Docker Compose 模板文件"></a>Docker Compose 模板文件</h1><p>模板文件是使用 <code>Compose</code> 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 <code>docker run</code> 相关参数的含义都是类似的。</p>
-<p>默认的模板文件名称为 <code>docker-compose.yml</code>，格式为 YAML 格式。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">examples/web</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;80:80&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;/data&quot;</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>注意每个服务都必须通过 <code>image</code> 指令指定镜像或 <code>build</code> 指令（需要 Dockerfile）等来自动构建生成镜像。</p>
-<p>如果使用 <code>build</code> 指令，在 <code>Dockerfile</code> 中设置的选项(例如：<code>CMD</code>, <code>EXPOSE</code>, <code>VOLUME</code>, <code>ENV</code> 等) 将会自动被获取，无需在 <code>docker-compose.yml</code> 中再次设置。</p>
-<p>下面分别介绍各个指令的用法。</p>
-<h2 id="build"><a href="#build" class="headerlink" title="build"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#build"><code>build</code></a></h2><p>指定 <code>Dockerfile</code> 所在文件夹的路径（可以是绝对路径，或者相对 docker-compose.yml 文件的路径）。 <code>Compose</code> 将会利用它自动构建这个镜像，然后使用这个镜像。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">./dir</span></span><br></pre></td></tr></table></figure>
-<p>你也可以使用 <code>context</code> 指令指定 <code>Dockerfile</code> 所在文件夹的路径。</p>
-<p>使用 <code>dockerfile</code> 指令指定 <code>Dockerfile</code> 文件名。</p>
-<p>使用 <code>arg</code> 指令指定构建镜像时的变量。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">./dir</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Dockerfile-alternate</span></span><br><span class="line">      <span class="attr">args:</span></span><br><span class="line">        <span class="attr">buildno:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>使用 <code>cache_from</code> 指定构建镜像的缓存</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">build:</span></span><br><span class="line">  <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">  <span class="attr">cache_from:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">alpine:latest</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">corp/web_app:3.14</span></span><br></pre></td></tr></table></figure>
-<h2 id="cap-add-cap-drop"><a href="#cap-add-cap-drop" class="headerlink" title="cap_add, cap_drop"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#cap-add-cap-drop"><code>cap_add, cap_drop</code></a></h2><p>指定容器的内核能力（capacity）分配。</p>
-<p>例如，让容器拥有所有能力可以指定为：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cap_add:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">ALL</span></span><br></pre></td></tr></table></figure>
-<p>去掉 <code>NET_ADMIN</code> 能力可以指定为：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cap_drop:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">NET_ADMIN</span></span><br></pre></td></tr></table></figure>
-<h2 id="command"><a href="#command" class="headerlink" title="command"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#command"><code>command</code></a></h2><p>覆盖容器启动后默认执行的命令。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">command:</span> <span class="string">echo</span> <span class="string">&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="configs"><a href="#configs" class="headerlink" title="configs"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#configs"><code>configs</code></a></h2><p>仅用于 <code>Swarm mode</code></p>
-<h2 id="cgroup-parent"><a href="#cgroup-parent" class="headerlink" title="cgroup_parent"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#cgroup-parent"><code>cgroup_parent</code></a></h2><p>指定父 <code>cgroup</code> 组，意味着将继承该组的资源限制。</p>
-<p>例如，创建了一个 cgroup 组名称为 <code>cgroups_1</code>。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cgroup_parent:</span> <span class="string">cgroups_1</span></span><br></pre></td></tr></table></figure>
-<h2 id="container-name"><a href="#container-name" class="headerlink" title="container_name"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#container-name"><code>container_name</code></a></h2><p>指定容器名称。默认将会使用 <code>项目名称_服务名称_序号</code> 这样的格式。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">container_name:</span> <span class="string">docker-web-container</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意: 指定容器名称后，该服务将无法进行扩展（scale），因为 Docker 不允许多个容器具有相同的名称。</p>
-</blockquote>
-<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#deploy"><code>deploy</code></a></h2><p>仅用于 <code>Swarm mode</code></p>
-<h2 id="devices"><a href="#devices" class="headerlink" title="devices"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#devices"><code>devices</code></a></h2><p>指定设备映射关系。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">devices:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;/dev/ttyUSB1:/dev/ttyUSB0&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="depends-on"><a href="#depends-on" class="headerlink" title="depends_on"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#depends-on"><code>depends_on</code></a></h2><p>解决容器的依赖、启动先后的问题。以下例子中会先启动 <code>redis</code> <code>db</code> 再启动 <code>web</code></p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">db</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">db:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">postgres</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：<code>web</code> 服务不会等待 <code>redis</code> <code>db</code> 「完全启动」之后才启动。</p>
-</blockquote>
-<h2 id="dns"><a href="#dns" class="headerlink" title="dns"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#dns"><code>dns</code></a></h2><p>自定义 <code>DNS</code> 服务器。可以是一个值，也可以是一个列表。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">dns:</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dns:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span></span><br></pre></td></tr></table></figure>
-<h2 id="dns-search"><a href="#dns-search" class="headerlink" title="dns_search"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#dns-search"><code>dns_search</code></a></h2><p>配置 <code>DNS</code> 搜索域。可以是一个值，也可以是一个列表。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">dns_search:</span> <span class="string">example.com</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dns_search:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">domain1.example.com</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">domain2.example.com</span></span><br></pre></td></tr></table></figure>
-<h2 id="tmpfs"><a href="#tmpfs" class="headerlink" title="tmpfs"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#tmpfs"><code>tmpfs</code></a></h2><p>挂载一个 tmpfs 文件系统到容器。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">tmpfs:</span> <span class="string">/run</span></span><br><span class="line"><span class="attr">tmpfs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/run</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/tmp</span></span><br></pre></td></tr></table></figure>
-<h2 id="env-file"><a href="#env-file" class="headerlink" title="env_file"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#env-file"><code>env_file</code></a></h2><p>从文件中获取环境变量，可以为单独的文件路径或列表。</p>
-<p>如果通过 <code>docker-compose -f FILE</code> 方式来指定 Compose 模板文件，则 <code>env_file</code> 中变量的路径会基于模板文件路径。</p>
-<p>如果有变量名称与 <code>environment</code> 指令冲突，则按照惯例，以后者为准。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">env_file: .env</span><br><span class="line"></span><br><span class="line">env_file:</span><br><span class="line">  - ./common.env</span><br><span class="line">  - ./apps/web.env</span><br><span class="line">  - /opt/secrets.env</span><br></pre></td></tr></table></figure>
-<p>环境变量文件中每一行必须符合格式，支持 <code>#</code> 开头的注释行。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># common.env: Set development environment</span></span><br><span class="line">PROG_ENV=development</span><br></pre></td></tr></table></figure>
-<h2 id="environment"><a href="#environment" class="headerlink" title="environment"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#environment"><code>environment</code></a></h2><p>设置环境变量。你可以使用数组或字典两种格式。</p>
-<p>只给定名称的变量会自动获取运行 Compose 主机上对应变量的值，可以用来防止泄露不必要的数据。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="attr">RACK_ENV:</span> <span class="string">development</span></span><br><span class="line">  <span class="attr">SESSION_SECRET:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">RACK_ENV=development</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">SESSION_SECRET</span></span><br></pre></td></tr></table></figure>
-<p>如果变量名称或者值中用到 <code>true|false，yes|no</code> 等表达 <a href="http://yaml.org/type/bool.html">布尔</a> 含义的词汇，最好放到引号里，避免 YAML 自动解析某些内容为对应的布尔语义。这些特定词汇，包括</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">y|Y|yes|Yes|YES|n|N|no|No|NO|<span class="literal">true</span>|True|TRUE|<span class="literal">false</span>|False|FALSE|on|On|ON|off|Off|OFF</span><br></pre></td></tr></table></figure>
-<h2 id="expose"><a href="#expose" class="headerlink" title="expose"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#expose"><code>expose</code></a></h2><p>暴露端口，但不映射到宿主机，只被连接的服务访问。</p>
-<p>仅可以指定内部端口为参数</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">expose:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;3000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;8000&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="external-links"><a href="#external-links" class="headerlink" title="external_links"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#external-links"><code>external_links</code></a></h2><blockquote>
-<p>注意：不建议使用该指令。</p>
-</blockquote>
-<p>链接到 <code>docker-compose.yml</code> 外部的容器，甚至并非 <code>Compose</code> 管理的外部容器。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">external_links:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">redis_1</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">project_db_1:mysql</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">project_db_1:postgresql</span></span><br></pre></td></tr></table></figure>
-<h2 id="extra-hosts"><a href="#extra-hosts" class="headerlink" title="extra_hosts"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#extra-hosts"><code>extra_hosts</code></a></h2><p>类似 Docker 中的 <code>--add-host</code> 参数，指定额外的 host 名称映射信息。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">extra_hosts:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;googledns:8.8.8.8&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;dockerhub:52.1.157.61&quot;</span></span><br></pre></td></tr></table></figure>
-<p>会在启动后的服务容器中 <code>/etc/hosts</code> 文件中添加如下两条条目。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">8.8.8.8 googledns</span><br><span class="line">52.1.157.61 dockerhub</span><br></pre></td></tr></table></figure>
-<h2 id="healthcheck"><a href="#healthcheck" class="headerlink" title="healthcheck"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#healthcheck"><code>healthcheck</code></a></h2><p>通过命令检查容器是否健康运行。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">healthcheck:</span></span><br><span class="line">  <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;curl&quot;</span>, <span class="string">&quot;-f&quot;</span>, <span class="string">&quot;http://localhost&quot;</span>]</span><br><span class="line">  <span class="attr">interval:</span> <span class="string">1m30s</span></span><br><span class="line">  <span class="attr">timeout:</span> <span class="string">10s</span></span><br><span class="line">  <span class="attr">retries:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
-<h2 id="image"><a href="#image" class="headerlink" title="image"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#image"><code>image</code></a></h2><p>指定为镜像名称或镜像 ID。如果镜像在本地不存在，<code>Compose</code> 将会尝试拉取这个镜像。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">image:</span> <span class="string">ubuntu</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">orchardup/postgresql</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">a4bc65fd</span></span><br></pre></td></tr></table></figure>
-<h2 id="labels"><a href="#labels" class="headerlink" title="labels"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#labels"><code>labels</code></a></h2><p>为容器添加 Docker 元数据（metadata）信息。例如可以为容器添加辅助说明信息。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">labels:</span></span><br><span class="line">  <span class="attr">com.startupteam.description:</span> <span class="string">&quot;webapp for a startup team&quot;</span></span><br><span class="line">  <span class="attr">com.startupteam.department:</span> <span class="string">&quot;devops department&quot;</span></span><br><span class="line">  <span class="attr">com.startupteam.release:</span> <span class="string">&quot;rc3 for v1.0&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="links"><a href="#links" class="headerlink" title="links"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#links"><code>links</code></a></h2><blockquote>
-<p>注意：不推荐使用该指令。</p>
-</blockquote>
-<h2 id="logging"><a href="#logging" class="headerlink" title="logging"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#logging"><code>logging</code></a></h2><p>配置日志选项。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">logging:</span></span><br><span class="line">  <span class="attr">driver:</span> <span class="string">syslog</span></span><br><span class="line">  <span class="attr">options:</span></span><br><span class="line">    <span class="attr">syslog-address:</span> <span class="string">&quot;tcp://192.168.0.42:123&quot;</span></span><br></pre></td></tr></table></figure>
-<p>目前支持三种日志驱动类型。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">driver:</span> <span class="string">&quot;json-file&quot;</span></span><br><span class="line"><span class="attr">driver:</span> <span class="string">&quot;syslog&quot;</span></span><br><span class="line"><span class="attr">driver:</span> <span class="string">&quot;none&quot;</span></span><br></pre></td></tr></table></figure>
-<p><code>options</code> 配置日志驱动的相关参数。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">options:</span></span><br><span class="line">  <span class="attr">max-size:</span> <span class="string">&quot;200k&quot;</span></span><br><span class="line">  <span class="attr">max-file:</span> <span class="string">&quot;10&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="network-mode"><a href="#network-mode" class="headerlink" title="network_mode"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#network-mode"><code>network_mode</code></a></h2><p>设置网络模式。使用和 <code>docker run</code> 的 <code>--network</code> 参数一样的值。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;bridge&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;host&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;none&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;service:[service name]&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;container:[container name/id]&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="networks"><a href="#networks" class="headerlink" title="networks"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#networks"><code>networks</code></a></h2><p>配置容器连接的网络。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">some-service:</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">some-network</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">other-network</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">some-network:</span></span><br><span class="line">  <span class="attr">other-network:</span></span><br></pre></td></tr></table></figure>
-<h2 id="pid"><a href="#pid" class="headerlink" title="pid"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#pid"><code>pid</code></a></h2><p>跟主机系统共享进程命名空间。打开该选项的容器之间，以及容器和宿主机系统之间可以通过进程 ID 来相互访问和操作。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pid:</span> <span class="string">&quot;host&quot;</span></span><br></pre></td></tr></table></figure>
-<p>1</p>
-<h2 id="ports"><a href="#ports" class="headerlink" title="ports"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#ports"><code>ports</code></a></h2><p>暴露端口信息。</p>
-<p>使用宿主端口：容器端口 <code>(HOST:CONTAINER)</code> 格式，或者仅仅指定容器的端口（宿主将会随机选择端口）都可以。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">ports:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;3000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;8000:8000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;49100:22&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;127.0.0.1:8001:8001&quot;</span></span><br></pre></td></tr></table></figure>
-<p><em>注意：当使用 <code>HOST:CONTAINER</code> 格式来映射端口时，如果你使用的容器端口小于 60 并且没放到引号里，可能会得到错误结果，因为 <code>YAML</code> 会自动解析 <code>xx:yy</code> 这种数字格式为 60 进制。为避免出现这种问题，建议数字串都采用引号包括起来的字符串格式。</em></p>
-<h2 id="secrets"><a href="#secrets" class="headerlink" title="secrets"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#secrets"><code>secrets</code></a></h2><p>存储敏感数据，例如 <code>mysql</code> 服务密码。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.1&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">mysql:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">environment:</span></span><br><span class="line">    <span class="attr">MYSQL_ROOT_PASSWORD_FILE:</span> <span class="string">/run/secrets/db_root_password</span></span><br><span class="line">  <span class="attr">secrets:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">db_root_password</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">my_other_secret</span></span><br><span class="line"></span><br><span class="line"><span class="attr">secrets:</span></span><br><span class="line">  <span class="attr">my_secret:</span></span><br><span class="line">    <span class="attr">file:</span> <span class="string">./my_secret.txt</span></span><br><span class="line">  <span class="attr">my_other_secret:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="security-opt"><a href="#security-opt" class="headerlink" title="security_opt"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#security-opt"><code>security_opt</code></a></h2><p>指定容器模板标签（label）机制的默认属性（用户、角色、类型、级别等）。例如配置标签的用户名和角色名。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">security_opt:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">label:user:USER</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">label:role:ROLE</span></span><br></pre></td></tr></table></figure>
-<h2 id="stop-signal"><a href="#stop-signal" class="headerlink" title="stop_signal"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#stop-signal"><code>stop_signal</code></a></h2><p>设置另一个信号来停止容器。在默认情况下使用的是 SIGTERM 停止容器。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">stop_signal:</span> <span class="string">SIGUSR1</span></span><br></pre></td></tr></table></figure>
-<h2 id="sysctls"><a href="#sysctls" class="headerlink" title="sysctls"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#sysctls"><code>sysctls</code></a></h2><p>配置容器内核参数。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">sysctls:</span></span><br><span class="line">  <span class="attr">net.core.somaxconn:</span> <span class="number">1024</span></span><br><span class="line">  <span class="attr">net.ipv4.tcp_syncookies:</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sysctls:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">net.core.somaxconn=1024</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">net.ipv4.tcp_syncookies=0</span></span><br></pre></td></tr></table></figure>
-<h2 id="ulimits"><a href="#ulimits" class="headerlink" title="ulimits"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#ulimits"><code>ulimits</code></a></h2><p>指定容器的 ulimits 限制值。</p>
-<p>例如，指定最大进程数为 65535，指定文件句柄数为 20000（软限制，应用可以随时修改，不能超过硬限制） 和 40000（系统硬限制，只能 root 用户提高）。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">ulimits:</span></span><br><span class="line">  <span class="attr">nproc:</span> <span class="number">65535</span></span><br><span class="line">  <span class="attr">nofile:</span></span><br><span class="line">    <span class="attr">soft:</span> <span class="number">20000</span></span><br><span class="line">    <span class="attr">hard:</span> <span class="number">40000</span></span><br></pre></td></tr></table></figure>
-<h2 id="volumes"><a href="#volumes" class="headerlink" title="volumes"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#volumes"><code>volumes</code></a></h2><p>数据卷所挂载路径设置。可以设置宿主机路径 （<code>HOST:CONTAINER</code>） 或加上访问模式 （<code>HOST:CONTAINER:ro</code>）。</p>
-<p>该指令中路径支持相对路径。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">/var/lib/mysql</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">cache/:/tmp/cache</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">~/configs:/etc/configs/:ro</span></span><br></pre></td></tr></table></figure>
-<h2 id="其它指令"><a href="#其它指令" class="headerlink" title="其它指令"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#其它指令">其它指令</a></h2><p>此外，还有包括 <code>domainname, entrypoint, hostname, ipc, mac_address, privileged, read_only, shm_size, restart, stdin_open, tty, user, working_dir</code> 等指令，基本跟 <code>docker run</code> 中对应参数的功能一致。</p>
-<p>指定服务容器启动后执行的入口文件。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">entrypoint:</span> <span class="string">/code/entrypoint.sh</span></span><br></pre></td></tr></table></figure>
-<p>指定容器中运行应用的用户名。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">user:</span> <span class="string">nginx</span></span><br></pre></td></tr></table></figure>
-<p>指定容器中工作目录。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">working_dir:</span> <span class="string">/code</span></span><br></pre></td></tr></table></figure>
-<p>指定容器中搜索域名、主机名、mac 地址等。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">domainname:</span> <span class="string">your_website.com</span></span><br><span class="line"><span class="attr">hostname:</span> <span class="string">test</span></span><br><span class="line"><span class="attr">mac_address:</span> <span class="number">08</span><span class="number">-00</span><span class="number">-27</span><span class="number">-00</span><span class="string">-0C-0A</span></span><br></pre></td></tr></table></figure>
-<p>允许容器中运行一些特权命令。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">privileged:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>1</p>
-<p>指定容器退出后的重启策略为始终重启。该命令对保持服务始终运行十分有效，在生产环境中推荐配置为 <code>always</code> 或者 <code>unless-stopped</code>。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">restart:</span> <span class="string">always</span></span><br></pre></td></tr></table></figure>
-<p>以只读模式挂载容器的 root 文件系统，意味着不能对容器内容进行修改。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">read_only:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>打开标准输入，可以接受外部输入。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">stdin_open:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>模拟一个伪终端。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">tty:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="读取变量"><a href="#读取变量" class="headerlink" title="读取变量"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#读取变量">读取变量</a></h2><p>Compose 模板文件支持动态读取主机的系统环境变量和当前目录下的 <code>.env</code> 文件中的变量。</p>
-<p>例如，下面的 Compose 文件将从运行它的环境中读取变量 <code>$&#123;MONGO_VERSION&#125;</code> 的值，并写入执行的指令中。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">db:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">&quot;mongo:$&#123;MONGO_VERSION&#125;&quot;</span></span><br></pre></td></tr></table></figure>
-<p>如果执行 <code>MONGO_VERSION=3.2 docker-compose up</code> 则会启动一个 <code>mongo:3.2</code> 镜像的容器；如果执行 <code>MONGO_VERSION=2.8 docker-compose up</code> 则会启动一个 <code>mongo:2.8</code> 镜像的容器。</p>
-<p>若当前目录存在 <code>.env</code> 文件，执行 <code>docker-compose</code> 命令时将从该文件中读取变量。</p>
-<p>在当前目录新建 <code>.env</code> 文件并写入以下内容。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 支持 # 号注释</span></span><br><span class="line">MONGO_VERSION=3.6</span><br></pre></td></tr></table></figure>
-<p>执行 <code>docker-compose up</code> 则会启动一个 <code>mongo:3.6</code> 镜像的容器。</p>
-<h1 id="Docker-入门实践"><a href="#Docker-入门实践" class="headerlink" title="Docker 入门实践"></a>Docker 入门实践</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">docker pull dockerpracticesig/docker_practice</span><br><span class="line"></span><br><span class="line">docker run -it --rm -p 4000：80 dockerpracticesig/docker_practice</span><br><span class="line"></span><br><span class="line">127.0.0.1:4000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>DockerHub加速</title>
-    <url>/posts/e4bc92fe/</url>
-    <content><![CDATA[<h1 id="DockerHub国内加速地址"><a href="#DockerHub国内加速地址" class="headerlink" title="DockerHub国内加速地址"></a>DockerHub国内加速地址</h1><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>加速地址</th>
-<th>是否专属</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://registry.docker-cn.com">Docker中国官方</a>: <code>https://registry.docker-cn.com</code></td>
-<td>否</td>
-<td>Docker Hub</td>
-</tr>
-<tr>
-<td><a href="https://daocloud.io/mirror">DaoCloud</a>: <code>http://f1361db2.m.daocloud.io</code></td>
-<td>是,可登录，系统分配</td>
-<td>Docker Hub</td>
-</tr>
-<tr>
-<td><a href="https://dockerhub.azk8s.cn">Azure</a>: <code>https://dockerhub.azk8s.cn</code></td>
-<td>否</td>
-<td>Docker Hub、GCR、Quay</td>
-</tr>
-<tr>
-<td><a href="https://docker.mirrors.ustc.edu.cn">中国科技大学</a> : <code>https://docker.mirrors.ustc.edu.cn</code></td>
-<td>否</td>
-<td>Docker Hub、GCR、Quay</td>
-</tr>
-<tr>
-<td><a href="https://cr.console.aliyun.com/">阿里</a>: <code>https://&lt;your_code&gt;.mirror.aliyuncs.com</code></td>
-<td>是，登录获取专属地址</td>
-<td>Docker Hub</td>
-</tr>
-<tr>
-<td><a href="https://reg-mirror.qiniu.com">七牛</a>: <code>https://reg-mirror.qiniu.com</code></td>
-<td>否</td>
-<td>Docker Hub、GCR、Quay</td>
-</tr>
-<tr>
-<td><a href="https://hub-mirror.c.163.com">网易</a>: <code>https://hub-mirror.c.163.com</code></td>
-<td>否</td>
-<td>Docker Hub</td>
-</tr>
-<tr>
-<td><a href="https://mirror.ccs.tencentyun.com">腾讯</a>: <code>https://mirror.ccs.tencentyun.com</code></td>
-<td>否</td>
-<td>Docker Hub</td>
-</tr>
-</tbody>
-</table>
-</div>
-<a id="more"></a>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>创建或修改 <code>/etc/docker/daemon.json</code> :</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;地址，多条用逗号(,)隔开&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<p>重新加载守护进程配置和重启Docker</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-<p>参考：<a href="https://juejin.im/post/5cd2cf01f265da0374189441">Docker Hub 镜像加速器</a></p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DVWA通关过程</title>
     <url>/posts/3eeec4be/</url>
     <content><![CDATA[<h1 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h1><h2 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h2><p><strong>phpStudy</strong></p>
@@ -1841,6 +1623,224 @@
       <tags>
         <tag>安全</tag>
         <tag>DVWA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker-Compose模板文件</title>
+    <url>/posts/6c72393/</url>
+    <content><![CDATA[<h1 id="Docker-Compose-模板文件"><a href="#Docker-Compose-模板文件" class="headerlink" title="Docker Compose 模板文件"></a>Docker Compose 模板文件</h1><p>模板文件是使用 <code>Compose</code> 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 <code>docker run</code> 相关参数的含义都是类似的。</p>
+<p>默认的模板文件名称为 <code>docker-compose.yml</code>，格式为 YAML 格式。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">examples/web</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;80:80&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;/data&quot;</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>注意每个服务都必须通过 <code>image</code> 指令指定镜像或 <code>build</code> 指令（需要 Dockerfile）等来自动构建生成镜像。</p>
+<p>如果使用 <code>build</code> 指令，在 <code>Dockerfile</code> 中设置的选项(例如：<code>CMD</code>, <code>EXPOSE</code>, <code>VOLUME</code>, <code>ENV</code> 等) 将会自动被获取，无需在 <code>docker-compose.yml</code> 中再次设置。</p>
+<p>下面分别介绍各个指令的用法。</p>
+<h2 id="build"><a href="#build" class="headerlink" title="build"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#build"><code>build</code></a></h2><p>指定 <code>Dockerfile</code> 所在文件夹的路径（可以是绝对路径，或者相对 docker-compose.yml 文件的路径）。 <code>Compose</code> 将会利用它自动构建这个镜像，然后使用这个镜像。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">./dir</span></span><br></pre></td></tr></table></figure>
+<p>你也可以使用 <code>context</code> 指令指定 <code>Dockerfile</code> 所在文件夹的路径。</p>
+<p>使用 <code>dockerfile</code> 指令指定 <code>Dockerfile</code> 文件名。</p>
+<p>使用 <code>arg</code> 指令指定构建镜像时的变量。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">./dir</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Dockerfile-alternate</span></span><br><span class="line">      <span class="attr">args:</span></span><br><span class="line">        <span class="attr">buildno:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>使用 <code>cache_from</code> 指定构建镜像的缓存</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">build:</span></span><br><span class="line">  <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">  <span class="attr">cache_from:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">alpine:latest</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">corp/web_app:3.14</span></span><br></pre></td></tr></table></figure>
+<h2 id="cap-add-cap-drop"><a href="#cap-add-cap-drop" class="headerlink" title="cap_add, cap_drop"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#cap-add-cap-drop"><code>cap_add, cap_drop</code></a></h2><p>指定容器的内核能力（capacity）分配。</p>
+<p>例如，让容器拥有所有能力可以指定为：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cap_add:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">ALL</span></span><br></pre></td></tr></table></figure>
+<p>去掉 <code>NET_ADMIN</code> 能力可以指定为：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cap_drop:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">NET_ADMIN</span></span><br></pre></td></tr></table></figure>
+<h2 id="command"><a href="#command" class="headerlink" title="command"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#command"><code>command</code></a></h2><p>覆盖容器启动后默认执行的命令。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">command:</span> <span class="string">echo</span> <span class="string">&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="configs"><a href="#configs" class="headerlink" title="configs"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#configs"><code>configs</code></a></h2><p>仅用于 <code>Swarm mode</code></p>
+<h2 id="cgroup-parent"><a href="#cgroup-parent" class="headerlink" title="cgroup_parent"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#cgroup-parent"><code>cgroup_parent</code></a></h2><p>指定父 <code>cgroup</code> 组，意味着将继承该组的资源限制。</p>
+<p>例如，创建了一个 cgroup 组名称为 <code>cgroups_1</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cgroup_parent:</span> <span class="string">cgroups_1</span></span><br></pre></td></tr></table></figure>
+<h2 id="container-name"><a href="#container-name" class="headerlink" title="container_name"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#container-name"><code>container_name</code></a></h2><p>指定容器名称。默认将会使用 <code>项目名称_服务名称_序号</code> 这样的格式。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">container_name:</span> <span class="string">docker-web-container</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意: 指定容器名称后，该服务将无法进行扩展（scale），因为 Docker 不允许多个容器具有相同的名称。</p>
+</blockquote>
+<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#deploy"><code>deploy</code></a></h2><p>仅用于 <code>Swarm mode</code></p>
+<h2 id="devices"><a href="#devices" class="headerlink" title="devices"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#devices"><code>devices</code></a></h2><p>指定设备映射关系。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">devices:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;/dev/ttyUSB1:/dev/ttyUSB0&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="depends-on"><a href="#depends-on" class="headerlink" title="depends_on"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#depends-on"><code>depends_on</code></a></h2><p>解决容器的依赖、启动先后的问题。以下例子中会先启动 <code>redis</code> <code>db</code> 再启动 <code>web</code></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">db</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">db:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">postgres</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：<code>web</code> 服务不会等待 <code>redis</code> <code>db</code> 「完全启动」之后才启动。</p>
+</blockquote>
+<h2 id="dns"><a href="#dns" class="headerlink" title="dns"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#dns"><code>dns</code></a></h2><p>自定义 <code>DNS</code> 服务器。可以是一个值，也可以是一个列表。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">dns:</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dns:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span></span><br></pre></td></tr></table></figure>
+<h2 id="dns-search"><a href="#dns-search" class="headerlink" title="dns_search"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#dns-search"><code>dns_search</code></a></h2><p>配置 <code>DNS</code> 搜索域。可以是一个值，也可以是一个列表。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">dns_search:</span> <span class="string">example.com</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dns_search:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">domain1.example.com</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">domain2.example.com</span></span><br></pre></td></tr></table></figure>
+<h2 id="tmpfs"><a href="#tmpfs" class="headerlink" title="tmpfs"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#tmpfs"><code>tmpfs</code></a></h2><p>挂载一个 tmpfs 文件系统到容器。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">tmpfs:</span> <span class="string">/run</span></span><br><span class="line"><span class="attr">tmpfs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/run</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/tmp</span></span><br></pre></td></tr></table></figure>
+<h2 id="env-file"><a href="#env-file" class="headerlink" title="env_file"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#env-file"><code>env_file</code></a></h2><p>从文件中获取环境变量，可以为单独的文件路径或列表。</p>
+<p>如果通过 <code>docker-compose -f FILE</code> 方式来指定 Compose 模板文件，则 <code>env_file</code> 中变量的路径会基于模板文件路径。</p>
+<p>如果有变量名称与 <code>environment</code> 指令冲突，则按照惯例，以后者为准。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">env_file: .env</span><br><span class="line"></span><br><span class="line">env_file:</span><br><span class="line">  - ./common.env</span><br><span class="line">  - ./apps/web.env</span><br><span class="line">  - /opt/secrets.env</span><br></pre></td></tr></table></figure>
+<p>环境变量文件中每一行必须符合格式，支持 <code>#</code> 开头的注释行。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># common.env: Set development environment</span></span><br><span class="line">PROG_ENV=development</span><br></pre></td></tr></table></figure>
+<h2 id="environment"><a href="#environment" class="headerlink" title="environment"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#environment"><code>environment</code></a></h2><p>设置环境变量。你可以使用数组或字典两种格式。</p>
+<p>只给定名称的变量会自动获取运行 Compose 主机上对应变量的值，可以用来防止泄露不必要的数据。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="attr">RACK_ENV:</span> <span class="string">development</span></span><br><span class="line">  <span class="attr">SESSION_SECRET:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">RACK_ENV=development</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">SESSION_SECRET</span></span><br></pre></td></tr></table></figure>
+<p>如果变量名称或者值中用到 <code>true|false，yes|no</code> 等表达 <a href="http://yaml.org/type/bool.html">布尔</a> 含义的词汇，最好放到引号里，避免 YAML 自动解析某些内容为对应的布尔语义。这些特定词汇，包括</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">y|Y|yes|Yes|YES|n|N|no|No|NO|<span class="literal">true</span>|True|TRUE|<span class="literal">false</span>|False|FALSE|on|On|ON|off|Off|OFF</span><br></pre></td></tr></table></figure>
+<h2 id="expose"><a href="#expose" class="headerlink" title="expose"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#expose"><code>expose</code></a></h2><p>暴露端口，但不映射到宿主机，只被连接的服务访问。</p>
+<p>仅可以指定内部端口为参数</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">expose:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;3000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;8000&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="external-links"><a href="#external-links" class="headerlink" title="external_links"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#external-links"><code>external_links</code></a></h2><blockquote>
+<p>注意：不建议使用该指令。</p>
+</blockquote>
+<p>链接到 <code>docker-compose.yml</code> 外部的容器，甚至并非 <code>Compose</code> 管理的外部容器。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">external_links:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">redis_1</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">project_db_1:mysql</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">project_db_1:postgresql</span></span><br></pre></td></tr></table></figure>
+<h2 id="extra-hosts"><a href="#extra-hosts" class="headerlink" title="extra_hosts"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#extra-hosts"><code>extra_hosts</code></a></h2><p>类似 Docker 中的 <code>--add-host</code> 参数，指定额外的 host 名称映射信息。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">extra_hosts:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;googledns:8.8.8.8&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;dockerhub:52.1.157.61&quot;</span></span><br></pre></td></tr></table></figure>
+<p>会在启动后的服务容器中 <code>/etc/hosts</code> 文件中添加如下两条条目。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">8.8.8.8 googledns</span><br><span class="line">52.1.157.61 dockerhub</span><br></pre></td></tr></table></figure>
+<h2 id="healthcheck"><a href="#healthcheck" class="headerlink" title="healthcheck"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#healthcheck"><code>healthcheck</code></a></h2><p>通过命令检查容器是否健康运行。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">healthcheck:</span></span><br><span class="line">  <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;curl&quot;</span>, <span class="string">&quot;-f&quot;</span>, <span class="string">&quot;http://localhost&quot;</span>]</span><br><span class="line">  <span class="attr">interval:</span> <span class="string">1m30s</span></span><br><span class="line">  <span class="attr">timeout:</span> <span class="string">10s</span></span><br><span class="line">  <span class="attr">retries:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h2 id="image"><a href="#image" class="headerlink" title="image"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#image"><code>image</code></a></h2><p>指定为镜像名称或镜像 ID。如果镜像在本地不存在，<code>Compose</code> 将会尝试拉取这个镜像。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">image:</span> <span class="string">ubuntu</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">orchardup/postgresql</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">a4bc65fd</span></span><br></pre></td></tr></table></figure>
+<h2 id="labels"><a href="#labels" class="headerlink" title="labels"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#labels"><code>labels</code></a></h2><p>为容器添加 Docker 元数据（metadata）信息。例如可以为容器添加辅助说明信息。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">labels:</span></span><br><span class="line">  <span class="attr">com.startupteam.description:</span> <span class="string">&quot;webapp for a startup team&quot;</span></span><br><span class="line">  <span class="attr">com.startupteam.department:</span> <span class="string">&quot;devops department&quot;</span></span><br><span class="line">  <span class="attr">com.startupteam.release:</span> <span class="string">&quot;rc3 for v1.0&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="links"><a href="#links" class="headerlink" title="links"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#links"><code>links</code></a></h2><blockquote>
+<p>注意：不推荐使用该指令。</p>
+</blockquote>
+<h2 id="logging"><a href="#logging" class="headerlink" title="logging"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#logging"><code>logging</code></a></h2><p>配置日志选项。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">logging:</span></span><br><span class="line">  <span class="attr">driver:</span> <span class="string">syslog</span></span><br><span class="line">  <span class="attr">options:</span></span><br><span class="line">    <span class="attr">syslog-address:</span> <span class="string">&quot;tcp://192.168.0.42:123&quot;</span></span><br></pre></td></tr></table></figure>
+<p>目前支持三种日志驱动类型。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">driver:</span> <span class="string">&quot;json-file&quot;</span></span><br><span class="line"><span class="attr">driver:</span> <span class="string">&quot;syslog&quot;</span></span><br><span class="line"><span class="attr">driver:</span> <span class="string">&quot;none&quot;</span></span><br></pre></td></tr></table></figure>
+<p><code>options</code> 配置日志驱动的相关参数。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">options:</span></span><br><span class="line">  <span class="attr">max-size:</span> <span class="string">&quot;200k&quot;</span></span><br><span class="line">  <span class="attr">max-file:</span> <span class="string">&quot;10&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="network-mode"><a href="#network-mode" class="headerlink" title="network_mode"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#network-mode"><code>network_mode</code></a></h2><p>设置网络模式。使用和 <code>docker run</code> 的 <code>--network</code> 参数一样的值。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;bridge&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;host&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;none&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;service:[service name]&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;container:[container name/id]&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="networks"><a href="#networks" class="headerlink" title="networks"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#networks"><code>networks</code></a></h2><p>配置容器连接的网络。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">some-service:</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">some-network</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">other-network</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">some-network:</span></span><br><span class="line">  <span class="attr">other-network:</span></span><br></pre></td></tr></table></figure>
+<h2 id="pid"><a href="#pid" class="headerlink" title="pid"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#pid"><code>pid</code></a></h2><p>跟主机系统共享进程命名空间。打开该选项的容器之间，以及容器和宿主机系统之间可以通过进程 ID 来相互访问和操作。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pid:</span> <span class="string">&quot;host&quot;</span></span><br></pre></td></tr></table></figure>
+<p>1</p>
+<h2 id="ports"><a href="#ports" class="headerlink" title="ports"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#ports"><code>ports</code></a></h2><p>暴露端口信息。</p>
+<p>使用宿主端口：容器端口 <code>(HOST:CONTAINER)</code> 格式，或者仅仅指定容器的端口（宿主将会随机选择端口）都可以。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">ports:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;3000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;8000:8000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;49100:22&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;127.0.0.1:8001:8001&quot;</span></span><br></pre></td></tr></table></figure>
+<p><em>注意：当使用 <code>HOST:CONTAINER</code> 格式来映射端口时，如果你使用的容器端口小于 60 并且没放到引号里，可能会得到错误结果，因为 <code>YAML</code> 会自动解析 <code>xx:yy</code> 这种数字格式为 60 进制。为避免出现这种问题，建议数字串都采用引号包括起来的字符串格式。</em></p>
+<h2 id="secrets"><a href="#secrets" class="headerlink" title="secrets"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#secrets"><code>secrets</code></a></h2><p>存储敏感数据，例如 <code>mysql</code> 服务密码。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.1&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">mysql:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">environment:</span></span><br><span class="line">    <span class="attr">MYSQL_ROOT_PASSWORD_FILE:</span> <span class="string">/run/secrets/db_root_password</span></span><br><span class="line">  <span class="attr">secrets:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">db_root_password</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">my_other_secret</span></span><br><span class="line"></span><br><span class="line"><span class="attr">secrets:</span></span><br><span class="line">  <span class="attr">my_secret:</span></span><br><span class="line">    <span class="attr">file:</span> <span class="string">./my_secret.txt</span></span><br><span class="line">  <span class="attr">my_other_secret:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="security-opt"><a href="#security-opt" class="headerlink" title="security_opt"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#security-opt"><code>security_opt</code></a></h2><p>指定容器模板标签（label）机制的默认属性（用户、角色、类型、级别等）。例如配置标签的用户名和角色名。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">security_opt:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">label:user:USER</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">label:role:ROLE</span></span><br></pre></td></tr></table></figure>
+<h2 id="stop-signal"><a href="#stop-signal" class="headerlink" title="stop_signal"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#stop-signal"><code>stop_signal</code></a></h2><p>设置另一个信号来停止容器。在默认情况下使用的是 SIGTERM 停止容器。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">stop_signal:</span> <span class="string">SIGUSR1</span></span><br></pre></td></tr></table></figure>
+<h2 id="sysctls"><a href="#sysctls" class="headerlink" title="sysctls"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#sysctls"><code>sysctls</code></a></h2><p>配置容器内核参数。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">sysctls:</span></span><br><span class="line">  <span class="attr">net.core.somaxconn:</span> <span class="number">1024</span></span><br><span class="line">  <span class="attr">net.ipv4.tcp_syncookies:</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sysctls:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">net.core.somaxconn=1024</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">net.ipv4.tcp_syncookies=0</span></span><br></pre></td></tr></table></figure>
+<h2 id="ulimits"><a href="#ulimits" class="headerlink" title="ulimits"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#ulimits"><code>ulimits</code></a></h2><p>指定容器的 ulimits 限制值。</p>
+<p>例如，指定最大进程数为 65535，指定文件句柄数为 20000（软限制，应用可以随时修改，不能超过硬限制） 和 40000（系统硬限制，只能 root 用户提高）。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">ulimits:</span></span><br><span class="line">  <span class="attr">nproc:</span> <span class="number">65535</span></span><br><span class="line">  <span class="attr">nofile:</span></span><br><span class="line">    <span class="attr">soft:</span> <span class="number">20000</span></span><br><span class="line">    <span class="attr">hard:</span> <span class="number">40000</span></span><br></pre></td></tr></table></figure>
+<h2 id="volumes"><a href="#volumes" class="headerlink" title="volumes"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#volumes"><code>volumes</code></a></h2><p>数据卷所挂载路径设置。可以设置宿主机路径 （<code>HOST:CONTAINER</code>） 或加上访问模式 （<code>HOST:CONTAINER:ro</code>）。</p>
+<p>该指令中路径支持相对路径。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">/var/lib/mysql</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">cache/:/tmp/cache</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">~/configs:/etc/configs/:ro</span></span><br></pre></td></tr></table></figure>
+<h2 id="其它指令"><a href="#其它指令" class="headerlink" title="其它指令"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#其它指令">其它指令</a></h2><p>此外，还有包括 <code>domainname, entrypoint, hostname, ipc, mac_address, privileged, read_only, shm_size, restart, stdin_open, tty, user, working_dir</code> 等指令，基本跟 <code>docker run</code> 中对应参数的功能一致。</p>
+<p>指定服务容器启动后执行的入口文件。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">entrypoint:</span> <span class="string">/code/entrypoint.sh</span></span><br></pre></td></tr></table></figure>
+<p>指定容器中运行应用的用户名。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">user:</span> <span class="string">nginx</span></span><br></pre></td></tr></table></figure>
+<p>指定容器中工作目录。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">working_dir:</span> <span class="string">/code</span></span><br></pre></td></tr></table></figure>
+<p>指定容器中搜索域名、主机名、mac 地址等。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">domainname:</span> <span class="string">your_website.com</span></span><br><span class="line"><span class="attr">hostname:</span> <span class="string">test</span></span><br><span class="line"><span class="attr">mac_address:</span> <span class="number">08</span><span class="number">-00</span><span class="number">-27</span><span class="number">-00</span><span class="string">-0C-0A</span></span><br></pre></td></tr></table></figure>
+<p>允许容器中运行一些特权命令。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">privileged:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>1</p>
+<p>指定容器退出后的重启策略为始终重启。该命令对保持服务始终运行十分有效，在生产环境中推荐配置为 <code>always</code> 或者 <code>unless-stopped</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">restart:</span> <span class="string">always</span></span><br></pre></td></tr></table></figure>
+<p>以只读模式挂载容器的 root 文件系统，意味着不能对容器内容进行修改。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">read_only:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>打开标准输入，可以接受外部输入。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">stdin_open:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>模拟一个伪终端。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">tty:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="读取变量"><a href="#读取变量" class="headerlink" title="读取变量"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#读取变量">读取变量</a></h2><p>Compose 模板文件支持动态读取主机的系统环境变量和当前目录下的 <code>.env</code> 文件中的变量。</p>
+<p>例如，下面的 Compose 文件将从运行它的环境中读取变量 <code>$&#123;MONGO_VERSION&#125;</code> 的值，并写入执行的指令中。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">db:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">&quot;mongo:$&#123;MONGO_VERSION&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+<p>如果执行 <code>MONGO_VERSION=3.2 docker-compose up</code> 则会启动一个 <code>mongo:3.2</code> 镜像的容器；如果执行 <code>MONGO_VERSION=2.8 docker-compose up</code> 则会启动一个 <code>mongo:2.8</code> 镜像的容器。</p>
+<p>若当前目录存在 <code>.env</code> 文件，执行 <code>docker-compose</code> 命令时将从该文件中读取变量。</p>
+<p>在当前目录新建 <code>.env</code> 文件并写入以下内容。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 支持 # 号注释</span></span><br><span class="line">MONGO_VERSION=3.6</span><br></pre></td></tr></table></figure>
+<p>执行 <code>docker-compose up</code> 则会启动一个 <code>mongo:3.6</code> 镜像的容器。</p>
+<h1 id="Docker-入门实践"><a href="#Docker-入门实践" class="headerlink" title="Docker 入门实践"></a>Docker 入门实践</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">docker pull dockerpracticesig/docker_practice</span><br><span class="line"></span><br><span class="line">docker run -it --rm -p 4000：80 dockerpracticesig/docker_practice</span><br><span class="line"></span><br><span class="line">127.0.0.1:4000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DockerHub加速</title>
+    <url>/posts/e4bc92fe/</url>
+    <content><![CDATA[<h1 id="DockerHub国内加速地址"><a href="#DockerHub国内加速地址" class="headerlink" title="DockerHub国内加速地址"></a>DockerHub国内加速地址</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>加速地址</th>
+<th>是否专属</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://registry.docker-cn.com">Docker中国官方</a>: <code>https://registry.docker-cn.com</code></td>
+<td>否</td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td><a href="https://daocloud.io/mirror">DaoCloud</a>: <code>http://f1361db2.m.daocloud.io</code></td>
+<td>是,可登录，系统分配</td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td><a href="https://dockerhub.azk8s.cn">Azure</a>: <code>https://dockerhub.azk8s.cn</code></td>
+<td>否</td>
+<td>Docker Hub、GCR、Quay</td>
+</tr>
+<tr>
+<td><a href="https://docker.mirrors.ustc.edu.cn">中国科技大学</a> : <code>https://docker.mirrors.ustc.edu.cn</code></td>
+<td>否</td>
+<td>Docker Hub、GCR、Quay</td>
+</tr>
+<tr>
+<td><a href="https://cr.console.aliyun.com/">阿里</a>: <code>https://&lt;your_code&gt;.mirror.aliyuncs.com</code></td>
+<td>是，登录获取专属地址</td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td><a href="https://reg-mirror.qiniu.com">七牛</a>: <code>https://reg-mirror.qiniu.com</code></td>
+<td>否</td>
+<td>Docker Hub、GCR、Quay</td>
+</tr>
+<tr>
+<td><a href="https://hub-mirror.c.163.com">网易</a>: <code>https://hub-mirror.c.163.com</code></td>
+<td>否</td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td><a href="https://mirror.ccs.tencentyun.com">腾讯</a>: <code>https://mirror.ccs.tencentyun.com</code></td>
+<td>否</td>
+<td>Docker Hub</td>
+</tr>
+</tbody>
+</table>
+</div>
+<a id="more"></a>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>创建或修改 <code>/etc/docker/daemon.json</code> :</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;地址，多条用逗号(,)隔开&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>重新加载守护进程配置和重启Docker</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="https://juejin.im/post/5cd2cf01f265da0374189441">Docker Hub 镜像加速器</a></p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -4022,7 +4022,7 @@ y+\cancelto{0}{x}\\
 <p>开启<code>Pages</code>服务后会得到一个访问地址，个人版的地址是<code>用户名.coding.me/项目名</code>,团队版的是<code>随机码.coding-pages.com</code>如果没有自己的域名的建议使用个人版。</p>
 <h4 id="安装git部署插件-1"><a href="#安装git部署插件-1" class="headerlink" title="安装git部署插件"></a>安装git部署插件</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yarn add hexo-deployer-git	<span class="comment">#在博客主目录下，安装部署插件</span></span><br></pre></td></tr></table></figure>
 <h3 id="修改配置文件-1"><a href="#修改配置文件-1" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim _config.yml	<span class="comment">#修改在博客目录下的配置文件</span></span><br><span class="line"><span class="comment">#在末尾修改如下</span></span><br><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/one-command-deployment</span></span><br><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  <span class="comment">#仓库地址</span></span><br><span class="line">  repo: https://github.com/eonun/eonun.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<h3 id="多git平台搭建"><a href="#多git平台搭建" class="headerlink" title="多git平台搭建"></a>多git平台搭建</h3><p>配置ssh-key，参考<a href="/pasts/71f63e37">git入手</a></p>
+<h3 id="多git平台搭建"><a href="#多git平台搭建" class="headerlink" title="多git平台搭建"></a>多git平台搭建</h3><p>配置ssh-key，参考<a href="/posts/71f63e37/">git入手</a></p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim _config.yml	<span class="comment">#修改在博客目录下的配置文件</span></span><br><span class="line"><span class="comment">#在末尾修改如下</span></span><br><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/one-command-deployment</span></span><br><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo:</span><br><span class="line">      github: git@github.com:eonun/eonun.github.io.git</span><br><span class="line">      coding: git@e.coding.net:eonun/eonun.git</span><br><span class="line">  branch:</span><br><span class="line">      github: gh-pages</span><br><span class="line">      coding: coding-pages</span><br></pre></td></tr></table></figure>
 <p>有条件的自己搭个服务器才是最终解决方案</p>
 <div class="table-container">
@@ -4621,87 +4621,35 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
   <entry>
     <title>Linux文件压缩与解压之7z</title>
     <url>/posts/ac50e6cf/</url>
-    <content><![CDATA[<h1 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h1><p><code>a</code>    添加</p>
+    <content><![CDATA[<p>7-Zip是具有最高压缩率的压缩软件。 支持7z（LZMA压缩算法），ZIP，CAB，ARJ，GZIP，BZIP2，TAR，CPIO，RPM和DEB格式。 新的7z格式的压缩率比ZIP格式的压缩率高30-50％。</p>
+<p><strong> 不要将7z格式用于备份目的，因为它不会保存文件的所有者/组</strong> ,<a href="https://man.archlinux.org/man/7z.1">详细信息</a></p>
+<h1 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h1><p><code>a</code>    添加</p>
 <p><code>d</code>    删除</p>
 <p><code>e</code>    解压</p>
 <p><code>x</code>    带路径解压</p>
 <p><code>l</code>    列表查看</p>
 <p><code>t</code>    测试</p>
 <p><code>u</code>    更新</p>
-<h1 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h1><a id="more"></a>
-<p><code>-m</code>                 压缩方式</p>
-<p><code>-m0=压缩算法</code>        默认使用 lzma</p>
-<p><code>-mx=数字</code>            1~9 压缩级别</p>
-<p><code>-mfb=64</code>            number of fast bytes for LZMA = 64</p>
-<p><code>-md=字典大小</code>        设置字典大小，例如 -md=32m</p>
-<p><code>-ms=on|off</code>        是否固实压缩</p>
-<p><code>-o输出目录</code>        设置输出目录</p>
-<p><code>-p密码</code>            使用密码</p>
-<p><code>-r数字</code>            递归，使用数字定义递归子目录的深度</p>
-<p><code>-sfx[模块名称]</code>    使用自解压模块</p>
-<p><code>-si</code>                从标准输入设备读入数据</p>
-<p><code>-so</code>                将数据写入标准输出设备</p>
-<p><code>-y</code>                所有询问均回答 Yes</p>
-<p><code>-w路径</code>            设置工作目录</p>
-<p>用法<br>7za &lt;命令&gt; [&lt;参数开关&gt;…] &lt;档案名称&gt; [&lt;文件名称&gt;|&lt;@列表文件…&gt;]<br>在方括号内的表达式(“[” 和 “]”之间的字符)是可选的。在书名号内的表达式(“&lt;” 和 “&gt;”之间的字符)是必须替换的表达式(而且要去掉括号)。</p>
-<p>7-Zip 支持和 Windows 相类似的通配符：<br>“<em>”可以使用星号代替零个或多个字符。<br>“?”可以用问号代替名称中的单个字符。<br>如果只用</em>，7-Zip 会将其视为任何扩展名的全部文件。</p>
-<p>命令<br>a: 添加到压缩文件</p>
-<p>b: 基准测试</p>
-<p>d: 从档案中删除文件</p>
-<p>e: 解压档案文件 (无目录名称)</p>
-<p>l: 列出压缩文件内容</p>
-<p>t: 测试压缩文件的完整性</p>
-<p>u: 更新文件到压缩文件中</p>
-<p>x: 完整路径下解压文件</p>
-<p>参数开关<br>-ai[r[-|0]]{@列表文件|!通配符}: 包括 压缩文件</p>
-<p>-ax[r[-|0]]{@列表文件|!通配符}: 排除 压缩文件</p>
-<p>-bd: 禁用百分比显示功能</p>
-<p>-i[r[-|0]]{@列表文件|!通配符}: 包括 文件名称</p>
-<p>-m{参数}: 设置压缩算法</p>
-<p>-o{目录}: 设置输出目录</p>
-<p>-p{密码}: 设置密码</p>
-<p>-r[数字]: 递归子目录，使用数字定义递归子目录的深度</p>
-<p>-scs{UTF-8 | WIN | DOS}: 设置列表文件的编码格式</p>
-<p>-sfx[{名称}]: 创建 SFX 自解压文件</p>
-<p>-si[{名称}]: 从stdin(标准输入设备)读取数据</p>
-<p>-slt: 为 l (列表) 命令显示技术信息</p>
-<p>-so: 将数据写入stdout(标准输出设备)</p>
-<p>-ssc[-]: 设置大小写区分模式</p>
-<p>-ssw: 压缩共享文件</p>
-<p>-t{类型}: 设置压缩文件格式，(7z, zip, gzip, bzip2 or tar. 7z是默认的格式)</p>
-<p>-v{大小}[b|k|m|g]: 分卷压缩</p>
-<p>-u[-][p#][q#][r#][x#][y#][z#][!新建档案_名称]: 更新选项</p>
-<p>-w[{路径}]: 指定工作目录，路径为空时代表临时文件夹目录</p>
-<p>-x[r[-|0]]]{@列表文件|!通配符}: 排除 文件名称</p>
-<p>-y: 所有询问选是</p>
-<p>使用’-m’参数，即设置压缩算法时，有许多选项可以进行设置。</p>
-<p>-m&lt;压缩方式&gt;，关于它有许多参数及指令，这里仅介绍简单且常用的用法。<br>-m0=&lt;压缩算法&gt; 默认使用 lzma</p>
-<p>-md=&lt;字典大小&gt; 设置字典大小,例如 -md=32m</p>
-<p>-mfb=64 number of fast bytes for LZMA = 64</p>
-<p>-ms=<on|off> 是否固实压缩</on|off></p>
-<p>-mx=<1~9> 压缩级别</1~9></p>
-<p>更多关于’-m’参数的使用，请参考此处。</p>
-<p>退出代码<br>0 ：正常，没有错误</p>
-<p>1 ：警告，没有致命的错误，例如某些文件正在被使用，没有被压缩</p>
-<p>2 ：致命错误</p>
-<p>7 ：命令行错误</p>
-<p>8 ：没有足够的内存</p>
-<p>255 ：用户中止了操作</p>
-<p>命令示例</p>
-<p>a 添加文件到压缩档案<br>7z a archive1.zip subdir\ ：增加subdir文件夹下的所有的文件和子文件夹到archive1.zip中，archived1.zip中的文件名包含subdir\前缀。</p>
-<p>7z a archive2.zip .\subdir* ：增加subdir文件夹下的所有的文件和子文件夹到archive1.zip中，archived2.zip中的文件名不包含subdir\前缀。</p>
-<p>cd /D c:\dir1\<br>7z a c:\archive3.zip dir2\dir3\ ：archiive3.zip中的文件名将包含dir2\dir3\前缀，但是不包含c:\dir1前缀。</p>
-<p>7z a Files.7z *.txt -r ： 增加当前文件夹及其子文件夹下的所有的txt文件到Files.7z中。</p>
-<p>b 测试 CPU 运行速度及检查内存错误</p>
-<p>d 从压缩档案删除文件<br>7z d freeoarch.7z *.bak -r ：从freeoarch.7z中删除所有的bak文件。</p>
-<p>e 从压缩档案中释放文件到当前目录中，或者到指定的输出文件夹。输出文件夹设置可以通过 -o (设置输出文件夹)选项来更改，此命令会将所有被释放的文件放置到一个文件夹。如果您想使用完整路径释放文件，您必须使用 x (完整路径释放) 命令。</p>
-<p>7z e freeoarch.7z ：从压缩档案 freeoarch.7z 中释放所有文件到当前文件夹。</p>
-<p>7z e freeoarch.7z -oc:\soft <em>.cpp ：从压缩档案 freeoarch.7z 中释放 </em>.cpp 文件到 c:\soft 文件夹。</p>
-<p>l 列出压缩档案内容<br>7z l freeoarch.7z ：列出压缩档案 freeoarch.7z 的内容。</p>
-<p>t 测试压缩档案文件的完整性<br>7z t freeoarch.7z <em>.doc ：在压缩档案 freeoarch.7z 中测试 </em>.doc 文件的完整性。</p>
-<p>u 在压缩档案文件中使用较新的文件替换掉较旧的文件<br>7z u freeoarch.7z <em>.doc ：在压缩档案 freeoarch.7z 中更新 </em>.doc 文件。</p>
-<p>x 在当前目录中，使用完整路径从压缩档案中释放文件.或者到指定的输出文件夹<br>7z x freeoarch.7z ：从压缩档案 freeoarch.7z 中释放所有文件到当前文件夹。</p>
-<p>7z x freeoarch.7z -oc:\soft <em>.cpp ：从压缩档案 freeoarch.7z 中释放 </em>.cpp 文件到 c:\soft 文件夹。</p>
+<h1 id="常见选项"><a href="#常见选项" class="headerlink" title="常见选项"></a>常见选项</h1><a id="more"></a>
+<p><strong>选项与选项参数间无空格</strong></p>
+<ul>
+<li><code>-t</code> 指定压缩类型</li>
+<li><code>-p</code> 设置密码</li>
+<li><code>-y</code> 所有询问均回答</li>
+<li><code>-o</code> 指定输出目录</li>
+</ul>
+<h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><p><code>7za &lt;命令&gt; [选项] &lt;压缩包名&gt; &lt;文件名&gt;</code></p>
+<p>方括号 <code>[]</code> 内为可选项。书名号 <code>&lt;&gt;</code> 内的为必须项。</p>
+<p><a href="https://man.archlinux.org/man/7z.1">详细产考</a></p>
+<h1 id="退出代码"><a href="#退出代码" class="headerlink" title="退出代码"></a>退出代码</h1><ul>
+<li><code>0</code> 正常</li>
+<li><code>1</code> 警告,没有致命错误，如某文件被使用未被压缩</li>
+<li><code>2</code> 致命错误</li>
+<li><code>7</code> 命令行错误</li>
+<li><code>8</code> 没有足够内存</li>
+<li><code>255</code> 用户终止操作</li>
+</ul>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 压缩</span></span><br><span class="line">7z a -t7z -r xxx.7z xxx</span><br><span class="line"><span class="comment"># 解压</span></span><br><span class="line">7z x xxx.7z -r -o./xxx/</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -4831,7 +4779,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <p>开始安装</p>
 <p><img data-src="manjaro7.png" alt="manjaro7"></p>
 <p>安装完成重启</p>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman-mirrors -i -c China -m rank</span><br><span class="line"><span class="comment">#选择https://mirrors.tuna.tsinghua.edu.cn/manjaro源</span></span><br><span class="line"></span><br><span class="line">sudo gedit /etc/pacman.conf</span><br><span class="line"><span class="comment">#在末尾加入：</span></span><br><span class="line">[archlinuxcn]</span><br><span class="line">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/<span class="variable">$arch</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可选择使用 Manjarocn 用于解决一些软件由于 Manjaro 慢版拍导致找不到一些新版本的依赖</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装archlinuxcn秘钥</span></span><br><span class="line">sudo pacman -S archlinuxcn-keyring</span><br><span class="line"></span><br><span class="line">[manjarocn]</span><br><span class="line">Server = https://repo.manjarocn.org/stable/x86_64</span><br><span class="line"><span class="comment"># 安装密钥</span></span><br><span class="line">sudo pacman-key --recv-keys 974B3711CFB9BF2D &amp;&amp; sudo pacman-key --lsign-key 974B3711CFB9BF2D</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 同步软件包数据库</span></span><br><span class="line">sudo pacman -Syy</span><br><span class="line"><span class="comment"># 更新</span></span><br><span class="line">sudo pacman -Su</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#无法锁定数据库,删除/var/lib/pacman/db.lck</span></span><br><span class="line">sudo /var/lib/pacman/db.lck</span><br></pre></td></tr></table></figure>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman-mirrors -i -c China -m rank</span><br><span class="line"><span class="comment">#选择https://mirrors.tuna.tsinghua.edu.cn/manjaro源</span></span><br><span class="line"></span><br><span class="line">sudo gedit /etc/pacman.conf</span><br><span class="line"><span class="comment"># https://github.com/archlinuxcn/mirrorlist-repo</span></span><br><span class="line"><span class="comment">#在末尾加入：</span></span><br><span class="line"><span class="comment">## 中国科学技术大学 (安徽合肥) (ipv4, ipv6, http, https)</span></span><br><span class="line">[archlinuxcn]</span><br><span class="line">Server = https://mirrors.ustc.edu.cn/archlinuxcn/<span class="variable">$arch</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可选择使用 Manjarocn 用于解决一些软件由于 Manjaro 慢版拍导致找不到一些新版本的依赖</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装archlinuxcn秘钥</span></span><br><span class="line">sudo pacman -S archlinuxcn-keyring</span><br><span class="line"></span><br><span class="line">[manjarocn]</span><br><span class="line">Server = https://repo.manjarocn.org/stable/x86_64</span><br><span class="line"><span class="comment"># 安装密钥</span></span><br><span class="line">sudo pacman-key --recv-keys 974B3711CFB9BF2D &amp;&amp; sudo pacman-key --lsign-key 974B3711CFB9BF2D</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 同步软件包数据库</span></span><br><span class="line">sudo pacman -Syy</span><br><span class="line"><span class="comment"># 更新</span></span><br><span class="line">sudo pacman -Su</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#无法锁定数据库,删除/var/lib/pacman/db.lck</span></span><br><span class="line">sudo /var/lib/pacman/db.lck</span><br></pre></td></tr></table></figure>
 <h3 id="安装头文件"><a href="#安装头文件" class="headerlink" title="安装头文件"></a>安装头文件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">uname -r</span><br><span class="line">sudo pacman -Ss linux-header<span class="comment">#根据内核选择版本安装</span></span><br><span class="line">sudo pacman -S linux419-headers</span><br></pre></td></tr></table></figure>
 <h3 id="删除不再被依赖的软件"><a href="#删除不再被依赖的软件" class="headerlink" title="删除不再被依赖的软件"></a>删除不再被依赖的软件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -R $(sudo pacman -Qdtq)</span><br><span class="line">sudo pacman -R (sudo pacman -Qdtq)	<span class="comment">#fish</span></span><br><span class="line"></span><br><span class="line">gamin-0.1.10-9  gnome-shell-extension-taskbar-57.0-2</span><br><span class="line">gtkmm-1:2.24.5-3  gtksourceview2-2.10.5-4  js52-52.9.0-3</span><br><span class="line">libnm-glib-1.18.2-1  libxdg-basedir-1.2.0-4</span><br></pre></td></tr></table></figure>
 <h3 id="带颜色的pacman"><a href="#带颜色的pacman" class="headerlink" title="带颜色的pacman"></a>带颜色的pacman</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/pacman.conf</span><br><span class="line"><span class="comment">#修改36行，将#Color的注释去掉</span></span><br></pre></td></tr></table></figure>
@@ -8410,6 +8358,30 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>i3-polybar配置美化</title>
+    <url>/posts/af56b769/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo pacman -S polybar</span><br></pre></td></tr></table></figure>
+<h1 id="i3-配置使用-polybar"><a href="#i3-配置使用-polybar" class="headerlink" title="i3 配置使用 polybar"></a>i3 配置使用 polybar</h1><p>编写启动 polybar 的脚本</p>
+<figure class="highlight sh"><figcaption><span>.config/polybar/polybar_run.sh</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 终端可能已经有在运行的实例</span></span><br><span class="line">killall -q polybar</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待进程被终止</span></span><br><span class="line"><span class="keyword">while</span> pgrep -u <span class="variable">$UID</span> -x polybar &gt;/dev/null; <span class="keyword">do</span> sleep 1; <span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行Polybar，使用默认的配置文件路径 ~/.config/polybar/config</span></span><br><span class="line">polybar mybar &amp;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Polybar runing...&quot;</span></span><br></pre></td></tr></table></figure>
+<p>注释 i3 自带的 bar 或 i3blocks ，配置使用 polybar 启动脚本启动 polybar</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line"><span class="comment">#bar &#123;</span></span><br><span class="line"><span class="comment">#	i3bar_command i3bar --transparency</span></span><br><span class="line"><span class="comment">#	status_command i3blocks</span></span><br><span class="line"><span class="comment">#	position top</span></span><br><span class="line"><span class="comment">#	colors &#123;</span></span><br><span class="line"><span class="comment">#		background #9370DB3F</span></span><br><span class="line"><span class="comment">#		separator #778899</span></span><br><span class="line"><span class="comment">#			# 使用RGBA颜色  #边界 背景 文本</span></span><br><span class="line"><span class="comment">#		focused_workspace  	#778899A5 #87CEEBA5 #FFFAFAF5</span></span><br><span class="line"><span class="comment">#		inactive_workspace 	#7788993F #AFEEEE3F #FFFAFAF5</span></span><br><span class="line"><span class="comment">#		urgent_workspace   	#80808072 #FF450072 #FFFAFAF5</span></span><br><span class="line"><span class="comment">#    &#125;</span></span><br><span class="line"><span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">exec_always --no-startup-id $HOME/.config/polybar/polybar_run.sh</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="定义自己的-polybar-配置"><a href="#定义自己的-polybar-配置" class="headerlink" title="定义自己的 polybar 配置"></a>定义自己的 polybar 配置</h1><p>配置文件使用的是 <code>ini</code> 格式编写，具体每个插件查考<a href="https://github.com/polybar/polybar/wiki">官方 wiki</a> 的说明(英文有些吃力就用翻译),也可使用第三方脚本插件。</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment">;==========================================================</span></span><br><span class="line"><span class="comment">;</span></span><br><span class="line"><span class="comment">;</span></span><br><span class="line"><span class="comment">;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗</span></span><br><span class="line"><span class="comment">;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗</span></span><br><span class="line"><span class="comment">;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝</span></span><br><span class="line"><span class="comment">;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗</span></span><br><span class="line"><span class="comment">;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║</span></span><br><span class="line"><span class="comment">;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝</span></span><br><span class="line"><span class="comment">;</span></span><br><span class="line"><span class="comment">;</span></span><br><span class="line"><span class="comment">;   https://github.com/polybar/polybar</span></span><br><span class="line"><span class="comment">;   https://github.com/polybar/polybar/wiki</span></span><br><span class="line"><span class="comment">;</span></span><br><span class="line"><span class="comment">;==========================================================</span></span><br><span class="line"></span><br><span class="line"><span class="section">[colors]</span></span><br><span class="line"><span class="comment">;background = $&#123;xrdb:color0:#222&#125;</span></span><br><span class="line">background = #cc222222</span><br><span class="line">background-alt = #444</span><br><span class="line"><span class="comment">;foreground = $&#123;xrdb:color7:#222&#125;</span></span><br><span class="line">foreground = #b6a49b</span><br><span class="line">foreground-alt = #555</span><br><span class="line">primary = #ffb52a</span><br><span class="line">secondary = #e60053</span><br><span class="line">alert = #bd2c40</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">[settings]</span></span><br><span class="line"><span class="attr">screenchange-reload</span> = <span class="literal">true</span></span><br><span class="line"><span class="comment">;compositing-background = xor</span></span><br><span class="line"><span class="comment">;compositing-background = screen</span></span><br><span class="line"><span class="comment">;compositing-foreground = source</span></span><br><span class="line"><span class="comment">;compositing-border = over</span></span><br><span class="line"><span class="comment">;pseudo-transparency = false</span></span><br><span class="line"></span><br><span class="line"><span class="section">[global/wm]</span></span><br><span class="line"><span class="attr">margin-top</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">margin-bottom</span> = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">[bar/mybar]</span></span><br><span class="line"><span class="comment">;monitor = $&#123;env:MONITOR:HDMI-1&#125;</span></span><br><span class="line"><span class="comment">;width = 100%</span></span><br><span class="line"><span class="comment">;height = 25</span></span><br><span class="line"><span class="comment">;offset-x = 1%</span></span><br><span class="line"><span class="comment">;offset-y = 1%</span></span><br><span class="line"><span class="attr">radius</span> = <span class="number">12</span></span><br><span class="line"><span class="attr">fixed-center</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">background</span> = <span class="variable">$&#123;colors.background&#125;</span></span><br><span class="line"><span class="attr">foreground</span> = <span class="variable">$&#123;colors.foreground&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">line-size</span> = <span class="number">4</span></span><br><span class="line">line-color = #f00</span><br><span class="line"></span><br><span class="line"><span class="attr">border-size</span> = <span class="number">4</span></span><br><span class="line">border-color = #00000000</span><br><span class="line"></span><br><span class="line"><span class="attr">padding-left</span> = <span class="number">2</span></span><br><span class="line"><span class="attr">padding-right</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="attr">module-margin-left</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">module-margin-right</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; https://github.com/ryanoasis/nerd-fonts</span></span><br><span class="line"><span class="comment">; https://www.nerdfonts.com/cheat-sheet</span></span><br><span class="line"><span class="attr">font-0</span> = fixed:pixelsize=<span class="number">10</span><span class="comment">;1</span></span><br><span class="line"><span class="attr">font-1</span> = unifont:fontformat=<span class="literal">true</span>type:size=<span class="number">10</span>:antialias=<span class="literal">false</span><span class="comment">;0</span></span><br><span class="line"><span class="attr">font-2</span> = Noto Sans Symbols2:style=Regular:size=<span class="number">12</span></span><br><span class="line"><span class="attr">font-3</span> = Font Awesome <span class="number">5</span> Free:style=Solid:size=<span class="number">12</span></span><br><span class="line"><span class="attr">font-4</span> = Font Awesome <span class="number">5</span> Brands:style=Regular:size=<span class="number">12</span></span><br><span class="line"><span class="attr">font-5</span> = DejaVu Sans:style=Bold:size=<span class="number">12</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">modules-left</span> = menu-apps i3</span><br><span class="line"><span class="comment">;modules-center = mpd</span></span><br><span class="line"><span class="attr">modules-center</span> = wireless-network wired-network cpu memory</span><br><span class="line"><span class="attr">modules-right</span> = system-usb-udev xkeyboard pulseaudio backlight date battery</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">tray-position</span> = right</span><br><span class="line"><span class="attr">tray-padding</span> = <span class="number">2</span></span><br><span class="line"><span class="attr">tray-background</span> = <span class="variable">$&#123;colors.background&#125;</span></span><br><span class="line"><span class="attr">transparent</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">cursor-click</span> = pointer</span><br><span class="line"><span class="attr">cursor-scroll</span> = ns-resize</span><br><span class="line"></span><br><span class="line"><span class="comment">;====================================</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; ===菜单===</span></span><br><span class="line"><span class="comment">; https://github.com/polybar/polybar/wiki/Module:-menu</span></span><br><span class="line"><span class="section">[module/menu-apps]</span></span><br><span class="line"><span class="attr">type</span> = custom/menu</span><br><span class="line"></span><br><span class="line"><span class="comment">; 若为 true, &lt;label-toggle&gt; 将在左边,若为 false, 将在右边</span></span><br><span class="line"><span class="attr">expand-right</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; menu-LEVEL-N 与 label-NAME 属性相同，并附加 exec 属性</span></span><br><span class="line"><span class="comment">; 命令将使用 /bin/sh -c $COMMAND</span></span><br><span class="line"></span><br><span class="line"><span class="attr">menu-0-0</span> = 浏览器</span><br><span class="line">menu-0-0-exec = #menu-apps.open.1</span><br><span class="line"><span class="attr">menu-0-1</span> = 多媒体</span><br><span class="line">menu-0-1-exec = #menu-apps.open.2</span><br><span class="line"></span><br><span class="line"><span class="attr">menu-1-0</span> =  Firefox</span><br><span class="line"><span class="attr">menu-1-0-exec</span> = firefox</span><br><span class="line"><span class="attr">menu-1-1</span> =  Chromium</span><br><span class="line"><span class="attr">menu-1-1-exec</span> = chromium</span><br><span class="line"></span><br><span class="line"><span class="attr">menu-2-0</span> = Gimp</span><br><span class="line"><span class="attr">menu-2-0-exec</span> = gimp</span><br><span class="line"><span class="attr">menu-2-1</span> = Scrot</span><br><span class="line"><span class="attr">menu-2-1-exec</span> = scrot</span><br><span class="line"></span><br><span class="line"><span class="comment">; &lt;label-toggle&gt; 可替换为 &lt;label-(open|close)&gt;</span></span><br><span class="line"><span class="comment">; 如果 expand-right 为 true ，则默认值为&quot;&lt;label-toggle&gt;&lt;menu&gt;&quot;。注意，如果使用&lt;label-toggle&gt; 就必须定义 &lt;label-open&gt;</span></span><br><span class="line"><span class="comment">; format = &lt;label-toggle&gt; &lt;menu&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">label-open</span> = </span><br><span class="line"><span class="attr">label-close</span> = </span><br><span class="line"></span><br><span class="line"><span class="comment">; 分隔元件</span></span><br><span class="line"><span class="attr">label-separator</span> = |</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; ===i3 工作区===</span></span><br><span class="line"><span class="comment">; https://github.com/polybar/polybar/wiki/Module:-i3</span></span><br><span class="line"><span class="section">[module/i3]</span></span><br><span class="line"><span class="attr">type</span> = internal/i3</span><br><span class="line"><span class="attr">format</span> = &lt;label-state&gt; &lt;label-mode&gt;</span><br><span class="line"><span class="attr">index-sort</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">wrapping-scroll</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">label-mode-padding</span> = <span class="number">2</span></span><br><span class="line">label-mode-foreground = #000</span><br><span class="line"><span class="attr">label-mode-background</span> = <span class="variable">$&#123;colors.primary&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 聚焦在显示器上的活动工作区</span></span><br><span class="line"><span class="attr">label-focused</span> = %index%</span><br><span class="line"><span class="attr">label-focused-background</span> = <span class="variable">$&#123;colors.background-alt&#125;</span></span><br><span class="line"><span class="attr">label-focused-underline</span>= <span class="variable">$&#123;colors.primary&#125;</span></span><br><span class="line"><span class="attr">label-focused-padding</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 任何显示器上的非活动工作区</span></span><br><span class="line"><span class="attr">label-unfocused</span> = %index%</span><br><span class="line"><span class="attr">label-unfocused-padding</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 未聚焦在显示器生的活动工作区</span></span><br><span class="line"><span class="attr">label-visible</span> = %index%</span><br><span class="line"><span class="attr">label-visible-background</span> = <span class="variable">$&#123;self.label-focused-background&#125;</span></span><br><span class="line"><span class="attr">label-visible-underline</span> = <span class="variable">$&#123;self.label-focused-underline&#125;</span></span><br><span class="line"><span class="attr">label-visible-padding</span> = <span class="variable">$&#123;self.label-focused-padding&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 设置紧急提示的工作区</span></span><br><span class="line"><span class="attr">label-urgent</span> = %index%</span><br><span class="line"><span class="attr">label-urgent-background</span> = <span class="variable">$&#123;colors.alert&#125;</span></span><br><span class="line"><span class="attr">label-urgent-padding</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 工作区之间的分隔符</span></span><br><span class="line"><span class="comment">; label-separator = |</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; ===网络===</span></span><br><span class="line"><span class="comment">; https://github.com/polybar/polybar/wiki/Module:-network</span></span><br><span class="line"><span class="section">[module/wired-network]</span></span><br><span class="line"><span class="attr">type</span> = internal/network</span><br><span class="line"><span class="attr">interface</span> = enp4s0</span><br><span class="line"><span class="attr">interval</span> = <span class="number">3.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 间隔宽度</span></span><br><span class="line"><span class="attr">udspeed-minwidth</span> = <span class="number">3</span></span><br><span class="line"><span class="comment">; 所以端口累计</span></span><br><span class="line"><span class="attr">accumulate-stats</span> = <span class="literal">true</span></span><br><span class="line"><span class="comment">; 对未知状态的网络设备启用</span></span><br><span class="line"><span class="attr">unknown-as-up</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">format-connected</span> = &lt;label-connected&gt;</span><br><span class="line"><span class="attr">format-disconnected</span> = &lt;label-disconnected&gt;</span><br><span class="line"></span><br><span class="line"><span class="attr">label-connected</span> =   %linkspeed% %upspeed% %downspeed%</span><br><span class="line">label-connected-foreground = #00FFFF</span><br><span class="line"></span><br><span class="line"><span class="comment">;label-disconnected = </span></span><br><span class="line"><span class="comment">;label-disconnected-foreground = #66ffffff</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">[module/wireless-network]</span></span><br><span class="line"><span class="attr">type</span> = internal/network</span><br><span class="line"><span class="attr">interface</span> = wlp3s0</span><br><span class="line"></span><br><span class="line"><span class="attr">interval</span> = <span class="number">3.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 间隔宽度</span></span><br><span class="line"><span class="attr">udspeed-minwidth</span> = <span class="number">3</span></span><br><span class="line"><span class="comment">; 所以端口累计</span></span><br><span class="line"><span class="attr">accumulate-stats</span> = <span class="literal">true</span></span><br><span class="line"><span class="comment">; 对未知状态的网络设备启用</span></span><br><span class="line"><span class="attr">unknown-as-up</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">format-connected</span> = &lt;ramp-signal&gt; &lt;label-connected&gt;</span><br><span class="line"><span class="attr">format-disconnected</span> = &lt;label-disconnected&gt;</span><br><span class="line"></span><br><span class="line"><span class="attr">label-connected</span> =  %essid% %upspeed% %downspeed%</span><br><span class="line">label-connected-foreground = #00FFFF</span><br><span class="line"></span><br><span class="line"><span class="comment">;label-disconnected = </span></span><br><span class="line"><span class="comment">;label-disconnected-foreground = #66ffffff</span></span><br><span class="line"></span><br><span class="line"><span class="attr">ramp-signal-0</span> = </span><br><span class="line"><span class="attr">ramp-signal-1</span> = </span><br><span class="line"><span class="attr">ramp-signal-2</span> = </span><br><span class="line"><span class="attr">ramp-signal-3</span> = </span><br><span class="line"><span class="attr">ramp-signal-4</span> = </span><br><span class="line"><span class="attr">ramp-signal-5</span> = </span><br><span class="line"></span><br><span class="line">ramp-signal-0-foreground = #ff5555</span><br><span class="line">ramp-signal-1-foreground = #ff5555</span><br><span class="line">ramp-signal-2-foreground = #fba922</span><br><span class="line">ramp-signal-3-foreground = #fba922</span><br><span class="line">ramp-signal-4-foreground = #aaff77</span><br><span class="line">ramp-signal-5-foreground = #aaff77</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; ===键盘提示===</span></span><br><span class="line"><span class="comment">; https://github.com/polybar/polybar/wiki/Module:-xkeyboard</span></span><br><span class="line"><span class="section">[module/xkeyboard]</span></span><br><span class="line"><span class="attr">type</span> = internal/xkeyboard</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; 忽略列表</span></span><br><span class="line"><span class="attr">blacklist-0</span> = scroll lock</span><br><span class="line"></span><br><span class="line"><span class="comment">; &lt;label-indicator&gt;</span></span><br><span class="line"><span class="attr">format</span> =  &lt;label-indicator&gt;</span><br><span class="line"><span class="attr">format-spacing</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">label-indicator-on-capslock</span> = </span><br><span class="line">label-indicator-off-capslock =</span><br><span class="line"><span class="comment">;label-indicator-on-numlock = 🅽</span></span><br><span class="line"><span class="comment">;label-indicator-off-numlock =</span></span><br><span class="line"></span><br><span class="line">label-indicator-on-capslock-foreground = #ff5555</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; ===音量===</span></span><br><span class="line"><span class="comment">; https://github.com/polybar/polybar/wiki/Module:-pulseaudio</span></span><br><span class="line"><span class="section">[module/pulseaudio]</span></span><br><span class="line"><span class="attr">type</span> = internal/pulseaudio</span><br><span class="line"><span class="attr">sink</span> = alsa_output.pci<span class="number">-0000_12_00</span>.<span class="number">3</span>.analog-stereo</span><br><span class="line"><span class="attr">use-ui-max</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">interval</span> = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="attr">format-volume</span> = &lt;ramp-volume&gt; &lt;label-volume&gt;</span><br><span class="line"></span><br><span class="line"><span class="attr">label-muted</span> = </span><br><span class="line">label-muted-foreground = #666</span><br><span class="line"></span><br><span class="line"><span class="attr">ramp-volume-0</span> = </span><br><span class="line"><span class="attr">ramp-volume-1</span> = </span><br><span class="line"><span class="attr">ramp-volume-2</span> = </span><br><span class="line"></span><br><span class="line"><span class="comment">; 左右键功能，pavucontrol 用于开关音量</span></span><br><span class="line"><span class="attr">click-right</span> = pavucontrol</span><br><span class="line"><span class="comment">; click-middle =</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; ===CPU===</span></span><br><span class="line"><span class="comment">; https://github.com/polybar/polybar/wiki/Module:-cpu</span></span><br><span class="line"><span class="section">[module/cpu]</span></span><br><span class="line"><span class="attr">type</span> = internal/cpu</span><br><span class="line"></span><br><span class="line"><span class="comment">; 刷新间隔，默认: 1</span></span><br><span class="line"><span class="attr">interval</span> = <span class="number">0.5</span></span><br><span class="line"></span><br><span class="line"><span class="attr">format</span> = &lt;label&gt; &lt;ramp-coreload&gt;</span><br><span class="line"></span><br><span class="line"><span class="attr">label</span> =  %percentage%%</span><br><span class="line">label-foreground = #9A32DB</span><br><span class="line"></span><br><span class="line"><span class="comment">; Spacing between individual per-core ramps</span></span><br><span class="line"><span class="attr">ramp-coreload-spacing</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">ramp-coreload-0</span> = ▁</span><br><span class="line"><span class="attr">ramp-coreload-1</span> = ▂</span><br><span class="line"><span class="attr">ramp-coreload-2</span> = ▃</span><br><span class="line"><span class="attr">ramp-coreload-3</span> = ▄</span><br><span class="line"><span class="attr">ramp-coreload-4</span> = ▅</span><br><span class="line"><span class="attr">ramp-coreload-5</span> = ▆</span><br><span class="line"><span class="attr">ramp-coreload-6</span> = ▇</span><br><span class="line"><span class="attr">ramp-coreload-7</span> = █</span><br><span class="line"></span><br><span class="line">ramp-coreload-0-foreground = #aaff77</span><br><span class="line">ramp-coreload-1-foreground = #aaff77</span><br><span class="line">ramp-coreload-2-foreground = #aaff77</span><br><span class="line">ramp-coreload-3-foreground = #aaff77</span><br><span class="line">ramp-coreload-4-foreground = #fba922</span><br><span class="line">ramp-coreload-5-foreground = #fba922</span><br><span class="line">ramp-coreload-6-foreground = #ff5555</span><br><span class="line">ramp-coreload-7-foreground = #ff5555</span><br><span class="line"></span><br><span class="line"><span class="comment">; ===内存===</span></span><br><span class="line"><span class="comment">; https://github.com/polybar/polybar/wiki/Module:-memory</span></span><br><span class="line"><span class="section">[module/memory]</span></span><br><span class="line"><span class="attr">type</span> = internal/memory</span><br><span class="line"></span><br><span class="line"><span class="comment">; 刷新间隔，默认: 1</span></span><br><span class="line"><span class="attr">interval</span> = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="attr">format</span> = &lt;label&gt; &lt;ramp-used&gt; &lt;ramp-free&gt;</span><br><span class="line"></span><br><span class="line"><span class="attr">label</span> =  %gb_used%/%gb_free%</span><br><span class="line">label-foreground = #9A32DB</span><br><span class="line"></span><br><span class="line"><span class="comment">; 用于 &lt;ramp-used&gt;</span></span><br><span class="line"><span class="attr">ramp-used-0</span> = ▁</span><br><span class="line"><span class="attr">ramp-used-1</span> = ▂</span><br><span class="line"><span class="attr">ramp-used-2</span> = ▃</span><br><span class="line"><span class="attr">ramp-used-3</span> = ▄</span><br><span class="line"><span class="attr">ramp-used-4</span> = ▅</span><br><span class="line"><span class="attr">ramp-used-5</span> = ▆</span><br><span class="line"><span class="attr">ramp-used-6</span> = ▇</span><br><span class="line"><span class="attr">ramp-used-7</span> = █</span><br><span class="line"></span><br><span class="line">ramp-used-0-foreground = #aaff77</span><br><span class="line">ramp-used-1-foreground = #aaff77</span><br><span class="line">ramp-used-2-foreground = #aaff77</span><br><span class="line">ramp-used-3-foreground = #aaff77</span><br><span class="line">ramp-used-4-foreground = #fba922</span><br><span class="line">ramp-used-5-foreground = #fba922</span><br><span class="line">ramp-used-6-foreground = #ff5555</span><br><span class="line">ramp-used-7-foreground = #ff5555</span><br><span class="line"></span><br><span class="line"><span class="comment">; 用于 &lt;ramp-free&gt;</span></span><br><span class="line"><span class="attr">ramp-free-0</span> = ▁</span><br><span class="line"><span class="attr">ramp-free-1</span> = ▂</span><br><span class="line"><span class="attr">ramp-free-2</span> = ▃</span><br><span class="line"><span class="attr">ramp-free-3</span> = ▄</span><br><span class="line"><span class="attr">ramp-free-4</span> = ▅</span><br><span class="line"><span class="attr">ramp-free-5</span> = ▆</span><br><span class="line"><span class="attr">ramp-free-6</span> = ▇</span><br><span class="line"><span class="attr">ramp-free-7</span> = █</span><br><span class="line"></span><br><span class="line">ramp-free-0-foreground = #ff5555</span><br><span class="line">ramp-free-1-foreground = #ff5555</span><br><span class="line">ramp-free-2-foreground = #fba922</span><br><span class="line">ramp-free-3-foreground = #fba922</span><br><span class="line">ramp-free-4-foreground = #aaff77</span><br><span class="line">ramp-free-5-foreground = #aaff77</span><br><span class="line">ramp-free-6-foreground = #aaff77</span><br><span class="line">ramp-free-7-foreground = #aaff77</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; ===屏幕亮度===</span></span><br><span class="line"><span class="comment">; https://github.com/polybar/polybar/wiki/Module:-xbacklight</span></span><br><span class="line"><span class="section">[module/backlight]</span></span><br><span class="line"><span class="attr">type</span> = internal/backlight</span><br><span class="line"></span><br><span class="line"><span class="comment">; 使用命令查询到设备文件:</span></span><br><span class="line"><span class="comment">; ls -1 /sys/class/backlight/</span></span><br><span class="line"><span class="attr">card</span> = intel_backlight</span><br><span class="line"></span><br><span class="line"><span class="comment">; 滚轮调节亮度</span></span><br><span class="line"><span class="comment">; sudo chown video /sys/class/backlight/intel_backlight/brightness</span></span><br><span class="line"><span class="comment">; sudo chmod g+w /sys/class/backlight/intel_backlight/brightness</span></span><br><span class="line"><span class="comment">; usermod -a -G video eonun</span></span><br><span class="line"><span class="comment">; Default: false</span></span><br><span class="line"><span class="attr">enable-scroll</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">format</span> = &lt;ramp&gt; &lt;label&gt;</span><br><span class="line"></span><br><span class="line"><span class="attr">label</span> = %percentage%%</span><br><span class="line"></span><br><span class="line"><span class="comment">; 用于 &lt;ramp&gt;</span></span><br><span class="line"><span class="attr">ramp-0</span> = 🌕</span><br><span class="line"><span class="attr">ramp-1</span> = 🌔</span><br><span class="line"><span class="attr">ramp-2</span> = 🌓</span><br><span class="line"><span class="attr">ramp-3</span> = 🌒</span><br><span class="line"><span class="attr">ramp-4</span> = 🌑</span><br><span class="line"></span><br><span class="line"><span class="comment">; 用于 &lt;bar&gt;</span></span><br><span class="line"><span class="attr">bar-width</span> = <span class="number">10</span></span><br><span class="line"><span class="attr">bar-indicator</span> = |</span><br><span class="line"><span class="attr">bar-fill</span> = -</span><br><span class="line"><span class="attr">bar-empty</span> = -</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; ===日期时间===</span></span><br><span class="line"><span class="comment">; https://github.com/polybar/polybar/wiki/Module:-date</span></span><br><span class="line"><span class="section">[module/date]</span></span><br><span class="line"><span class="attr">type</span> = internal/date</span><br><span class="line"></span><br><span class="line"><span class="comment">; 更新间隔, 默认: 1.0</span></span><br><span class="line"><span class="attr">interval</span> = <span class="number">1.0</span></span><br><span class="line"><span class="attr">format</span> = &lt;label&gt;</span><br><span class="line"></span><br><span class="line"><span class="attr">date</span> = %Y-%m-%d%</span><br><span class="line"><span class="attr">time</span> = %H:%M</span><br><span class="line"></span><br><span class="line"><span class="comment">; 另一中格式</span></span><br><span class="line"><span class="attr">date-alt</span> = %A, %d %B %Y</span><br><span class="line"><span class="attr">time-alt</span> = %H:%M:%S</span><br><span class="line"></span><br><span class="line"><span class="attr">label</span> =  %date%  %time%</span><br><span class="line"><span class="attr">label-font</span> = <span class="number">1</span></span><br><span class="line">label-foreground = #eefafafa</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; ===电源提示===</span></span><br><span class="line"><span class="comment">; https://github.com/polybar/polybar/wiki/Module:-battery</span></span><br><span class="line"><span class="section">[module/battery]</span></span><br><span class="line"><span class="attr">type</span> = internal/battery</span><br><span class="line"></span><br><span class="line"><span class="comment">; 电量大于 99% 显示充电完成</span></span><br><span class="line"><span class="attr">full-at</span> = <span class="number">99</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 使用以下命令列出电池和适配器:</span></span><br><span class="line"><span class="comment">; ls -1 /sys/class/power_supply/</span></span><br><span class="line"><span class="attr">battery</span> = BAT1</span><br><span class="line"><span class="attr">adapter</span> = ACAD</span><br><span class="line"></span><br><span class="line"><span class="attr">poll-interval</span> = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 时间过格式,默认: %H:%M:%S</span></span><br><span class="line"><span class="attr">time-format</span> = %H:%M</span><br><span class="line"></span><br><span class="line"><span class="comment">; 充电</span></span><br><span class="line"><span class="attr">format-charging</span> =  &lt;animation-charging&gt; &lt;label-charging&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">; 放电</span></span><br><span class="line"><span class="attr">format-discharging</span> =  &lt;animation-discharging&gt; &lt;label-discharging&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">; 充电完成</span></span><br><span class="line"><span class="comment">;format-full = &lt;ramp-capacity&gt; &lt;label-full&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; 充电状态</span></span><br><span class="line"><span class="attr">label-charging</span> =  %percentage%(%time%)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">; 放电状态</span></span><br><span class="line"><span class="attr">label-discharging</span> = %percentage%(%time%)</span><br><span class="line"></span><br><span class="line"><span class="comment">;充电完成</span></span><br><span class="line"><span class="attr">label-full</span> =  %percentage%</span><br><span class="line">label-full-foreground = #aaff77</span><br><span class="line"></span><br><span class="line"><span class="attr">ramp-capacity-0</span> = </span><br><span class="line"><span class="attr">ramp-capacity-1</span> = </span><br><span class="line"><span class="attr">ramp-capacity-2</span> = </span><br><span class="line"><span class="attr">ramp-capacity-3</span> = </span><br><span class="line"><span class="attr">ramp-capacity-4</span> = </span><br><span class="line"></span><br><span class="line"><span class="attr">bar-capacity-width</span> = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="attr">animation-charging-0</span> = </span><br><span class="line"><span class="attr">animation-charging-1</span> = </span><br><span class="line"><span class="attr">animation-charging-2</span> = </span><br><span class="line"><span class="attr">animation-charging-3</span> = </span><br><span class="line"><span class="attr">animation-charging-4</span> = </span><br><span class="line"><span class="comment">; 动画帧率(毫秒)</span></span><br><span class="line"><span class="attr">animation-charging-framerate</span> = <span class="number">750</span></span><br><span class="line"></span><br><span class="line"><span class="attr">animation-discharging-0</span> = </span><br><span class="line"><span class="attr">animation-discharging-1</span> = </span><br><span class="line"><span class="attr">animation-discharging-2</span> = </span><br><span class="line"><span class="attr">animation-discharging-3</span> = </span><br><span class="line"><span class="attr">animation-discharging-4</span> = </span><br><span class="line"><span class="comment">; 动画帧率(毫秒)</span></span><br><span class="line"><span class="attr">animation-discharging-framerate</span> = <span class="number">500</span></span><br><span class="line"></span><br><span class="line"><span class="comment">; ===USB===</span></span><br><span class="line"><span class="comment">; https://github.com/polybar/polybar-scripts/tree/master/polybar-scripts/system-usb-udev</span></span><br><span class="line"><span class="section">[module/system-usb-udev]</span></span><br><span class="line"><span class="attr">type</span> = custom/script</span><br><span class="line"><span class="attr">exec</span> = ~/.config/polybar/scripts/system-usb-udev.sh</span><br><span class="line"><span class="attr">tail</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">click-left</span> = ~/.config/polybar/scripts/system-usb-udev.sh --mount &amp;</span><br><span class="line"><span class="attr">click-right</span> = ~/.config/polybar/scripts/system-usb-udev.sh --unmount &amp;</span><br></pre></td></tr></table></figure>
+<h1 id="使用已有的-polybar-主题配置"><a href="#使用已有的-polybar-主题配置" class="headerlink" title="使用已有的 polybar 主题配置"></a>使用已有的 polybar 主题配置</h1><p><a href="https://github.com/Yucklys/polybar-nord-theme">https://github.com/Yucklys/polybar-nord-theme</a></p>
+<p><a href="https://github.com/adi1090x/polybar-themes">https://github.com/adi1090x/polybar-themes</a></p>
+<p><a href="https://github.com/ryanoasis/nerd-fonts">nerd 字体(各类字体的集合)</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://guyueshui.github.io/post/polybar-%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AC%94%E8%AE%B0/">Polybar 的配置笔记</a></p>
+<p><a href="https://blog.csdn.net/Liukairui/article/details/108060500#t49">Polybar的主题配置</a></p>
+]]></content>
+      <categories>
+        <category>i3</category>
+      </categories>
+      <tags>
+        <tag>i3</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>i3block配置</title>
     <url>/posts/e91fcb84/</url>
     <content><![CDATA[<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><ul>
@@ -8890,56 +8862,755 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
     <content><![CDATA[<p><a href="https://github.com/ranger/ranger">ranger</a> 是一个以Python编写，绑定vi/vim键的终端文件管理器</p>
 <h1 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># archlinux系</span></span><br><span class="line">sudo pacman -S ranger</span><br><span class="line"><span class="comment"># redhat系</span></span><br><span class="line">sudo yum install -y ranger</span><br><span class="line"><span class="comment"># Debian系</span></span><br><span class="line">sudo apt-get install -y ranger</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<h2 id="ranger命令选项"><a href="#ranger命令选项" class="headerlink" title="ranger命令选项"></a>ranger命令选项</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">--version 				<span class="comment">#显示程序的版本号并退出</span></span><br><span class="line">-h，--<span class="built_in">help</span> 				<span class="comment">#显示此帮助消息并退出</span></span><br><span class="line">-d，--debug 			<span class="comment">#激活调试模式</span></span><br><span class="line">-c，--clean 			<span class="comment">#不要触摸/不需要任何配置文件</span></span><br><span class="line">--logfile=file 			<span class="comment">#要使用的日志文件，&#x27;-&#x27;代表stderr</span></span><br><span class="line">--cachedir=dir 			<span class="comment">#更改缓存目录（~/.cache/ranger）</span></span><br><span class="line">-r dir，--confdir=dir 	<span class="comment">#更改配置目录（~/.config/ranger）</span></span><br><span class="line">--datadir=dir 			<span class="comment">#更改数据目录（~/.local/share/ranger）</span></span><br><span class="line">--copy-config=<span class="built_in">which</span> 	<span class="comment">#将默认配置复制到用户配置目录，可用值：all, rc, rifle, commands,commands_full, scope</span></span><br><span class="line">--choosefile=OUTFILE 	<span class="comment">#使Ranger像文件选择器一样工作，打开文件时，它将退出并将所选文件的名称写入OUTFILE。</span></span><br><span class="line">--choosefiles=OUTFILE 	<span class="comment">#使Ranger就像一次选择多个文件一样，打开文件时，它将退出并将所有选定文件的名称写入OUTFILE。</span></span><br><span class="line">--choosedir=OUTFILE 	<span class="comment">#使Ranger像目录选择器一样工作，退出Ranger时，它将最后访问的目录的名称写入OUTFILE</span></span><br><span class="line">--selectfile=filepath 	<span class="comment">#打开带有选定文件的游侠</span></span><br><span class="line">--show-only-dirs 		<span class="comment">#仅显示目录，不显示文件或链接</span></span><br><span class="line">--list-unused-keys 		<span class="comment">#出未绑定到任何动作的通用键</span></span><br><span class="line">--list-tagged-files=tag <span class="comment">#列出所有使用给定标签标记的文件，默认：*</span></span><br><span class="line">--profile 				<span class="comment">#输出退出时CPU使用率的统计信息</span></span><br><span class="line">--cmd=COMMAND 			<span class="comment">#读取配置后执行COMMAND，多次使用此选项可运行多个命令</span></span><br></pre></td></tr></table></figure>
+<h2 id="ranger命令选项"><a href="#ranger命令选项" class="headerlink" title="ranger命令选项"></a>ranger命令选项</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">--version 				<span class="comment">#显示程序的版本号并退出</span></span><br><span class="line">-h，--<span class="built_in">help</span> 				<span class="comment">#显示此帮助消息并退出</span></span><br><span class="line">-d，--debug 			<span class="comment">#激活调试模式,出错时退出并打印错误</span></span><br><span class="line">-c，--clean 			<span class="comment">#不要读取或创建任何配置文件，不会在系统留下痕迹</span></span><br><span class="line">--logfile=file 			<span class="comment">#要使用的日志文件，&#x27;-&#x27;代表stderr</span></span><br><span class="line">--cachedir=dir 			<span class="comment">#更改缓存目录（~/.cache/ranger）</span></span><br><span class="line">-r dir，--confdir=dir 	<span class="comment">#更改配置目录（~/.config/ranger）</span></span><br><span class="line">--datadir=dir 			<span class="comment">#更改数据目录（~/.local/share/ranger）</span></span><br><span class="line">--copy-config=<span class="built_in">which</span> 	<span class="comment">#将默认配置复制到用户配置目录，可用值：all, rc, rifle, commands,commands_full, scope</span></span><br><span class="line">--choosefile=OUTFILE 	<span class="comment">#使Ranger像文件选择器一样工作，打开文件时，它将退出并将所选文件的名称写入OUTFILE。</span></span><br><span class="line">--choosefiles=OUTFILE 	<span class="comment">#使Ranger就像一次选择多个文件一样，打开文件时，它将退出并将所有选定文件的名称写入OUTFILE。</span></span><br><span class="line">--choosedir=OUTFILE 	<span class="comment">#使Ranger像目录选择器一样工作，退出Ranger时，它将最后访问的目录的名称写入OUTFILE</span></span><br><span class="line">--selectfile=filepath 	<span class="comment">#打开带有选定文件的游侠</span></span><br><span class="line">--show-only-dirs 		<span class="comment">#仅显示目录，不显示文件或链接</span></span><br><span class="line">--list-unused-keys 		<span class="comment">#出未绑定到任何动作的通用键</span></span><br><span class="line">--list-tagged-files=tag <span class="comment">#列出所有使用给定标签标记的文件，默认：*</span></span><br><span class="line">--profile 				<span class="comment">#输出退出时CPU使用率的统计信息</span></span><br><span class="line">--cmd=COMMAND 			<span class="comment">#读取配置后执行COMMAND，多次使用此选项可运行多个命令</span></span><br></pre></td></tr></table></figure>
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ul>
-<li>生成配置文件<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ranger --copy-config=all</span><br><span class="line"><span class="comment"># 该命令自动将配置文件复制到~/.config/ranger/，作为用户配置文件</span></span><br></pre></td></tr></table></figure></li>
-<li>相关配置文件<ul>
-<li><code>~/.config/ranger/rc.conf</code> 选项设置和快捷键</li>
+<li>生成配置文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ranger --copy-config=all</span><br><span class="line"><span class="comment"># 该命令自动将配置文件复制到~/.config/ranger/，作为用户配置文件</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>相关配置文件</p>
+<ul>
+<li><code>~/.config/ranger/rc.conf</code> 主配置文件，选项设置和快捷键</li>
 <li><code>~/.config/ranger/scope.sh</code> 设置可预览的文件类型</li>
 <li><code>~/.config/ranger/rifle.conf</code> 指定不同类型文件的默认打开程序</li>
 <li><code>~/.config/ranger/commands.py</code> 能通过<code>:</code>执行的命令</li>
-<li><code>~/.config/ranger/commands_full.py</code></li>
+<li><code>~/.config/ranger/commands_full.py</code> 默认的控制台命令</li>
+<li><code>~/.config/ranger/bookmarks</code> 书签列表，可在该文件中批量添加书签</li>
+<li><code>~/.config/ranger/tagged</code> 标记文件的绝对路径</li>
+<li><code>~/.config/ranger/history</code> 控制台命令的历史记录，默认50条</li>
+</ul>
+</li>
+<li><p>相关文件夹</p>
+<ul>
+<li><code>~/.config/ranger/colorschemes/</code> 颜色主题文件夹</li>
+<li><code>~/.config/ranger/plugins/</code> 插件文件夹</li>
 </ul>
 </li>
 </ul>
-<p>文件scope.sh中, 在externsions部分注释掉不想预览的文件类型, 在那行上面添加”#”注释掉即可. ranger在预览rar等压缩包时会运行得比较慢</p>
-<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><h3 id="查看帮助"><a href="#查看帮助" class="headerlink" title="查看帮助"></a>查看帮助</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">?    </span><br></pre></td></tr></table></figure>
-<ul>
+<p>文件scope.sh中, 在externsions部分注释掉不想预览的文件类型, 在那行上面添加”#”注释掉即可。<strong>ranger在预览 <code>rar</code> 等压缩包时会运行得比较慢</strong></p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><ul>
+<li><code>?</code> 或 <code>F1</code> 指令<ul>
 <li><code>m</code> 打开man帮助页</li>
 <li><code>k</code> 显示键位绑定</li>
 <li><code>c</code> 显示可用ranger的命令</li>
 <li><code>s</code> 显示配置</li>
 <li><code>q</code> 退出帮助</li>
 </ul>
-<h3 id="浏览"><a href="#浏览" class="headerlink" title="浏览"></a>浏览</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">k</span> 		#向上移动</span><br><span class="line"><span class="keyword">j</span> 		#向下移动</span><br><span class="line">h 		#向左移动（浏览文件夹时，表示回到上一级目录）</span><br><span class="line"><span class="keyword">l</span> 		#向右移动（光标处于文件夹上，进入目录，处于文件上，打开该文件） </span><br><span class="line">H 		#后退</span><br><span class="line">L 		#前进</span><br><span class="line">gg 		#跳到顶端</span><br><span class="line">G 		#跳到底端</span><br><span class="line">gh 		#go home</span><br><span class="line">% 		#默认跳到页中，加数字为跳到百分比处</span><br><span class="line">gl 		#若项为符号链接，逃到其原始位置</span><br><span class="line">gn 		#新建标签</span><br><span class="line"><span class="keyword">f</span> 		#查找</span><br><span class="line">/ 		#搜素</span><br><span class="line"><span class="keyword">cd</span> 		#跳转到目录，同 :<span class="keyword">cd</span></span><br><span class="line">g 		#快速进入目录</span><br><span class="line"><span class="symbol">&lt;Ctrl-U&gt;</span> 	#向上翻半页</span><br><span class="line"><span class="symbol">&lt;Ctrl-D&gt;</span> 	#向下翻半页</span><br></pre></td></tr></table></figure>
-<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">#和 <span class="keyword">vim</span> 一样，指令之前可以指定一个数字，表示执行多少次指令</span><br><span class="line"><span class="number">5</span><span class="symbol">&lt;Ctrl-D&gt;</span> 	#向下翻<span class="number">5</span>个半页</span><br><span class="line"><span class="number">3</span>h 				#向上跳<span class="number">3</span>级目录</span><br><span class="line"><span class="number">6</span>gg 或 <span class="number">6</span>G 		#跳第<span class="number">6</span>行 </span><br><span class="line"><span class="number">20</span>% 			#跳到当前页的 <span class="number">20</span>% 处</span><br><span class="line"># 搜索</span><br><span class="line">＃/ 后输入要搜索的字符串搜索　n 查找下一结果　<span class="keyword">N</span> 查找上一结果</span><br><span class="line"><span class="keyword">cc</span> 			#通过 ctime 属性依次遍历 </span><br><span class="line"><span class="keyword">cm</span> 			#通过 mime <span class="built_in">type</span> 属性依次遍历 </span><br><span class="line"><span class="keyword">cs</span> 			#通过 size 属性依次遍历 </span><br><span class="line">ct 			#搜索已标记的文件 </span><br></pre></td></tr></table></figure>
-<h3 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="symbol">&lt;Space&gt;</span> 	#选择</span><br><span class="line">uv 			#取消选择</span><br><span class="line">yy 			#复制</span><br><span class="line">dd 			#剪切</span><br><span class="line"><span class="keyword">pp</span> 			#粘贴</span><br><span class="line">:<span class="keyword">delete</span> 	#删除</span><br><span class="line"><span class="keyword">cw</span> 			#重命名</span><br><span class="line">A 			#在当前名称基础上重命名</span><br><span class="line">I 			#类似A, 但是光标会跳到起始位置</span><br><span class="line"><span class="symbol">&lt;Ctrl-f&gt;</span> 	#向下翻页</span><br><span class="line"><span class="symbol">&lt;Ctrl-b&gt;</span> 	#向上翻页</span><br></pre></td></tr></table></figure>
-<h3 id="书签、标签页"><a href="#书签、标签页" class="headerlink" title="书签、标签页"></a>书签、标签页</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"># 书签</span><br><span class="line"><span class="keyword">m</span><span class="symbol">&lt;key&gt;</span> 		＃新建书签</span><br><span class="line">`<span class="symbol">&lt;key&gt;</span> 		#打开书签</span><br><span class="line">um<span class="symbol">&lt;key&gt;</span> 	#删除书签</span><br><span class="line"></span><br><span class="line"># 标签页</span><br><span class="line">gn / <span class="symbol">&lt;Ctrl-n&gt;</span> 		#新建标签</span><br><span class="line">gt / <span class="symbol">&lt;TAB&gt;</span> 			#下一标签</span><br><span class="line">gT / <span class="symbol">&lt;Shift-TAB&gt;</span> 	#上一标签</span><br><span class="line">g[n] 				＃打开指定标签，[n]为<span class="number">1</span>~<span class="number">9</span>的标签号，若标签不存在则新建</span><br><span class="line"><span class="symbol">&lt;Alt-Right&gt;</span> / <span class="symbol">&lt;Alt-Left&gt;</span> 	#切换标签</span><br><span class="line">gc / <span class="symbol">&lt;Ctrl-w&gt;</span> 			#关闭当前标签，但不能关闭最后一个标签</span><br></pre></td></tr></table></figure>
-<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">on</span>/ob 	#根据文件名进行排序</span><br><span class="line">oc 		#根据改变时间进行排序</span><br><span class="line">os 		#根据文件大小进行排序</span><br><span class="line">ot 		#根据后缀名进行排序</span><br><span class="line">oa 		#根据访问时间进行排序</span><br><span class="line"><span class="keyword">om</span> 		#根据修改进行排序</span><br><span class="line"><span class="built_in">or</span> 		#反向排序,ranger 默认是以升序排列文件</span><br></pre></td></tr></table></figure>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"># 链接</span><br><span class="line">pl 		#粘贴已被复制、剪切文件的绝对路径的链接</span><br><span class="line">pL 		#粘贴已被复制、剪切文件的相对路径的链接</span><br><span class="line">phl 	#粘贴硬链接</span><br><span class="line"></span><br><span class="line"># 其他</span><br><span class="line">zh 		#显示隐藏文件</span><br><span class="line">zp 		#打开/关闭文件预览功能</span><br><span class="line">zP 		#打开目录预览功能</span><br></pre></td></tr></table></figure>
-<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="选择文件"><a href="#选择文件" class="headerlink" title="选择文件"></a>选择文件</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="symbol">&lt;Space&gt;</span> 	#选择文件并跳到下一项</span><br><span class="line">v 			#全选</span><br><span class="line">V / uv 		#取消全选</span><br><span class="line"><span class="symbol">&lt;Ctrl-V&gt;</span> 	#从某个位置开始选择</span><br><span class="line"><span class="keyword">u</span><span class="symbol">&lt;Ctrl-V&gt;</span> 	#取消选择到某个位置</span><br><span class="line">  #如 <span class="symbol">&lt;Ctrl-V&gt;</span>gg 选择从当前位置到顶部的所有项，<span class="symbol">&lt;Ctrl-V&gt;</span>G 选择从当前位置到底部的所有项 <span class="keyword">u</span><span class="symbol">&lt;Ctrl-V&gt;</span> 用法也是如此</span><br><span class="line">t 		#标记/取消标记 被选择项</span><br><span class="line">T 		#取消标记被选择项</span><br></pre></td></tr></table></figure>
-<h3 id="查看文件"><a href="#查看文件" class="headerlink" title="查看文件"></a>查看文件</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">i 		#查看当前文本文件内容</span><br></pre></td></tr></table></figure>
-<h3 id="编辑文件"><a href="#编辑文件" class="headerlink" title="编辑文件"></a>编辑文件</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">E 		#调用默认编辑器编辑文件</span><br></pre></td></tr></table></figure>
-<h3 id="处理文件"><a href="#处理文件" class="headerlink" title="处理文件"></a>处理文件</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">cw</span> / :<span class="built_in">rename</span> 	#重新命名，不保留原名修改</span><br><span class="line">A 		#修改文件名，在原名上修改</span><br><span class="line">I 		#同 A 但光标在文件名前</span><br><span class="line">yy 		#复制</span><br><span class="line">dd 		#剪切</span><br><span class="line"><span class="keyword">pp</span> 		#粘贴，存在同名，自动重命名</span><br><span class="line"><span class="keyword">po</span> 		#粘贴，覆盖同名文件</span><br><span class="line">pl 		#创建一个被复制、剪切文件的符号链接</span><br><span class="line">pL 		#创建一个被复制、剪切文件的相对路径符号链接</span><br><span class="line">:<span class="keyword">delete</span> 	#删除所选项  :<span class="keyword">delete</span> <span class="keyword">y</span> 多文件删除跳过确认</span><br></pre></td></tr></table></figure>
-<h3 id="批量修改文件名"><a href="#批量修改文件名" class="headerlink" title="批量修改文件名"></a>批量修改文件名</h3><p>批量选择文件后, 键入命令<code>:bulkname</code> 会打开编辑器, 将列出文件名编辑后保存退出，确认编辑, 然后就批量改名了, 如果想取消批量改名, 在确认时把内容删除即</p>
-<h3 id="运行文件"><a href="#运行文件" class="headerlink" title="运行文件"></a>运行文件</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">l</span> 		#打开选中文件，ranger不知道文件的打开程序时，会提示 :open_with 用于指定程序</span><br><span class="line">r 		#指定程序打开文件 同 :open_with 命令</span><br><span class="line">S 		#在当前目录下打开<span class="keyword">shell</span></span><br></pre></td></tr></table></figure>
-<h4 id="open-with"><a href="#open-with" class="headerlink" title=":open_with"></a><code>:open_with</code></h4><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">:open_with &lt;程序&gt; &lt;模式&gt; &lt;选项&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="浏览界面"><a href="#浏览界面" class="headerlink" title="浏览界面"></a>浏览界面</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>k</code> 或 <code>&lt;UP&gt;</code> <br><code>j</code> 或 <code>&lt;DOWN&gt;</code> <br><code>h</code> 或 <code>&lt;LEFI&gt;</code> <br><code>l</code> 或 <code>&lt;RIGHT&gt;</code> 或 <code>&lt;ENTER&gt;</code></td>
+<td>上 <br>下 <br>左(上一级目录) <br>右(进入目录，打开文件)</td>
+</tr>
+<tr>
+<td><code>K</code> 或 <code>^u</code> <br><code>J</code> 或 <code>^d</code></td>
+<td>上翻半页 <br>下翻半页</td>
+</tr>
+<tr>
+<td><code>H</code> <br><code>L</code></td>
+<td>上一历史记录 <br>下一历史记录</td>
+</tr>
+<tr>
+<td><code>&lt;PAGEUP&gt;</code> 或 <code>^b</code> <br> <code>&lt;PAGEDOWN&gt;</code> 或 <code>^f</code></td>
+<td>上翻一页 <br>下翻一页</td>
+</tr>
+<tr>
+<td><code>gg</code> 或 <code>&lt;HOME&gt;</code> <br><code>G</code> 或 <code>&lt;END&gt;</code></td>
+<td>跳到顶端 <br>跳到底端</td>
+</tr>
+<tr>
+<td><code>[</code> <br><code>]</code></td>
+<td>父目录上移 <br>父目录下移</td>
+</tr>
+<tr>
+<td><code>g</code> + <code>对应字母</code> 跳转相应目录</td>
+<td><code>gh</code>：<code>~</code> go home <br><code>g?</code>：<code>/usr/share/doc/ranger</code> <br><code>gR</code>：<code>/usr/lib/python2.7/dist-packages/ranger</code> <br><code>gd</code>：<code>/dev</code> <br><code>ge</code>：<code>/etc</code> <br><code>gm</code>：<code>/media</code> <br><code>gM</code>：<code>/mnt</code> <br><code>go</code>：<code>/opt</code> <br><code>gs</code>：<code>/srv</code> <br><code>gu</code>：<code>/usr</code> <br><code>gv</code>：<code>/var</code> <br><code>gr</code> 或 <code>g/</code>：<code>/</code></td>
+</tr>
+<tr>
+<td><code>gl</code> 或<code>gL</code></td>
+<td>若当前项为符号链接，逃到其原始位置</td>
+</tr>
+<tr>
+<td><code>cd</code></td>
+<td>跳转到目录，同 <code>:cd</code></td>
+</tr>
+<tr>
+<td><code>f</code> 或 <code>/</code></td>
+<td>搜索查找</td>
+</tr>
+<tr>
+<td><code>z</code> + <code>对应字母</code> 设置相关属性</td>
+<td><code>h</code> 或 <code>^h</code> 显示/隐藏文件 <br><code>p</code> 开/关文件预览功能 <br> <code>P</code> 开/关目录预览功能 <br><code>c</code>    当文件预览不可见时，是否应该折叠右栏，使主栏扩大 <br><code>d</code> 文件夹是否在文件前面 <br><code>I</code> 每次按键后是否刷新输入 <br><code>m</code> 是否能用鼠标。如果能，则左键光标移动，右键打开，滚轮上下 <br><code>s</code> 排序是否区分大小写 <br><code>u</code> 是否自动更新状态栏上显示的该目录所有文件大小的值 <br><code>v</code>    是否启用预览脚本 <br><code>i</code> 是否预览图片</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="选择条目"><a href="#选择条目" class="headerlink" title="选择条目"></a>选择条目</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;SPACE&gt;</code></td>
+<td>选择文件并跳到下一项</td>
+</tr>
+<tr>
+<td><code>v</code></td>
+<td>反选</td>
+</tr>
+<tr>
+<td><code>V</code></td>
+<td>进入可视模式，结合移动键进行选择,配合可 <code>gg</code>, <code>G</code> 使用</td>
+</tr>
+<tr>
+<td><code>uv</code></td>
+<td>取消选择</td>
+</tr>
+<tr>
+<td><code>^v</code></td>
+<td>从某个位置开始选择</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="新建条目"><a href="#新建条目" class="headerlink" title="新建条目"></a>新建条目</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;INSERT&gt;</code></td>
+<td>新建文件,同 <code>:touch</code></td>
+</tr>
+<tr>
+<td><code>&lt;F7&gt;</code></td>
+<td>新建文件夹,同 <code>:mkdir</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="删除条目"><a href="#删除条目" class="headerlink" title="删除条目"></a>删除条目</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dD</code> 或 <code>&lt;F8&gt;</code></td>
+<td>删除条目(文件或文件夹) , 同 <code>:delete</code></td>
+</tr>
+<tr>
+<td><code>DD</code></td>
+<td>将条目移动到回收站</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="查看编辑文件"><a href="#查看编辑文件" class="headerlink" title="查看编辑文件"></a>查看编辑文件</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>i</code> 或 <code>&lt;F3&gt;</code></td>
+<td>查看当前文本文件内容</td>
+</tr>
+<tr>
+<td><code>E</code> 或 <code>&lt;F4&gt;</code></td>
+<td>调用默认编辑器编辑文件</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="重命名"><a href="#重命名" class="headerlink" title="重命名"></a>重命名</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cw</code></td>
+<td>重命名</td>
+</tr>
+<tr>
+<td><code>I</code></td>
+<td>修改当前命名,光标在最前</td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td>修改当前命名,光标在后缀前</td>
+</tr>
+<tr>
+<td><code>A</code></td>
+<td>修改当前命名,光标在最后</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="批量修改文件名"><a href="#批量修改文件名" class="headerlink" title="批量修改文件名"></a>批量修改文件名</h4><p>批量选择文件后, 键入命令 <code>:bulkname</code>  会打开编辑器, 将列出文件名编辑后保存退出，确认编辑, 然后就批量改名了, 如果想取消批量改名, 在确认时把内容删除即</p>
+<h3 id="移动复制"><a href="#移动复制" class="headerlink" title="移动复制"></a>移动复制</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dd</code> 或 <code>&lt;F6&gt;</code></td>
+<td>移动</td>
+</tr>
+<tr>
+<td><code>yy</code> 或 <code>&lt;F5&gt;</code></td>
+<td>复制</td>
+</tr>
+<tr>
+<td><code>da</code>、<code>ya</code></td>
+<td>添加文件到移动、复制队列</td>
+</tr>
+<tr>
+<td><code>dr</code>、<code>yr</code></td>
+<td>将文件从移动、复制队列移除</td>
+</tr>
+<tr>
+<td><code>dt</code>、<code>yt</code></td>
+<td>切换文件是否在移动、复制队列中</td>
+</tr>
+<tr>
+<td><code>dk</code>、<code>yk</code></td>
+<td>将当前文件与上一个文件添加到移动、复制队列</td>
+</tr>
+<tr>
+<td><code>dj</code>、<code>yj</code></td>
+<td>将当前文件与下一个文件添加到移动、复制队列</td>
+</tr>
+<tr>
+<td><code>dgg</code>、<code>ygg</code></td>
+<td>当前位置到顶端的所有文件添加到移动、复制队列</td>
+</tr>
+<tr>
+<td><code>dG</code>、<code>yG</code></td>
+<td>当前位置到末尾的所有文件添加到移动、复制队列</td>
+</tr>
+<tr>
+<td><code>ud</code>、<code>uy</code></td>
+<td>取消移动、复制</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="粘贴"><a href="#粘贴" class="headerlink" title="粘贴"></a>粘贴</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pp</code></td>
+<td>粘贴</td>
+</tr>
+<tr>
+<td><code>pP</code></td>
+<td>若有同名条目自动命名后粘贴</td>
+</tr>
+<tr>
+<td><code>po</code></td>
+<td>若有同名条目则覆盖原有条目粘贴</td>
+</tr>
+<tr>
+<td><code>pl</code></td>
+<td>粘贴为符号链接，不在状态栏显示条目的相对路径</td>
+</tr>
+<tr>
+<td><code>pl</code></td>
+<td>粘贴为符号路径(相对路径) ，在状态栏显示条目的相对路径</td>
+</tr>
+<tr>
+<td><code>phl</code></td>
+<td>粘贴为硬链接</td>
+</tr>
+<tr>
+<td><code>pht</code></td>
+<td>粘贴为硬链接的子目录</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="权限修改"><a href="#权限修改" class="headerlink" title="权限修改"></a>权限修改</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;a/u/g/o&gt;+&lt;r/w/x/1~7&gt;</code></td>
+<td>增加权限</td>
+</tr>
+<tr>
+<td><code>&lt;a/u/g/o&gt;-&lt;r/w/x/1~7&gt;</code></td>
+<td>取消权限</td>
+</tr>
+<tr>
+<td><code>&lt;a/u/g/o&gt;-&lt;r/w/x/1~7&gt;</code></td>
+<td>指定权限</td>
+</tr>
+</tbody>
+</table>
+</div>
 <ul>
-<li><code>&lt;程序&gt;</code> 指定程序，<code>~/.config/ranger/apps.py</code> 里面的定义了相应程序打开相应的文件，若没有该文件实用命令 <code>ranger --copy-config apps</code>生成</li>
+<li><code>a</code> ALL</li>
+<li><code>u</code> 所有者</li>
+<li><code>g</code> 所属组</li>
+<li><code>o</code> 其他</li>
+<li><code>r(1)</code> 读</li>
+<li><code>w(2)</code> 写</li>
+<li><code>x(4)</code> 执行</li>
+</ul>
+<h3 id="运行文件"><a href="#运行文件" class="headerlink" title="运行文件"></a>运行文件</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>l</code> 或 <code>&lt;ENTER&gt;</code></td>
+<td>用默认程序打开文件，<code>ranger</code> 不知道文件的打开程序时，会提示 <code>:open_with</code>  用于指定程序</td>
+</tr>
+<tr>
+<td><code>r</code></td>
+<td>指定程序打开文件同 <code>:open_with</code> 命令</td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td>在当前目录下打开<code>shell</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="open-with"><a href="#open-with" class="headerlink" title=":open_with"></a><code>:open_with</code></h5><figure class="highlight"><table><tr><td class="code"><pre><span class="line">:open_with &lt;程序&gt; &lt;模式&gt; &lt;选项&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>&lt;程序&gt;</code> 指定程序，<code>~/.config/ranger/apps.py</code> 里面的定义了相应程序打开相应的文件，若没有该文件实用命令 <code>ranger --copy-config apps</code>生成,<code>CustomApplications</code> 中每一个以 <code>app_</code> 开头的函数会被命令 <code>:open_with</code>  用到。</li>
 <li><code>&lt;模式&gt;</code> <code>0</code> 窗口模式 ， <code>1</code>全屏模式</li>
-<li><code>&lt;选项&gt;</code> 指定方式调用程序<ul>
+<li><p><code>&lt;选项&gt;</code> 指定方式调用程序</p>
+<ul>
 <li><code>s</code> 静默模式，任何输出将被丢弃</li>
 <li><code>d</code> 分离程序（在后台运行）</li>
 <li><code>p</code> 将输入重定向到 pager</li>
 <li><code>w</code> 当程序执行完成时需要用户回车确认</li>
 </ul>
+<p>大写  <code>&lt;选项&gt;</code>  有相反的作用，如一程序默认就在后台运行，那么可以使用 <code>:open_with D</code> 来防止其在后台运行</p>
 </li>
 </ul>
-<p>大写 &lt;选项&gt; 有相反的作用，如一程序默认就在后台运行，那么可以使用 <code>:open_with D</code> 来防止其在后台运行</p>
-<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><p><code>:</code> 开头，可用 \<Tab> 补全<br>所有命令都在<code>~/.config/ranger/commands.py</code>中<br><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">:<span class="keyword">cd</span> <span class="symbol">&lt;dirname&gt;</span> 			#跳转到目录 <span class="symbol">&lt;dirname&gt;</span></span><br><span class="line">:chmod <span class="symbol">&lt;octal_number&gt;</span> 	#设置被选项的权限</span><br><span class="line">:<span class="keyword">delete</span> 				#删除被选项</span><br><span class="line">:<span class="keyword">edit</span> <span class="symbol">&lt;filename&gt;</span> 		#编辑文件</span><br><span class="line">:<span class="built_in">filter</span> <span class="symbol">&lt;string&gt;</span> 		#只显示文件名中含有给定字符串 <span class="symbol">&lt;string&gt;</span> 的文件</span><br><span class="line">:<span class="keyword">find</span> <span class="symbol">&lt;regexp&gt;</span> 			#查找匹配给定正则表达式的文件，并且执行第一个匹配的文件</span><br><span class="line">:<span class="keyword">grep</span> <span class="symbol">&lt;string&gt;</span> 			#在选定的项中查找给定的字符串 <span class="symbol">&lt;string&gt;</span></span><br><span class="line">:<span class="keyword">mark</span> <span class="symbol">&lt;regexp&gt;</span> 			#选定匹配正则表达式的所有文件</span><br><span class="line">:unmark <span class="symbol">&lt;regexp&gt;</span> 		#取消选定匹配正则表达式的所有文件</span><br><span class="line">:<span class="built_in">mkdir</span> <span class="symbol">&lt;dirname&gt;</span> 		#创建目录</span><br><span class="line">:open_with &lt;program&lt; <span class="symbol">&lt;mode&gt;</span> <span class="symbol">&lt;flags&gt;</span> 	#给定参数打开文件，未给任何参数时，等价于 <span class="symbol">&lt;Enter&gt;</span>   </span><br><span class="line">:<span class="keyword">quit</span> 					#退出</span><br><span class="line">:<span class="built_in">rename</span> <span class="symbol">&lt;newname&gt;</span> 		#重命名当前文件</span><br><span class="line">:<span class="built_in">search</span> <span class="symbol">&lt;regexp&gt;</span> 		#搜索所有匹配正则表达式 <span class="symbol">&lt;regexp&gt;</span> 的文件，同<span class="keyword">vim</span> 中的 / ；快捷键：/</span><br><span class="line">:<span class="keyword">shell</span> [-<span class="symbol">&lt;flags&gt;</span>] <span class="symbol">&lt;command&gt;</span> 	#运行命令 <span class="symbol">&lt;command&gt;</span></span><br><span class="line">:<span class="keyword">set</span> <span class="keyword">colorscheme</span> snow 	#设置颜色模式</span><br><span class="line">:touch <span class="symbol">&lt;filename&gt;</span> 		#创建文件</span><br><span class="line"></span><br><span class="line">## 除了`:<span class="keyword">delete</span>`,所有的命令可不用写全，前提与输入字母匹配的命令只有一个</span><br></pre></td></tr></table></figure></Tab></p>
-<h3 id="任务管理"><a href="#任务管理" class="headerlink" title="任务管理"></a>任务管理</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">w</span> 		#打开/关闭任务视图</span><br><span class="line">dd 		#终止一个任务</span><br><span class="line">J 		#降低当前任务的优先级</span><br><span class="line">K 		#提升当前任务的优先级 </span><br></pre></td></tr></table></figure>
-<h3 id="其他-1"><a href="#其他-1" class="headerlink" title="其他"></a>其他</h3><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">z</span> 		#切换设置</span><br><span class="line">zf 		#过滤器(如过滤pdf文件, zf+pdf,回车)</span><br><span class="line">S 		#在当前目录打开终端</span><br><span class="line"><span class="keyword">z</span>(*) 	#改变设置, *表示在弹出选项中的选择</span><br><span class="line"><span class="keyword">o</span>(*) 	#改变排序方式</span><br><span class="line">! / s 	#使用<span class="keyword">shell</span>命令(！<span class="keyword">shell</span> -<span class="keyword">w</span> <span class="keyword">ls</span> -hl %s,%s代表当前被选中的文件)</span><br><span class="line">: 		#使用ranger命令</span><br><span class="line"><span class="keyword">u</span> 		#撤销操作</span><br><span class="line">W 		#打开消息日志</span><br><span class="line">du 		#显示当前目录的磁盘占用情况</span><br><span class="line">R 		#刷新当前目录</span><br><span class="line"><span class="symbol">&lt;Ctrl-R&gt;</span> 	#清空缓存并刷新目录</span><br><span class="line"><span class="symbol">&lt;Ctrl-L&gt;</span> 	#重画当前窗口</span><br></pre></td></tr></table></figure>
-<h2 id="快速预览"><a href="#快速预览" class="headerlink" title="快速预览"></a>快速预览</h2><p>修改 <code>~/.config/ranger/scope.sh</code>配置（默认配置就行）并安装以下程序可实现快速预览相关文件<br><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">#推荐</span><br><span class="line">elinks 		#html</span><br><span class="line"><span class="keyword">highlight</span> 	#text/code</span><br><span class="line">img2txt 	#image</span><br><span class="line">atool 		#压缩包</span><br><span class="line">pdftotext 	#pdf</span><br><span class="line">medinfo 	#audio/video</span><br></pre></td></tr></table></figure></p>
+<h3 id="标记"><a href="#标记" class="headerlink" title="标记"></a>标记</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>t</code></td>
+<td>标记/取消标记条目,标记后光标下移，默认 <code>*</code></td>
+</tr>
+<tr>
+<td><code>ut</code></td>
+<td>取消标记</td>
+</tr>
+<tr>
+<td><code>&quot;</code> + <code>任意字符</code></td>
+<td>使用 <code>任意字符</code> 标记/取消标记</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="搜索排序"><a href="#搜索排序" class="headerlink" title="搜索排序"></a>搜索排序</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code></td>
+<td>打开搜索框，输入搜索内容后回车开始搜索,同 <code>:search</code></td>
+</tr>
+<tr>
+<td><code>f</code></td>
+<td>向下查找并打开目标,同 <code>:find</code></td>
+</tr>
+<tr>
+<td><code>zf</code></td>
+<td>过滤器,显示符合条件的条目，区分大小写，<code>^r</code> 取消过滤</td>
+</tr>
+<tr>
+<td><code>n</code> 、<code>N</code></td>
+<td>查找下、上一个搜索结果</td>
+</tr>
+<tr>
+<td><code>c</code> + <code>对应字母</code> 根据属性遍历</td>
+<td><code>a</code> 最后访问时间 (atime) <br><code>c</code>状态(权限属性等)变更时间(ctime) <br><code>m</code> 最后修改内容时间(mtime) <br><code>i</code> MIME类型(mimetype) <br><code>s</code> 文件大小(size) <br><code>t</code> 标签(tag)</td>
+</tr>
+<tr>
+<td><code>o</code>+<code>对应字母</code> 根据属性排序(小写字母正向，大写字母反向)</td>
+<td><code>a/A</code> 最后访问时间 (atime) <br><code>b/B</code> 文件名(basename)<br><code>c/C</code>状态(权限属性等)变更时间(ctime) <br><code>e/E</code> 扩展名(extension) <br><code>m/M</code> 最后修改内容时间(mtime) <br><code>n/N</code> 自然排序(A1<A2<A10)(natural) <br><code>s/S</code> 文件大小(size) <br><code>t/T</code> 文件类型(type) <br><code>r</code> 反向(Ranger 默认升序)</A2<A10)(natural)></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="书签、标签页"><a href="#书签、标签页" class="headerlink" title="书签、标签页"></a>书签、标签页</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>m</code>,<code>\``,</code>‘`</td>
+<td>显示书签</td>
+</tr>
+<tr>
+<td><code>m</code> + <code>任意字符</code></td>
+<td>新建书签</td>
+</tr>
+<tr>
+<td><code>\`` 或</code>‘<code>+</code>任意字符`</td>
+<td>打开书签</td>
+</tr>
+<tr>
+<td><code>um</code> + <code>任意字符</code></td>
+<td>删除书签</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gn</code> 或 <code>^n</code></td>
+<td>新建标签</td>
+</tr>
+<tr>
+<td><code>gt</code> 或 <code>&lt;TAB&gt;</code> 或 <code>^i</code></td>
+<td>下一标签</td>
+</tr>
+<tr>
+<td><code>gT</code> 或 <code>&lt;Shift-TAB&gt;</code></td>
+<td>上一标签</td>
+</tr>
+<tr>
+<td><code>&lt;Alt-n&gt;</code></td>
+<td>打开指定标签，<code>n</code>为 <code>1~9</code> 的标签号，若标签不存在则新建</td>
+</tr>
+<tr>
+<td><code>&lt;Alt-Right&gt;</code> / <code>&lt;Alt-Left&gt;</code></td>
+<td>切换标签</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="显示模式"><a href="#显示模式" class="headerlink" title="显示模式"></a>显示模式</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Mf</code></td>
+<td><code>filename</code> 模式 (文件名+文件大小，文件夹显示文件数)</td>
+</tr>
+<tr>
+<td><code>Mi</code></td>
+<td><code>fileinfo</code> 模式 (文件名，媒体文件显示更多信息，文件夹显示文件数)</td>
+</tr>
+<tr>
+<td><code>Mm</code></td>
+<td><code>mtime</code> 模式 (文件名+最后修改时间)</td>
+</tr>
+<tr>
+<td><code>Mp</code></td>
+<td><code>permissions</code> 模式 (权限信息+文件名)</td>
+</tr>
+<tr>
+<td><code>Ms</code></td>
+<td><code>sizemitime</code> 模式 (文件名+ 文件大小+最后修改时间，文件夹显示文件数)</td>
+</tr>
+<tr>
+<td><code>Mt</code></td>
+<td><code>metatitle</code> 模式 (文件名 + 文件大小，文件夹显示文件数)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="任务管理"><a href="#任务管理" class="headerlink" title="任务管理"></a>任务管理</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>w</code></td>
+<td>打开/关闭任务视图</td>
+</tr>
+<tr>
+<td><code>dd</code></td>
+<td>终止一个任务</td>
+</tr>
+<tr>
+<td><code>J</code></td>
+<td>降低当前任务的优先级</td>
+</tr>
+<tr>
+<td><code>K</code></td>
+<td>提升当前任务的优先级</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>!/s</code></td>
+<td>使用 <code>shell</code> 命令(<code>！shell -w ls -hl %s</code>,<code>%s</code>代表当前被选中的文件)</td>
+</tr>
+<tr>
+<td><code>:</code></td>
+<td>使用 Ranger 的命令</td>
+</tr>
+<tr>
+<td><code>u</code></td>
+<td>撤销操作</td>
+</tr>
+<tr>
+<td><code>W</code></td>
+<td>打开消息日志</td>
+</tr>
+<tr>
+<td><code>du</code></td>
+<td>显示当前目录的磁盘占用情况</td>
+</tr>
+<tr>
+<td><code>dU</code></td>
+<td>显示当前目录的磁盘占用情况(按大小排序)</td>
+</tr>
+<tr>
+<td><code>R</code></td>
+<td>刷新当前目录</td>
+</tr>
+<tr>
+<td><code>^r</code></td>
+<td>清空缓存并刷新目录</td>
+</tr>
+<tr>
+<td><code>^l</code></td>
+<td>重画当前窗口</td>
+</tr>
+<tr>
+<td><code>~</code></td>
+<td>切换界面风格</td>
+</tr>
+<tr>
+<td><code>ESC</code></td>
+<td>退出到正常模式</td>
+</tr>
+<tr>
+<td><code>q/Q/ZQ/ZZ</code></td>
+<td>退出 Ranger</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>和 vim 一样，指令之前可以指定一个数字，表示执行多少次指令</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>5^D</code></td>
+<td>向下翻5个半页</td>
+</tr>
+<tr>
+<td><code>3h</code></td>
+<td>向上跳3级目录</td>
+</tr>
+<tr>
+<td><code>6gg</code> 或 <code>6G</code></td>
+<td>跳第6行</td>
+</tr>
+<tr>
+<td><code>20%</code></td>
+<td>跳到当前页的 <code>20%</code> 处</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:</code></td>
+<td>开头，可用 <code>&lt;TAB&gt;</code> 补全</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>所有命令都在<code>~/.config/ranger/commands.py</code>中</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:cd &lt;dirname&gt;</code></td>
+<td>跳转到目录 <dirname></dirname></td>
+</tr>
+<tr>
+<td><code>:chmod &lt;octal_number&gt;</code></td>
+<td>设置被选项的权限</td>
+</tr>
+<tr>
+<td><code>:delete</code></td>
+<td>删除被选项</td>
+</tr>
+<tr>
+<td><code>:edit &lt;filename&gt;</code></td>
+<td>编辑文件</td>
+</tr>
+<tr>
+<td><code>:filter &lt;string&gt;</code></td>
+<td>只显示文件名中含有给定字符串 <string> 的文件</string></td>
+</tr>
+<tr>
+<td><code>:find &lt;regexp&gt;</code></td>
+<td>查找匹配给定正则表达式的文件，并且执行第一个匹配的文件</td>
+</tr>
+<tr>
+<td><code>:grep &lt;string&gt;</code></td>
+<td>在选定的项中查找给定的字符串 <string></string></td>
+</tr>
+<tr>
+<td><code>:mark &lt;regexp&gt;</code></td>
+<td>选定匹配正则表达式的所有文件</td>
+</tr>
+<tr>
+<td><code>:unmark &lt;regexp&gt;</code></td>
+<td>取消选定匹配正则表达式的所有文件</td>
+</tr>
+<tr>
+<td><code>:mkdir &lt;dirname&gt;</code></td>
+<td>创建目录</td>
+</tr>
+<tr>
+<td><code>:open_with &lt;program&lt; &lt;mode&gt; &lt;flags&gt;</code></td>
+<td>给定参数打开文件，未给任何参数时，等价于 <code>&lt;Enter&gt;</code></td>
+</tr>
+<tr>
+<td><code>:quit</code></td>
+<td>退出</td>
+</tr>
+<tr>
+<td><code>:rename &lt;newname&gt;</code></td>
+<td>重命名当前文件</td>
+</tr>
+<tr>
+<td><code>:search &lt;regexp&gt;</code></td>
+<td>搜索所有匹配正则表达式 <regexp> 的文件,快捷键：<code>/</code></regexp></td>
+</tr>
+<tr>
+<td><code>:shell [-&lt;flags&gt;] &lt;command&gt;</code></td>
+<td>运行命令 <code>&lt;command&gt;</code></td>
+</tr>
+<tr>
+<td><code>:set colorscheme snow</code></td>
+<td>设置颜色模式</td>
+</tr>
+<tr>
+<td><code>:touch &lt;filename&gt;</code></td>
+<td>创建文件</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>除了<code>:delete</code>,所有的命令可不用写全，前提与输入字母匹配的命令只有一个</p>
+<h2 id="快速预览"><a href="#快速预览" class="headerlink" title="快速预览"></a>快速预览</h2><p>修改 <code>~/.config/ranger/scope.sh</code>配置（默认配置就行）并安装以下程序可实现快速预览相关文件</p>
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">#推荐</span><br><span class="line">elinks 		#html</span><br><span class="line"><span class="keyword">highlight</span> 	#text/code</span><br><span class="line">img2txt 	#image</span><br><span class="line">atool 		#压缩包</span><br><span class="line">pdftotext 	#pdf</span><br><span class="line">medinfo 	#audio/video</span><br></pre></td></tr></table></figure>
 <p><strong><a href="https://github.com/ranger/ranger">官方仓库</a>中列出的程序</strong></p>
 <ul>
 <li><code>img2txt</code>（基于<code>caca-utils</code>） 用于ASCII图像预览</li>
@@ -8959,6 +9630,8 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <li><code>python</code>、<code>jq</code> JSON文件</li>
 <li><code>fontimage</code> 用于字体预览</li>
 </ul>
+<h2 id="查考"><a href="#查考" class="headerlink" title="查考"></a>查考</h2><p><a href="http://www.huangpan.net/posts/ji-ke/2019-08-21-ranger.html#toc-heading-55">Ranger 用法总结</a></p>
+<p><a href="https://www.codenong.com/cs105842061/">终端下文件管理器Ranger使用</a></p>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -8969,6 +9642,49 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
         <tag>ranger</tag>
         <tag>终端</tag>
         <tag>文件管理器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sed功能强大的流式文本编辑器</title>
+    <url>/posts/fef19fcf/</url>
+    <content><![CDATA[<h1 id="sed功能强大的流式文本编辑器"><a href="#sed功能强大的流式文本编辑器" class="headerlink" title="sed功能强大的流式文本编辑器"></a>sed功能强大的流式文本编辑器</h1><p>  sed 是一种流编辑器，配合正则表达式使用，功能不同凡响。处理时，把当前处理的行存储在临时缓冲区中，称为“模式空间”（pattern space），接着用sed命令处理缓冲区中的内容，处理完成后，把缓冲区的内容送往屏幕。接着处理下一行，这样不断重复，直到文件末尾。文件内容并没有 改变，除非使用重定向存储输出。sed主要用来自动编辑一个或多个文件；简化对文件的反复操作；编写转换程序等。<br>  <strong>sed可集合通道符<code>|</code>使用</strong></p>
+<h2 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed [options] <span class="string">&#x27;command&#x27;</span> file(s)</span><br><span class="line">sed [options] -f scriptfile file(s)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="选项-options-、参数"><a href="#选项-options-、参数" class="headerlink" title="选项(options)、参数"></a>选项(options)、参数</h2><p>  <strong>选项</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-e&lt;script&gt;或--expression&#x3D;&lt;script&gt;：以选项中的指定的script来处理输入的文本文件；</span><br><span class="line">-f&lt;script文件&gt;或--file&#x3D;&lt;script文件&gt;：以选项中指定的script文件来处理输入的文本文件；</span><br><span class="line">-h或--help：显示帮助；</span><br><span class="line">-n或--quiet或——silent：仅显示script处理后的结果；</span><br><span class="line">-V或--version：显示版本信息。</span><br></pre></td></tr></table></figure>
+<p>  <strong>参数</strong>: 指定待处理的文本文件列表。</p>
+<h2 id="sed指令"><a href="#sed指令" class="headerlink" title="sed指令"></a>sed指令</h2><p>  <strong>sed命令</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a\ 		# 在当前行下面插入文本</span><br><span class="line">i\ 		# 在当前行上面插入文本</span><br><span class="line">c\ 		# 把选定的行改为新的文本</span><br><span class="line">d 		# 删除，删除选择的行</span><br><span class="line">D 		# 删除模板块的第一行</span><br><span class="line">s 		# 替换指定字符</span><br><span class="line">h 		# 拷贝模板块的内容到内存中的缓冲区</span><br><span class="line">H 		# 追加模板块的内容到内存中的缓冲区</span><br><span class="line">g 		# 获得内存缓冲区的内容，并替代当前模板块中的文本。</span><br><span class="line">G 		# 获得内存缓冲区的内容，并追加到当前模板块文本的后面</span><br><span class="line">l 		# 列表不能打印字符的清单</span><br><span class="line">n 		# 读取下一个输入行，用下一个命令处理新的行而不是用第一个命令</span><br><span class="line">N 		# 追加下一个输入行到模板块后面并在二者间嵌入一个新行，改变当前行号码</span><br><span class="line">p 		# 打印模板块的行</span><br><span class="line">P 		# (大写) 打印模板块的第一行</span><br><span class="line">q 		# 退出Sed</span><br><span class="line">b lable # 分支到脚本中带有标记的地方，如果分支不存在则分支到脚本的末尾</span><br><span class="line">r file 	# 从file中读行</span><br><span class="line">t label # if分支，从最后一行开始，条件一旦满足或者T，t命令，将导致分支到带有标号的命令处，或者到脚本的末尾</span><br><span class="line">T label # 错误分支，从最后一行开始，一旦发生错误或者T，t命令，将导致分支到带有标号的命令处，或者到脚本的末尾</span><br><span class="line">w file 	# 写并追加模板块到file末尾 </span><br><span class="line">W file 	# 写并追加模板块的第一行到file末尾</span><br><span class="line">! 		# 表示后面的命令对所有没有被选定的行发生作用 </span><br><span class="line">&#x3D; 		# 打印当前行号码 </span><br><span class="line"># 		# 把注释扩展到下一个换行符以前</span><br></pre></td></tr></table></figure>
+<p>  <strong>替换标记</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">g 		# 表示行内全面替换  </span><br><span class="line">p 		# 表示打印行</span><br><span class="line">w 		# 表示把行写入一个文件</span><br><span class="line">x 		# 表示互换模板块中的文本和缓冲区中的文本</span><br><span class="line">y 		# 表示把一个字符翻译为另外的字符（但是不用于正则表达式）</span><br><span class="line">\1 		# 子串匹配标记</span><br><span class="line">&amp; 		# 已匹配字符串标记</span><br></pre></td></tr></table></figure>
+<p>  <strong>sed元字符集</strong>:</p>
+<p>  sed使用的正则表达式是括在斜杠线”/”之间的模式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">^ 		# 匹配行开始，如：&#x2F;^sed&#x2F;匹配所有以sed开头的行</span><br><span class="line">$ 		# 匹配行结束，如：&#x2F;sed$&#x2F;匹配所有以sed结尾的行</span><br><span class="line">. 		# 匹配一个非换行符的任意字符，如：&#x2F;s.d&#x2F;匹配s后接一个任意字符，最后是d</span><br><span class="line">* 		# 匹配0个或多个字符，如：&#x2F;*sed&#x2F;匹配所有模板是一个或多个空格后紧跟sed的行</span><br><span class="line">[] 		# 匹配一个指定范围内的字符，如：&#x2F;[ss]ed&#x2F;匹配sed和Sed</span><br><span class="line">[^] 	# 匹配一个不在指定范围内的字符，如：&#x2F;[^A-RT-Z]ed&#x2F;匹配不包含A-R和T-Z的一个字母开头，紧跟ed的行</span><br><span class="line">\(..\) 	# 保存匹配的字符，如：s&#x2F;\(love\)able&#x2F;\1rs，loveable被替换成lovers</span><br><span class="line">&amp; 		# 保存搜索字符用来替换其他字符，如：s&#x2F;love&#x2F; **&amp;** &#x2F;，love这成 **love** </span><br><span class="line">\&lt; 		# 匹配单词的开始，如:&#x2F;\&lt;love&#x2F;匹配包含以love开头的单词的行</span><br><span class="line">\&gt; 		# 匹配单词的结束，如：&#x2F;love\&gt;&#x2F;匹配包含以love结尾的单词的行</span><br><span class="line">x\&#123;m\&#125; 	# 连续m个x，如：&#x2F;0\&#123;5\&#125;&#x2F;匹配包含5个0的行</span><br><span class="line">x\&#123;m,\&#125; # 至少m个x，如：&#x2F;0\&#123;5,\&#125;&#x2F;匹配至少有5个0的行</span><br><span class="line">x\&#123;m,n\&#125; # 至少m个x，但不多于n个，如：&#x2F;0\&#123;5,10\&#125;&#x2F;匹配5~10个0的行</span><br></pre></td></tr></table></figure>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>  <strong>再第5行后添加一行，并输出结果</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -e 5a\newline file_name</span><br></pre></td></tr></table></figure>
+<p>  <strong>删除行</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 删除第2行</span></span><br><span class="line">sed <span class="string">&#x27;2d&#x27;</span> file_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除第2~5行</span></span><br><span class="line">sed <span class="string">&#x27;2,5d&#x27;</span> file_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示行号和内容，同时删除2~5行</span></span><br><span class="line">nl file_name | sed <span class="string">&#x27;2,5d&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  <strong>行加内容</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 第2行尾加内容</span></span><br><span class="line">sed <span class="string">&#x27;2a test&#x27;</span> file_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第2行前加内容</span></span><br><span class="line">sed <span class="string">&#x27;2i test&#x27;</span> file_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第2行尾加内容，再换行加内容</span></span><br><span class="line">sed `2a <span class="built_in">test</span> \</span><br><span class="line">test2`</span><br></pre></td></tr></table></figure>
+<p>  <strong>替换行</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换第2~5行</span></span><br><span class="line">sed `2,5c <span class="built_in">test</span>` file_name</span><br></pre></td></tr></table></figure>
+<p>  <strong>显示指定行</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 显示第5~7行</span></span><br><span class="line">nl <span class="built_in">test</span> | sed -n <span class="string">&#x27;5,7p&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  <strong>搜索内容</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 搜索有关键字的行</span></span><br><span class="line">cat file_name | sed <span class="string">&#x27;/test/p&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索并删除</span></span><br><span class="line">cat file_name | sed <span class="string">&#x27;/test/p&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索并执行指令,执行&#123;&#125;内的内容，每个命令用分号分隔</span></span><br><span class="line">nl file_name  | sed <span class="string">&#x27;/test/&#123;s/bulabula/hehehe/;p;q&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  <strong>搜寻并替换</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed <span class="string">&#x27;s/要被取代的字串/新的字串/g&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  <strong>多点编辑</strong></p>
+<p>  一条sed命令，删除第三行到末尾的数据，并把test替换为TEST</p>
+<p>  <code>-e</code>表示多点编辑</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nl file_name | sed -e <span class="string">&#x27;3,$d&#x27;</span> -e <span class="string">&#x27;s/test/TEST/&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>更多参考：<br><a href="https://man.linuxde.net/sed">https://man.linuxde.net/sed</a><br><a href="https://zhang.ge/1926.html">https://zhang.ge/1926.html</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -9017,49 +9733,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
       <tags>
         <tag>v2ray</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sed功能强大的流式文本编辑器</title>
-    <url>/posts/fef19fcf/</url>
-    <content><![CDATA[<h1 id="sed功能强大的流式文本编辑器"><a href="#sed功能强大的流式文本编辑器" class="headerlink" title="sed功能强大的流式文本编辑器"></a>sed功能强大的流式文本编辑器</h1><p>  sed 是一种流编辑器，配合正则表达式使用，功能不同凡响。处理时，把当前处理的行存储在临时缓冲区中，称为“模式空间”（pattern space），接着用sed命令处理缓冲区中的内容，处理完成后，把缓冲区的内容送往屏幕。接着处理下一行，这样不断重复，直到文件末尾。文件内容并没有 改变，除非使用重定向存储输出。sed主要用来自动编辑一个或多个文件；简化对文件的反复操作；编写转换程序等。<br>  <strong>sed可集合通道符<code>|</code>使用</strong></p>
-<h2 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed [options] <span class="string">&#x27;command&#x27;</span> file(s)</span><br><span class="line">sed [options] -f scriptfile file(s)</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h2 id="选项-options-、参数"><a href="#选项-options-、参数" class="headerlink" title="选项(options)、参数"></a>选项(options)、参数</h2><p>  <strong>选项</strong>:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-e&lt;script&gt;或--expression&#x3D;&lt;script&gt;：以选项中的指定的script来处理输入的文本文件；</span><br><span class="line">-f&lt;script文件&gt;或--file&#x3D;&lt;script文件&gt;：以选项中指定的script文件来处理输入的文本文件；</span><br><span class="line">-h或--help：显示帮助；</span><br><span class="line">-n或--quiet或——silent：仅显示script处理后的结果；</span><br><span class="line">-V或--version：显示版本信息。</span><br></pre></td></tr></table></figure>
-<p>  <strong>参数</strong>: 指定待处理的文本文件列表。</p>
-<h2 id="sed指令"><a href="#sed指令" class="headerlink" title="sed指令"></a>sed指令</h2><p>  <strong>sed命令</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a\ 		# 在当前行下面插入文本</span><br><span class="line">i\ 		# 在当前行上面插入文本</span><br><span class="line">c\ 		# 把选定的行改为新的文本</span><br><span class="line">d 		# 删除，删除选择的行</span><br><span class="line">D 		# 删除模板块的第一行</span><br><span class="line">s 		# 替换指定字符</span><br><span class="line">h 		# 拷贝模板块的内容到内存中的缓冲区</span><br><span class="line">H 		# 追加模板块的内容到内存中的缓冲区</span><br><span class="line">g 		# 获得内存缓冲区的内容，并替代当前模板块中的文本。</span><br><span class="line">G 		# 获得内存缓冲区的内容，并追加到当前模板块文本的后面</span><br><span class="line">l 		# 列表不能打印字符的清单</span><br><span class="line">n 		# 读取下一个输入行，用下一个命令处理新的行而不是用第一个命令</span><br><span class="line">N 		# 追加下一个输入行到模板块后面并在二者间嵌入一个新行，改变当前行号码</span><br><span class="line">p 		# 打印模板块的行</span><br><span class="line">P 		# (大写) 打印模板块的第一行</span><br><span class="line">q 		# 退出Sed</span><br><span class="line">b lable # 分支到脚本中带有标记的地方，如果分支不存在则分支到脚本的末尾</span><br><span class="line">r file 	# 从file中读行</span><br><span class="line">t label # if分支，从最后一行开始，条件一旦满足或者T，t命令，将导致分支到带有标号的命令处，或者到脚本的末尾</span><br><span class="line">T label # 错误分支，从最后一行开始，一旦发生错误或者T，t命令，将导致分支到带有标号的命令处，或者到脚本的末尾</span><br><span class="line">w file 	# 写并追加模板块到file末尾 </span><br><span class="line">W file 	# 写并追加模板块的第一行到file末尾</span><br><span class="line">! 		# 表示后面的命令对所有没有被选定的行发生作用 </span><br><span class="line">&#x3D; 		# 打印当前行号码 </span><br><span class="line"># 		# 把注释扩展到下一个换行符以前</span><br></pre></td></tr></table></figure>
-<p>  <strong>替换标记</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">g 		# 表示行内全面替换  </span><br><span class="line">p 		# 表示打印行</span><br><span class="line">w 		# 表示把行写入一个文件</span><br><span class="line">x 		# 表示互换模板块中的文本和缓冲区中的文本</span><br><span class="line">y 		# 表示把一个字符翻译为另外的字符（但是不用于正则表达式）</span><br><span class="line">\1 		# 子串匹配标记</span><br><span class="line">&amp; 		# 已匹配字符串标记</span><br></pre></td></tr></table></figure>
-<p>  <strong>sed元字符集</strong>:</p>
-<p>  sed使用的正则表达式是括在斜杠线”/”之间的模式</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">^ 		# 匹配行开始，如：&#x2F;^sed&#x2F;匹配所有以sed开头的行</span><br><span class="line">$ 		# 匹配行结束，如：&#x2F;sed$&#x2F;匹配所有以sed结尾的行</span><br><span class="line">. 		# 匹配一个非换行符的任意字符，如：&#x2F;s.d&#x2F;匹配s后接一个任意字符，最后是d</span><br><span class="line">* 		# 匹配0个或多个字符，如：&#x2F;*sed&#x2F;匹配所有模板是一个或多个空格后紧跟sed的行</span><br><span class="line">[] 		# 匹配一个指定范围内的字符，如：&#x2F;[ss]ed&#x2F;匹配sed和Sed</span><br><span class="line">[^] 	# 匹配一个不在指定范围内的字符，如：&#x2F;[^A-RT-Z]ed&#x2F;匹配不包含A-R和T-Z的一个字母开头，紧跟ed的行</span><br><span class="line">\(..\) 	# 保存匹配的字符，如：s&#x2F;\(love\)able&#x2F;\1rs，loveable被替换成lovers</span><br><span class="line">&amp; 		# 保存搜索字符用来替换其他字符，如：s&#x2F;love&#x2F; **&amp;** &#x2F;，love这成 **love** </span><br><span class="line">\&lt; 		# 匹配单词的开始，如:&#x2F;\&lt;love&#x2F;匹配包含以love开头的单词的行</span><br><span class="line">\&gt; 		# 匹配单词的结束，如：&#x2F;love\&gt;&#x2F;匹配包含以love结尾的单词的行</span><br><span class="line">x\&#123;m\&#125; 	# 连续m个x，如：&#x2F;0\&#123;5\&#125;&#x2F;匹配包含5个0的行</span><br><span class="line">x\&#123;m,\&#125; # 至少m个x，如：&#x2F;0\&#123;5,\&#125;&#x2F;匹配至少有5个0的行</span><br><span class="line">x\&#123;m,n\&#125; # 至少m个x，但不多于n个，如：&#x2F;0\&#123;5,10\&#125;&#x2F;匹配5~10个0的行</span><br></pre></td></tr></table></figure>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>  <strong>再第5行后添加一行，并输出结果</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -e 5a\newline file_name</span><br></pre></td></tr></table></figure>
-<p>  <strong>删除行</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 删除第2行</span></span><br><span class="line">sed <span class="string">&#x27;2d&#x27;</span> file_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除第2~5行</span></span><br><span class="line">sed <span class="string">&#x27;2,5d&#x27;</span> file_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示行号和内容，同时删除2~5行</span></span><br><span class="line">nl file_name | sed <span class="string">&#x27;2,5d&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>  <strong>行加内容</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 第2行尾加内容</span></span><br><span class="line">sed <span class="string">&#x27;2a test&#x27;</span> file_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第2行前加内容</span></span><br><span class="line">sed <span class="string">&#x27;2i test&#x27;</span> file_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第2行尾加内容，再换行加内容</span></span><br><span class="line">sed `2a <span class="built_in">test</span> \</span><br><span class="line">test2`</span><br></pre></td></tr></table></figure>
-<p>  <strong>替换行</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换第2~5行</span></span><br><span class="line">sed `2,5c <span class="built_in">test</span>` file_name</span><br></pre></td></tr></table></figure>
-<p>  <strong>显示指定行</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 显示第5~7行</span></span><br><span class="line">nl <span class="built_in">test</span> | sed -n <span class="string">&#x27;5,7p&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>  <strong>搜索内容</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 搜索有关键字的行</span></span><br><span class="line">cat file_name | sed <span class="string">&#x27;/test/p&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索并删除</span></span><br><span class="line">cat file_name | sed <span class="string">&#x27;/test/p&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索并执行指令,执行&#123;&#125;内的内容，每个命令用分号分隔</span></span><br><span class="line">nl file_name  | sed <span class="string">&#x27;/test/&#123;s/bulabula/hehehe/;p;q&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>  <strong>搜寻并替换</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed <span class="string">&#x27;s/要被取代的字串/新的字串/g&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>  <strong>多点编辑</strong></p>
-<p>  一条sed命令，删除第三行到末尾的数据，并把test替换为TEST</p>
-<p>  <code>-e</code>表示多点编辑</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nl file_name | sed -e <span class="string">&#x27;3,$d&#x27;</span> -e <span class="string">&#x27;s/test/TEST/&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>更多参考：<br><a href="https://man.linuxde.net/sed">https://man.linuxde.net/sed</a><br><a href="https://zhang.ge/1926.html">https://zhang.ge/1926.html</a></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>

@@ -6,7 +6,7 @@
   <link href="https://eonun.com/atom.xml" rel="self"/>
   
   <link href="https://eonun.com/"/>
-  <updated>2021-05-20T08:38:10.233Z</updated>
+  <updated>2021-05-22T16:31:52.128Z</updated>
   <id>https://eonun.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>i3-polybar配置美化</title>
+    <link href="https://eonun.com/posts/af56b769/"/>
+    <id>https://eonun.com/posts/af56b769/</id>
+    <published>2021-05-22T16:12:31.000Z</published>
+    <updated>2021-05-22T16:31:52.128Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;figure class=&quot;highlight sh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo pacman -S polybar&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h1 id=&quot;i3-配置使用-polybar&quot;&gt;&lt;a href=&quot;#i3-配置使用-polybar&quot; class=&quot;headerlink&quot; title=&quot;i3 配置使用 polybar&quot;&gt;&lt;/a&gt;i3 配置使用 polybar&lt;/h1&gt;&lt;p&gt;编写启动 polybar 的脚本&lt;/p&gt;
+&lt;figure class=&quot;highlight sh&quot;&gt;&lt;figcaption&gt;&lt;span&gt;.config/polybar/polybar_run.sh&lt;/span&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#!/bin/bash&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 终端可能已经有在运行的实例&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;killall -q polybar&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 等待进程被终止&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;while&lt;/span&gt; pgrep -u &lt;span class=&quot;variable&quot;&gt;$UID&lt;/span&gt; -x polybar &amp;gt;/dev/null; &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt; sleep 1; &lt;span class=&quot;keyword&quot;&gt;done&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 运行Polybar，使用默认的配置文件路径 ~/.config/polybar/config&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;polybar mybar &amp;amp;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;quot;Polybar runing...&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;注释 i3 自带的 bar 或 i3blocks ，配置使用 polybar 启动脚本启动 polybar&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#bar &amp;#123;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#	i3bar_command i3bar --transparency&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#	status_command i3blocks&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#	position top&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#	colors &amp;#123;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#		background #9370DB3F&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#		separator #778899&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#			# 使用RGBA颜色  #边界 背景 文本&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#		focused_workspace  	#778899A5 #87CEEBA5 #FFFAFAF5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#		inactive_workspace 	#7788993F #AFEEEE3F #FFFAFAF5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#		urgent_workspace   	#80808072 #FF450072 #FFFAFAF5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#    &amp;#125;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#&amp;#125;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;exec_always --no-startup-id $HOME/.config/polybar/polybar_run.sh&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="i3" scheme="https://eonun.com/categories/i3/"/>
+    
+    
+    <category term="i3" scheme="https://eonun.com/tags/i3/"/>
+    
+  </entry>
   
   <entry>
     <title>路由器开源固件</title>
@@ -438,26 +461,6 @@
     
     <summary type="html">&lt;p&gt;&lt;strong&gt;七、信息安全标准与法规&lt;/strong&gt;&lt;/p&gt;
 &lt;h1 id=&quot;填空&quot;&gt;&lt;a href=&quot;#填空&quot; class=&quot;headerlink&quot; title=&quot;填空&quot;&gt;&lt;/a&gt;填空&lt;/h1&gt;&lt;h2 id=&quot;信息技术安全评价的通用标准（CC）是由-、-、-、-、-、-6个国家于1996年联合提出的&quot;&gt;&lt;a href=&quot;#信息技术安全评价的通用标准（CC）是由-、-、-、-、-、-6个国家于1996年联合提出的&quot; class=&quot;headerlink&quot; title=&quot;信息技术安全评价的通用标准（CC）是由 ___、___、___、___、___、___ 6个国家于1996年联合提出的&quot;&gt;&lt;/a&gt;信息技术安全评价的通用标准（CC）是由 &lt;strong&gt;___、___、___、___、___、___&lt;/strong&gt; 6个国家于1996年联合提出的&lt;/h2&gt;&lt;p&gt;美国、加拿大、英国、法国、德国、荷兰&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/categories/NCRE/"/>
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/tags/NCRE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>计算机等级考试三级信息安全技术章节习题6</title>
-    <link href="https://eonun.com/posts/a8adb7bc/"/>
-    <id>https://eonun.com/posts/a8adb7bc/</id>
-    <published>2021-03-15T16:24:26.000Z</published>
-    <updated>2021-03-19T10:33:43.455Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;strong&gt;六、信息安全管理&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&quot;填空&quot;&gt;&lt;a href=&quot;#填空&quot; class=&quot;headerlink&quot; title=&quot;填空&quot;&gt;&lt;/a&gt;填空&lt;/h1&gt;&lt;h2 id=&quot;信息安全的一个重要原则是&quot;&gt;&lt;a href=&quot;#信息安全的一个重要原则是&quot; class=&quot;headerlink&quot; title=&quot;信息安全的一个重要原则是 ___&quot;&gt;&lt;/a&gt;信息安全的一个重要原则是 &lt;strong&gt;___&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;技(术)管(理)并重&lt;/p&gt;</summary>
     
     
     
