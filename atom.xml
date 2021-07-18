@@ -6,7 +6,7 @@
   <link href="https://eonun.com/atom.xml" rel="self"/>
   
   <link href="https://eonun.com/"/>
-  <updated>2021-05-22T16:31:52.128Z</updated>
+  <updated>2021-07-18T07:24:58.624Z</updated>
   <id>https://eonun.com/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Git问题解决</title>
+    <link href="https://eonun.com/posts/19e2ba1f/"/>
+    <id>https://eonun.com/posts/19e2ba1f/</id>
+    <published>2021-07-18T03:56:03.000Z</published>
+    <updated>2021-07-18T07:24:58.624Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;使用-ours-和-theirs-解决合并冲突&quot;&gt;&lt;a href=&quot;#使用-ours-和-theirs-解决合并冲突&quot; class=&quot;headerlink&quot; title=&quot;使用 ours 和 theirs 解决合并冲突&quot;&gt;&lt;/a&gt;使用 &lt;code&gt;ours&lt;/code&gt; 和 &lt;code&gt;theirs&lt;/code&gt; 解决合并冲突&lt;/h1&gt;&lt;p&gt;在使用 git 工程中,合并时产生冲突是很常见的，在使用 &lt;code&gt;merge&lt;/code&gt; 和 &lt;code&gt;rebase&lt;/code&gt; 合并时都会出现冲突情况，设计到很多文件，而冲突一般是只选择保留一方，这就可通过使用 &lt;code&gt;ours&lt;/code&gt; 和 &lt;code&gt;theirs&lt;/code&gt; 解决冲突。&lt;/p&gt;
+&lt;h2 id=&quot;merge-与-rebase-合并的区别&quot;&gt;&lt;a href=&quot;#merge-与-rebase-合并的区别&quot; class=&quot;headerlink&quot; title=&quot;merge 与 rebase 合并的区别&quot;&gt;&lt;/a&gt;&lt;code&gt;merge&lt;/code&gt; 与 &lt;code&gt;rebase&lt;/code&gt; 合并的区别&lt;/h2&gt;&lt;p&gt;假设 &lt;code&gt;main&lt;/code&gt; 主分支基础上生成了分支 &lt;code&gt;branch_B&lt;/code&gt; 各自都有一些提交,现需要将 &lt;code&gt;branch_B&lt;/code&gt; 合并到 &lt;code&gt;main&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;执行 &lt;code&gt;git merge branch_B main&lt;/code&gt; 后分支状态:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;main —— A —— B ——- D (main)&lt;br&gt;   \                   /&lt;br&gt;    \ branch_B —— C /&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;merge&lt;/code&gt; 会抽取两个分支上新增的提交，并将其合并在一起，产生一个新的提交D，生成的D节点有两个父节点，在合并的过程中可能会发生冲突&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Git" scheme="https://eonun.com/categories/Git/"/>
+    
+    
+    <category term="Git" scheme="https://eonun.com/tags/Git/"/>
+    
+  </entry>
+  
+  <entry>
     <title>i3-polybar配置美化</title>
     <link href="https://eonun.com/posts/af56b769/"/>
     <id>https://eonun.com/posts/af56b769/</id>
     <published>2021-05-22T16:12:31.000Z</published>
-    <updated>2021-05-22T16:31:52.128Z</updated>
+    <updated>2021-07-17T13:40:07.515Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;figure class=&quot;highlight sh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo pacman -S polybar&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
@@ -448,26 +473,6 @@
     
     
     <category term="OpenWrt" scheme="https://eonun.com/tags/OpenWrt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>计算机等级考试三级信息安全技术章节习题7</title>
-    <link href="https://eonun.com/posts/dfaa872a/"/>
-    <id>https://eonun.com/posts/dfaa872a/</id>
-    <published>2021-03-15T16:25:51.000Z</published>
-    <updated>2021-03-19T10:35:44.616Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;strong&gt;七、信息安全标准与法规&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&quot;填空&quot;&gt;&lt;a href=&quot;#填空&quot; class=&quot;headerlink&quot; title=&quot;填空&quot;&gt;&lt;/a&gt;填空&lt;/h1&gt;&lt;h2 id=&quot;信息技术安全评价的通用标准（CC）是由-、-、-、-、-、-6个国家于1996年联合提出的&quot;&gt;&lt;a href=&quot;#信息技术安全评价的通用标准（CC）是由-、-、-、-、-、-6个国家于1996年联合提出的&quot; class=&quot;headerlink&quot; title=&quot;信息技术安全评价的通用标准（CC）是由 ___、___、___、___、___、___ 6个国家于1996年联合提出的&quot;&gt;&lt;/a&gt;信息技术安全评价的通用标准（CC）是由 &lt;strong&gt;___、___、___、___、___、___&lt;/strong&gt; 6个国家于1996年联合提出的&lt;/h2&gt;&lt;p&gt;美国、加拿大、英国、法国、德国、荷兰&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/categories/NCRE/"/>
-    
-    
-    <category term="NCRE" scheme="https://eonun.com/tags/NCRE/"/>
     
   </entry>
   
