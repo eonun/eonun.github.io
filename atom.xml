@@ -6,7 +6,7 @@
   <link href="https://eonun.com/atom.xml" rel="self"/>
   
   <link href="https://eonun.com/"/>
-  <updated>2021-07-19T14:10:22.862Z</updated>
+  <updated>2021-09-04T04:34:43.331Z</updated>
   <id>https://eonun.com/</id>
   
   <author>
@@ -17,11 +17,28 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>汇编基础</title>
+    <link href="https://eonun.com/posts/84aee333/"/>
+    <id>https://eonun.com/posts/84aee333/</id>
+    <published>2021-09-04T04:33:46.000Z</published>
+    <updated>2021-09-04T04:34:43.331Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;寄存器&quot;&gt;&lt;a href=&quot;#寄存器&quot; class=&quot;headerlink&quot; title=&quot;寄存器&quot;&gt;&lt;/a&gt;寄存器&lt;/h1&gt;&lt;p&gt;CPU 只负责运算，不负责存储数据，而数据都存储在磁盘中，磁盘速度无法满足运算时的速度，因此需要将数据先读取到内存中，CPU 需要的时候就去内存中读取，但 CPU 的运算速度远高与内存的读写速度，为避免被拖慢，CPU 都会自带一级、二级甚至三级缓存。基本上，CPU 缓存可看作是读写速度较快的内存。&lt;/p&gt;
+&lt;p&gt;但是，CPU 缓存的速度还是不够块，数据在缓存中的地址也是不固定的，CPU 每次读写都需要寻址也会拖慢速度。因此，CPU 自带寄存器(register) 用来存储常用的数据。CPU 优先读写寄存器，再由寄存器与内存交换数据。&lt;/p&gt;
+&lt;p&gt;寄存器 &lt;strong&gt;不依靠地址&lt;/strong&gt; 来区分数据，而&lt;strong&gt;依靠名称&lt;/strong&gt;。&lt;strong&gt;每一个寄存器都有自己的名称&lt;/strong&gt;，通过告诉 CPU 去具体的哪个寄存器读写数据，这样速度是最快的。寄存器被比喻成零级缓存。&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>渗透测试流程</title>
     <link href="https://eonun.com/posts/590ce9be/"/>
     <id>https://eonun.com/posts/590ce9be/</id>
     <published>2021-07-19T14:00:42.000Z</published>
-    <updated>2021-07-19T14:10:22.862Z</updated>
+    <updated>2021-09-04T02:52:58.190Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;渗透测试流程&quot;&gt;&lt;a href=&quot;#渗透测试流程&quot; class=&quot;headerlink&quot; title=&quot;渗透测试流程&quot;&gt;&lt;/a&gt;渗透测试流程&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;核心&lt;/strong&gt;: 漏洞、漏洞探测、漏洞验证、漏洞利用&lt;/p&gt;
@@ -463,25 +480,6 @@
     <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
     
     <category term="DVWA" scheme="https://eonun.com/tags/DVWA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OpenWrt插件</title>
-    <link href="https://eonun.com/posts/d0352c7e/"/>
-    <id>https://eonun.com/posts/d0352c7e/</id>
-    <published>2021-03-21T09:46:16.000Z</published>
-    <updated>2021-03-22T16:00:42.987Z</updated>
-    
-    
-    <summary type="html">有东西被加密了, 请输入密码查看.</summary>
-    
-    
-    
-    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
-    
-    
-    <category term="OpenWrt" scheme="https://eonun.com/tags/OpenWrt/"/>
     
   </entry>
   
