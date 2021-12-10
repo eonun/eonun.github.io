@@ -1095,154 +1095,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Docker-Compose模板文件</title>
-    <url>/posts/6c72393/</url>
-    <content><![CDATA[<h1 id="Docker-Compose-模板文件"><a href="#Docker-Compose-模板文件" class="headerlink" title="Docker Compose 模板文件"></a>Docker Compose 模板文件</h1><p>模板文件是使用 <code>Compose</code> 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 <code>docker run</code> 相关参数的含义都是类似的。</p>
-<p>默认的模板文件名称为 <code>docker-compose.yml</code>，格式为 YAML 格式。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">examples/web</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;80:80&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;/data&quot;</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>注意每个服务都必须通过 <code>image</code> 指令指定镜像或 <code>build</code> 指令（需要 Dockerfile）等来自动构建生成镜像。</p>
-<p>如果使用 <code>build</code> 指令，在 <code>Dockerfile</code> 中设置的选项(例如：<code>CMD</code>, <code>EXPOSE</code>, <code>VOLUME</code>, <code>ENV</code> 等) 将会自动被获取，无需在 <code>docker-compose.yml</code> 中再次设置。</p>
-<p>下面分别介绍各个指令的用法。</p>
-<h2 id="build"><a href="#build" class="headerlink" title="build"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#build"><code>build</code></a></h2><p>指定 <code>Dockerfile</code> 所在文件夹的路径（可以是绝对路径，或者相对 docker-compose.yml 文件的路径）。 <code>Compose</code> 将会利用它自动构建这个镜像，然后使用这个镜像。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">./dir</span></span><br></pre></td></tr></table></figure>
-<p>你也可以使用 <code>context</code> 指令指定 <code>Dockerfile</code> 所在文件夹的路径。</p>
-<p>使用 <code>dockerfile</code> 指令指定 <code>Dockerfile</code> 文件名。</p>
-<p>使用 <code>arg</code> 指令指定构建镜像时的变量。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">./dir</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Dockerfile-alternate</span></span><br><span class="line">      <span class="attr">args:</span></span><br><span class="line">        <span class="attr">buildno:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>使用 <code>cache_from</code> 指定构建镜像的缓存</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">build:</span></span><br><span class="line">  <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">  <span class="attr">cache_from:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">alpine:latest</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">corp/web_app:3.14</span></span><br></pre></td></tr></table></figure>
-<h2 id="cap-add-cap-drop"><a href="#cap-add-cap-drop" class="headerlink" title="cap_add, cap_drop"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#cap-add-cap-drop"><code>cap_add, cap_drop</code></a></h2><p>指定容器的内核能力（capacity）分配。</p>
-<p>例如，让容器拥有所有能力可以指定为：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cap_add:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">ALL</span></span><br></pre></td></tr></table></figure>
-<p>去掉 <code>NET_ADMIN</code> 能力可以指定为：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cap_drop:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">NET_ADMIN</span></span><br></pre></td></tr></table></figure>
-<h2 id="command"><a href="#command" class="headerlink" title="command"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#command"><code>command</code></a></h2><p>覆盖容器启动后默认执行的命令。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">command:</span> <span class="string">echo</span> <span class="string">&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="configs"><a href="#configs" class="headerlink" title="configs"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#configs"><code>configs</code></a></h2><p>仅用于 <code>Swarm mode</code></p>
-<h2 id="cgroup-parent"><a href="#cgroup-parent" class="headerlink" title="cgroup_parent"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#cgroup-parent"><code>cgroup_parent</code></a></h2><p>指定父 <code>cgroup</code> 组，意味着将继承该组的资源限制。</p>
-<p>例如，创建了一个 cgroup 组名称为 <code>cgroups_1</code>。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cgroup_parent:</span> <span class="string">cgroups_1</span></span><br></pre></td></tr></table></figure>
-<h2 id="container-name"><a href="#container-name" class="headerlink" title="container_name"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#container-name"><code>container_name</code></a></h2><p>指定容器名称。默认将会使用 <code>项目名称_服务名称_序号</code> 这样的格式。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">container_name:</span> <span class="string">docker-web-container</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意: 指定容器名称后，该服务将无法进行扩展（scale），因为 Docker 不允许多个容器具有相同的名称。</p>
-</blockquote>
-<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#deploy"><code>deploy</code></a></h2><p>仅用于 <code>Swarm mode</code></p>
-<h2 id="devices"><a href="#devices" class="headerlink" title="devices"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#devices"><code>devices</code></a></h2><p>指定设备映射关系。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">devices:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;/dev/ttyUSB1:/dev/ttyUSB0&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="depends-on"><a href="#depends-on" class="headerlink" title="depends_on"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#depends-on"><code>depends_on</code></a></h2><p>解决容器的依赖、启动先后的问题。以下例子中会先启动 <code>redis</code> <code>db</code> 再启动 <code>web</code></p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">db</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">db:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">postgres</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：<code>web</code> 服务不会等待 <code>redis</code> <code>db</code> 「完全启动」之后才启动。</p>
-</blockquote>
-<h2 id="dns"><a href="#dns" class="headerlink" title="dns"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#dns"><code>dns</code></a></h2><p>自定义 <code>DNS</code> 服务器。可以是一个值，也可以是一个列表。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">dns:</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dns:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span></span><br></pre></td></tr></table></figure>
-<h2 id="dns-search"><a href="#dns-search" class="headerlink" title="dns_search"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#dns-search"><code>dns_search</code></a></h2><p>配置 <code>DNS</code> 搜索域。可以是一个值，也可以是一个列表。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">dns_search:</span> <span class="string">example.com</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dns_search:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">domain1.example.com</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">domain2.example.com</span></span><br></pre></td></tr></table></figure>
-<h2 id="tmpfs"><a href="#tmpfs" class="headerlink" title="tmpfs"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#tmpfs"><code>tmpfs</code></a></h2><p>挂载一个 tmpfs 文件系统到容器。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">tmpfs:</span> <span class="string">/run</span></span><br><span class="line"><span class="attr">tmpfs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/run</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/tmp</span></span><br></pre></td></tr></table></figure>
-<h2 id="env-file"><a href="#env-file" class="headerlink" title="env_file"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#env-file"><code>env_file</code></a></h2><p>从文件中获取环境变量，可以为单独的文件路径或列表。</p>
-<p>如果通过 <code>docker-compose -f FILE</code> 方式来指定 Compose 模板文件，则 <code>env_file</code> 中变量的路径会基于模板文件路径。</p>
-<p>如果有变量名称与 <code>environment</code> 指令冲突，则按照惯例，以后者为准。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">env_file: .env</span><br><span class="line"></span><br><span class="line">env_file:</span><br><span class="line">  - ./common.env</span><br><span class="line">  - ./apps/web.env</span><br><span class="line">  - /opt/secrets.env</span><br></pre></td></tr></table></figure>
-<p>环境变量文件中每一行必须符合格式，支持 <code>#</code> 开头的注释行。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># common.env: Set development environment</span></span><br><span class="line">PROG_ENV=development</span><br></pre></td></tr></table></figure>
-<h2 id="environment"><a href="#environment" class="headerlink" title="environment"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#environment"><code>environment</code></a></h2><p>设置环境变量。你可以使用数组或字典两种格式。</p>
-<p>只给定名称的变量会自动获取运行 Compose 主机上对应变量的值，可以用来防止泄露不必要的数据。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="attr">RACK_ENV:</span> <span class="string">development</span></span><br><span class="line">  <span class="attr">SESSION_SECRET:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">RACK_ENV=development</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">SESSION_SECRET</span></span><br></pre></td></tr></table></figure>
-<p>如果变量名称或者值中用到 <code>true|false，yes|no</code> 等表达 <a href="http://yaml.org/type/bool.html">布尔</a> 含义的词汇，最好放到引号里，避免 YAML 自动解析某些内容为对应的布尔语义。这些特定词汇，包括</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">y|Y|yes|Yes|YES|n|N|no|No|NO|<span class="literal">true</span>|True|TRUE|<span class="literal">false</span>|False|FALSE|on|On|ON|off|Off|OFF</span><br></pre></td></tr></table></figure>
-<h2 id="expose"><a href="#expose" class="headerlink" title="expose"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#expose"><code>expose</code></a></h2><p>暴露端口，但不映射到宿主机，只被连接的服务访问。</p>
-<p>仅可以指定内部端口为参数</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">expose:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;3000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;8000&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="external-links"><a href="#external-links" class="headerlink" title="external_links"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#external-links"><code>external_links</code></a></h2><blockquote>
-<p>注意：不建议使用该指令。</p>
-</blockquote>
-<p>链接到 <code>docker-compose.yml</code> 外部的容器，甚至并非 <code>Compose</code> 管理的外部容器。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">external_links:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">redis_1</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">project_db_1:mysql</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">project_db_1:postgresql</span></span><br></pre></td></tr></table></figure>
-<h2 id="extra-hosts"><a href="#extra-hosts" class="headerlink" title="extra_hosts"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#extra-hosts"><code>extra_hosts</code></a></h2><p>类似 Docker 中的 <code>--add-host</code> 参数，指定额外的 host 名称映射信息。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">extra_hosts:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;googledns:8.8.8.8&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;dockerhub:52.1.157.61&quot;</span></span><br></pre></td></tr></table></figure>
-<p>会在启动后的服务容器中 <code>/etc/hosts</code> 文件中添加如下两条条目。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">8.8.8.8 googledns</span><br><span class="line">52.1.157.61 dockerhub</span><br></pre></td></tr></table></figure>
-<h2 id="healthcheck"><a href="#healthcheck" class="headerlink" title="healthcheck"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#healthcheck"><code>healthcheck</code></a></h2><p>通过命令检查容器是否健康运行。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">healthcheck:</span></span><br><span class="line">  <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;curl&quot;</span>, <span class="string">&quot;-f&quot;</span>, <span class="string">&quot;http://localhost&quot;</span>]</span><br><span class="line">  <span class="attr">interval:</span> <span class="string">1m30s</span></span><br><span class="line">  <span class="attr">timeout:</span> <span class="string">10s</span></span><br><span class="line">  <span class="attr">retries:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
-<h2 id="image"><a href="#image" class="headerlink" title="image"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#image"><code>image</code></a></h2><p>指定为镜像名称或镜像 ID。如果镜像在本地不存在，<code>Compose</code> 将会尝试拉取这个镜像。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">image:</span> <span class="string">ubuntu</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">orchardup/postgresql</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">a4bc65fd</span></span><br></pre></td></tr></table></figure>
-<h2 id="labels"><a href="#labels" class="headerlink" title="labels"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#labels"><code>labels</code></a></h2><p>为容器添加 Docker 元数据（metadata）信息。例如可以为容器添加辅助说明信息。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">labels:</span></span><br><span class="line">  <span class="attr">com.startupteam.description:</span> <span class="string">&quot;webapp for a startup team&quot;</span></span><br><span class="line">  <span class="attr">com.startupteam.department:</span> <span class="string">&quot;devops department&quot;</span></span><br><span class="line">  <span class="attr">com.startupteam.release:</span> <span class="string">&quot;rc3 for v1.0&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="links"><a href="#links" class="headerlink" title="links"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#links"><code>links</code></a></h2><blockquote>
-<p>注意：不推荐使用该指令。</p>
-</blockquote>
-<h2 id="logging"><a href="#logging" class="headerlink" title="logging"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#logging"><code>logging</code></a></h2><p>配置日志选项。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">logging:</span></span><br><span class="line">  <span class="attr">driver:</span> <span class="string">syslog</span></span><br><span class="line">  <span class="attr">options:</span></span><br><span class="line">    <span class="attr">syslog-address:</span> <span class="string">&quot;tcp://192.168.0.42:123&quot;</span></span><br></pre></td></tr></table></figure>
-<p>目前支持三种日志驱动类型。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">driver:</span> <span class="string">&quot;json-file&quot;</span></span><br><span class="line"><span class="attr">driver:</span> <span class="string">&quot;syslog&quot;</span></span><br><span class="line"><span class="attr">driver:</span> <span class="string">&quot;none&quot;</span></span><br></pre></td></tr></table></figure>
-<p><code>options</code> 配置日志驱动的相关参数。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">options:</span></span><br><span class="line">  <span class="attr">max-size:</span> <span class="string">&quot;200k&quot;</span></span><br><span class="line">  <span class="attr">max-file:</span> <span class="string">&quot;10&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="network-mode"><a href="#network-mode" class="headerlink" title="network_mode"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#network-mode"><code>network_mode</code></a></h2><p>设置网络模式。使用和 <code>docker run</code> 的 <code>--network</code> 参数一样的值。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;bridge&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;host&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;none&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;service:[service name]&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;container:[container name/id]&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="networks"><a href="#networks" class="headerlink" title="networks"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#networks"><code>networks</code></a></h2><p>配置容器连接的网络。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">some-service:</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">some-network</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">other-network</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">some-network:</span></span><br><span class="line">  <span class="attr">other-network:</span></span><br></pre></td></tr></table></figure>
-<h2 id="pid"><a href="#pid" class="headerlink" title="pid"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#pid"><code>pid</code></a></h2><p>跟主机系统共享进程命名空间。打开该选项的容器之间，以及容器和宿主机系统之间可以通过进程 ID 来相互访问和操作。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pid:</span> <span class="string">&quot;host&quot;</span></span><br></pre></td></tr></table></figure>
-<p>1</p>
-<h2 id="ports"><a href="#ports" class="headerlink" title="ports"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#ports"><code>ports</code></a></h2><p>暴露端口信息。</p>
-<p>使用宿主端口：容器端口 <code>(HOST:CONTAINER)</code> 格式，或者仅仅指定容器的端口（宿主将会随机选择端口）都可以。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">ports:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;3000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;8000:8000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;49100:22&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;127.0.0.1:8001:8001&quot;</span></span><br></pre></td></tr></table></figure>
-<p><em>注意：当使用 <code>HOST:CONTAINER</code> 格式来映射端口时，如果你使用的容器端口小于 60 并且没放到引号里，可能会得到错误结果，因为 <code>YAML</code> 会自动解析 <code>xx:yy</code> 这种数字格式为 60 进制。为避免出现这种问题，建议数字串都采用引号包括起来的字符串格式。</em></p>
-<h2 id="secrets"><a href="#secrets" class="headerlink" title="secrets"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#secrets"><code>secrets</code></a></h2><p>存储敏感数据，例如 <code>mysql</code> 服务密码。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.1&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">mysql:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">environment:</span></span><br><span class="line">    <span class="attr">MYSQL_ROOT_PASSWORD_FILE:</span> <span class="string">/run/secrets/db_root_password</span></span><br><span class="line">  <span class="attr">secrets:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">db_root_password</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">my_other_secret</span></span><br><span class="line"></span><br><span class="line"><span class="attr">secrets:</span></span><br><span class="line">  <span class="attr">my_secret:</span></span><br><span class="line">    <span class="attr">file:</span> <span class="string">./my_secret.txt</span></span><br><span class="line">  <span class="attr">my_other_secret:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="security-opt"><a href="#security-opt" class="headerlink" title="security_opt"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#security-opt"><code>security_opt</code></a></h2><p>指定容器模板标签（label）机制的默认属性（用户、角色、类型、级别等）。例如配置标签的用户名和角色名。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">security_opt:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">label:user:USER</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">label:role:ROLE</span></span><br></pre></td></tr></table></figure>
-<h2 id="stop-signal"><a href="#stop-signal" class="headerlink" title="stop_signal"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#stop-signal"><code>stop_signal</code></a></h2><p>设置另一个信号来停止容器。在默认情况下使用的是 SIGTERM 停止容器。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">stop_signal:</span> <span class="string">SIGUSR1</span></span><br></pre></td></tr></table></figure>
-<h2 id="sysctls"><a href="#sysctls" class="headerlink" title="sysctls"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#sysctls"><code>sysctls</code></a></h2><p>配置容器内核参数。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">sysctls:</span></span><br><span class="line">  <span class="attr">net.core.somaxconn:</span> <span class="number">1024</span></span><br><span class="line">  <span class="attr">net.ipv4.tcp_syncookies:</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sysctls:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">net.core.somaxconn=1024</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">net.ipv4.tcp_syncookies=0</span></span><br></pre></td></tr></table></figure>
-<h2 id="ulimits"><a href="#ulimits" class="headerlink" title="ulimits"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#ulimits"><code>ulimits</code></a></h2><p>指定容器的 ulimits 限制值。</p>
-<p>例如，指定最大进程数为 65535，指定文件句柄数为 20000（软限制，应用可以随时修改，不能超过硬限制） 和 40000（系统硬限制，只能 root 用户提高）。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">ulimits:</span></span><br><span class="line">  <span class="attr">nproc:</span> <span class="number">65535</span></span><br><span class="line">  <span class="attr">nofile:</span></span><br><span class="line">    <span class="attr">soft:</span> <span class="number">20000</span></span><br><span class="line">    <span class="attr">hard:</span> <span class="number">40000</span></span><br></pre></td></tr></table></figure>
-<h2 id="volumes"><a href="#volumes" class="headerlink" title="volumes"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#volumes"><code>volumes</code></a></h2><p>数据卷所挂载路径设置。可以设置宿主机路径 （<code>HOST:CONTAINER</code>） 或加上访问模式 （<code>HOST:CONTAINER:ro</code>）。</p>
-<p>该指令中路径支持相对路径。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">/var/lib/mysql</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">cache/:/tmp/cache</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">~/configs:/etc/configs/:ro</span></span><br></pre></td></tr></table></figure>
-<h2 id="其它指令"><a href="#其它指令" class="headerlink" title="其它指令"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#其它指令">其它指令</a></h2><p>此外，还有包括 <code>domainname, entrypoint, hostname, ipc, mac_address, privileged, read_only, shm_size, restart, stdin_open, tty, user, working_dir</code> 等指令，基本跟 <code>docker run</code> 中对应参数的功能一致。</p>
-<p>指定服务容器启动后执行的入口文件。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">entrypoint:</span> <span class="string">/code/entrypoint.sh</span></span><br></pre></td></tr></table></figure>
-<p>指定容器中运行应用的用户名。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">user:</span> <span class="string">nginx</span></span><br></pre></td></tr></table></figure>
-<p>指定容器中工作目录。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">working_dir:</span> <span class="string">/code</span></span><br></pre></td></tr></table></figure>
-<p>指定容器中搜索域名、主机名、mac 地址等。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">domainname:</span> <span class="string">your_website.com</span></span><br><span class="line"><span class="attr">hostname:</span> <span class="string">test</span></span><br><span class="line"><span class="attr">mac_address:</span> <span class="number">08</span><span class="number">-00</span><span class="number">-27</span><span class="number">-00</span><span class="string">-0C-0A</span></span><br></pre></td></tr></table></figure>
-<p>允许容器中运行一些特权命令。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">privileged:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>1</p>
-<p>指定容器退出后的重启策略为始终重启。该命令对保持服务始终运行十分有效，在生产环境中推荐配置为 <code>always</code> 或者 <code>unless-stopped</code>。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">restart:</span> <span class="string">always</span></span><br></pre></td></tr></table></figure>
-<p>以只读模式挂载容器的 root 文件系统，意味着不能对容器内容进行修改。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">read_only:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>打开标准输入，可以接受外部输入。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">stdin_open:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>模拟一个伪终端。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">tty:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h2 id="读取变量"><a href="#读取变量" class="headerlink" title="读取变量"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#读取变量">读取变量</a></h2><p>Compose 模板文件支持动态读取主机的系统环境变量和当前目录下的 <code>.env</code> 文件中的变量。</p>
-<p>例如，下面的 Compose 文件将从运行它的环境中读取变量 <code>$&#123;MONGO_VERSION&#125;</code> 的值，并写入执行的指令中。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">db:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">&quot;mongo:$&#123;MONGO_VERSION&#125;&quot;</span></span><br></pre></td></tr></table></figure>
-<p>如果执行 <code>MONGO_VERSION=3.2 docker-compose up</code> 则会启动一个 <code>mongo:3.2</code> 镜像的容器；如果执行 <code>MONGO_VERSION=2.8 docker-compose up</code> 则会启动一个 <code>mongo:2.8</code> 镜像的容器。</p>
-<p>若当前目录存在 <code>.env</code> 文件，执行 <code>docker-compose</code> 命令时将从该文件中读取变量。</p>
-<p>在当前目录新建 <code>.env</code> 文件并写入以下内容。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 支持 # 号注释</span></span><br><span class="line">MONGO_VERSION=3.6</span><br></pre></td></tr></table></figure>
-<p>执行 <code>docker-compose up</code> 则会启动一个 <code>mongo:3.6</code> 镜像的容器。</p>
-<h1 id="Docker-入门实践"><a href="#Docker-入门实践" class="headerlink" title="Docker 入门实践"></a>Docker 入门实践</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">docker pull dockerpracticesig/docker_practice</span><br><span class="line"></span><br><span class="line">docker run -it --rm -p 4000：80 dockerpracticesig/docker_practice</span><br><span class="line"></span><br><span class="line">127.0.0.1:4000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DVWA通关过程</title>
     <url>/posts/3eeec4be/</url>
     <content><![CDATA[<h1 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h1><h2 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h2><p><strong>phpStudy</strong></p>
@@ -1779,6 +1631,154 @@
       </tags>
   </entry>
   <entry>
+    <title>Docker-Compose模板文件</title>
+    <url>/posts/6c72393/</url>
+    <content><![CDATA[<h1 id="Docker-Compose-模板文件"><a href="#Docker-Compose-模板文件" class="headerlink" title="Docker Compose 模板文件"></a>Docker Compose 模板文件</h1><p>模板文件是使用 <code>Compose</code> 的核心，涉及到的指令关键字也比较多。但大家不用担心，这里面大部分指令跟 <code>docker run</code> 相关参数的含义都是类似的。</p>
+<p>默认的模板文件名称为 <code>docker-compose.yml</code>，格式为 YAML 格式。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">examples/web</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;80:80&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;/data&quot;</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>注意每个服务都必须通过 <code>image</code> 指令指定镜像或 <code>build</code> 指令（需要 Dockerfile）等来自动构建生成镜像。</p>
+<p>如果使用 <code>build</code> 指令，在 <code>Dockerfile</code> 中设置的选项(例如：<code>CMD</code>, <code>EXPOSE</code>, <code>VOLUME</code>, <code>ENV</code> 等) 将会自动被获取，无需在 <code>docker-compose.yml</code> 中再次设置。</p>
+<p>下面分别介绍各个指令的用法。</p>
+<h2 id="build"><a href="#build" class="headerlink" title="build"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#build"><code>build</code></a></h2><p>指定 <code>Dockerfile</code> 所在文件夹的路径（可以是绝对路径，或者相对 docker-compose.yml 文件的路径）。 <code>Compose</code> 将会利用它自动构建这个镜像，然后使用这个镜像。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">./dir</span></span><br></pre></td></tr></table></figure>
+<p>你也可以使用 <code>context</code> 指令指定 <code>Dockerfile</code> 所在文件夹的路径。</p>
+<p>使用 <code>dockerfile</code> 指令指定 <code>Dockerfile</code> 文件名。</p>
+<p>使用 <code>arg</code> 指令指定构建镜像时的变量。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">webapp:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">./dir</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Dockerfile-alternate</span></span><br><span class="line">      <span class="attr">args:</span></span><br><span class="line">        <span class="attr">buildno:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>使用 <code>cache_from</code> 指定构建镜像的缓存</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">build:</span></span><br><span class="line">  <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">  <span class="attr">cache_from:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">alpine:latest</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">corp/web_app:3.14</span></span><br></pre></td></tr></table></figure>
+<h2 id="cap-add-cap-drop"><a href="#cap-add-cap-drop" class="headerlink" title="cap_add, cap_drop"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#cap-add-cap-drop"><code>cap_add, cap_drop</code></a></h2><p>指定容器的内核能力（capacity）分配。</p>
+<p>例如，让容器拥有所有能力可以指定为：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cap_add:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">ALL</span></span><br></pre></td></tr></table></figure>
+<p>去掉 <code>NET_ADMIN</code> 能力可以指定为：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cap_drop:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">NET_ADMIN</span></span><br></pre></td></tr></table></figure>
+<h2 id="command"><a href="#command" class="headerlink" title="command"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#command"><code>command</code></a></h2><p>覆盖容器启动后默认执行的命令。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">command:</span> <span class="string">echo</span> <span class="string">&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="configs"><a href="#configs" class="headerlink" title="configs"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#configs"><code>configs</code></a></h2><p>仅用于 <code>Swarm mode</code></p>
+<h2 id="cgroup-parent"><a href="#cgroup-parent" class="headerlink" title="cgroup_parent"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#cgroup-parent"><code>cgroup_parent</code></a></h2><p>指定父 <code>cgroup</code> 组，意味着将继承该组的资源限制。</p>
+<p>例如，创建了一个 cgroup 组名称为 <code>cgroups_1</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cgroup_parent:</span> <span class="string">cgroups_1</span></span><br></pre></td></tr></table></figure>
+<h2 id="container-name"><a href="#container-name" class="headerlink" title="container_name"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#container-name"><code>container_name</code></a></h2><p>指定容器名称。默认将会使用 <code>项目名称_服务名称_序号</code> 这样的格式。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">container_name:</span> <span class="string">docker-web-container</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意: 指定容器名称后，该服务将无法进行扩展（scale），因为 Docker 不允许多个容器具有相同的名称。</p>
+</blockquote>
+<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#deploy"><code>deploy</code></a></h2><p>仅用于 <code>Swarm mode</code></p>
+<h2 id="devices"><a href="#devices" class="headerlink" title="devices"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#devices"><code>devices</code></a></h2><p>指定设备映射关系。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">devices:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;/dev/ttyUSB1:/dev/ttyUSB0&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="depends-on"><a href="#depends-on" class="headerlink" title="depends_on"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#depends-on"><code>depends_on</code></a></h2><p>解决容器的依赖、启动先后的问题。以下例子中会先启动 <code>redis</code> <code>db</code> 再启动 <code>web</code></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">db</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">db:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">postgres</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：<code>web</code> 服务不会等待 <code>redis</code> <code>db</code> 「完全启动」之后才启动。</p>
+</blockquote>
+<h2 id="dns"><a href="#dns" class="headerlink" title="dns"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#dns"><code>dns</code></a></h2><p>自定义 <code>DNS</code> 服务器。可以是一个值，也可以是一个列表。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">dns:</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dns:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span></span><br></pre></td></tr></table></figure>
+<h2 id="dns-search"><a href="#dns-search" class="headerlink" title="dns_search"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#dns-search"><code>dns_search</code></a></h2><p>配置 <code>DNS</code> 搜索域。可以是一个值，也可以是一个列表。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">dns_search:</span> <span class="string">example.com</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dns_search:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">domain1.example.com</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">domain2.example.com</span></span><br></pre></td></tr></table></figure>
+<h2 id="tmpfs"><a href="#tmpfs" class="headerlink" title="tmpfs"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#tmpfs"><code>tmpfs</code></a></h2><p>挂载一个 tmpfs 文件系统到容器。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">tmpfs:</span> <span class="string">/run</span></span><br><span class="line"><span class="attr">tmpfs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/run</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/tmp</span></span><br></pre></td></tr></table></figure>
+<h2 id="env-file"><a href="#env-file" class="headerlink" title="env_file"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#env-file"><code>env_file</code></a></h2><p>从文件中获取环境变量，可以为单独的文件路径或列表。</p>
+<p>如果通过 <code>docker-compose -f FILE</code> 方式来指定 Compose 模板文件，则 <code>env_file</code> 中变量的路径会基于模板文件路径。</p>
+<p>如果有变量名称与 <code>environment</code> 指令冲突，则按照惯例，以后者为准。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">env_file: .env</span><br><span class="line"></span><br><span class="line">env_file:</span><br><span class="line">  - ./common.env</span><br><span class="line">  - ./apps/web.env</span><br><span class="line">  - /opt/secrets.env</span><br></pre></td></tr></table></figure>
+<p>环境变量文件中每一行必须符合格式，支持 <code>#</code> 开头的注释行。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># common.env: Set development environment</span></span><br><span class="line">PROG_ENV=development</span><br></pre></td></tr></table></figure>
+<h2 id="environment"><a href="#environment" class="headerlink" title="environment"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#environment"><code>environment</code></a></h2><p>设置环境变量。你可以使用数组或字典两种格式。</p>
+<p>只给定名称的变量会自动获取运行 Compose 主机上对应变量的值，可以用来防止泄露不必要的数据。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="attr">RACK_ENV:</span> <span class="string">development</span></span><br><span class="line">  <span class="attr">SESSION_SECRET:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">RACK_ENV=development</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">SESSION_SECRET</span></span><br></pre></td></tr></table></figure>
+<p>如果变量名称或者值中用到 <code>true|false，yes|no</code> 等表达 <a href="http://yaml.org/type/bool.html">布尔</a> 含义的词汇，最好放到引号里，避免 YAML 自动解析某些内容为对应的布尔语义。这些特定词汇，包括</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">y|Y|yes|Yes|YES|n|N|no|No|NO|<span class="literal">true</span>|True|TRUE|<span class="literal">false</span>|False|FALSE|on|On|ON|off|Off|OFF</span><br></pre></td></tr></table></figure>
+<h2 id="expose"><a href="#expose" class="headerlink" title="expose"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#expose"><code>expose</code></a></h2><p>暴露端口，但不映射到宿主机，只被连接的服务访问。</p>
+<p>仅可以指定内部端口为参数</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">expose:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;3000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;8000&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="external-links"><a href="#external-links" class="headerlink" title="external_links"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#external-links"><code>external_links</code></a></h2><blockquote>
+<p>注意：不建议使用该指令。</p>
+</blockquote>
+<p>链接到 <code>docker-compose.yml</code> 外部的容器，甚至并非 <code>Compose</code> 管理的外部容器。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">external_links:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">redis_1</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">project_db_1:mysql</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">project_db_1:postgresql</span></span><br></pre></td></tr></table></figure>
+<h2 id="extra-hosts"><a href="#extra-hosts" class="headerlink" title="extra_hosts"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#extra-hosts"><code>extra_hosts</code></a></h2><p>类似 Docker 中的 <code>--add-host</code> 参数，指定额外的 host 名称映射信息。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">extra_hosts:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;googledns:8.8.8.8&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;dockerhub:52.1.157.61&quot;</span></span><br></pre></td></tr></table></figure>
+<p>会在启动后的服务容器中 <code>/etc/hosts</code> 文件中添加如下两条条目。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">8.8.8.8 googledns</span><br><span class="line">52.1.157.61 dockerhub</span><br></pre></td></tr></table></figure>
+<h2 id="healthcheck"><a href="#healthcheck" class="headerlink" title="healthcheck"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#healthcheck"><code>healthcheck</code></a></h2><p>通过命令检查容器是否健康运行。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">healthcheck:</span></span><br><span class="line">  <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;curl&quot;</span>, <span class="string">&quot;-f&quot;</span>, <span class="string">&quot;http://localhost&quot;</span>]</span><br><span class="line">  <span class="attr">interval:</span> <span class="string">1m30s</span></span><br><span class="line">  <span class="attr">timeout:</span> <span class="string">10s</span></span><br><span class="line">  <span class="attr">retries:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h2 id="image"><a href="#image" class="headerlink" title="image"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#image"><code>image</code></a></h2><p>指定为镜像名称或镜像 ID。如果镜像在本地不存在，<code>Compose</code> 将会尝试拉取这个镜像。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">image:</span> <span class="string">ubuntu</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">orchardup/postgresql</span></span><br><span class="line"><span class="attr">image:</span> <span class="string">a4bc65fd</span></span><br></pre></td></tr></table></figure>
+<h2 id="labels"><a href="#labels" class="headerlink" title="labels"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#labels"><code>labels</code></a></h2><p>为容器添加 Docker 元数据（metadata）信息。例如可以为容器添加辅助说明信息。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">labels:</span></span><br><span class="line">  <span class="attr">com.startupteam.description:</span> <span class="string">&quot;webapp for a startup team&quot;</span></span><br><span class="line">  <span class="attr">com.startupteam.department:</span> <span class="string">&quot;devops department&quot;</span></span><br><span class="line">  <span class="attr">com.startupteam.release:</span> <span class="string">&quot;rc3 for v1.0&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="links"><a href="#links" class="headerlink" title="links"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#links"><code>links</code></a></h2><blockquote>
+<p>注意：不推荐使用该指令。</p>
+</blockquote>
+<h2 id="logging"><a href="#logging" class="headerlink" title="logging"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#logging"><code>logging</code></a></h2><p>配置日志选项。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">logging:</span></span><br><span class="line">  <span class="attr">driver:</span> <span class="string">syslog</span></span><br><span class="line">  <span class="attr">options:</span></span><br><span class="line">    <span class="attr">syslog-address:</span> <span class="string">&quot;tcp://192.168.0.42:123&quot;</span></span><br></pre></td></tr></table></figure>
+<p>目前支持三种日志驱动类型。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">driver:</span> <span class="string">&quot;json-file&quot;</span></span><br><span class="line"><span class="attr">driver:</span> <span class="string">&quot;syslog&quot;</span></span><br><span class="line"><span class="attr">driver:</span> <span class="string">&quot;none&quot;</span></span><br></pre></td></tr></table></figure>
+<p><code>options</code> 配置日志驱动的相关参数。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">options:</span></span><br><span class="line">  <span class="attr">max-size:</span> <span class="string">&quot;200k&quot;</span></span><br><span class="line">  <span class="attr">max-file:</span> <span class="string">&quot;10&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="network-mode"><a href="#network-mode" class="headerlink" title="network_mode"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#network-mode"><code>network_mode</code></a></h2><p>设置网络模式。使用和 <code>docker run</code> 的 <code>--network</code> 参数一样的值。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;bridge&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;host&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;none&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;service:[service name]&quot;</span></span><br><span class="line"><span class="attr">network_mode:</span> <span class="string">&quot;container:[container name/id]&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="networks"><a href="#networks" class="headerlink" title="networks"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#networks"><code>networks</code></a></h2><p>配置容器连接的网络。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">some-service:</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">some-network</span></span><br><span class="line">     <span class="bullet">-</span> <span class="string">other-network</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">some-network:</span></span><br><span class="line">  <span class="attr">other-network:</span></span><br></pre></td></tr></table></figure>
+<h2 id="pid"><a href="#pid" class="headerlink" title="pid"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#pid"><code>pid</code></a></h2><p>跟主机系统共享进程命名空间。打开该选项的容器之间，以及容器和宿主机系统之间可以通过进程 ID 来相互访问和操作。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pid:</span> <span class="string">&quot;host&quot;</span></span><br></pre></td></tr></table></figure>
+<p>1</p>
+<h2 id="ports"><a href="#ports" class="headerlink" title="ports"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#ports"><code>ports</code></a></h2><p>暴露端口信息。</p>
+<p>使用宿主端口：容器端口 <code>(HOST:CONTAINER)</code> 格式，或者仅仅指定容器的端口（宿主将会随机选择端口）都可以。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">ports:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;3000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;8000:8000&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;49100:22&quot;</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">&quot;127.0.0.1:8001:8001&quot;</span></span><br></pre></td></tr></table></figure>
+<p><em>注意：当使用 <code>HOST:CONTAINER</code> 格式来映射端口时，如果你使用的容器端口小于 60 并且没放到引号里，可能会得到错误结果，因为 <code>YAML</code> 会自动解析 <code>xx:yy</code> 这种数字格式为 60 进制。为避免出现这种问题，建议数字串都采用引号包括起来的字符串格式。</em></p>
+<h2 id="secrets"><a href="#secrets" class="headerlink" title="secrets"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#secrets"><code>secrets</code></a></h2><p>存储敏感数据，例如 <code>mysql</code> 服务密码。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.1&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">mysql:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">environment:</span></span><br><span class="line">    <span class="attr">MYSQL_ROOT_PASSWORD_FILE:</span> <span class="string">/run/secrets/db_root_password</span></span><br><span class="line">  <span class="attr">secrets:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">db_root_password</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">my_other_secret</span></span><br><span class="line"></span><br><span class="line"><span class="attr">secrets:</span></span><br><span class="line">  <span class="attr">my_secret:</span></span><br><span class="line">    <span class="attr">file:</span> <span class="string">./my_secret.txt</span></span><br><span class="line">  <span class="attr">my_other_secret:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="security-opt"><a href="#security-opt" class="headerlink" title="security_opt"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#security-opt"><code>security_opt</code></a></h2><p>指定容器模板标签（label）机制的默认属性（用户、角色、类型、级别等）。例如配置标签的用户名和角色名。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">security_opt:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">label:user:USER</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">label:role:ROLE</span></span><br></pre></td></tr></table></figure>
+<h2 id="stop-signal"><a href="#stop-signal" class="headerlink" title="stop_signal"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#stop-signal"><code>stop_signal</code></a></h2><p>设置另一个信号来停止容器。在默认情况下使用的是 SIGTERM 停止容器。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">stop_signal:</span> <span class="string">SIGUSR1</span></span><br></pre></td></tr></table></figure>
+<h2 id="sysctls"><a href="#sysctls" class="headerlink" title="sysctls"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#sysctls"><code>sysctls</code></a></h2><p>配置容器内核参数。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">sysctls:</span></span><br><span class="line">  <span class="attr">net.core.somaxconn:</span> <span class="number">1024</span></span><br><span class="line">  <span class="attr">net.ipv4.tcp_syncookies:</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sysctls:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">net.core.somaxconn=1024</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">net.ipv4.tcp_syncookies=0</span></span><br></pre></td></tr></table></figure>
+<h2 id="ulimits"><a href="#ulimits" class="headerlink" title="ulimits"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#ulimits"><code>ulimits</code></a></h2><p>指定容器的 ulimits 限制值。</p>
+<p>例如，指定最大进程数为 65535，指定文件句柄数为 20000（软限制，应用可以随时修改，不能超过硬限制） 和 40000（系统硬限制，只能 root 用户提高）。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">ulimits:</span></span><br><span class="line">  <span class="attr">nproc:</span> <span class="number">65535</span></span><br><span class="line">  <span class="attr">nofile:</span></span><br><span class="line">    <span class="attr">soft:</span> <span class="number">20000</span></span><br><span class="line">    <span class="attr">hard:</span> <span class="number">40000</span></span><br></pre></td></tr></table></figure>
+<h2 id="volumes"><a href="#volumes" class="headerlink" title="volumes"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#volumes"><code>volumes</code></a></h2><p>数据卷所挂载路径设置。可以设置宿主机路径 （<code>HOST:CONTAINER</code>） 或加上访问模式 （<code>HOST:CONTAINER:ro</code>）。</p>
+<p>该指令中路径支持相对路径。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">/var/lib/mysql</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">cache/:/tmp/cache</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">~/configs:/etc/configs/:ro</span></span><br></pre></td></tr></table></figure>
+<h2 id="其它指令"><a href="#其它指令" class="headerlink" title="其它指令"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#其它指令">其它指令</a></h2><p>此外，还有包括 <code>domainname, entrypoint, hostname, ipc, mac_address, privileged, read_only, shm_size, restart, stdin_open, tty, user, working_dir</code> 等指令，基本跟 <code>docker run</code> 中对应参数的功能一致。</p>
+<p>指定服务容器启动后执行的入口文件。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">entrypoint:</span> <span class="string">/code/entrypoint.sh</span></span><br></pre></td></tr></table></figure>
+<p>指定容器中运行应用的用户名。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">user:</span> <span class="string">nginx</span></span><br></pre></td></tr></table></figure>
+<p>指定容器中工作目录。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">working_dir:</span> <span class="string">/code</span></span><br></pre></td></tr></table></figure>
+<p>指定容器中搜索域名、主机名、mac 地址等。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">domainname:</span> <span class="string">your_website.com</span></span><br><span class="line"><span class="attr">hostname:</span> <span class="string">test</span></span><br><span class="line"><span class="attr">mac_address:</span> <span class="number">08</span><span class="number">-00</span><span class="number">-27</span><span class="number">-00</span><span class="string">-0C-0A</span></span><br></pre></td></tr></table></figure>
+<p>允许容器中运行一些特权命令。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">privileged:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>1</p>
+<p>指定容器退出后的重启策略为始终重启。该命令对保持服务始终运行十分有效，在生产环境中推荐配置为 <code>always</code> 或者 <code>unless-stopped</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">restart:</span> <span class="string">always</span></span><br></pre></td></tr></table></figure>
+<p>以只读模式挂载容器的 root 文件系统，意味着不能对容器内容进行修改。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">read_only:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>打开标准输入，可以接受外部输入。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">stdin_open:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>模拟一个伪终端。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">tty:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="读取变量"><a href="#读取变量" class="headerlink" title="读取变量"></a><a href="https://funtl.com/zh/docs-docker/Docker-Compose-模板文件.html#读取变量">读取变量</a></h2><p>Compose 模板文件支持动态读取主机的系统环境变量和当前目录下的 <code>.env</code> 文件中的变量。</p>
+<p>例如，下面的 Compose 文件将从运行它的环境中读取变量 <code>$&#123;MONGO_VERSION&#125;</code> 的值，并写入执行的指令中。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">db:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">&quot;mongo:$&#123;MONGO_VERSION&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+<p>如果执行 <code>MONGO_VERSION=3.2 docker-compose up</code> 则会启动一个 <code>mongo:3.2</code> 镜像的容器；如果执行 <code>MONGO_VERSION=2.8 docker-compose up</code> 则会启动一个 <code>mongo:2.8</code> 镜像的容器。</p>
+<p>若当前目录存在 <code>.env</code> 文件，执行 <code>docker-compose</code> 命令时将从该文件中读取变量。</p>
+<p>在当前目录新建 <code>.env</code> 文件并写入以下内容。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 支持 # 号注释</span></span><br><span class="line">MONGO_VERSION=3.6</span><br></pre></td></tr></table></figure>
+<p>执行 <code>docker-compose up</code> 则会启动一个 <code>mongo:3.6</code> 镜像的容器。</p>
+<h1 id="Docker-入门实践"><a href="#Docker-入门实践" class="headerlink" title="Docker 入门实践"></a>Docker 入门实践</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">docker pull dockerpracticesig/docker_practice</span><br><span class="line"></span><br><span class="line">docker run -it --rm -p 4000：80 dockerpracticesig/docker_practice</span><br><span class="line"></span><br><span class="line">127.0.0.1:4000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>DockerHub加速</title>
     <url>/posts/e4bc92fe/</url>
     <content><![CDATA[<h1 id="DockerHub国内加速地址"><a href="#DockerHub国内加速地址" class="headerlink" title="DockerHub国内加速地址"></a>DockerHub国内加速地址</h1><div class="table-container">
@@ -2044,46 +2044,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Git问题解决</title>
-    <url>/posts/19e2ba1f/</url>
-    <content><![CDATA[<h1 id="使用-ours-和-theirs-解决合并冲突"><a href="#使用-ours-和-theirs-解决合并冲突" class="headerlink" title="使用 ours 和 theirs 解决合并冲突"></a>使用 <code>ours</code> 和 <code>theirs</code> 解决合并冲突</h1><p>在使用 git 工程中,合并时产生冲突是很常见的，在使用 <code>merge</code> 和 <code>rebase</code> 合并时都会出现冲突情况，设计到很多文件，而冲突一般是只选择保留一方，这就可通过使用 <code>ours</code> 和 <code>theirs</code> 解决冲突。</p>
-<h2 id="merge-与-rebase-合并的区别"><a href="#merge-与-rebase-合并的区别" class="headerlink" title="merge 与 rebase 合并的区别"></a><code>merge</code> 与 <code>rebase</code> 合并的区别</h2><p>假设 <code>main</code> 主分支基础上生成了分支 <code>branch_B</code> 各自都有一些提交,现需要将 <code>branch_B</code> 合并到 <code>main</code></p>
-<p>执行 <code>git merge branch_B main</code> 后分支状态:</p>
-<blockquote>
-<p>main —— A —— B ——- D (main)<br>   \                   /<br>    \ branch_B —— C /</p>
-</blockquote>
-<p><code>merge</code> 会抽取两个分支上新增的提交，并将其合并在一起，产生一个新的提交D，生成的D节点有两个父节点，在合并的过程中可能会发生冲突</p>
-<a id="more"></a>
-<p>执行 <code>git rebase branch_B main</code></p>
-<blockquote>
-<p>main —— A —— B —— C’ —— D (main)<br>   \                   /<br>    \ branch_B —— C /</p>
-</blockquote>
-<p><code>rebase</code> 会以<code>branch_B</code>为参照，提取 <code>branch_B</code> 分支上的提交，将这些修改作用在 <code>main</code> 分支上，最终结果不会产生新的提交节点。在将提取的修改作用在 <code>main</code> 的过程中可能会发生冲突</p>
-<p>通常使用过程中最常用的是 <code>rebase</code> 。</p>
-<h2 id="rebase-冲突解决"><a href="#rebase-冲突解决" class="headerlink" title="rebase 冲突解决"></a><code>rebase</code> 冲突解决</h2><p>产生冲突后 <code>git</code> 会自动在文件中标记出冲突的部分:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">&lt;main 的内容(ours)&gt;</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;branch_B 的内容(theirs)&gt;</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 提交ID及信息</span><br></pre></td></tr></table></figure>
-<p>使用 <code>git checkout --conflict=diff3 &lt;fileName&gt;</code> 通过选项 <code>diff3</code> git 会用不同版本来标记冲突： 提供 <code>ours</code> 、 <code>theirs</code> 和 <code>base</code> 版本，通过设置 <code>merge.conflictstyle</code> 选项为 <code>diff3</code> 做为以后合并冲突的默认选项 : <code>git config --global merge.conflictstyle diff3</code> ,  <code>merge</code> (默认选项)选项提供 <code>ours</code> 和 <code>theirs</code> 版本标记</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; ours</span><br><span class="line">&lt;main 的内容(ours)&gt;</span><br><span class="line">||||||| base</span><br><span class="line">&lt;base(基) 的内容&gt;</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;branch_B 的内容(theirs)&gt;</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 提交ID及信息</span><br></pre></td></tr></table></figure>
-<h3 id="冲突解决步骤"><a href="#冲突解决步骤" class="headerlink" title="冲突解决步骤"></a>冲突解决步骤</h3><ul>
-<li>使用 <code>oers</code> 或 <code>theirs</code>选择要保留一方的提交，git将自动将保留修改</li>
-<li>将修改后的文件添加</li>
-<li>使用<code>--continue</code>选项继续执行 <code>rebase</code> 合并</li>
-<li>查看冲突状态</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git checkout --ours &lt;fileName&gt;</span><br><span class="line">git add &lt;fileName&gt;</span><br><span class="line">git rebase --<span class="built_in">continue</span></span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
-<p>当出现多个文件存在冲突可使用脚本解决。<br>在解决冲突过程中，如果遇到某个提交记录不需要应用，可使用<code>git rebase --skip</code> 忽略，或使用 <code>git rebase --abort</code> 取消本次 rebase 。</p>
-<h1 id="git-status-中文乱码"><a href="#git-status-中文乱码" class="headerlink" title="git status 中文乱码"></a>git status 中文乱码</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git status</span><br><span class="line">....</span><br><span class="line"><span class="string">&quot;38\344\270\273\347\233\256\345\275\225\344\270\213\346\226\207\344\273\266\345\244\271\350\257\264\346\230\216&quot;</span></span><br><span class="line">....</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>解决方法:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git config --global core.quotepath <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Github高效搜索仓库语法</title>
     <url>/posts/1c88466d/</url>
     <content><![CDATA[<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p><strong>对用空格的查询可使用引号</strong>如:<code>“hello worled”</code></p>
@@ -2244,6 +2204,46 @@
 ]]></content>
       <tags>
         <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git问题解决</title>
+    <url>/posts/19e2ba1f/</url>
+    <content><![CDATA[<h1 id="使用-ours-和-theirs-解决合并冲突"><a href="#使用-ours-和-theirs-解决合并冲突" class="headerlink" title="使用 ours 和 theirs 解决合并冲突"></a>使用 <code>ours</code> 和 <code>theirs</code> 解决合并冲突</h1><p>在使用 git 工程中,合并时产生冲突是很常见的，在使用 <code>merge</code> 和 <code>rebase</code> 合并时都会出现冲突情况，设计到很多文件，而冲突一般是只选择保留一方，这就可通过使用 <code>ours</code> 和 <code>theirs</code> 解决冲突。</p>
+<h2 id="merge-与-rebase-合并的区别"><a href="#merge-与-rebase-合并的区别" class="headerlink" title="merge 与 rebase 合并的区别"></a><code>merge</code> 与 <code>rebase</code> 合并的区别</h2><p>假设 <code>main</code> 主分支基础上生成了分支 <code>branch_B</code> 各自都有一些提交,现需要将 <code>branch_B</code> 合并到 <code>main</code></p>
+<p>执行 <code>git merge branch_B main</code> 后分支状态:</p>
+<blockquote>
+<p>main —— A —— B ——- D (main)<br>   \                   /<br>    \ branch_B —— C /</p>
+</blockquote>
+<p><code>merge</code> 会抽取两个分支上新增的提交，并将其合并在一起，产生一个新的提交D，生成的D节点有两个父节点，在合并的过程中可能会发生冲突</p>
+<a id="more"></a>
+<p>执行 <code>git rebase branch_B main</code></p>
+<blockquote>
+<p>main —— A —— B —— C’ —— D (main)<br>   \                   /<br>    \ branch_B —— C /</p>
+</blockquote>
+<p><code>rebase</code> 会以<code>branch_B</code>为参照，提取 <code>branch_B</code> 分支上的提交，将这些修改作用在 <code>main</code> 分支上，最终结果不会产生新的提交节点。在将提取的修改作用在 <code>main</code> 的过程中可能会发生冲突</p>
+<p>通常使用过程中最常用的是 <code>rebase</code> 。</p>
+<h2 id="rebase-冲突解决"><a href="#rebase-冲突解决" class="headerlink" title="rebase 冲突解决"></a><code>rebase</code> 冲突解决</h2><p>产生冲突后 <code>git</code> 会自动在文件中标记出冲突的部分:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">&lt;main 的内容(ours)&gt;</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;branch_B 的内容(theirs)&gt;</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 提交ID及信息</span><br></pre></td></tr></table></figure>
+<p>使用 <code>git checkout --conflict=diff3 &lt;fileName&gt;</code> 通过选项 <code>diff3</code> git 会用不同版本来标记冲突： 提供 <code>ours</code> 、 <code>theirs</code> 和 <code>base</code> 版本，通过设置 <code>merge.conflictstyle</code> 选项为 <code>diff3</code> 做为以后合并冲突的默认选项 : <code>git config --global merge.conflictstyle diff3</code> ,  <code>merge</code> (默认选项)选项提供 <code>ours</code> 和 <code>theirs</code> 版本标记</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; ours</span><br><span class="line">&lt;main 的内容(ours)&gt;</span><br><span class="line">||||||| base</span><br><span class="line">&lt;base(基) 的内容&gt;</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;branch_B 的内容(theirs)&gt;</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 提交ID及信息</span><br></pre></td></tr></table></figure>
+<h3 id="冲突解决步骤"><a href="#冲突解决步骤" class="headerlink" title="冲突解决步骤"></a>冲突解决步骤</h3><ul>
+<li>使用 <code>oers</code> 或 <code>theirs</code>选择要保留一方的提交，git将自动将保留修改</li>
+<li>将修改后的文件添加</li>
+<li>使用<code>--continue</code>选项继续执行 <code>rebase</code> 合并</li>
+<li>查看冲突状态</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git checkout --ours &lt;fileName&gt;</span><br><span class="line">git add &lt;fileName&gt;</span><br><span class="line">git rebase --<span class="built_in">continue</span></span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+<p>当出现多个文件存在冲突可使用脚本解决。<br>在解决冲突过程中，如果遇到某个提交记录不需要应用，可使用<code>git rebase --skip</code> 忽略，或使用 <code>git rebase --abort</code> 取消本次 rebase 。</p>
+<h1 id="git-status-中文乱码"><a href="#git-status-中文乱码" class="headerlink" title="git status 中文乱码"></a>git status 中文乱码</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git status</span><br><span class="line">....</span><br><span class="line"><span class="string">&quot;38\344\270\273\347\233\256\345\275\225\344\270\213\346\226\207\344\273\266\345\244\271\350\257\264\346\230\216&quot;</span></span><br><span class="line">....</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>解决方法:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git config --global core.quotepath <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -9777,6 +9777,54 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>v2ray安装使用</title>
+    <url>/posts/a98f33e0/</url>
+    <content><![CDATA[<h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>在Linux上安装需要先安装curl、zip、unzip，运行脚本需要用到</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br><span class="line"></span><br><span class="line"><span class="comment"># archlinux可直接安装</span></span><br><span class="line">sudo pacman -S v2ray</span><br><span class="line"></span><br><span class="line">&lt;!--more--&gt;</span><br></pre></td></tr></table></figure><br><strong>go.sh脚本会自动安装以下文件</strong>：</p>
+<ul>
+<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
+<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
+<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
+<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
+<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
+</ul>
+<p>该脚本会配置自动运行脚本（开机自启），目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列</p>
+<p>运行脚本位于系统的以下位置：</p>
+<ul>
+<li><code>/etc/systemd/system/v2ray.service</code>: <strong>Systemd管理</strong></li>
+<li><code>/etc/init.d/v2ray</code>: <strong>SysV管理</strong></li>
+</ul>
+<h3 id="go-sh-参数"><a href="#go-sh-参数" class="headerlink" title="go.sh 参数"></a>go.sh 参数</h3><p>go.sh 支持如下参数，可在手动安装时根据实际情况调整：</p>
+<ul>
+<li><code>-p</code> 或 <code>--proxy</code>: 使用代理服务器来下载 V2Ray 的文件，格式与 curl 接受的参数一致，比如 <code>&quot;socks5://127.0.0.1:1080&quot;</code> 或 <code>&quot;http://127.0.0.1:3128&quot;</code>。</li>
+<li><code>-f</code> 或 <code>--force</code>: 强制安装。在默认情况下，如果当前系统中已有最新版本的 V2Ray，go.sh 会在检测之后就退出。如果需要强制重装一遍，则需要指定该参数。</li>
+<li><code>--version</code>: 指定需要安装的版本，比如 “v1.13”。不指定则默认安装最新版本。</li>
+<li><code>--local</code>: 使用一个本地文件进行安装。如果你已经下载了某个版本的 V2Ray，则可通过这个参数指定一个文件路径来进行安装。</li>
+</ul>
+<p>示例：</p>
+<ul>
+<li>使用地址为 <code>127.0.0.1:1080</code> 的 SOCKS 代理下载并安装最新版本：<code>./go.sh -p socks5://127.0.0.1:1080</code></li>
+<li>安装本地的 v1.13 版本：<code>./go.sh --version v1.13 --local /path/to/v2ray.zip</code></li>
+</ul>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h3><p>编辑 <code>/etc/v2ray/config.json</code> 文件来配置你需要的代理方式<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;inbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;port&quot;</span>: 16823, // 服务器监听端口</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;vmess&quot;</span>,    // 主传入协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;clients&quot;</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="string">&quot;id&quot;</span>: <span class="string">&quot;b831381d-6324-4d53-ad4f-8cda48b30811&quot;</span>,  // 用户 ID，客户端与服务器必须相同</span><br><span class="line">            <span class="string">&quot;alterId&quot;</span>: 64</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;outbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;freedom&quot;</span>,  // 主传出协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><a href="https://www.v2fly.org/chapter_02/01_overview.html">详细配置说明</a></p>
+<h3 id="防火墙开放端口"><a href="#防火墙开放端口" class="headerlink" title="防火墙开放端口"></a>防火墙开放端口</h3><p><strong>iptables</strong>:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看已开放端口</span></span><br><span class="line">/etc/init.d/iptables status</span><br><span class="line"></span><br><span class="line"><span class="comment">#开放8080端口</span></span><br><span class="line">iptables -A INPUT -p tcp --dport 8080 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment">#保存并重启防火墙</span></span><br><span class="line">/etc/rc.d/init.d/iptables save</span><br><span class="line">/etc/init.d/iptables restart</span><br></pre></td></tr></table></figure><br><strong>frewalld</strong>:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看已开放端口</span></span><br><span class="line">firewall-cmd --zone=public --list-ports</span><br><span class="line"></span><br><span class="line"><span class="comment">#开放8080端口</span></span><br><span class="line">firewall-cmd --zone=public --add-port=8080/tcp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment">#更新规则</span></span><br><span class="line">firewall-cmd --reload 		<span class="comment">#无需断开连接，firealld特性之一动态添加规则</span></span><br><span class="line"></span><br><span class="line">firewall-cmd --complete-reload    <span class="comment">#断开连接，类似于重启服务</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="程序管理"><a href="#程序管理" class="headerlink" title="程序管理"></a>程序管理</h3><p>运行 <code>service v2ray start</code> 或<code>systemctl start v2ray</code>来启动 V2Ray 进程<br>之后可以使用 <code>start</code>|<code>stop</code>|<code>status</code>|<code>reload</code>|<code>restart</code>|<code>force-reload</code> 控制 V2Ray 的运行</p>
+<h2 id="一键安装脚本-小白玩的"><a href="#一键安装脚本-小白玩的" class="headerlink" title="一键安装脚本(小白玩的)"></a>一键安装脚本(小白玩的)</h2><p><a href="https://github.com/233boy/v2ray/wiki/V2Ray一键安装脚本">V2Ray一键安装脚本（含教程）</a></p>
+<h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><h2 id="Windows和Mac-OS"><a href="#Windows和Mac-OS" class="headerlink" title="Windows和Mac OS"></a>Windows和Mac OS</h2><p>根据需求<a href="https://github.com/v2ray/v2ray-core/releases">到V2Ray的仓管下载发布的最新版</a><br>下载解压之后可看到 v2ray 或 v2ray.exe 直接运行即可</p>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h4 id="图形客户端"><a href="#图形客户端" class="headerlink" title="图形客户端"></a>图形客户端</h4><p>下载图形化客户端<a href="https://github.com/lhy0403/Qv2ray/releases">Qv2ray</a>,archlinux可通过AUR直接安装<br>解压后双运行，这是会提示没有内核并自动打开存放内核的目录，到<a href="https://github.com/v2ray/v2ray-core/releases">V2Ray的仓库</a>下载Linux版的内核，讲内核解压放到自动打开的目录即可</p>
+<p>Qv2ray 在不同系统中查找 v2ray 内核的文件路径 （即找不到内核时自动弹出的文件夹路径）</p>
+<ul>
+<li>Windows: C:\Users\用户名.qv2ray\vcore</li>
+<li>macOS: /Users/用户名/.qv2ray/vcore</li>
+<li>Linux: ~/.qv2ray/vcore</li>
+</ul>
+<h4 id="非图形客户端"><a href="#非图形客户端" class="headerlink" title="非图形客户端"></a>非图形客户端</h4><p>直接和安装服务器版的一样，安装即可<br><strong>配置</strong>：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;inbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;port&quot;</span>: 1080, // 监听端口</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;socks&quot;</span>, // 入口协议为 SOCKS 5</span><br><span class="line">      <span class="string">&quot;sniffing&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;enabled&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">&quot;destOverride&quot;</span>: [<span class="string">&quot;http&quot;</span>, <span class="string">&quot;tls&quot;</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;auth&quot;</span>: <span class="string">&quot;noauth&quot;</span>  //socks的认证设置，noauth 代表不认证，由于 socks 通常在客户端使用，所以这里不认证</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;outbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;vmess&quot;</span>, // 出口协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;vnext&quot;</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="string">&quot;address&quot;</span>: <span class="string">&quot;serveraddr.com&quot;</span>, // 服务器地址，请修改为你自己的服务器 IP 或域名</span><br><span class="line">            <span class="string">&quot;port&quot;</span>: 16823,  // 服务器端口</span><br><span class="line">            <span class="string">&quot;users&quot;</span>: [</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">&quot;id&quot;</span>: <span class="string">&quot;b831381d-6324-4d53-ad4f-8cda48b30811&quot;</span>,  // 用户 ID，必须与服务器端配置相同</span><br><span class="line">                <span class="string">&quot;alterId&quot;</span>: 64 // 此处的值也应当与服务器相同</span><br><span class="line">              &#125;</span><br><span class="line">            ]</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><a href="https://www.v2fly.org/chapter_02/01_overview.html">详细配置说明</a></p>
+<p><a href="https://github.com/v2ray/v2ray-core">【V2Ray仓库】</a><br><a href="https://www.v2ray.com/">【V2Ray官网】（墙外）</a><br><a href="https://www.v2fly.com">【V2Ray用户手册】</a><a href="https://www.v2ray.com">【墙外】</a><br><a href="https://guide.v2fly.org">【V2Ray白话文指南】（社区版）</a><a href="https://toutyrater.github.io/">【官方版】</a></p>
+]]></content>
+      <tags>
+        <tag>v2ray</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>vim光标插件</title>
     <url>/posts/955b2cca/</url>
     <content><![CDATA[<p><a href="https://github.com/tpope/vim-surround">vim-surround</a><br>方便编辑括号，括号，引号，XML标标签等的插件</p>
@@ -9842,54 +9890,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </categories>
       <tags>
         <tag>vim</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>v2ray安装使用</title>
-    <url>/posts/a98f33e0/</url>
-    <content><![CDATA[<h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>在Linux上安装需要先安装curl、zip、unzip，运行脚本需要用到</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br><span class="line"></span><br><span class="line"><span class="comment"># archlinux可直接安装</span></span><br><span class="line">sudo pacman -S v2ray</span><br><span class="line"></span><br><span class="line">&lt;!--more--&gt;</span><br></pre></td></tr></table></figure><br><strong>go.sh脚本会自动安装以下文件</strong>：</p>
-<ul>
-<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
-<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
-<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
-<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
-<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
-</ul>
-<p>该脚本会配置自动运行脚本（开机自启），目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列</p>
-<p>运行脚本位于系统的以下位置：</p>
-<ul>
-<li><code>/etc/systemd/system/v2ray.service</code>: <strong>Systemd管理</strong></li>
-<li><code>/etc/init.d/v2ray</code>: <strong>SysV管理</strong></li>
-</ul>
-<h3 id="go-sh-参数"><a href="#go-sh-参数" class="headerlink" title="go.sh 参数"></a>go.sh 参数</h3><p>go.sh 支持如下参数，可在手动安装时根据实际情况调整：</p>
-<ul>
-<li><code>-p</code> 或 <code>--proxy</code>: 使用代理服务器来下载 V2Ray 的文件，格式与 curl 接受的参数一致，比如 <code>&quot;socks5://127.0.0.1:1080&quot;</code> 或 <code>&quot;http://127.0.0.1:3128&quot;</code>。</li>
-<li><code>-f</code> 或 <code>--force</code>: 强制安装。在默认情况下，如果当前系统中已有最新版本的 V2Ray，go.sh 会在检测之后就退出。如果需要强制重装一遍，则需要指定该参数。</li>
-<li><code>--version</code>: 指定需要安装的版本，比如 “v1.13”。不指定则默认安装最新版本。</li>
-<li><code>--local</code>: 使用一个本地文件进行安装。如果你已经下载了某个版本的 V2Ray，则可通过这个参数指定一个文件路径来进行安装。</li>
-</ul>
-<p>示例：</p>
-<ul>
-<li>使用地址为 <code>127.0.0.1:1080</code> 的 SOCKS 代理下载并安装最新版本：<code>./go.sh -p socks5://127.0.0.1:1080</code></li>
-<li>安装本地的 v1.13 版本：<code>./go.sh --version v1.13 --local /path/to/v2ray.zip</code></li>
-</ul>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h3><p>编辑 <code>/etc/v2ray/config.json</code> 文件来配置你需要的代理方式<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;inbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;port&quot;</span>: 16823, // 服务器监听端口</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;vmess&quot;</span>,    // 主传入协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;clients&quot;</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="string">&quot;id&quot;</span>: <span class="string">&quot;b831381d-6324-4d53-ad4f-8cda48b30811&quot;</span>,  // 用户 ID，客户端与服务器必须相同</span><br><span class="line">            <span class="string">&quot;alterId&quot;</span>: 64</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;outbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;freedom&quot;</span>,  // 主传出协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><a href="https://www.v2fly.org/chapter_02/01_overview.html">详细配置说明</a></p>
-<h3 id="防火墙开放端口"><a href="#防火墙开放端口" class="headerlink" title="防火墙开放端口"></a>防火墙开放端口</h3><p><strong>iptables</strong>:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看已开放端口</span></span><br><span class="line">/etc/init.d/iptables status</span><br><span class="line"></span><br><span class="line"><span class="comment">#开放8080端口</span></span><br><span class="line">iptables -A INPUT -p tcp --dport 8080 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment">#保存并重启防火墙</span></span><br><span class="line">/etc/rc.d/init.d/iptables save</span><br><span class="line">/etc/init.d/iptables restart</span><br></pre></td></tr></table></figure><br><strong>frewalld</strong>:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看已开放端口</span></span><br><span class="line">firewall-cmd --zone=public --list-ports</span><br><span class="line"></span><br><span class="line"><span class="comment">#开放8080端口</span></span><br><span class="line">firewall-cmd --zone=public --add-port=8080/tcp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment">#更新规则</span></span><br><span class="line">firewall-cmd --reload 		<span class="comment">#无需断开连接，firealld特性之一动态添加规则</span></span><br><span class="line"></span><br><span class="line">firewall-cmd --complete-reload    <span class="comment">#断开连接，类似于重启服务</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="程序管理"><a href="#程序管理" class="headerlink" title="程序管理"></a>程序管理</h3><p>运行 <code>service v2ray start</code> 或<code>systemctl start v2ray</code>来启动 V2Ray 进程<br>之后可以使用 <code>start</code>|<code>stop</code>|<code>status</code>|<code>reload</code>|<code>restart</code>|<code>force-reload</code> 控制 V2Ray 的运行</p>
-<h2 id="一键安装脚本-小白玩的"><a href="#一键安装脚本-小白玩的" class="headerlink" title="一键安装脚本(小白玩的)"></a>一键安装脚本(小白玩的)</h2><p><a href="https://github.com/233boy/v2ray/wiki/V2Ray一键安装脚本">V2Ray一键安装脚本（含教程）</a></p>
-<h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><h2 id="Windows和Mac-OS"><a href="#Windows和Mac-OS" class="headerlink" title="Windows和Mac OS"></a>Windows和Mac OS</h2><p>根据需求<a href="https://github.com/v2ray/v2ray-core/releases">到V2Ray的仓管下载发布的最新版</a><br>下载解压之后可看到 v2ray 或 v2ray.exe 直接运行即可</p>
-<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h4 id="图形客户端"><a href="#图形客户端" class="headerlink" title="图形客户端"></a>图形客户端</h4><p>下载图形化客户端<a href="https://github.com/lhy0403/Qv2ray/releases">Qv2ray</a>,archlinux可通过AUR直接安装<br>解压后双运行，这是会提示没有内核并自动打开存放内核的目录，到<a href="https://github.com/v2ray/v2ray-core/releases">V2Ray的仓库</a>下载Linux版的内核，讲内核解压放到自动打开的目录即可</p>
-<p>Qv2ray 在不同系统中查找 v2ray 内核的文件路径 （即找不到内核时自动弹出的文件夹路径）</p>
-<ul>
-<li>Windows: C:\Users\用户名.qv2ray\vcore</li>
-<li>macOS: /Users/用户名/.qv2ray/vcore</li>
-<li>Linux: ~/.qv2ray/vcore</li>
-</ul>
-<h4 id="非图形客户端"><a href="#非图形客户端" class="headerlink" title="非图形客户端"></a>非图形客户端</h4><p>直接和安装服务器版的一样，安装即可<br><strong>配置</strong>：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;inbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;port&quot;</span>: 1080, // 监听端口</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;socks&quot;</span>, // 入口协议为 SOCKS 5</span><br><span class="line">      <span class="string">&quot;sniffing&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;enabled&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">&quot;destOverride&quot;</span>: [<span class="string">&quot;http&quot;</span>, <span class="string">&quot;tls&quot;</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;auth&quot;</span>: <span class="string">&quot;noauth&quot;</span>  //socks的认证设置，noauth 代表不认证，由于 socks 通常在客户端使用，所以这里不认证</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;outbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;vmess&quot;</span>, // 出口协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;vnext&quot;</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="string">&quot;address&quot;</span>: <span class="string">&quot;serveraddr.com&quot;</span>, // 服务器地址，请修改为你自己的服务器 IP 或域名</span><br><span class="line">            <span class="string">&quot;port&quot;</span>: 16823,  // 服务器端口</span><br><span class="line">            <span class="string">&quot;users&quot;</span>: [</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">&quot;id&quot;</span>: <span class="string">&quot;b831381d-6324-4d53-ad4f-8cda48b30811&quot;</span>,  // 用户 ID，必须与服务器端配置相同</span><br><span class="line">                <span class="string">&quot;alterId&quot;</span>: 64 // 此处的值也应当与服务器相同</span><br><span class="line">              &#125;</span><br><span class="line">            ]</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><a href="https://www.v2fly.org/chapter_02/01_overview.html">详细配置说明</a></p>
-<p><a href="https://github.com/v2ray/v2ray-core">【V2Ray仓库】</a><br><a href="https://www.v2ray.com/">【V2Ray官网】（墙外）</a><br><a href="https://www.v2fly.com">【V2Ray用户手册】</a><a href="https://www.v2ray.com">【墙外】</a><br><a href="https://guide.v2fly.org">【V2Ray白话文指南】（社区版）</a><a href="https://toutyrater.github.io/">【官方版】</a></p>
-]]></content>
-      <tags>
-        <tag>v2ray</tag>
       </tags>
   </entry>
   <entry>
@@ -12366,6 +12366,21 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>内网渗透命令</title>
+    <url>/posts/d7b00f79/</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ipconfig &#x2F;all                      ------ 查询本机IP段，所在域等</span><br><span class="line">net user                           ------ 本机用户列表</span><br><span class="line">net localhroup administrators      ------ 本机管理员[通常含有域用户]</span><br><span class="line">net user &#x2F;domain                   ------ 查询域用户</span><br><span class="line">net group &#x2F;domain                  ------ 查询域里面的工作组</span><br><span class="line">net group &quot;domain admins&quot; &#x2F;domain  ------ 查询域管理员用户组</span><br><span class="line">net localgroup administrators &#x2F;domain    ------ 登录本机的域管理员</span><br><span class="line">net localgroup administrators workgroup\user001 &#x2F;add   ------域用户添加到本机</span><br><span class="line">net group &quot;domain controllers&quot; &#x2F;domain                         ------ 查看域控制器(如果有多台)</span><br><span class="line">net time &#x2F;domain          ------ 判断主域，主域服务器都做时间服务器</span><br><span class="line">net config workstation   ------ 当前登录域</span><br><span class="line">net session                  ------ 查看当前会话</span><br><span class="line">net use \\ip\ipc$ pawword &#x2F;user:username      ------ 建立IPC会话[空连接-***]</span><br><span class="line">net share                    ------  查看SMB指向的路径[即共享]</span><br><span class="line">net view                      ------ 查询同一域内机器列表</span><br><span class="line">net view \\ip                ------ 查询某IP共享</span><br><span class="line">net view &#x2F;domain         ------ 查询域列表</span><br><span class="line">net view &#x2F;domain:domainname        ------ 查看workgroup域中计算机列表</span><br><span class="line">net start                                         ------ 查看当前运行的服务</span><br><span class="line">net accounts                                   ------  查看本地密码策略</span><br><span class="line">net accounts &#x2F;domain                      ------  查看域密码策略</span><br><span class="line">nbtstat –A ip                                   ------netbios 查询</span><br><span class="line">netstat –an&#x2F;ano&#x2F;anb                        ------ 网络连接查询</span><br><span class="line">route print                                      ------ 路由表</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dsquery computer       ----- finds computers in the directory.</span><br><span class="line">dsquery contact           ----- finds contacts in thedirectory.</span><br><span class="line">dsquery subnet            ----- finds subnets in thedirectory.</span><br><span class="line">dsquery group             ----- finds groups in thedirectory.</span><br><span class="line">dsquery ou                   ----- finds organizationalunits in the directory.</span><br><span class="line">dsquery site                 ----- finds sites in thedirectory.</span><br><span class="line">dsquery server             ----- finds domain controllers inthe directory.</span><br><span class="line">dsquery user                ----- finds users in thedirectory.</span><br><span class="line">dsquery quota              ----- finds quota specificationsin the directory.</span><br><span class="line">dsquery partition         ----- finds partitions in thedirectory.</span><br><span class="line">dsquery *                     ----- finds any object inthe directory by using a generic LDAP query.</span><br><span class="line">dsquery server –domain Yahoo.com | dsget server–dnsname –site ---搜索域内域控制器的DNS主机名和站点名</span><br><span class="line">dsquery computer domainroot –name *-xp –limit 10----- 搜索域内以-xp结尾的机器10台</span><br><span class="line">dsquery user domainroot –name admin* -limit ---- 搜索域内以admin开头的用户10个</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#注:dsquery来源于Windows Server 2003 Administration Tools Pack</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tasklist &#x2F;V                                                      ----- 查看进程[显示对应用户]</span><br><span class="line">tasklist &#x2F;S ip &#x2F;U domain\username &#x2F;P &#x2F;V             ----- 查看远程计算机进程列表</span><br><span class="line">qprocess *                                                    ----- 类似tasklist</span><br><span class="line">qprocess &#x2F;SERVER:IP                                      ----- 远程查看计算机进程列表</span><br><span class="line">nslookup –qt-MX Yahoo.com                           ----- 查看邮件服务器</span><br><span class="line">whoami &#x2F;all                                                   ----- 查询当前用户权限等</span><br><span class="line">set                                                              ----- 查看系统环境变量</span><br><span class="line">systeminfo                                                    ----- 查看系统信息</span><br><span class="line">qwinsta                                                        ----- 查看登录情况</span><br><span class="line">qwinsta &#x2F;SERVER:IP                                       ----- 查看远程登录情况</span><br><span class="line">fsutil fsinfo drives                                           ----- 查看所有盘符</span><br><span class="line">gpupdate &#x2F;force                                            ----- 更新</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 域策略</span><br><span class="line"></span><br><span class="line">wmic bios                                      -----看bios信息</span><br><span class="line">wmic qfe                                           ----- 查看补丁信息</span><br><span class="line">wmic qfe get hotfixid                                     ----- 查看补丁-Patch号</span><br><span class="line">wmic startup                                                 ----- 查看启动项</span><br><span class="line">wmic service                                                 ----- 查看服务</span><br><span class="line">wmic os                                                       ----- 查看OS信息</span><br><span class="line">wmic process get caption,executablepath,commandline</span><br><span class="line">wmic process call create “process_name” (executes a program)</span><br><span class="line">wmic process where name&#x3D;”process_name” call terminate (terminates program)</span><br><span class="line">wmic logicaldisk where drivetype&#x3D;3 get name, freespace, systemname, filesystem, size,</span><br><span class="line">volumeserialnumber (hard drive information)</span><br><span class="line">wmic useraccount (usernames, sid, and various security related goodies)</span><br><span class="line">wmic useraccount get &#x2F;ALL</span><br><span class="line">wmic share get &#x2F;ALL (you can use ? for gets help ! )</span><br><span class="line">wmic startup list full (this can be a huge list!!!)</span><br><span class="line">wmic &#x2F;node:&quot;hostname&quot; bios get serialnumber (this can be great for finding warranty info about target)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
+        <tag>命令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>安全书籍</title>
     <url>/posts/37be0068/</url>
     <content><![CDATA[<h1 id="在线安全书籍"><a href="#在线安全书籍" class="headerlink" title="在线安全书籍"></a>在线安全书籍</h1><h2 id="Web安全书籍"><a href="#Web安全书籍" class="headerlink" title="Web安全书籍"></a>Web安全书籍</h2><p><a href="https://wizardforcel.gitbooks.io/web-hacking-101/">Web Hacking 101 中文版</a><br><a href="https://wizardforcel.gitbooks.io/kali-linux-web-pentest-cookbook/">Kali Linux Web渗透测试秘籍 中文版</a><br><a href="https://t0data.gitbooks.io/burpsuite/">Kali Linux burpsuite实战指南</a><br><a href="https://github.com/qazbnm456/awesome-web-security/">Web安全资料和资源列表</a></p>
@@ -12385,21 +12400,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
         <tag>安全</tag>
         <tag>Hacker</tag>
         <tag>书籍</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>内网渗透命令</title>
-    <url>/posts/d7b00f79/</url>
-    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ipconfig &#x2F;all                      ------ 查询本机IP段，所在域等</span><br><span class="line">net user                           ------ 本机用户列表</span><br><span class="line">net localhroup administrators      ------ 本机管理员[通常含有域用户]</span><br><span class="line">net user &#x2F;domain                   ------ 查询域用户</span><br><span class="line">net group &#x2F;domain                  ------ 查询域里面的工作组</span><br><span class="line">net group &quot;domain admins&quot; &#x2F;domain  ------ 查询域管理员用户组</span><br><span class="line">net localgroup administrators &#x2F;domain    ------ 登录本机的域管理员</span><br><span class="line">net localgroup administrators workgroup\user001 &#x2F;add   ------域用户添加到本机</span><br><span class="line">net group &quot;domain controllers&quot; &#x2F;domain                         ------ 查看域控制器(如果有多台)</span><br><span class="line">net time &#x2F;domain          ------ 判断主域，主域服务器都做时间服务器</span><br><span class="line">net config workstation   ------ 当前登录域</span><br><span class="line">net session                  ------ 查看当前会话</span><br><span class="line">net use \\ip\ipc$ pawword &#x2F;user:username      ------ 建立IPC会话[空连接-***]</span><br><span class="line">net share                    ------  查看SMB指向的路径[即共享]</span><br><span class="line">net view                      ------ 查询同一域内机器列表</span><br><span class="line">net view \\ip                ------ 查询某IP共享</span><br><span class="line">net view &#x2F;domain         ------ 查询域列表</span><br><span class="line">net view &#x2F;domain:domainname        ------ 查看workgroup域中计算机列表</span><br><span class="line">net start                                         ------ 查看当前运行的服务</span><br><span class="line">net accounts                                   ------  查看本地密码策略</span><br><span class="line">net accounts &#x2F;domain                      ------  查看域密码策略</span><br><span class="line">nbtstat –A ip                                   ------netbios 查询</span><br><span class="line">netstat –an&#x2F;ano&#x2F;anb                        ------ 网络连接查询</span><br><span class="line">route print                                      ------ 路由表</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dsquery computer       ----- finds computers in the directory.</span><br><span class="line">dsquery contact           ----- finds contacts in thedirectory.</span><br><span class="line">dsquery subnet            ----- finds subnets in thedirectory.</span><br><span class="line">dsquery group             ----- finds groups in thedirectory.</span><br><span class="line">dsquery ou                   ----- finds organizationalunits in the directory.</span><br><span class="line">dsquery site                 ----- finds sites in thedirectory.</span><br><span class="line">dsquery server             ----- finds domain controllers inthe directory.</span><br><span class="line">dsquery user                ----- finds users in thedirectory.</span><br><span class="line">dsquery quota              ----- finds quota specificationsin the directory.</span><br><span class="line">dsquery partition         ----- finds partitions in thedirectory.</span><br><span class="line">dsquery *                     ----- finds any object inthe directory by using a generic LDAP query.</span><br><span class="line">dsquery server –domain Yahoo.com | dsget server–dnsname –site ---搜索域内域控制器的DNS主机名和站点名</span><br><span class="line">dsquery computer domainroot –name *-xp –limit 10----- 搜索域内以-xp结尾的机器10台</span><br><span class="line">dsquery user domainroot –name admin* -limit ---- 搜索域内以admin开头的用户10个</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#注:dsquery来源于Windows Server 2003 Administration Tools Pack</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tasklist &#x2F;V                                                      ----- 查看进程[显示对应用户]</span><br><span class="line">tasklist &#x2F;S ip &#x2F;U domain\username &#x2F;P &#x2F;V             ----- 查看远程计算机进程列表</span><br><span class="line">qprocess *                                                    ----- 类似tasklist</span><br><span class="line">qprocess &#x2F;SERVER:IP                                      ----- 远程查看计算机进程列表</span><br><span class="line">nslookup –qt-MX Yahoo.com                           ----- 查看邮件服务器</span><br><span class="line">whoami &#x2F;all                                                   ----- 查询当前用户权限等</span><br><span class="line">set                                                              ----- 查看系统环境变量</span><br><span class="line">systeminfo                                                    ----- 查看系统信息</span><br><span class="line">qwinsta                                                        ----- 查看登录情况</span><br><span class="line">qwinsta &#x2F;SERVER:IP                                       ----- 查看远程登录情况</span><br><span class="line">fsutil fsinfo drives                                           ----- 查看所有盘符</span><br><span class="line">gpupdate &#x2F;force                                            ----- 更新</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 域策略</span><br><span class="line"></span><br><span class="line">wmic bios                                      -----看bios信息</span><br><span class="line">wmic qfe                                           ----- 查看补丁信息</span><br><span class="line">wmic qfe get hotfixid                                     ----- 查看补丁-Patch号</span><br><span class="line">wmic startup                                                 ----- 查看启动项</span><br><span class="line">wmic service                                                 ----- 查看服务</span><br><span class="line">wmic os                                                       ----- 查看OS信息</span><br><span class="line">wmic process get caption,executablepath,commandline</span><br><span class="line">wmic process call create “process_name” (executes a program)</span><br><span class="line">wmic process where name&#x3D;”process_name” call terminate (terminates program)</span><br><span class="line">wmic logicaldisk where drivetype&#x3D;3 get name, freespace, systemname, filesystem, size,</span><br><span class="line">volumeserialnumber (hard drive information)</span><br><span class="line">wmic useraccount (usernames, sid, and various security related goodies)</span><br><span class="line">wmic useraccount get &#x2F;ALL</span><br><span class="line">wmic share get &#x2F;ALL (you can use ? for gets help ! )</span><br><span class="line">wmic startup list full (this can be a huge list!!!)</span><br><span class="line">wmic &#x2F;node:&quot;hostname&quot; bios get serialnumber (this can be great for finding warranty info about target)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>安全</category>
-      </categories>
-      <tags>
-        <tag>安全</tag>
-        <tag>命令</tag>
       </tags>
   </entry>
   <entry>
@@ -12555,6 +12555,44 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>思维导图使用</title>
+    <url>/posts/ab32efb6/</url>
+    <content><![CDATA[<h2 id="软件版"><a href="#软件版" class="headerlink" title="软件版"></a>软件版</h2><h3 id="全平台"><a href="#全平台" class="headerlink" title="全平台"></a>全平台</h3><ul>
+<li>XMind</li>
+<li>MindMaster</li>
+</ul>
+<h2 id="网页版"><a href="#网页版" class="headerlink" title="网页版"></a>网页版</h2><ul>
+<li><a href="https://coggle.it/">coggle</a>（美观,推荐使用）</li>
+<li><a href="https://naotu.baidu.com/">百度脑图</a></li>
+<li><a href="https://app.gitmind.cn/">GitMind</a></li>
+<li><a href="https://mm.edrawsoft.cn/">MindMaster</a>（云端存储初始为10MB，每天签到才送1MB）</li>
+</ul>
+<a id="more"></a>
+<h2 id="Markdown中使用思维导图"><a href="#Markdown中使用思维导图" class="headerlink" title="Markdown中使用思维导图"></a>Markdown中使用思维导图</h2><p>Markdown文档支持html标签，在网页版的思维导图中将图表分享出来，得到分享链接，然后将链接添加到html标签中，即可在Markdown文档中使用网页版的思维导图（需联网才能使用）</p>
+<h4 id="coggle"><a href="#coggle" class="headerlink" title="coggle"></a>coggle</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">width</span>=<span class="string">&#x27;853&#x27;</span> <span class="attr">height</span>=<span class="string">&#x27;880&#x27;</span> <span class="attr">src</span>=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> <span class="attr">frameborder</span>=<span class="string">&#x27;0&#x27;</span> <span class="attr">allowfullscreen</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>例</strong>：</p>
+<iframe width="853" height="880" src="https://embed.coggle.it/diagram/XYdixxcw7gwyODa2/e5e0a11b673127a3a9e1bdba75bbe4073015b8cd15f3b3fa3827d22389bf188d" frameborder="0" allowfullscreen></iframe>
+
+
+<h4 id="百度脑图（网页上可能会出现不显示的情况）"><a href="#百度脑图（网页上可能会出现不显示的情况）" class="headerlink" title="百度脑图（网页上可能会出现不显示的情况）"></a>百度脑图（网页上可能会出现不显示的情况）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe width=<span class="string">&#x27;800&#x27;</span> height=<span class="string">&#x27;800&#x27;</span> src=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> frameborder=<span class="string">&#x27;0&#x27;</span> allowfullscreen&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>例</strong>：</p>
+<iframe width="800" height="800" src="http://naotu.baidu.com/file/da4849720c959c83587bf3bc59bcf29e?token=b18fec1ac5870f57" frameborder="0" allowfullscreen></iframe>
+
+<h4 id="GitMind"><a href="#GitMind" class="headerlink" title="GitMind"></a>GitMind</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe width=<span class="string">&#x27;800&#x27;</span> height=<span class="string">&#x27;800&#x27;</span> src=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> frameborder=<span class="string">&#x27;0&#x27;</span> allowfullscreen&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>例</strong>：</p>
+<iframe width="800" height="800" src="https://app.gitmind.cn/doc/86a11950" frameborder="0" allowfullscreen></iframe>
+
+<h4 id="MindMaster"><a href="#MindMaster" class="headerlink" title="MindMaster"></a>MindMaster</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe frameborder=<span class="string">&quot;no&quot;</span> border=<span class="string">&quot;0&quot;</span> marginwidth=<span class="string">&quot;0&quot;</span> marginheight=<span class="string">&quot;0&quot;</span> width=800 height=800 src=<span class="string">&quot;xxxxxxxxxxxxxxx&quot;</span>&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>例</strong>：</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="800" height="800" src="https://edrawcloudpubliccn.oss-cn-shenzhen.aliyuncs.com/viewer/self/1198898/share/2019-9-23/1569199487/main.svg"></iframe>
+
+
+]]></content>
+      <tags>
+        <tag>思维导图</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>有用的镜像站</title>
     <url>/posts/e7f8caf7/</url>
     <content><![CDATA[<p>国内访问一些网站是被屏蔽的或是访问慢，一些镜像站就能满足这些需求</p>
@@ -12626,44 +12664,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
-    <title>思维导图使用</title>
-    <url>/posts/ab32efb6/</url>
-    <content><![CDATA[<h2 id="软件版"><a href="#软件版" class="headerlink" title="软件版"></a>软件版</h2><h3 id="全平台"><a href="#全平台" class="headerlink" title="全平台"></a>全平台</h3><ul>
-<li>XMind</li>
-<li>MindMaster</li>
-</ul>
-<h2 id="网页版"><a href="#网页版" class="headerlink" title="网页版"></a>网页版</h2><ul>
-<li><a href="https://coggle.it/">coggle</a>（美观,推荐使用）</li>
-<li><a href="https://naotu.baidu.com/">百度脑图</a></li>
-<li><a href="https://app.gitmind.cn/">GitMind</a></li>
-<li><a href="https://mm.edrawsoft.cn/">MindMaster</a>（云端存储初始为10MB，每天签到才送1MB）</li>
-</ul>
-<a id="more"></a>
-<h2 id="Markdown中使用思维导图"><a href="#Markdown中使用思维导图" class="headerlink" title="Markdown中使用思维导图"></a>Markdown中使用思维导图</h2><p>Markdown文档支持html标签，在网页版的思维导图中将图表分享出来，得到分享链接，然后将链接添加到html标签中，即可在Markdown文档中使用网页版的思维导图（需联网才能使用）</p>
-<h4 id="coggle"><a href="#coggle" class="headerlink" title="coggle"></a>coggle</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">width</span>=<span class="string">&#x27;853&#x27;</span> <span class="attr">height</span>=<span class="string">&#x27;880&#x27;</span> <span class="attr">src</span>=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> <span class="attr">frameborder</span>=<span class="string">&#x27;0&#x27;</span> <span class="attr">allowfullscreen</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><strong>例</strong>：</p>
-<iframe width="853" height="880" src="https://embed.coggle.it/diagram/XYdixxcw7gwyODa2/e5e0a11b673127a3a9e1bdba75bbe4073015b8cd15f3b3fa3827d22389bf188d" frameborder="0" allowfullscreen></iframe>
-
-
-<h4 id="百度脑图（网页上可能会出现不显示的情况）"><a href="#百度脑图（网页上可能会出现不显示的情况）" class="headerlink" title="百度脑图（网页上可能会出现不显示的情况）"></a>百度脑图（网页上可能会出现不显示的情况）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe width=<span class="string">&#x27;800&#x27;</span> height=<span class="string">&#x27;800&#x27;</span> src=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> frameborder=<span class="string">&#x27;0&#x27;</span> allowfullscreen&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>例</strong>：</p>
-<iframe width="800" height="800" src="http://naotu.baidu.com/file/da4849720c959c83587bf3bc59bcf29e?token=b18fec1ac5870f57" frameborder="0" allowfullscreen></iframe>
-
-<h4 id="GitMind"><a href="#GitMind" class="headerlink" title="GitMind"></a>GitMind</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe width=<span class="string">&#x27;800&#x27;</span> height=<span class="string">&#x27;800&#x27;</span> src=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> frameborder=<span class="string">&#x27;0&#x27;</span> allowfullscreen&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>例</strong>：</p>
-<iframe width="800" height="800" src="https://app.gitmind.cn/doc/86a11950" frameborder="0" allowfullscreen></iframe>
-
-<h4 id="MindMaster"><a href="#MindMaster" class="headerlink" title="MindMaster"></a>MindMaster</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe frameborder=<span class="string">&quot;no&quot;</span> border=<span class="string">&quot;0&quot;</span> marginwidth=<span class="string">&quot;0&quot;</span> marginheight=<span class="string">&quot;0&quot;</span> width=800 height=800 src=<span class="string">&quot;xxxxxxxxxxxxxxx&quot;</span>&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>例</strong>：</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="800" height="800" src="https://edrawcloudpubliccn.oss-cn-shenzhen.aliyuncs.com/viewer/self/1198898/share/2019-9-23/1569199487/main.svg"></iframe>
-
-
-]]></content>
-      <tags>
-        <tag>思维导图</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>汇编基础</title>
     <url>/posts/84aee333/</url>
     <content><![CDATA[<h1 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h1><p>CPU 只负责运算，不负责存储数据，而数据都存储在磁盘中，磁盘速度无法满足运算时的速度，因此需要将数据先读取到内存中，CPU 需要的时候就去内存中读取，但 CPU 的运算速度远高与内存的读写速度，为避免被拖慢，CPU 都会自带一级、二级甚至三级缓存。基本上，CPU 缓存可看作是读写速度较快的内存。</p>
@@ -12732,18 +12732,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <p><a href="https://drinking.github.io/stack-and-heap">既生堆何生栈</a></p>
 <p><a href="https://blog.csdn.net/qq_41786318/article/details/81949282">内存中的堆栈和数据结构堆栈区别</a></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>自动挂载U盘等外部存储</title>
-    <url>/posts/a221ab0a/</url>
-    <content><![CDATA[<p>自动挂载U盘等外部存储位置,需要安装<code>usbmount</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S usbmount</span><br></pre></td></tr></table></figure>
-<p>配置<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/usbmount/usbmount.conf</span><br><span class="line"><span class="comment"># 在MOUNTOPTIONS那行添加user即可使普通用户也对挂载的U盘拥有写权限, 如下: MOUNTOPTIOS=&quot;rw,user,noatime,nodiratime&quot;</span></span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-        <tag>自动</tag>
-      </tags>
   </entry>
   <entry>
     <title>电脑配件排行榜</title>
@@ -12826,6 +12814,18 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
       <tags>
         <tag>排行榜</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>自动挂载U盘等外部存储</title>
+    <url>/posts/a221ab0a/</url>
+    <content><![CDATA[<p>自动挂载U盘等外部存储位置,需要安装<code>usbmount</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S usbmount</span><br></pre></td></tr></table></figure>
+<p>配置<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/usbmount/usbmount.conf</span><br><span class="line"><span class="comment"># 在MOUNTOPTIONS那行添加user即可使普通用户也对挂载的U盘拥有写权限, 如下: MOUNTOPTIOS=&quot;rw,user,noatime,nodiratime&quot;</span></span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+        <tag>自动</tag>
       </tags>
   </entry>
   <entry>
