@@ -1243,176 +1243,6 @@
       </tags>
   </entry>
   <entry>
-    <title>DockerHub加速</title>
-    <url>/posts/e4bc92fe/</url>
-    <content><![CDATA[<h1 id="DockerHub国内加速地址"><a href="#DockerHub国内加速地址" class="headerlink" title="DockerHub国内加速地址"></a>DockerHub国内加速地址</h1><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>加速地址</th>
-<th>是否专属</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://registry.docker-cn.com">Docker中国官方</a>: <code>https://registry.docker-cn.com</code></td>
-<td>否</td>
-<td>Docker Hub</td>
-</tr>
-<tr>
-<td><a href="https://daocloud.io/mirror">DaoCloud</a>: <code>http://f1361db2.m.daocloud.io</code></td>
-<td>是,可登录，系统分配</td>
-<td>Docker Hub</td>
-</tr>
-<tr>
-<td><a href="https://dockerhub.azk8s.cn">Azure</a>: <code>https://dockerhub.azk8s.cn</code></td>
-<td>否</td>
-<td>Docker Hub、GCR、Quay</td>
-</tr>
-<tr>
-<td><a href="https://docker.mirrors.ustc.edu.cn">中国科技大学</a> : <code>https://docker.mirrors.ustc.edu.cn</code></td>
-<td>否</td>
-<td>Docker Hub、GCR、Quay</td>
-</tr>
-<tr>
-<td><a href="https://cr.console.aliyun.com/">阿里</a>: <code>https://&lt;your_code&gt;.mirror.aliyuncs.com</code></td>
-<td>是，登录获取专属地址</td>
-<td>Docker Hub</td>
-</tr>
-<tr>
-<td><a href="https://reg-mirror.qiniu.com">七牛</a>: <code>https://reg-mirror.qiniu.com</code></td>
-<td>否</td>
-<td>Docker Hub、GCR、Quay</td>
-</tr>
-<tr>
-<td><a href="https://hub-mirror.c.163.com">网易</a>: <code>https://hub-mirror.c.163.com</code></td>
-<td>否</td>
-<td>Docker Hub</td>
-</tr>
-<tr>
-<td><a href="https://mirror.ccs.tencentyun.com">腾讯</a>: <code>https://mirror.ccs.tencentyun.com</code></td>
-<td>否</td>
-<td>Docker Hub</td>
-</tr>
-</tbody>
-</table>
-</div>
-<a id="more"></a>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>创建或修改 <code>/etc/docker/daemon.json</code> :</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;地址，多条用逗号(,)隔开&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-<p>重新加载守护进程配置和重启Docker</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-<p>参考：<a href="https://juejin.im/post/5cd2cf01f265da0374189441">Docker Hub 镜像加速器</a></p>
-]]></content>
-      <categories>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker容器中使用systemctl报错</title>
-    <url>/posts/dcd841b9/</url>
-    <content><![CDATA[<h1 id="当在Dokcer容器中使用systemctl时报以下错误"><a href="#当在Dokcer容器中使用systemctl时报以下错误" class="headerlink" title="当在Dokcer容器中使用systemctl时报以下错误"></a>当在Dokcer容器中使用<code>systemctl</code>时报以下错误</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">System has not been booted with systemd as init system (PID 1). Can&#39;t operate.</span><br><span class="line">Failed to connect to bus: Host is down&#39;</span><br></pre></td></tr></table></figure>
-<h1 id="问题原因："><a href="#问题原因：" class="headerlink" title="问题原因："></a>问题原因：</h1><p>启动容器时执行的启动是<code>/bin/bash</code>,没有相应的权限调用内核程序，需要在<code>run</code>修改相应的指令获得权限</p>
-<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>在<code>run</code>指令后加—privileged=true，修改<code>/bin/bash</code> 为<code>/sbin/init</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --privileged=<span class="literal">true</span> -itd xxxxx /sbin/init</span><br></pre></td></tr></table></figure>
-<p>进入容器时使用的是<code>docker exec -it xxxxx /bin/bash</code></p>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dotfile管理</title>
-    <url>/posts/fc38e44e/</url>
-    <content><![CDATA[<p>在Linux上各个程序的配置文件大多是以 <code>.</code> 开头或以 <code>rc</code> 结尾的文件，并存放于用户的个人目录 <code>~/</code> 中，通常叫dotfile 或 rc file ，如 <code>.zshrc</code> ，<code>.vimrc</code> 等。在初次使用一些软件时需要花大量时间对相应的 dotfile 进行配置，当需要在新系统上恢复多个软件配置或者在多台电脑上共享一台电脑对 dotfile 的修改时，逐一对各个 dotfile 进行管理非常不方便,<code>rcm</code>(rc file management) 就是一个 dotfile 管理工具,用于方便管理 dotfile 。</p>
-<p>rcm 主要是将所有希望用 rcm 管理的 dotfile 集中存储在一个目录中（默认 <code>~/.dotfiles</code>），并在原配置文件位置创建被 rcm 管理的 dotfile 的软链接。</p>
-<p>可在该集中存储目录中使用 git 进行版本控制，同时也可托管到 github 等 git 仓库中方便多台机器共享。若要使用别人分享的 rcm 目录下的 dotfile 时 rcm 可调用不同 dotfiles 目录下的文件进行使用。</p>
-<p><a href="https://github.com/thoughtbot/rcm">rcm github仓库</a></p>
-<p><a href="https://gitee.com/mirrors/rcm">rcm gitee国内加速仓库</a></p>
-<a id="more"></a>
-<h1 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h1><p>rcm 包括了 4 个命令和一个 dotfile 文件 <code>~/.rcrc</code> (注意 rcm 默认不会生成该配置文件，若要使用需手动创建）</p>
-<h2 id="lsrc"><a href="#lsrc" class="headerlink" title="lsrc"></a>lsrc</h2><p><strong>列出当前所有通过 rcm 管理的 dotfile ，以及其对应的符号链接位置</strong></p>
-<p><code>lsrc    [-FhqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
-<h2 id="mkrc"><a href="#mkrc" class="headerlink" title="mkrc"></a>mkrc</h2><p>将指定的 dotfile 移动至集中存储目录(默认 <code>~/.dotfiles</code>)，并在原下创建相应的软链接</p>
-<p><code>mkrc    [-ChoqSsVvUu] [-t TAG] [-d DIR] [-B HOSTNAME] files ...</code></p>
-<h2 id="rcup"><a href="#rcup" class="headerlink" title="rcup"></a>rcup</h2><p>更新或创建由 rcm 管理的 dotfile 的软链接</p>
-<p><code>rcup    [-CfhiKkqVv] [-B HOSTNAME] [-d DIR] [-g] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
-<h2 id="rcdn"><a href="#rcdn" class="headerlink" title="rcdn"></a>rcdn</h2><p>删除通过 rcm 创建的 dotfile 的软链接</p>
-<p><code>rcdn    [-hKkqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
-<h1 id="命令指令"><a href="#命令指令" class="headerlink" title="命令指令"></a>命令指令</h1><ul>
-<li><code>-B HOSTNAME</code>: 指定特定主机的目录,而不是使用计算机的主机名对其进行操作。</li>
-<li><code>-C</code>: 复制文件而不是创建软链接。</li>
-<li><code>-d DIR</code>: 指定 dotfiles 目录，可以指定多个。</li>
-<li><code>-F</code>: 在文件旁显示指示符号，<code>@</code> (文件软链接) ，<code>$</code> (目录软链接)，<code>x</code>(副本文件)。更多详细信息参考 rcrc 中的 <code>COPY_ALWAYS</code> 和 <code>SYMLINK_DIRS</code> 。</li>
-<li><code>-f</code>: 如果rc文件已经存在于配置目录中，但与 dotfiles 目录中的文件不匹配，删除rc文件，然后创建软链接。</li>
-<li><code>-g</code>: 仅显示 <code>rcup</code> 命令脚本的执行过程，不会修改文件系统上的任何内容。</li>
-<li><code>-h</code>: 显示用法说明</li>
-<li><code>-I EXCL_PAT</code>: 指定不被 <code>-x</code> 排除的文件。 该项在 <code>-x</code> 选项之后应用,使用与 <code>-x</code> 相同的语法格式。可能需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>-i</code>: 如果rc文件已经存在于配置目录中，但是与dotfiles目录中的文件不匹配，提示如何处理它。这是默认选项。</li>
-<li><code>-K</code>: 跳过 pre-hooks 和 post-hooks</li>
-<li><code>-k</code>: 运行 pre-hooks 和 post-hooks , 这是默认选项。</li>
-<li><code>-o</code>: 将 dotfiles 安装到主机特定的目录中。</li>
-<li><code>-q</code>: 减少详细信息。更多详细信息参考 <code>DIRECTORY LAYOUT</code>。</li>
-<li><code>-S EXCL_PAT</code>: 指定以软链接形式创建的目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>-s EXCL_PAT</code>: 指定递归创建的目录而不是软链接式的目录。与 <code>-S</code> 选项相反，可用于撤消它或 <code>rcrc</code> 中的 <code>SYMLINK_DIRS</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>-t TAG</code>: 指定标签</li>
-<li><code>-U EXCLUDE</code>: 指定不创建软链接和以点 (<code>.</code>) 开头命名的rc文件或目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>-u EXCL_PAT</code>: 指定必须使用点 (<code>.</code>) 开头命名的 rc 文件或目录。 与 <code>-U</code> 选项相反，可用于撤消它或 rcrc 中 <code>UNDOTTED</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>-V</code>: 显示版本号。</li>
-<li><code>-v</code>: 添加详细信息。 可以重复此操作以获取更多的详细信息。</li>
-<li><code>-x EXCL_PAT</code>: 指定排除的文件。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>files ...</code>: 指定的文件列表。</li>
-</ul>
-<h1 id="rcrc"><a href="#rcrc" class="headerlink" title="~/.rcrc"></a><code>~/.rcrc</code></h1><p>可以使用主目录中的 <code>.rcrc</code> 文件配置rcm dotfile 管理器。 可通过设置 <code>RCRC</code> 环境变量来更改此位置。</p>
-<p>支持以下变量:</p>
-<ul>
-<li><code>COPY_ALWAYS</code>: 复制列表中的glob相匹配的文件，而非使用软链接。</li>
-<li><code>DOTFILES_DIRS</code>: dotfile 的源目录。列表中的第一个将被 <code>mkrc</code> 用于创建 <code>dotfile</code> 目录，默认值为: <code>~/.dotfiles</code> 。</li>
-<li><code>EXCLUDES</code>: 排除列表。</li>
-<li><code>HOSTNAME</code>: 计算机的主机名。 通常通过 <code>hostname</code> 命令获得，但此命令并非标准的，获取的主机名或许会有差异，因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</li>
-<li><code>TAGS</code>: 默认标签表。</li>
-<li><code>SYMLINK_DIRS</code>: 列表中目录是软链接，而不是源文件。 </li>
-<li><code>UNDOTTED</code>: 列表中的文件是软链接且不用点 (<code>.</code>) 开头命名。如果是 <code>SYMLINK_DIRS</code> 中含有的目录，则该目录将为软链接且不用点 (<code>.</code>) 开头命名。</li>
-</ul>
-<p><strong><code>.rcrc</code> 样例</strong>:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COPY_ALWAYS=<span class="string">&quot;ssh/id_* weechat/* netrc&quot;</span></span><br><span class="line">COPY_ALWAYS=<span class="string">&quot;*&quot;</span></span><br><span class="line">DOTFILES_DIRS=<span class="string">&quot;/home/mike/.dotfiles /usr/share/dotfiles&quot;</span></span><br><span class="line">EXCLUDES=<span class="string">&quot;irbrc *:*emacs* dotfiles:python*&quot;</span></span><br><span class="line">HOSTNAME=<span class="string">&quot;eggplant&quot;</span></span><br><span class="line">TAGS=<span class="string">&quot;freebsd development email git laptop gmail notmuch&quot;</span></span><br><span class="line">SYMLINK_DIRS=<span class="string">&quot;zprezto texmf&quot;</span></span><br><span class="line">UNDOTTED=<span class="string">&quot;texmf&quot;</span></span><br></pre></td></tr></table></figure>
-<h1 id="EXCLUDE-PATTERN-排除列表"><a href="#EXCLUDE-PATTERN-排除列表" class="headerlink" title="EXCLUDE PATTERN (排除列表)"></a>EXCLUDE PATTERN (排除列表)</h1><p>使用冒号 (<code>:</code>) 分隔 dotfile 目录和 glob (由普通字符、通配字符组成的字符串，用于匹配文件路径) 。可选择带 dotfile 目录，如果省略则默认为 <code>*</code> ，代表从所有 dotfile 目录匹配。 glob 是相对于 dotfile 目录的相对路径。</p>
-<p>例如，要忽略 <code>Thoughtbot-dotfiles</code> 目录中所有与 <code>emacs</code> 相关的项目，使用：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">thoughtbot-dotfiles:*emacs*</span><br></pre></td></tr></table></figure>
-<p>要忽略所有 <code>bash_profile</code> 文件使用：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">*:bash_profile</span><br></pre></td></tr></table></figure>
-<p>或者简写为:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">bash_profile</span><br></pre></td></tr></table></figure>
-<p>注意,通常通过 <code>hostname</code> 命令获得主机名，但此命令并非标准的，获取的主机名或许会有差异，在macOS上，主机名是不可预测的，甚至可能在 <code>DHCP</code> 握手被更改,强烈建议在 <code>rcrc</code> 中,因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</p>
-<h1 id="DIRECTORY-LAYOUT-目录布局"><a href="#DIRECTORY-LAYOUT-目录布局" class="headerlink" title="DIRECTORY LAYOUT (目录布局)"></a>DIRECTORY LAYOUT (目录布局)</h1><p>dotfiles 目录下的任何非点 (<code>.</code>) 开头的、非元的文件或目录都将作为点 (<code>.</code>) 开头的文件安装。 例如，<code>.dotfiles/zshrc</code> 将安装到 <code>~/.zshrc</code> 。</p>
-<p>文件安装为软链接。 目录通过建立目录来安装。<code>-C</code> 选项指定文件通过复制安装而不是软链接。 <code>rcrc</code> 中的 <code>COPY_ALWAYS</code> 可用于列出只能复制的文件。</p>
-<p>支持三个元文件: host-specific (特定主机文件), tagged (标记文件), hooks 。</p>
-<ul>
-<li><code>host-specific</code>: 以 <code>host-</code> 前缀加主机名命名的目录，存放特定主机的文件，如，<code>.dotfiles/host-scarlett</code> 包含主机名为 scarlett 的计算机 dotfile 文件，且这些文件将仅安装在主机名为scarlett的计算机上。</li>
-<li><code>tagged</code>: 以 <code>tag-</code> 前缀加标签名命名的目录，存放标记该标签的文件，如，仅在指定使用 <code>git</code> 标签时安装 <code>.dotfiles/tag-git</code> 下的文件。</li>
-<li><code>hooks</code>:  名为hooks的目录，存放 hooks 。 rcup 支持两个hooks：<code>pre-up</code> 和 <code>post-up</code> 。它们存放到预设文件名的文件或目录中：<code>.dotfiles/hooks/pre-up</code> 和 <code>.dotfiles/hooks/post-up</code> ，或 <code>.dotfiles/hooks/pre-up/*</code> 和 <code>.dotfiles/hooks/post-up/*</code> 。 这些文件必须是可执行文件。 它们在每次 <code>rcup</code> 运行时都运行，因此必须是幂等(执行后结果还为本身)的。hooks 按字母顺序排序,一次只执行一次。 如，<code>hooks/pre-up/animals</code> 将在 <code>hooks / pre-up/aquariums</code> 之前运行，<code>hooks/pre-up/4-eyes</code> 将在 <code>hooks/post-up/2-u-nothing-compares</code> 之前运行。</li>
-</ul>
-<h1 id="日常使用"><a href="#日常使用" class="headerlink" title="日常使用"></a>日常使用</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建管理</span></span><br><span class="line">mkrc xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打标签方式创建管理</span></span><br><span class="line">mkrc -t git xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 dotfiles 中的 dotfile 文件</span></span><br><span class="line">rcup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定标签的 dotfile 文件</span></span><br><span class="line">rcup -t git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定标签的 dotfile 文件，并显示过程</span></span><br><span class="line">rcup -t git -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询被管理的 dotfile 文件</span></span><br><span class="line">lsrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定标签的 dotfile 文件</span></span><br><span class="line">lsrc -t git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定 dotfiles 中的 dotfile 文件</span></span><br><span class="line">lsrc -d ~/.MyDotfiles</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消安装</span></span><br><span class="line">rcdn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消指定标签的安装，并显示过程</span></span><br><span class="line">rcdn -t git -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消指定 dotfiles 中指定标签的安装</span></span><br><span class="line">rcdn -d ~/.MyDotfiles -t git</span><br></pre></td></tr></table></figure>
-<p><strong>使用git进行版本管理及云备份</strong>:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.dotfiles</span><br><span class="line">git init</span><br><span class="line">git add .</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;These are my dotfiles&quot;</span> &gt;&gt; README.md</span><br><span class="line">git commit -m <span class="string">&quot;initial commit&quot;</span></span><br></pre></td></tr></table></figure>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://thoughtbot.github.io/rcm/rcm.7.html">RCM(7)</a></p>
-<p><a href="https://www.jianshu.com/p/e21089d118c1">管理linux下软件的配置文件dotfile(rc files)</a></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DVWA通关过程</title>
     <url>/posts/3eeec4be/</url>
     <content><![CDATA[<h1 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h1><h2 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h2><p><strong>phpStudy</strong></p>
@@ -1949,6 +1779,176 @@
       </tags>
   </entry>
   <entry>
+    <title>DockerHub加速</title>
+    <url>/posts/e4bc92fe/</url>
+    <content><![CDATA[<h1 id="DockerHub国内加速地址"><a href="#DockerHub国内加速地址" class="headerlink" title="DockerHub国内加速地址"></a>DockerHub国内加速地址</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>加速地址</th>
+<th>是否专属</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://registry.docker-cn.com">Docker中国官方</a>: <code>https://registry.docker-cn.com</code></td>
+<td>否</td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td><a href="https://daocloud.io/mirror">DaoCloud</a>: <code>http://f1361db2.m.daocloud.io</code></td>
+<td>是,可登录，系统分配</td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td><a href="https://dockerhub.azk8s.cn">Azure</a>: <code>https://dockerhub.azk8s.cn</code></td>
+<td>否</td>
+<td>Docker Hub、GCR、Quay</td>
+</tr>
+<tr>
+<td><a href="https://docker.mirrors.ustc.edu.cn">中国科技大学</a> : <code>https://docker.mirrors.ustc.edu.cn</code></td>
+<td>否</td>
+<td>Docker Hub、GCR、Quay</td>
+</tr>
+<tr>
+<td><a href="https://cr.console.aliyun.com/">阿里</a>: <code>https://&lt;your_code&gt;.mirror.aliyuncs.com</code></td>
+<td>是，登录获取专属地址</td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td><a href="https://reg-mirror.qiniu.com">七牛</a>: <code>https://reg-mirror.qiniu.com</code></td>
+<td>否</td>
+<td>Docker Hub、GCR、Quay</td>
+</tr>
+<tr>
+<td><a href="https://hub-mirror.c.163.com">网易</a>: <code>https://hub-mirror.c.163.com</code></td>
+<td>否</td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td><a href="https://mirror.ccs.tencentyun.com">腾讯</a>: <code>https://mirror.ccs.tencentyun.com</code></td>
+<td>否</td>
+<td>Docker Hub</td>
+</tr>
+</tbody>
+</table>
+</div>
+<a id="more"></a>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>创建或修改 <code>/etc/docker/daemon.json</code> :</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;registry-mirrors&quot;</span>: [<span class="string">&quot;地址，多条用逗号(,)隔开&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>重新加载守护进程配置和重启Docker</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="https://juejin.im/post/5cd2cf01f265da0374189441">Docker Hub 镜像加速器</a></p>
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker容器中使用systemctl报错</title>
+    <url>/posts/dcd841b9/</url>
+    <content><![CDATA[<h1 id="当在Dokcer容器中使用systemctl时报以下错误"><a href="#当在Dokcer容器中使用systemctl时报以下错误" class="headerlink" title="当在Dokcer容器中使用systemctl时报以下错误"></a>当在Dokcer容器中使用<code>systemctl</code>时报以下错误</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">System has not been booted with systemd as init system (PID 1). Can&#39;t operate.</span><br><span class="line">Failed to connect to bus: Host is down&#39;</span><br></pre></td></tr></table></figure>
+<h1 id="问题原因："><a href="#问题原因：" class="headerlink" title="问题原因："></a>问题原因：</h1><p>启动容器时执行的启动是<code>/bin/bash</code>,没有相应的权限调用内核程序，需要在<code>run</code>修改相应的指令获得权限</p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>在<code>run</code>指令后加—privileged=true，修改<code>/bin/bash</code> 为<code>/sbin/init</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --privileged=<span class="literal">true</span> -itd xxxxx /sbin/init</span><br></pre></td></tr></table></figure>
+<p>进入容器时使用的是<code>docker exec -it xxxxx /bin/bash</code></p>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dotfile管理</title>
+    <url>/posts/fc38e44e/</url>
+    <content><![CDATA[<p>在Linux上各个程序的配置文件大多是以 <code>.</code> 开头或以 <code>rc</code> 结尾的文件，并存放于用户的个人目录 <code>~/</code> 中，通常叫dotfile 或 rc file ，如 <code>.zshrc</code> ，<code>.vimrc</code> 等。在初次使用一些软件时需要花大量时间对相应的 dotfile 进行配置，当需要在新系统上恢复多个软件配置或者在多台电脑上共享一台电脑对 dotfile 的修改时，逐一对各个 dotfile 进行管理非常不方便,<code>rcm</code>(rc file management) 就是一个 dotfile 管理工具,用于方便管理 dotfile 。</p>
+<p>rcm 主要是将所有希望用 rcm 管理的 dotfile 集中存储在一个目录中（默认 <code>~/.dotfiles</code>），并在原配置文件位置创建被 rcm 管理的 dotfile 的软链接。</p>
+<p>可在该集中存储目录中使用 git 进行版本控制，同时也可托管到 github 等 git 仓库中方便多台机器共享。若要使用别人分享的 rcm 目录下的 dotfile 时 rcm 可调用不同 dotfiles 目录下的文件进行使用。</p>
+<p><a href="https://github.com/thoughtbot/rcm">rcm github仓库</a></p>
+<p><a href="https://gitee.com/mirrors/rcm">rcm gitee国内加速仓库</a></p>
+<a id="more"></a>
+<h1 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h1><p>rcm 包括了 4 个命令和一个 dotfile 文件 <code>~/.rcrc</code> (注意 rcm 默认不会生成该配置文件，若要使用需手动创建）</p>
+<h2 id="lsrc"><a href="#lsrc" class="headerlink" title="lsrc"></a>lsrc</h2><p><strong>列出当前所有通过 rcm 管理的 dotfile ，以及其对应的符号链接位置</strong></p>
+<p><code>lsrc    [-FhqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h2 id="mkrc"><a href="#mkrc" class="headerlink" title="mkrc"></a>mkrc</h2><p>将指定的 dotfile 移动至集中存储目录(默认 <code>~/.dotfiles</code>)，并在原下创建相应的软链接</p>
+<p><code>mkrc    [-ChoqSsVvUu] [-t TAG] [-d DIR] [-B HOSTNAME] files ...</code></p>
+<h2 id="rcup"><a href="#rcup" class="headerlink" title="rcup"></a>rcup</h2><p>更新或创建由 rcm 管理的 dotfile 的软链接</p>
+<p><code>rcup    [-CfhiKkqVv] [-B HOSTNAME] [-d DIR] [-g] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h2 id="rcdn"><a href="#rcdn" class="headerlink" title="rcdn"></a>rcdn</h2><p>删除通过 rcm 创建的 dotfile 的软链接</p>
+<p><code>rcdn    [-hKkqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h1 id="命令指令"><a href="#命令指令" class="headerlink" title="命令指令"></a>命令指令</h1><ul>
+<li><code>-B HOSTNAME</code>: 指定特定主机的目录,而不是使用计算机的主机名对其进行操作。</li>
+<li><code>-C</code>: 复制文件而不是创建软链接。</li>
+<li><code>-d DIR</code>: 指定 dotfiles 目录，可以指定多个。</li>
+<li><code>-F</code>: 在文件旁显示指示符号，<code>@</code> (文件软链接) ，<code>$</code> (目录软链接)，<code>x</code>(副本文件)。更多详细信息参考 rcrc 中的 <code>COPY_ALWAYS</code> 和 <code>SYMLINK_DIRS</code> 。</li>
+<li><code>-f</code>: 如果rc文件已经存在于配置目录中，但与 dotfiles 目录中的文件不匹配，删除rc文件，然后创建软链接。</li>
+<li><code>-g</code>: 仅显示 <code>rcup</code> 命令脚本的执行过程，不会修改文件系统上的任何内容。</li>
+<li><code>-h</code>: 显示用法说明</li>
+<li><code>-I EXCL_PAT</code>: 指定不被 <code>-x</code> 排除的文件。 该项在 <code>-x</code> 选项之后应用,使用与 <code>-x</code> 相同的语法格式。可能需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-i</code>: 如果rc文件已经存在于配置目录中，但是与dotfiles目录中的文件不匹配，提示如何处理它。这是默认选项。</li>
+<li><code>-K</code>: 跳过 pre-hooks 和 post-hooks</li>
+<li><code>-k</code>: 运行 pre-hooks 和 post-hooks , 这是默认选项。</li>
+<li><code>-o</code>: 将 dotfiles 安装到主机特定的目录中。</li>
+<li><code>-q</code>: 减少详细信息。更多详细信息参考 <code>DIRECTORY LAYOUT</code>。</li>
+<li><code>-S EXCL_PAT</code>: 指定以软链接形式创建的目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-s EXCL_PAT</code>: 指定递归创建的目录而不是软链接式的目录。与 <code>-S</code> 选项相反，可用于撤消它或 <code>rcrc</code> 中的 <code>SYMLINK_DIRS</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-t TAG</code>: 指定标签</li>
+<li><code>-U EXCLUDE</code>: 指定不创建软链接和以点 (<code>.</code>) 开头命名的rc文件或目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-u EXCL_PAT</code>: 指定必须使用点 (<code>.</code>) 开头命名的 rc 文件或目录。 与 <code>-U</code> 选项相反，可用于撤消它或 rcrc 中 <code>UNDOTTED</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-V</code>: 显示版本号。</li>
+<li><code>-v</code>: 添加详细信息。 可以重复此操作以获取更多的详细信息。</li>
+<li><code>-x EXCL_PAT</code>: 指定排除的文件。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>files ...</code>: 指定的文件列表。</li>
+</ul>
+<h1 id="rcrc"><a href="#rcrc" class="headerlink" title="~/.rcrc"></a><code>~/.rcrc</code></h1><p>可以使用主目录中的 <code>.rcrc</code> 文件配置rcm dotfile 管理器。 可通过设置 <code>RCRC</code> 环境变量来更改此位置。</p>
+<p>支持以下变量:</p>
+<ul>
+<li><code>COPY_ALWAYS</code>: 复制列表中的glob相匹配的文件，而非使用软链接。</li>
+<li><code>DOTFILES_DIRS</code>: dotfile 的源目录。列表中的第一个将被 <code>mkrc</code> 用于创建 <code>dotfile</code> 目录，默认值为: <code>~/.dotfiles</code> 。</li>
+<li><code>EXCLUDES</code>: 排除列表。</li>
+<li><code>HOSTNAME</code>: 计算机的主机名。 通常通过 <code>hostname</code> 命令获得，但此命令并非标准的，获取的主机名或许会有差异，因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</li>
+<li><code>TAGS</code>: 默认标签表。</li>
+<li><code>SYMLINK_DIRS</code>: 列表中目录是软链接，而不是源文件。 </li>
+<li><code>UNDOTTED</code>: 列表中的文件是软链接且不用点 (<code>.</code>) 开头命名。如果是 <code>SYMLINK_DIRS</code> 中含有的目录，则该目录将为软链接且不用点 (<code>.</code>) 开头命名。</li>
+</ul>
+<p><strong><code>.rcrc</code> 样例</strong>:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COPY_ALWAYS=<span class="string">&quot;ssh/id_* weechat/* netrc&quot;</span></span><br><span class="line">COPY_ALWAYS=<span class="string">&quot;*&quot;</span></span><br><span class="line">DOTFILES_DIRS=<span class="string">&quot;/home/mike/.dotfiles /usr/share/dotfiles&quot;</span></span><br><span class="line">EXCLUDES=<span class="string">&quot;irbrc *:*emacs* dotfiles:python*&quot;</span></span><br><span class="line">HOSTNAME=<span class="string">&quot;eggplant&quot;</span></span><br><span class="line">TAGS=<span class="string">&quot;freebsd development email git laptop gmail notmuch&quot;</span></span><br><span class="line">SYMLINK_DIRS=<span class="string">&quot;zprezto texmf&quot;</span></span><br><span class="line">UNDOTTED=<span class="string">&quot;texmf&quot;</span></span><br></pre></td></tr></table></figure>
+<h1 id="EXCLUDE-PATTERN-排除列表"><a href="#EXCLUDE-PATTERN-排除列表" class="headerlink" title="EXCLUDE PATTERN (排除列表)"></a>EXCLUDE PATTERN (排除列表)</h1><p>使用冒号 (<code>:</code>) 分隔 dotfile 目录和 glob (由普通字符、通配字符组成的字符串，用于匹配文件路径) 。可选择带 dotfile 目录，如果省略则默认为 <code>*</code> ，代表从所有 dotfile 目录匹配。 glob 是相对于 dotfile 目录的相对路径。</p>
+<p>例如，要忽略 <code>Thoughtbot-dotfiles</code> 目录中所有与 <code>emacs</code> 相关的项目，使用：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">thoughtbot-dotfiles:*emacs*</span><br></pre></td></tr></table></figure>
+<p>要忽略所有 <code>bash_profile</code> 文件使用：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">*:bash_profile</span><br></pre></td></tr></table></figure>
+<p>或者简写为:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">bash_profile</span><br></pre></td></tr></table></figure>
+<p>注意,通常通过 <code>hostname</code> 命令获得主机名，但此命令并非标准的，获取的主机名或许会有差异，在macOS上，主机名是不可预测的，甚至可能在 <code>DHCP</code> 握手被更改,强烈建议在 <code>rcrc</code> 中,因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</p>
+<h1 id="DIRECTORY-LAYOUT-目录布局"><a href="#DIRECTORY-LAYOUT-目录布局" class="headerlink" title="DIRECTORY LAYOUT (目录布局)"></a>DIRECTORY LAYOUT (目录布局)</h1><p>dotfiles 目录下的任何非点 (<code>.</code>) 开头的、非元的文件或目录都将作为点 (<code>.</code>) 开头的文件安装。 例如，<code>.dotfiles/zshrc</code> 将安装到 <code>~/.zshrc</code> 。</p>
+<p>文件安装为软链接。 目录通过建立目录来安装。<code>-C</code> 选项指定文件通过复制安装而不是软链接。 <code>rcrc</code> 中的 <code>COPY_ALWAYS</code> 可用于列出只能复制的文件。</p>
+<p>支持三个元文件: host-specific (特定主机文件), tagged (标记文件), hooks 。</p>
+<ul>
+<li><code>host-specific</code>: 以 <code>host-</code> 前缀加主机名命名的目录，存放特定主机的文件，如，<code>.dotfiles/host-scarlett</code> 包含主机名为 scarlett 的计算机 dotfile 文件，且这些文件将仅安装在主机名为scarlett的计算机上。</li>
+<li><code>tagged</code>: 以 <code>tag-</code> 前缀加标签名命名的目录，存放标记该标签的文件，如，仅在指定使用 <code>git</code> 标签时安装 <code>.dotfiles/tag-git</code> 下的文件。</li>
+<li><code>hooks</code>:  名为hooks的目录，存放 hooks 。 rcup 支持两个hooks：<code>pre-up</code> 和 <code>post-up</code> 。它们存放到预设文件名的文件或目录中：<code>.dotfiles/hooks/pre-up</code> 和 <code>.dotfiles/hooks/post-up</code> ，或 <code>.dotfiles/hooks/pre-up/*</code> 和 <code>.dotfiles/hooks/post-up/*</code> 。 这些文件必须是可执行文件。 它们在每次 <code>rcup</code> 运行时都运行，因此必须是幂等(执行后结果还为本身)的。hooks 按字母顺序排序,一次只执行一次。 如，<code>hooks/pre-up/animals</code> 将在 <code>hooks / pre-up/aquariums</code> 之前运行，<code>hooks/pre-up/4-eyes</code> 将在 <code>hooks/post-up/2-u-nothing-compares</code> 之前运行。</li>
+</ul>
+<h1 id="日常使用"><a href="#日常使用" class="headerlink" title="日常使用"></a>日常使用</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建管理</span></span><br><span class="line">mkrc xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打标签方式创建管理</span></span><br><span class="line">mkrc -t git xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 dotfiles 中的 dotfile 文件</span></span><br><span class="line">rcup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定标签的 dotfile 文件</span></span><br><span class="line">rcup -t git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定标签的 dotfile 文件，并显示过程</span></span><br><span class="line">rcup -t git -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询被管理的 dotfile 文件</span></span><br><span class="line">lsrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定标签的 dotfile 文件</span></span><br><span class="line">lsrc -t git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定 dotfiles 中的 dotfile 文件</span></span><br><span class="line">lsrc -d ~/.MyDotfiles</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消安装</span></span><br><span class="line">rcdn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消指定标签的安装，并显示过程</span></span><br><span class="line">rcdn -t git -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消指定 dotfiles 中指定标签的安装</span></span><br><span class="line">rcdn -d ~/.MyDotfiles -t git</span><br></pre></td></tr></table></figure>
+<p><strong>使用git进行版本管理及云备份</strong>:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.dotfiles</span><br><span class="line">git init</span><br><span class="line">git add .</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;These are my dotfiles&quot;</span> &gt;&gt; README.md</span><br><span class="line">git commit -m <span class="string">&quot;initial commit&quot;</span></span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://thoughtbot.github.io/rcm/rcm.7.html">RCM(7)</a></p>
+<p><a href="https://www.jianshu.com/p/e21089d118c1">管理linux下软件的配置文件dotfile(rc files)</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Firefox便捷版制作</title>
     <url>/posts/abb290b8/</url>
     <content><![CDATA[<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><ul>
@@ -2041,6 +2041,46 @@
       <tags>
         <tag>Linux</tag>
         <tag>GRUB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git问题解决</title>
+    <url>/posts/19e2ba1f/</url>
+    <content><![CDATA[<h1 id="使用-ours-和-theirs-解决合并冲突"><a href="#使用-ours-和-theirs-解决合并冲突" class="headerlink" title="使用 ours 和 theirs 解决合并冲突"></a>使用 <code>ours</code> 和 <code>theirs</code> 解决合并冲突</h1><p>在使用 git 工程中,合并时产生冲突是很常见的，在使用 <code>merge</code> 和 <code>rebase</code> 合并时都会出现冲突情况，设计到很多文件，而冲突一般是只选择保留一方，这就可通过使用 <code>ours</code> 和 <code>theirs</code> 解决冲突。</p>
+<h2 id="merge-与-rebase-合并的区别"><a href="#merge-与-rebase-合并的区别" class="headerlink" title="merge 与 rebase 合并的区别"></a><code>merge</code> 与 <code>rebase</code> 合并的区别</h2><p>假设 <code>main</code> 主分支基础上生成了分支 <code>branch_B</code> 各自都有一些提交,现需要将 <code>branch_B</code> 合并到 <code>main</code></p>
+<p>执行 <code>git merge branch_B main</code> 后分支状态:</p>
+<blockquote>
+<p>main —— A —— B ——- D (main)<br>   \                   /<br>    \ branch_B —— C /</p>
+</blockquote>
+<p><code>merge</code> 会抽取两个分支上新增的提交，并将其合并在一起，产生一个新的提交D，生成的D节点有两个父节点，在合并的过程中可能会发生冲突</p>
+<a id="more"></a>
+<p>执行 <code>git rebase branch_B main</code></p>
+<blockquote>
+<p>main —— A —— B —— C’ —— D (main)<br>   \                   /<br>    \ branch_B —— C /</p>
+</blockquote>
+<p><code>rebase</code> 会以<code>branch_B</code>为参照，提取 <code>branch_B</code> 分支上的提交，将这些修改作用在 <code>main</code> 分支上，最终结果不会产生新的提交节点。在将提取的修改作用在 <code>main</code> 的过程中可能会发生冲突</p>
+<p>通常使用过程中最常用的是 <code>rebase</code> 。</p>
+<h2 id="rebase-冲突解决"><a href="#rebase-冲突解决" class="headerlink" title="rebase 冲突解决"></a><code>rebase</code> 冲突解决</h2><p>产生冲突后 <code>git</code> 会自动在文件中标记出冲突的部分:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">&lt;main 的内容(ours)&gt;</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;branch_B 的内容(theirs)&gt;</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 提交ID及信息</span><br></pre></td></tr></table></figure>
+<p>使用 <code>git checkout --conflict=diff3 &lt;fileName&gt;</code> 通过选项 <code>diff3</code> git 会用不同版本来标记冲突： 提供 <code>ours</code> 、 <code>theirs</code> 和 <code>base</code> 版本，通过设置 <code>merge.conflictstyle</code> 选项为 <code>diff3</code> 做为以后合并冲突的默认选项 : <code>git config --global merge.conflictstyle diff3</code> ,  <code>merge</code> (默认选项)选项提供 <code>ours</code> 和 <code>theirs</code> 版本标记</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; ours</span><br><span class="line">&lt;main 的内容(ours)&gt;</span><br><span class="line">||||||| base</span><br><span class="line">&lt;base(基) 的内容&gt;</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;branch_B 的内容(theirs)&gt;</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 提交ID及信息</span><br></pre></td></tr></table></figure>
+<h3 id="冲突解决步骤"><a href="#冲突解决步骤" class="headerlink" title="冲突解决步骤"></a>冲突解决步骤</h3><ul>
+<li>使用 <code>oers</code> 或 <code>theirs</code>选择要保留一方的提交，git将自动将保留修改</li>
+<li>将修改后的文件添加</li>
+<li>使用<code>--continue</code>选项继续执行 <code>rebase</code> 合并</li>
+<li>查看冲突状态</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git checkout --ours &lt;fileName&gt;</span><br><span class="line">git add &lt;fileName&gt;</span><br><span class="line">git rebase --<span class="built_in">continue</span></span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+<p>当出现多个文件存在冲突可使用脚本解决。<br>在解决冲突过程中，如果遇到某个提交记录不需要应用，可使用<code>git rebase --skip</code> 忽略，或使用 <code>git rebase --abort</code> 取消本次 rebase 。</p>
+<h1 id="git-status-中文乱码"><a href="#git-status-中文乱码" class="headerlink" title="git status 中文乱码"></a>git status 中文乱码</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git status</span><br><span class="line">....</span><br><span class="line"><span class="string">&quot;38\344\270\273\347\233\256\345\275\225\344\270\213\346\226\207\344\273\266\345\244\271\350\257\264\346\230\216&quot;</span></span><br><span class="line">....</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>解决方法:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git config --global core.quotepath <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -2204,46 +2244,6 @@
 ]]></content>
       <tags>
         <tag>github</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git问题解决</title>
-    <url>/posts/19e2ba1f/</url>
-    <content><![CDATA[<h1 id="使用-ours-和-theirs-解决合并冲突"><a href="#使用-ours-和-theirs-解决合并冲突" class="headerlink" title="使用 ours 和 theirs 解决合并冲突"></a>使用 <code>ours</code> 和 <code>theirs</code> 解决合并冲突</h1><p>在使用 git 工程中,合并时产生冲突是很常见的，在使用 <code>merge</code> 和 <code>rebase</code> 合并时都会出现冲突情况，设计到很多文件，而冲突一般是只选择保留一方，这就可通过使用 <code>ours</code> 和 <code>theirs</code> 解决冲突。</p>
-<h2 id="merge-与-rebase-合并的区别"><a href="#merge-与-rebase-合并的区别" class="headerlink" title="merge 与 rebase 合并的区别"></a><code>merge</code> 与 <code>rebase</code> 合并的区别</h2><p>假设 <code>main</code> 主分支基础上生成了分支 <code>branch_B</code> 各自都有一些提交,现需要将 <code>branch_B</code> 合并到 <code>main</code></p>
-<p>执行 <code>git merge branch_B main</code> 后分支状态:</p>
-<blockquote>
-<p>main —— A —— B ——- D (main)<br>   \                   /<br>    \ branch_B —— C /</p>
-</blockquote>
-<p><code>merge</code> 会抽取两个分支上新增的提交，并将其合并在一起，产生一个新的提交D，生成的D节点有两个父节点，在合并的过程中可能会发生冲突</p>
-<a id="more"></a>
-<p>执行 <code>git rebase branch_B main</code></p>
-<blockquote>
-<p>main —— A —— B —— C’ —— D (main)<br>   \                   /<br>    \ branch_B —— C /</p>
-</blockquote>
-<p><code>rebase</code> 会以<code>branch_B</code>为参照，提取 <code>branch_B</code> 分支上的提交，将这些修改作用在 <code>main</code> 分支上，最终结果不会产生新的提交节点。在将提取的修改作用在 <code>main</code> 的过程中可能会发生冲突</p>
-<p>通常使用过程中最常用的是 <code>rebase</code> 。</p>
-<h2 id="rebase-冲突解决"><a href="#rebase-冲突解决" class="headerlink" title="rebase 冲突解决"></a><code>rebase</code> 冲突解决</h2><p>产生冲突后 <code>git</code> 会自动在文件中标记出冲突的部分:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">&lt;main 的内容(ours)&gt;</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;branch_B 的内容(theirs)&gt;</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 提交ID及信息</span><br></pre></td></tr></table></figure>
-<p>使用 <code>git checkout --conflict=diff3 &lt;fileName&gt;</code> 通过选项 <code>diff3</code> git 会用不同版本来标记冲突： 提供 <code>ours</code> 、 <code>theirs</code> 和 <code>base</code> 版本，通过设置 <code>merge.conflictstyle</code> 选项为 <code>diff3</code> 做为以后合并冲突的默认选项 : <code>git config --global merge.conflictstyle diff3</code> ,  <code>merge</code> (默认选项)选项提供 <code>ours</code> 和 <code>theirs</code> 版本标记</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; ours</span><br><span class="line">&lt;main 的内容(ours)&gt;</span><br><span class="line">||||||| base</span><br><span class="line">&lt;base(基) 的内容&gt;</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&lt;branch_B 的内容(theirs)&gt;</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 提交ID及信息</span><br></pre></td></tr></table></figure>
-<h3 id="冲突解决步骤"><a href="#冲突解决步骤" class="headerlink" title="冲突解决步骤"></a>冲突解决步骤</h3><ul>
-<li>使用 <code>oers</code> 或 <code>theirs</code>选择要保留一方的提交，git将自动将保留修改</li>
-<li>将修改后的文件添加</li>
-<li>使用<code>--continue</code>选项继续执行 <code>rebase</code> 合并</li>
-<li>查看冲突状态</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git checkout --ours &lt;fileName&gt;</span><br><span class="line">git add &lt;fileName&gt;</span><br><span class="line">git rebase --<span class="built_in">continue</span></span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
-<p>当出现多个文件存在冲突可使用脚本解决。<br>在解决冲突过程中，如果遇到某个提交记录不需要应用，可使用<code>git rebase --skip</code> 忽略，或使用 <code>git rebase --abort</code> 取消本次 rebase 。</p>
-<h1 id="git-status-中文乱码"><a href="#git-status-中文乱码" class="headerlink" title="git status 中文乱码"></a>git status 中文乱码</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git status</span><br><span class="line">....</span><br><span class="line"><span class="string">&quot;38\344\270\273\347\233\256\345\275\225\344\270\213\346\226\207\344\273\266\345\244\271\350\257\264\346\230\216&quot;</span></span><br><span class="line">....</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>解决方法:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git config --global core.quotepath <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -9777,54 +9777,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
-    <title>v2ray安装使用</title>
-    <url>/posts/a98f33e0/</url>
-    <content><![CDATA[<h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>在Linux上安装需要先安装curl、zip、unzip，运行脚本需要用到</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br><span class="line"></span><br><span class="line"><span class="comment"># archlinux可直接安装</span></span><br><span class="line">sudo pacman -S v2ray</span><br><span class="line"></span><br><span class="line">&lt;!--more--&gt;</span><br></pre></td></tr></table></figure><br><strong>go.sh脚本会自动安装以下文件</strong>：</p>
-<ul>
-<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
-<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
-<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
-<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
-<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
-</ul>
-<p>该脚本会配置自动运行脚本（开机自启），目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列</p>
-<p>运行脚本位于系统的以下位置：</p>
-<ul>
-<li><code>/etc/systemd/system/v2ray.service</code>: <strong>Systemd管理</strong></li>
-<li><code>/etc/init.d/v2ray</code>: <strong>SysV管理</strong></li>
-</ul>
-<h3 id="go-sh-参数"><a href="#go-sh-参数" class="headerlink" title="go.sh 参数"></a>go.sh 参数</h3><p>go.sh 支持如下参数，可在手动安装时根据实际情况调整：</p>
-<ul>
-<li><code>-p</code> 或 <code>--proxy</code>: 使用代理服务器来下载 V2Ray 的文件，格式与 curl 接受的参数一致，比如 <code>&quot;socks5://127.0.0.1:1080&quot;</code> 或 <code>&quot;http://127.0.0.1:3128&quot;</code>。</li>
-<li><code>-f</code> 或 <code>--force</code>: 强制安装。在默认情况下，如果当前系统中已有最新版本的 V2Ray，go.sh 会在检测之后就退出。如果需要强制重装一遍，则需要指定该参数。</li>
-<li><code>--version</code>: 指定需要安装的版本，比如 “v1.13”。不指定则默认安装最新版本。</li>
-<li><code>--local</code>: 使用一个本地文件进行安装。如果你已经下载了某个版本的 V2Ray，则可通过这个参数指定一个文件路径来进行安装。</li>
-</ul>
-<p>示例：</p>
-<ul>
-<li>使用地址为 <code>127.0.0.1:1080</code> 的 SOCKS 代理下载并安装最新版本：<code>./go.sh -p socks5://127.0.0.1:1080</code></li>
-<li>安装本地的 v1.13 版本：<code>./go.sh --version v1.13 --local /path/to/v2ray.zip</code></li>
-</ul>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h3><p>编辑 <code>/etc/v2ray/config.json</code> 文件来配置你需要的代理方式<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;inbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;port&quot;</span>: 16823, // 服务器监听端口</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;vmess&quot;</span>,    // 主传入协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;clients&quot;</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="string">&quot;id&quot;</span>: <span class="string">&quot;b831381d-6324-4d53-ad4f-8cda48b30811&quot;</span>,  // 用户 ID，客户端与服务器必须相同</span><br><span class="line">            <span class="string">&quot;alterId&quot;</span>: 64</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;outbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;freedom&quot;</span>,  // 主传出协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><a href="https://www.v2fly.org/chapter_02/01_overview.html">详细配置说明</a></p>
-<h3 id="防火墙开放端口"><a href="#防火墙开放端口" class="headerlink" title="防火墙开放端口"></a>防火墙开放端口</h3><p><strong>iptables</strong>:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看已开放端口</span></span><br><span class="line">/etc/init.d/iptables status</span><br><span class="line"></span><br><span class="line"><span class="comment">#开放8080端口</span></span><br><span class="line">iptables -A INPUT -p tcp --dport 8080 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment">#保存并重启防火墙</span></span><br><span class="line">/etc/rc.d/init.d/iptables save</span><br><span class="line">/etc/init.d/iptables restart</span><br></pre></td></tr></table></figure><br><strong>frewalld</strong>:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看已开放端口</span></span><br><span class="line">firewall-cmd --zone=public --list-ports</span><br><span class="line"></span><br><span class="line"><span class="comment">#开放8080端口</span></span><br><span class="line">firewall-cmd --zone=public --add-port=8080/tcp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment">#更新规则</span></span><br><span class="line">firewall-cmd --reload 		<span class="comment">#无需断开连接，firealld特性之一动态添加规则</span></span><br><span class="line"></span><br><span class="line">firewall-cmd --complete-reload    <span class="comment">#断开连接，类似于重启服务</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="程序管理"><a href="#程序管理" class="headerlink" title="程序管理"></a>程序管理</h3><p>运行 <code>service v2ray start</code> 或<code>systemctl start v2ray</code>来启动 V2Ray 进程<br>之后可以使用 <code>start</code>|<code>stop</code>|<code>status</code>|<code>reload</code>|<code>restart</code>|<code>force-reload</code> 控制 V2Ray 的运行</p>
-<h2 id="一键安装脚本-小白玩的"><a href="#一键安装脚本-小白玩的" class="headerlink" title="一键安装脚本(小白玩的)"></a>一键安装脚本(小白玩的)</h2><p><a href="https://github.com/233boy/v2ray/wiki/V2Ray一键安装脚本">V2Ray一键安装脚本（含教程）</a></p>
-<h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><h2 id="Windows和Mac-OS"><a href="#Windows和Mac-OS" class="headerlink" title="Windows和Mac OS"></a>Windows和Mac OS</h2><p>根据需求<a href="https://github.com/v2ray/v2ray-core/releases">到V2Ray的仓管下载发布的最新版</a><br>下载解压之后可看到 v2ray 或 v2ray.exe 直接运行即可</p>
-<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h4 id="图形客户端"><a href="#图形客户端" class="headerlink" title="图形客户端"></a>图形客户端</h4><p>下载图形化客户端<a href="https://github.com/lhy0403/Qv2ray/releases">Qv2ray</a>,archlinux可通过AUR直接安装<br>解压后双运行，这是会提示没有内核并自动打开存放内核的目录，到<a href="https://github.com/v2ray/v2ray-core/releases">V2Ray的仓库</a>下载Linux版的内核，讲内核解压放到自动打开的目录即可</p>
-<p>Qv2ray 在不同系统中查找 v2ray 内核的文件路径 （即找不到内核时自动弹出的文件夹路径）</p>
-<ul>
-<li>Windows: C:\Users\用户名.qv2ray\vcore</li>
-<li>macOS: /Users/用户名/.qv2ray/vcore</li>
-<li>Linux: ~/.qv2ray/vcore</li>
-</ul>
-<h4 id="非图形客户端"><a href="#非图形客户端" class="headerlink" title="非图形客户端"></a>非图形客户端</h4><p>直接和安装服务器版的一样，安装即可<br><strong>配置</strong>：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;inbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;port&quot;</span>: 1080, // 监听端口</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;socks&quot;</span>, // 入口协议为 SOCKS 5</span><br><span class="line">      <span class="string">&quot;sniffing&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;enabled&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">&quot;destOverride&quot;</span>: [<span class="string">&quot;http&quot;</span>, <span class="string">&quot;tls&quot;</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;auth&quot;</span>: <span class="string">&quot;noauth&quot;</span>  //socks的认证设置，noauth 代表不认证，由于 socks 通常在客户端使用，所以这里不认证</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;outbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;vmess&quot;</span>, // 出口协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;vnext&quot;</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="string">&quot;address&quot;</span>: <span class="string">&quot;serveraddr.com&quot;</span>, // 服务器地址，请修改为你自己的服务器 IP 或域名</span><br><span class="line">            <span class="string">&quot;port&quot;</span>: 16823,  // 服务器端口</span><br><span class="line">            <span class="string">&quot;users&quot;</span>: [</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">&quot;id&quot;</span>: <span class="string">&quot;b831381d-6324-4d53-ad4f-8cda48b30811&quot;</span>,  // 用户 ID，必须与服务器端配置相同</span><br><span class="line">                <span class="string">&quot;alterId&quot;</span>: 64 // 此处的值也应当与服务器相同</span><br><span class="line">              &#125;</span><br><span class="line">            ]</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><a href="https://www.v2fly.org/chapter_02/01_overview.html">详细配置说明</a></p>
-<p><a href="https://github.com/v2ray/v2ray-core">【V2Ray仓库】</a><br><a href="https://www.v2ray.com/">【V2Ray官网】（墙外）</a><br><a href="https://www.v2fly.com">【V2Ray用户手册】</a><a href="https://www.v2ray.com">【墙外】</a><br><a href="https://guide.v2fly.org">【V2Ray白话文指南】（社区版）</a><a href="https://toutyrater.github.io/">【官方版】</a></p>
-]]></content>
-      <tags>
-        <tag>v2ray</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>vim光标插件</title>
     <url>/posts/955b2cca/</url>
     <content><![CDATA[<p><a href="https://github.com/tpope/vim-surround">vim-surround</a><br>方便编辑括号，括号，引号，XML标标签等的插件</p>
@@ -9890,6 +9842,54 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </categories>
       <tags>
         <tag>vim</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>v2ray安装使用</title>
+    <url>/posts/a98f33e0/</url>
+    <content><![CDATA[<h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>在Linux上安装需要先安装curl、zip、unzip，运行脚本需要用到</strong><br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br><span class="line"></span><br><span class="line"><span class="comment"># archlinux可直接安装</span></span><br><span class="line">sudo pacman -S v2ray</span><br><span class="line"></span><br><span class="line">&lt;!--more--&gt;</span><br></pre></td></tr></table></figure><br><strong>go.sh脚本会自动安装以下文件</strong>：</p>
+<ul>
+<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
+<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
+<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
+<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
+<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
+</ul>
+<p>该脚本会配置自动运行脚本（开机自启），目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列</p>
+<p>运行脚本位于系统的以下位置：</p>
+<ul>
+<li><code>/etc/systemd/system/v2ray.service</code>: <strong>Systemd管理</strong></li>
+<li><code>/etc/init.d/v2ray</code>: <strong>SysV管理</strong></li>
+</ul>
+<h3 id="go-sh-参数"><a href="#go-sh-参数" class="headerlink" title="go.sh 参数"></a>go.sh 参数</h3><p>go.sh 支持如下参数，可在手动安装时根据实际情况调整：</p>
+<ul>
+<li><code>-p</code> 或 <code>--proxy</code>: 使用代理服务器来下载 V2Ray 的文件，格式与 curl 接受的参数一致，比如 <code>&quot;socks5://127.0.0.1:1080&quot;</code> 或 <code>&quot;http://127.0.0.1:3128&quot;</code>。</li>
+<li><code>-f</code> 或 <code>--force</code>: 强制安装。在默认情况下，如果当前系统中已有最新版本的 V2Ray，go.sh 会在检测之后就退出。如果需要强制重装一遍，则需要指定该参数。</li>
+<li><code>--version</code>: 指定需要安装的版本，比如 “v1.13”。不指定则默认安装最新版本。</li>
+<li><code>--local</code>: 使用一个本地文件进行安装。如果你已经下载了某个版本的 V2Ray，则可通过这个参数指定一个文件路径来进行安装。</li>
+</ul>
+<p>示例：</p>
+<ul>
+<li>使用地址为 <code>127.0.0.1:1080</code> 的 SOCKS 代理下载并安装最新版本：<code>./go.sh -p socks5://127.0.0.1:1080</code></li>
+<li>安装本地的 v1.13 版本：<code>./go.sh --version v1.13 --local /path/to/v2ray.zip</code></li>
+</ul>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h3><p>编辑 <code>/etc/v2ray/config.json</code> 文件来配置你需要的代理方式<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;inbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;port&quot;</span>: 16823, // 服务器监听端口</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;vmess&quot;</span>,    // 主传入协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;clients&quot;</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="string">&quot;id&quot;</span>: <span class="string">&quot;b831381d-6324-4d53-ad4f-8cda48b30811&quot;</span>,  // 用户 ID，客户端与服务器必须相同</span><br><span class="line">            <span class="string">&quot;alterId&quot;</span>: 64</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;outbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;freedom&quot;</span>,  // 主传出协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><a href="https://www.v2fly.org/chapter_02/01_overview.html">详细配置说明</a></p>
+<h3 id="防火墙开放端口"><a href="#防火墙开放端口" class="headerlink" title="防火墙开放端口"></a>防火墙开放端口</h3><p><strong>iptables</strong>:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看已开放端口</span></span><br><span class="line">/etc/init.d/iptables status</span><br><span class="line"></span><br><span class="line"><span class="comment">#开放8080端口</span></span><br><span class="line">iptables -A INPUT -p tcp --dport 8080 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment">#保存并重启防火墙</span></span><br><span class="line">/etc/rc.d/init.d/iptables save</span><br><span class="line">/etc/init.d/iptables restart</span><br></pre></td></tr></table></figure><br><strong>frewalld</strong>:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看已开放端口</span></span><br><span class="line">firewall-cmd --zone=public --list-ports</span><br><span class="line"></span><br><span class="line"><span class="comment">#开放8080端口</span></span><br><span class="line">firewall-cmd --zone=public --add-port=8080/tcp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment">#更新规则</span></span><br><span class="line">firewall-cmd --reload 		<span class="comment">#无需断开连接，firealld特性之一动态添加规则</span></span><br><span class="line"></span><br><span class="line">firewall-cmd --complete-reload    <span class="comment">#断开连接，类似于重启服务</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="程序管理"><a href="#程序管理" class="headerlink" title="程序管理"></a>程序管理</h3><p>运行 <code>service v2ray start</code> 或<code>systemctl start v2ray</code>来启动 V2Ray 进程<br>之后可以使用 <code>start</code>|<code>stop</code>|<code>status</code>|<code>reload</code>|<code>restart</code>|<code>force-reload</code> 控制 V2Ray 的运行</p>
+<h2 id="一键安装脚本-小白玩的"><a href="#一键安装脚本-小白玩的" class="headerlink" title="一键安装脚本(小白玩的)"></a>一键安装脚本(小白玩的)</h2><p><a href="https://github.com/233boy/v2ray/wiki/V2Ray一键安装脚本">V2Ray一键安装脚本（含教程）</a></p>
+<h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><h2 id="Windows和Mac-OS"><a href="#Windows和Mac-OS" class="headerlink" title="Windows和Mac OS"></a>Windows和Mac OS</h2><p>根据需求<a href="https://github.com/v2ray/v2ray-core/releases">到V2Ray的仓管下载发布的最新版</a><br>下载解压之后可看到 v2ray 或 v2ray.exe 直接运行即可</p>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h4 id="图形客户端"><a href="#图形客户端" class="headerlink" title="图形客户端"></a>图形客户端</h4><p>下载图形化客户端<a href="https://github.com/lhy0403/Qv2ray/releases">Qv2ray</a>,archlinux可通过AUR直接安装<br>解压后双运行，这是会提示没有内核并自动打开存放内核的目录，到<a href="https://github.com/v2ray/v2ray-core/releases">V2Ray的仓库</a>下载Linux版的内核，讲内核解压放到自动打开的目录即可</p>
+<p>Qv2ray 在不同系统中查找 v2ray 内核的文件路径 （即找不到内核时自动弹出的文件夹路径）</p>
+<ul>
+<li>Windows: C:\Users\用户名.qv2ray\vcore</li>
+<li>macOS: /Users/用户名/.qv2ray/vcore</li>
+<li>Linux: ~/.qv2ray/vcore</li>
+</ul>
+<h4 id="非图形客户端"><a href="#非图形客户端" class="headerlink" title="非图形客户端"></a>非图形客户端</h4><p>直接和安装服务器版的一样，安装即可<br><strong>配置</strong>：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;inbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;port&quot;</span>: 1080, // 监听端口</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;socks&quot;</span>, // 入口协议为 SOCKS 5</span><br><span class="line">      <span class="string">&quot;sniffing&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;enabled&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">&quot;destOverride&quot;</span>: [<span class="string">&quot;http&quot;</span>, <span class="string">&quot;tls&quot;</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;auth&quot;</span>: <span class="string">&quot;noauth&quot;</span>  //socks的认证设置，noauth 代表不认证，由于 socks 通常在客户端使用，所以这里不认证</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;outbounds&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;protocol&quot;</span>: <span class="string">&quot;vmess&quot;</span>, // 出口协议</span><br><span class="line">      <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;vnext&quot;</span>: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="string">&quot;address&quot;</span>: <span class="string">&quot;serveraddr.com&quot;</span>, // 服务器地址，请修改为你自己的服务器 IP 或域名</span><br><span class="line">            <span class="string">&quot;port&quot;</span>: 16823,  // 服务器端口</span><br><span class="line">            <span class="string">&quot;users&quot;</span>: [</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">&quot;id&quot;</span>: <span class="string">&quot;b831381d-6324-4d53-ad4f-8cda48b30811&quot;</span>,  // 用户 ID，必须与服务器端配置相同</span><br><span class="line">                <span class="string">&quot;alterId&quot;</span>: 64 // 此处的值也应当与服务器相同</span><br><span class="line">              &#125;</span><br><span class="line">            ]</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><a href="https://www.v2fly.org/chapter_02/01_overview.html">详细配置说明</a></p>
+<p><a href="https://github.com/v2ray/v2ray-core">【V2Ray仓库】</a><br><a href="https://www.v2ray.com/">【V2Ray官网】（墙外）</a><br><a href="https://www.v2fly.com">【V2Ray用户手册】</a><a href="https://www.v2ray.com">【墙外】</a><br><a href="https://guide.v2fly.org">【V2Ray白话文指南】（社区版）</a><a href="https://toutyrater.github.io/">【官方版】</a></p>
+]]></content>
+      <tags>
+        <tag>v2ray</tag>
       </tags>
   </entry>
   <entry>
@@ -11606,34 +11606,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
-    <title>个人固定IPv6地址申请</title>
-    <url>/posts/b446117f/</url>
-    <content><![CDATA[<h1 id="个人固定IPv6地址申请"><a href="#个人固定IPv6地址申请" class="headerlink" title="个人固定IPv6地址申请"></a>个人固定IPv6地址申请</h1><h4 id="申请"><a href="#申请" class="headerlink" title="申请"></a>申请</h4><p>该IPv6的地址由<code>6plat.org</code>提供，然后通过VPN实现IPv6，据说IPv6在墙外</p>
-<p><strong>使用公共账号（动态分配地址）</strong></p>
-<p>用户名和密码都是<code>6plat.org</code></p>
-<p><strong>个人账号（固定地址）</strong></p>
-<a id="more"></a>
-<p>需要固定IPv6地址的个人用户，可发申请邮件到【 6plat@biigroup.cn 】 ，注明用户名密码，账号后台自动开通，收到自动回复邮件，账号会在2个工作日内开通。<br>申请到个人账号之后，可以使用静态IPv6地址。重点是个人账号可以享受带宽保障策略</p>
-<p><strong>申请格式：</strong><br><strong><em>主题</em></strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">6Plat-46个人账号申请</span><br></pre></td></tr></table></figure><br><strong><em>内容</em></strong></p>
-<blockquote>
-<p>用户名(空格)密码<br>例如：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yonghuming mima</span><br></pre></td></tr></table></figure><br>用户名不支持中文和大小写</p>
-</blockquote>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p><a href="http://bbs2.6plat.org/d/19">参考官方使用手册</a></p>
-<p>通过<code>openvpn</code>链接VPN使用IPv6<br><strong>下载安装openvpn客户端</strong><br><a href="https://www.lanzous.com/b938806/">Mac、Win7、Win10</a>密码:eonun</p>
-<p><code>Linux</code>上直接通过不同发行版的包管理器进行网络源安装，包名：<code>openvpn</code>，部分Linux内置了，只需添加配置即可使用</p>
-<p><code>Android</code>在谷歌应用商店下载</p>
-<p><code>ios</code>在App Store下载</p>
-<p><strong>创建配置文件</strong><br>创建名为<code>6plat.ovpn</code>的配置文件，将配置文件导入到客户端，连接时输入账号密码即可<br>配置文件内容：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">client</span><br><span class="line">dev tun</span><br><span class="line">proto tcp</span><br><span class="line">remote 46.6plat.org 9185</span><br><span class="line">comp-lzo</span><br><span class="line">resolv-retry infinite</span><br><span class="line">nobind</span><br><span class="line">persist-key</span><br><span class="line">persist-tun</span><br><span class="line">setenv CLIENT_CERT 0</span><br><span class="line">auth-user-pass</span><br><span class="line">remote-cert-tls server</span><br><span class="line">verb 3</span><br><span class="line">sndbuf 0</span><br><span class="line">rcvbuf 0</span><br><span class="line">route-ipv6 ::&#x2F;0 240c:f:1:6000::1</span><br><span class="line">cipher none</span><br><span class="line">&lt;ca&gt;</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIE3zCCA8egAwIBAgIJAJVvrlqcS4YsMA0GCSqGSIb3DQEBCwUAMIGlMQswCQYD</span><br><span class="line">VQQGEwJDTjEQMA4GA1UECBMHQmVpamluZzEQMA4GA1UEBxMHQmVpamluZzESMBAG</span><br><span class="line">A1UEChMJNnBsYXQub3JnMRMwEQYDVQQLEwo2cGxhdGdyb3VwMRUwEwYDVQQDEww2</span><br><span class="line">cGxhdC5vcmcgQ0ExEDAOBgNVBCkTB0Vhc3lSU0ExIDAeBgkqhkiG9w0BCQEWETZw</span><br><span class="line">bGF0QGJpaWdyb3VwLmNuMB4XDTE3MDEwNDA5MTc1NVoXDTI3MDEwMjA5MTc1NVow</span><br><span class="line">gaUxCzAJBgNVBAYTAkNOMRAwDgYDVQQIEwdCZWlqaW5nMRAwDgYDVQQHEwdCZWlq</span><br><span class="line">aW5nMRIwEAYDVQQKEwk2cGxhdC5vcmcxEzARBgNVBAsTCjZwbGF0Z3JvdXAxFTAT</span><br><span class="line">BgNVBAMTDDZwbGF0Lm9yZyBDQTEQMA4GA1UEKRMHRWFzeVJTQTEgMB4GCSqGSIb3</span><br><span class="line">DQEJARYRNnBsYXRAYmlpZ3JvdXAuY24wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw</span><br><span class="line">ggEKAoIBAQDpTRpxYttg0EsUYWCE3GKLMPTDXlzVtn93yb9MdgUJkCiGNgaXHQ6Y</span><br><span class="line">NCcOXb3pLIxZN7eYH873ZgAY74+LiEIIAAPn+CTQjTcZ82r92xuSj47mMNd4&#x2F;CcG</span><br><span class="line">5byC9clsNijsWvJ7Rq2Fy2ynSddWMMkmVGZ8oS3psPc57cEOBUBdhTI4szo6aLE0</span><br><span class="line">N3&#x2F;AAFpIdfxlTATc5EWFxEk4SMPWAIcqkvZ1ETBit+HHU+Bv2oYcpzzi6jHmVw0d</span><br><span class="line">EofxV0w3AUNUN894mWprBtZKZ+DVqms0+LI3mLWPXsv3m8zYBNTXqgE5p4vJ+E3J</span><br><span class="line">3AzDKH2Rb&#x2F;coBiy3V2g0Cdgc9vATQ4XzAgMBAAGjggEOMIIBCjAdBgNVHQ4EFgQU</span><br><span class="line">M&#x2F;hZJqaKeV9UVH6WoS7iwAk8&#x2F;Q0wgdoGA1UdIwSB0jCBz4AUM&#x2F;hZJqaKeV9UVH6W</span><br><span class="line">oS7iwAk8&#x2F;Q2hgaukgagwgaUxCzAJBgNVBAYTAkNOMRAwDgYDVQQIEwdCZWlqaW5n</span><br><span class="line">MRAwDgYDVQQHEwdCZWlqaW5nMRIwEAYDVQQKEwk2cGxhdC5vcmcxEzARBgNVBAsT</span><br><span class="line">CjZwbGF0Z3JvdXAxFTATBgNVBAMTDDZwbGF0Lm9yZyBDQTEQMA4GA1UEKRMHRWFz</span><br><span class="line">eVJTQTEgMB4GCSqGSIb3DQEJARYRNnBsYXRAYmlpZ3JvdXAuY26CCQCVb65anEuG</span><br><span class="line">LDAMBgNVHRMEBTADAQH&#x2F;MA0GCSqGSIb3DQEBCwUAA4IBAQBzYlX&#x2F;RgvViVvcxwGQ</span><br><span class="line">SN9wP32U9aALFI4GCQz6ODrlYVx4m00zJeuR69bjLO3NZgMv6LtcovbuME+FYq&#x2F;4</span><br><span class="line">uXJJIfMlo2S&#x2F;kKp5dBaGk9ERx0xs2OLAKyzc4wgx5zah5Nke1NhdYdCB6Lj6tM+s</span><br><span class="line">vthNz2SWpcctvlOvV+5IdVrefiaLl7RBgf2j81DYmPCILZwHo8rQ0zKppgqAFcFk</span><br><span class="line">tDO0FnHQcwe6xfTE1cIoOU39t+hTnvxQDBW4p9xkxX0hAFnNV41OadgEwxqyo6J0</span><br><span class="line">BZ4dtEw8E9FFF8ewWl897xSv6AMPZTizFl3OReE376Kgv+gtFlSuj4kizCd7uiRp</span><br><span class="line">o5ab</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">&lt;&#x2F;ca&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>Openwrt路由器使用IPv6</strong>参考以下文章<br>教你通过路由器部署IPv6环境【<a href="https://blog.csdn.net/baidu_35946698/article/details/80124956">上篇</a>】，【<a href="https://blog.csdn.net/baidu_35946698/article/details/80125282">下篇</a>】<br><a href="http://www.zhangjun.sh.cn/index.php/linux/openwrt-6plat-ipv6.html">OpenWrt利用6plat部署IPv6环境</a></p>
-]]></content>
-      <categories>
-        <category>技能</category>
-      </categories>
-      <tags>
-        <tag>IPv6</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>zsh定制</title>
     <url>/posts/3c1075a3/</url>
     <content><![CDATA[<p>先安装<a href="https://github.com/zsh-users/zsh"><code>zsh</code></a></p>
@@ -11672,6 +11644,34 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>个人固定IPv6地址申请</title>
+    <url>/posts/b446117f/</url>
+    <content><![CDATA[<h1 id="个人固定IPv6地址申请"><a href="#个人固定IPv6地址申请" class="headerlink" title="个人固定IPv6地址申请"></a>个人固定IPv6地址申请</h1><h4 id="申请"><a href="#申请" class="headerlink" title="申请"></a>申请</h4><p>该IPv6的地址由<code>6plat.org</code>提供，然后通过VPN实现IPv6，据说IPv6在墙外</p>
+<p><strong>使用公共账号（动态分配地址）</strong></p>
+<p>用户名和密码都是<code>6plat.org</code></p>
+<p><strong>个人账号（固定地址）</strong></p>
+<a id="more"></a>
+<p>需要固定IPv6地址的个人用户，可发申请邮件到【 6plat@biigroup.cn 】 ，注明用户名密码，账号后台自动开通，收到自动回复邮件，账号会在2个工作日内开通。<br>申请到个人账号之后，可以使用静态IPv6地址。重点是个人账号可以享受带宽保障策略</p>
+<p><strong>申请格式：</strong><br><strong><em>主题</em></strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">6Plat-46个人账号申请</span><br></pre></td></tr></table></figure><br><strong><em>内容</em></strong></p>
+<blockquote>
+<p>用户名(空格)密码<br>例如：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yonghuming mima</span><br></pre></td></tr></table></figure><br>用户名不支持中文和大小写</p>
+</blockquote>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p><a href="http://bbs2.6plat.org/d/19">参考官方使用手册</a></p>
+<p>通过<code>openvpn</code>链接VPN使用IPv6<br><strong>下载安装openvpn客户端</strong><br><a href="https://www.lanzous.com/b938806/">Mac、Win7、Win10</a>密码:eonun</p>
+<p><code>Linux</code>上直接通过不同发行版的包管理器进行网络源安装，包名：<code>openvpn</code>，部分Linux内置了，只需添加配置即可使用</p>
+<p><code>Android</code>在谷歌应用商店下载</p>
+<p><code>ios</code>在App Store下载</p>
+<p><strong>创建配置文件</strong><br>创建名为<code>6plat.ovpn</code>的配置文件，将配置文件导入到客户端，连接时输入账号密码即可<br>配置文件内容：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">client</span><br><span class="line">dev tun</span><br><span class="line">proto tcp</span><br><span class="line">remote 46.6plat.org 9185</span><br><span class="line">comp-lzo</span><br><span class="line">resolv-retry infinite</span><br><span class="line">nobind</span><br><span class="line">persist-key</span><br><span class="line">persist-tun</span><br><span class="line">setenv CLIENT_CERT 0</span><br><span class="line">auth-user-pass</span><br><span class="line">remote-cert-tls server</span><br><span class="line">verb 3</span><br><span class="line">sndbuf 0</span><br><span class="line">rcvbuf 0</span><br><span class="line">route-ipv6 ::&#x2F;0 240c:f:1:6000::1</span><br><span class="line">cipher none</span><br><span class="line">&lt;ca&gt;</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIE3zCCA8egAwIBAgIJAJVvrlqcS4YsMA0GCSqGSIb3DQEBCwUAMIGlMQswCQYD</span><br><span class="line">VQQGEwJDTjEQMA4GA1UECBMHQmVpamluZzEQMA4GA1UEBxMHQmVpamluZzESMBAG</span><br><span class="line">A1UEChMJNnBsYXQub3JnMRMwEQYDVQQLEwo2cGxhdGdyb3VwMRUwEwYDVQQDEww2</span><br><span class="line">cGxhdC5vcmcgQ0ExEDAOBgNVBCkTB0Vhc3lSU0ExIDAeBgkqhkiG9w0BCQEWETZw</span><br><span class="line">bGF0QGJpaWdyb3VwLmNuMB4XDTE3MDEwNDA5MTc1NVoXDTI3MDEwMjA5MTc1NVow</span><br><span class="line">gaUxCzAJBgNVBAYTAkNOMRAwDgYDVQQIEwdCZWlqaW5nMRAwDgYDVQQHEwdCZWlq</span><br><span class="line">aW5nMRIwEAYDVQQKEwk2cGxhdC5vcmcxEzARBgNVBAsTCjZwbGF0Z3JvdXAxFTAT</span><br><span class="line">BgNVBAMTDDZwbGF0Lm9yZyBDQTEQMA4GA1UEKRMHRWFzeVJTQTEgMB4GCSqGSIb3</span><br><span class="line">DQEJARYRNnBsYXRAYmlpZ3JvdXAuY24wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw</span><br><span class="line">ggEKAoIBAQDpTRpxYttg0EsUYWCE3GKLMPTDXlzVtn93yb9MdgUJkCiGNgaXHQ6Y</span><br><span class="line">NCcOXb3pLIxZN7eYH873ZgAY74+LiEIIAAPn+CTQjTcZ82r92xuSj47mMNd4&#x2F;CcG</span><br><span class="line">5byC9clsNijsWvJ7Rq2Fy2ynSddWMMkmVGZ8oS3psPc57cEOBUBdhTI4szo6aLE0</span><br><span class="line">N3&#x2F;AAFpIdfxlTATc5EWFxEk4SMPWAIcqkvZ1ETBit+HHU+Bv2oYcpzzi6jHmVw0d</span><br><span class="line">EofxV0w3AUNUN894mWprBtZKZ+DVqms0+LI3mLWPXsv3m8zYBNTXqgE5p4vJ+E3J</span><br><span class="line">3AzDKH2Rb&#x2F;coBiy3V2g0Cdgc9vATQ4XzAgMBAAGjggEOMIIBCjAdBgNVHQ4EFgQU</span><br><span class="line">M&#x2F;hZJqaKeV9UVH6WoS7iwAk8&#x2F;Q0wgdoGA1UdIwSB0jCBz4AUM&#x2F;hZJqaKeV9UVH6W</span><br><span class="line">oS7iwAk8&#x2F;Q2hgaukgagwgaUxCzAJBgNVBAYTAkNOMRAwDgYDVQQIEwdCZWlqaW5n</span><br><span class="line">MRAwDgYDVQQHEwdCZWlqaW5nMRIwEAYDVQQKEwk2cGxhdC5vcmcxEzARBgNVBAsT</span><br><span class="line">CjZwbGF0Z3JvdXAxFTATBgNVBAMTDDZwbGF0Lm9yZyBDQTEQMA4GA1UEKRMHRWFz</span><br><span class="line">eVJTQTEgMB4GCSqGSIb3DQEJARYRNnBsYXRAYmlpZ3JvdXAuY26CCQCVb65anEuG</span><br><span class="line">LDAMBgNVHRMEBTADAQH&#x2F;MA0GCSqGSIb3DQEBCwUAA4IBAQBzYlX&#x2F;RgvViVvcxwGQ</span><br><span class="line">SN9wP32U9aALFI4GCQz6ODrlYVx4m00zJeuR69bjLO3NZgMv6LtcovbuME+FYq&#x2F;4</span><br><span class="line">uXJJIfMlo2S&#x2F;kKp5dBaGk9ERx0xs2OLAKyzc4wgx5zah5Nke1NhdYdCB6Lj6tM+s</span><br><span class="line">vthNz2SWpcctvlOvV+5IdVrefiaLl7RBgf2j81DYmPCILZwHo8rQ0zKppgqAFcFk</span><br><span class="line">tDO0FnHQcwe6xfTE1cIoOU39t+hTnvxQDBW4p9xkxX0hAFnNV41OadgEwxqyo6J0</span><br><span class="line">BZ4dtEw8E9FFF8ewWl897xSv6AMPZTizFl3OReE376Kgv+gtFlSuj4kizCd7uiRp</span><br><span class="line">o5ab</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">&lt;&#x2F;ca&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Openwrt路由器使用IPv6</strong>参考以下文章<br>教你通过路由器部署IPv6环境【<a href="https://blog.csdn.net/baidu_35946698/article/details/80124956">上篇</a>】，【<a href="https://blog.csdn.net/baidu_35946698/article/details/80125282">下篇</a>】<br><a href="http://www.zhangjun.sh.cn/index.php/linux/openwrt-6plat-ipv6.html">OpenWrt利用6plat部署IPv6环境</a></p>
+]]></content>
+      <categories>
+        <category>技能</category>
+      </categories>
+      <tags>
+        <tag>IPv6</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>修改主题后oh-my-zsh升级失败解决</title>
     <url>/posts/4c096b11/</url>
     <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Oh My Zsh] Would you like to check <span class="keyword">for</span> updates? [Y/n]: y</span><br><span class="line">Updating Oh My Zsh</span><br><span class="line">error: cannot pull with rebase: You have unstaged changes.</span><br><span class="line">error: please commit or stash them.</span><br><span class="line">There was an error updating. Try again later?</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[oh-my-zsh] Would you like to update? [Y/n] y</span><br><span class="line">Updating Oh My Zsh</span><br><span class="line">error: 无法拉取，因为您有未合并的文件。</span><br><span class="line">提示：请在工作区改正文件，然后酌情使用 <span class="string">&#x27;git add/rm &lt;文件&gt;&#x27;</span> 命令标记</span><br><span class="line">提示：解决方案并提交。</span><br><span class="line">fatal: 因为存在未解决的冲突而退出。</span><br><span class="line">There was an error updating. Try again later?</span><br></pre></td></tr></table></figure>
@@ -11688,247 +11688,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       <tags>
         <tag>Linux</tag>
         <tag>Zsh</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>先电云计算IAAS</title>
-    <url>/posts/3b6f3669/</url>
-    <content><![CDATA[<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><h3 id="controller-amp-compute"><a href="#controller-amp-compute" class="headerlink" title="controller&amp;compute"></a>controller&amp;compute</h3><p><strong><code>vi /etc/sysconfig/network-scripts/ifcfg-eng</code></strong></p>
-<blockquote>
-<p>网卡1（内网）:</p>
-<p>BOOTPROTO=static</p>
-<p>IPADDR=192.168.100.10        //B：192.168.100.20</p>
-<p>PREFIX=24            //NETMASK=255.255.255.0</p>
-<p>GATEWAY=192.168.100.1</p>
-</blockquote>
-<a id="more"></a>
-<blockquote>
-<p>网卡2（外网）:</p>
-<p>BOOTPROTO=static</p>
-<p>IPADDR=192.168.200.20    //B：192.168.200.20</p>
-<p>PREFIX=24    //NETMASK=255.255.255.0</p>
-</blockquote>
-<p><strong><code>service network restart</code></strong></p>
-<hr>
-<h3 id="controller"><a href="#controller" class="headerlink" title="controller"></a>controller</h3><p><strong><code>hostnamectl set-hostname controller</code></strong></p>
-<hr>
-<h3 id="compute"><a href="#compute" class="headerlink" title="compute"></a>compute</h3><p><strong><code>hostnamectl set-hostname compute</code></strong></p>
-<hr>
-<h3 id="controller-amp-compute-1"><a href="#controller-amp-compute-1" class="headerlink" title="controller&amp;compute"></a>controller&amp;compute</h3><p><strong><code>logout</code></strong>            //Ctr+d  重新登录</p>
-<hr>
-<h3 id="controller-1"><a href="#controller-1" class="headerlink" title="controller"></a>controller</h3><p><strong><code>mv /etc/yum.repo.d/* /home</code></strong></p>
-<p><strong><code>vi /etc/yum.repos.d/iaas.repo</code></strong></p>
-<blockquote>
-<p>[centos]</p>
-<p>name=centos</p>
-<p>baseurl=file:///opt/centos</p>
-<p>enabled=1</p>
-<p>gpgcheck=0</p>
-<p>[iaas]</p>
-<p>name=iaas</p>
-<p>baseurl=file:///opt/iaas/iaas-repo</p>
-<p>enabled=1</p>
-<p>gpgcheck=0</p>
-</blockquote>
-<p><strong><code>mkdir /opt/&#123;centos,iaas&#125;</code></strong></p>
-<p><strong><code>mount CentOS-7-x86_64-DVD-1511.iso /mnt</code></strong></p>
-<p><strong><code>cp -rfv /mnt/* /opt/centos</code></strong></p>
-<p><strong><code>umout XianDian-IaaS-v2.2.iso /mnt</code></strong></p>
-<p><strong><code>cp -rfv /mnt/* /opt/iaas</code></strong></p>
-<p><strong><code>yum clean all</code></strong></p>
-<p><strong><code>yum list</code></strong></p>
-<p><strong><code>yum  -y install vsftpd</code></strong></p>
-<p><strong><code>systemctl stop firewalld</code></strong></p>
-<p><strong><code>systemctl disable firewalld</code></strong></p>
-<p><strong><code>vi /etc/selinux/config</code></strong></p>
-<blockquote>
-<p><em>SELINUX=enforcing =&gt;</em> SELINUX=permissive</p>
-</blockquote>
-<p><strong><code>setenforce 0</code></strong></p>
-<p><strong><code>vi /vsftpd/vsftpd.conf</code></strong></p>
-<blockquote>
-<p>anon_root=/opt</p>
-</blockquote>
-<p><strong><code>systemctl enable vsftpd</code></strong></p>
-<p><strong><code>systemctl start vsftpd</code></strong></p>
-<hr>
-<h3 id="compute-1"><a href="#compute-1" class="headerlink" title="compute"></a>compute</h3><p><strong><code>mv /etc/yum.repos.d/* /home</code></strong></p>
-<p><strong><code>vi /etc/yum.repos.d/iaas.repo</code></strong></p>
-<blockquote>
-<p>[centos]</p>
-<p>name=centos</p>
-<p>baseurl=ftp://192.168.100.10/opt/centos</p>
-<p>enabled=1</p>
-<p>gpgcheck=0</p>
-<p>[iaas]</p>
-<p>name=iaas</p>
-<p>baseurl=ftp://192.168.100.10/opt/iaas/iaas-repo</p>
-<p>enabled=1</p>
-<p>gpgcheck=0</p>
-</blockquote>
-<p><strong><code>yum clean all</code></strong></p>
-<p><strong><code>yum list</code></strong></p>
-<p>//创建两个分区做准备，记下分区号</p>
-<p><strong><code>parted /dev/md126</code></strong>            //进入磁盘管理，IDE硬盘为hdx（x为从a—d）因为IDE硬盘最多四个，SCSI，SATA，USB硬盘为sdx（x为a—z），做了磁盘阵列的是md</p>
-<p><strong>(parted)<code>p</code></strong></p>
-<p><strong>(parted)<code>mkpart 名字 分区起点 分区终点</code></strong>         //上一个的分区的终点为下一个分区的终点，由起终点决定大小*</p>
-<p><strong>(parted)<code>p</code></strong></p>
-<p><strong>(parted)<code>quit</code></strong></p>
-<p><strong><code>mkfs.xfs /dev/md126p4</code></strong>        //格式化分区，注意区号</p>
-<p><strong><code>mkfs.xfs /dev/md126p5</code></strong></p>
-<hr>
-<h2 id="通过脚本安装相关服务"><a href="#通过脚本安装相关服务" class="headerlink" title="通过脚本安装相关服务"></a>通过脚本安装相关服务</h2><h3 id="controller-amp-compute-2"><a href="#controller-amp-compute-2" class="headerlink" title="controller&amp;compute"></a>controller&amp;compute</h3><p><strong><code>yum -y install iaas-xiandian</code></strong>            //安装xiandian包并配置环境变量</p>
-<p><strong><code>vi /etc/xiandain/openrc.sh</code></strong></p>
-<blockquote>
-<p>HOST_IP=192.168.100.10            //控制节点内网</p>
-<p>HOST_NAME=controller</p>
-<p>HOST_IP_NODE=192.168.100.20    //计算节点内网</p>
-<p>HOST_NAME_NODE=compute</p>
-<p>RABBIT_USER=openstack</p>
-<p>RABBIT_PASS=000000</p>
-<p>DB_PASS=000000</p>
-<p>DOMAIN_NAME=demo            //（自定义）</p>
-<p>ADMIN_PASS=000000</p>
-<p>DEMO_PASS=000000</p>
-<p>KEYSTONE_DBPASS=000000</p>
-<p>GLANCE_DBPASS=000000</p>
-<p>GLANCE_PASS=000000</p>
-<p>NOVA_DBPASS=000000</p>
-<p>NOVA_PASS=000000</p>
-<p>NEUTRON_DBPASS=000000</p>
-<p>NEUTRON_PASS=000000</p>
-<p>METADATA_SECRET=000000</p>
-<p>INTERFACE_NAME=enp9s0            //（外网网卡名）</p>
-<p>CINDER_DBPASS=000000</p>
-<p>CINDER_PASS=000000</p>
-<p>TROVE_DBPASS=000000</p>
-<p>TROVE_PASS=000000</p>
-<p>BLOCK_DISK=md126p4            //（空白分区名）在计算节点上创建</p>
-<p>SWIFT_PASS=000000</p>
-<p>OBJECT_DISK=md126p5            //（空白分区名）在计算节点上创建</p>
-<p>STORAGE_LOCAL_NET_IP=192.168.100.20  //计算节点内网</p>
-<p>HEAT_DBPASS=000000</p>
-<p>HEAT_PASS=000000</p>
-<p>CEILOMETER_DBPASS=000000</p>
-<p>CEILOMETER_PASS=000000</p>
-<p>AODH_DBPASS=000000</p>
-<p>AODH_PASS=000000</p>
-</blockquote>
-<p>//过滤语句：<strong>cat /etc/xiandian/openrc.sh |grep -v ^# |grep -v ^$</strong>        //history  查看历史命令</p>
-<p><strong><code>iaas-pre-host.sh</code></strong>            //基础配置</p>
-<blockquote>
-<p>yum -y install <em>openstack-utils</em> openstack-selinux python-openstackclient</p>
-<p>yum upgrade</p>
-<p>yum -y remove NetworkManager firewalld</p>
-<p>yum -y install iptables</p>
-<p>yum -y install ntp</p>
-</blockquote>
-<p><strong><code>yum -y install openstack-utils</code></strong>        //脚本内可能未安装，自己补上</p>
-<hr>
-<h3 id="controller-2"><a href="#controller-2" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-mysql.sh</code></strong>        //安装数据库相关服务</p>
-<blockquote>
-<p>yum -y install mysql  mysql-server  MySQL-python</p>
-<p>yum -y install mongodb-server mongodb</p>
-<p>yum -y install rabbitmq-server</p>
-<p>yum -y install memcached python-memcached</p>
-</blockquote>
-<hr>
-<h3 id="compute-2"><a href="#compute-2" class="headerlink" title="compute"></a>compute</h3><p><strong><code>yum -y install MySQL-python</code></strong></p>
-<hr>
-<h3 id="controller-3"><a href="#controller-3" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-keystone.sh</code></strong>            //安装Keystone认证服务</p>
-<blockquote>
-<p>yum -y install openstack-keystone httpd mod_wsgi</p>
-</blockquote>
-<p><strong><code>iaas-install-glance.sh</code></strong>            //安装Glance镜像服务</p>
-<blockquote>
-<p>yum -y install openstack-glance</p>
-</blockquote>
-<p>上传镜像：<br><strong><code>source /etc/keystone/admin-opemrc.sh</code></strong>            //加载上传镜像需要用到的变量</p>
-<p><strong><code>glance image-create --name &quot;CentOS7.0&quot; --disk-format qcow2 --container-format bare --progress &lt; /opt/iaas/images/Centos_7-x86_64_XD.qcow2</code></strong></p>
-<p><strong><code>iaas-install-nova-controller.sh</code></strong>            //安装nova计算服务</p>
-<blockquote>
-<p>yum install -y openstack-nova-api openstack-nova-conductor openstack-nova-console openstack-nova-novncproxy openstack-nova-scheduler</p>
-</blockquote>
-<hr>
-<h3 id="compute-3"><a href="#compute-3" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-nova-compute.sh</code></strong></p>
-<blockquote>
-<p>yum -y install lvm2</p>
-<p>yum -y install openstack-nova-compute</p>
-</blockquote>
-<hr>
-<h3 id="controller-4"><a href="#controller-4" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-neutron-controller.sh</code></strong>            //安装Neutron网络服务</p>
-<blockquote>
-<p>yum install -y openstack-neutron openstack-neutron-ml2 openstack-neutron-linuxbridge ebtables  openstack-neutron-openvswitch openstack-neutron-lbaas python-neutron-lbaas haproxy  openstack-neutron-fwaas</p>
-</blockquote>
-<hr>
-<h3 id="compute-4"><a href="#compute-4" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-neutron-compute.sh</code></strong></p>
-<blockquote>
-<p>yum install -y openstack-neutron-linuxbridge ebtables ipset openstack-neutron openstack-neutron-ml2 openstack-neutron-openvswitch</p>
-</blockquote>
-<hr>
-<h3 id="controller-5"><a href="#controller-5" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-neutron-controller-gre.sh</code></strong>            //创建gre网络</p>
-<hr>
-<h3 id="compute-5"><a href="#compute-5" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-neutron-compute-gre.sh</code></strong></p>
-<hr>
-<h3 id="controller-6"><a href="#controller-6" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-dashboard.sh</code></strong>            //安装Dadhboard仪表盘服务</p>
-<blockquote>
-<p>yum -y install openstack-dashboard</p>
-</blockquote>
-<p><strong><a href="http://192.168.100.10/dashboard">http://192.168.100.10/dashboard</a></strong></p>
-<hr>
-<h3 id="controller-7"><a href="#controller-7" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-cinder-controller.sh</code></strong>            //安装Cinder块存储服务</p>
-<blockquote>
-<p>yum install -y openstack-cinder</p>
-<p>cinder create  —display-name myVolume 1    //使用cinder create 创建一个新的卷</p>
-<p>cinder list        //通过cinder list 命令查看是否正确创建</p>
-</blockquote>
-<hr>
-<h3 id="compute-6"><a href="#compute-6" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-cinder-compute.sh</code></strong></p>
-<blockquote>
-<p>yum -y install lvm2 targetcli python-keystone openstack-cinder</p>
-</blockquote>
-<hr>
-<h3 id="controller-8"><a href="#controller-8" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-swift-controller.sh</code></strong>            //安装Swift对象存储服务</p>
-<blockquote>
-<p>yum install -y openstack-swift-proxy python-swiftclient python-keystoneclient python-keystonemiddleware memcached</p>
-</blockquote>
-<hr>
-<h3 id="compute-7"><a href="#compute-7" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-swift-compute.sh</code></strong>            //面向对象数据存贮</p>
-<blockquote>
-<p>yum install -y xfsprogs rsync openstack-swift-account openstack-swift-container openstack-swift-object</p>
-</blockquote>
-<p><strong>执行过程中需要确认登录controller节点和输入controller节点root用户密码</strong></p>
-<hr>
-<h3 id="controller-9"><a href="#controller-9" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-trove.sh</code></strong>            //安装Trove数据库服务</p>
-<p><strong><em>//需注意安装Trove服务之前需要配置好网络（flat或gre）,创建好子网，并确认系统已经安装swift和cinder两个服务，否则安装会失败</em></strong></p>
-<blockquote>
-<p>yum install –y openstack-trove-guestagent openstack-trove python-troveclient  openstack-trove-ui</p>
-</blockquote>
-<p><strong><code>iaas-install-heat.sh</code></strong>            //安装heat集群服务</p>
-<blockquote>
-<p>yum install -y openstack-heat-api openstack-heat-api-cfn openstack-heat-engine</p>
-</blockquote>
-<p><strong><code>iaas-install-ceilometer-controller.sh</code></strong>        //安装Ceilometer架空服务</p>
-<blockquote>
-<p>yum install -y openstack-ceilometer-api openstack-ceilometer-collector openstack-ceilometer-notification openstack-ceilometer-central python-ceilometerclient python-ceilometermiddleware</p>
-</blockquote>
-<hr>
-<h3 id="compute-8"><a href="#compute-8" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-ceilometer-compute.sh</code></strong></p>
-<blockquote>
-<p>yum install -y openstack-ceilometer-compute python-ceilometerclient python-pecan</p>
-</blockquote>
-<hr>
-<h3 id="controller-10"><a href="#controller-10" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-alarm.sh</code></strong>            //安装alarm监控服务</p>
-<blockquote>
-<p>yum install -y openstack-aodh-api openstack-aodh-evaluator openstack-aodh-notifier openstack-aodh-listener openstack-aodh-expirer python-ceilometerclient</p>
-</blockquote>
-<hr>
-<h2 id="资源聚合"><a href="#资源聚合" class="headerlink" title="资源聚合"></a>资源聚合</h2><p><strong><em>在<code>/etc/xiandian/openrc.sh</code>里把<code>compute</code>节点的<code>IP</code>和主机名改为<code>controller</code>节点的IP和主机名</em></strong></p>
-<p><strong><em>在控制节点运行 <code>iaas-install-nova-compute.sh</code></em></strong></p>
-<h3 id="controller-11"><a href="#controller-11" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-nova-compute.sh</code></strong></p>
-]]></content>
-      <tags>
-        <tag>云计算</tag>
       </tags>
   </entry>
   <entry>
@@ -12189,6 +11948,247 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
   </entry>
   <entry>
+    <title>先电云计算IAAS</title>
+    <url>/posts/3b6f3669/</url>
+    <content><![CDATA[<h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><h3 id="controller-amp-compute"><a href="#controller-amp-compute" class="headerlink" title="controller&amp;compute"></a>controller&amp;compute</h3><p><strong><code>vi /etc/sysconfig/network-scripts/ifcfg-eng</code></strong></p>
+<blockquote>
+<p>网卡1（内网）:</p>
+<p>BOOTPROTO=static</p>
+<p>IPADDR=192.168.100.10        //B：192.168.100.20</p>
+<p>PREFIX=24            //NETMASK=255.255.255.0</p>
+<p>GATEWAY=192.168.100.1</p>
+</blockquote>
+<a id="more"></a>
+<blockquote>
+<p>网卡2（外网）:</p>
+<p>BOOTPROTO=static</p>
+<p>IPADDR=192.168.200.20    //B：192.168.200.20</p>
+<p>PREFIX=24    //NETMASK=255.255.255.0</p>
+</blockquote>
+<p><strong><code>service network restart</code></strong></p>
+<hr>
+<h3 id="controller"><a href="#controller" class="headerlink" title="controller"></a>controller</h3><p><strong><code>hostnamectl set-hostname controller</code></strong></p>
+<hr>
+<h3 id="compute"><a href="#compute" class="headerlink" title="compute"></a>compute</h3><p><strong><code>hostnamectl set-hostname compute</code></strong></p>
+<hr>
+<h3 id="controller-amp-compute-1"><a href="#controller-amp-compute-1" class="headerlink" title="controller&amp;compute"></a>controller&amp;compute</h3><p><strong><code>logout</code></strong>            //Ctr+d  重新登录</p>
+<hr>
+<h3 id="controller-1"><a href="#controller-1" class="headerlink" title="controller"></a>controller</h3><p><strong><code>mv /etc/yum.repo.d/* /home</code></strong></p>
+<p><strong><code>vi /etc/yum.repos.d/iaas.repo</code></strong></p>
+<blockquote>
+<p>[centos]</p>
+<p>name=centos</p>
+<p>baseurl=file:///opt/centos</p>
+<p>enabled=1</p>
+<p>gpgcheck=0</p>
+<p>[iaas]</p>
+<p>name=iaas</p>
+<p>baseurl=file:///opt/iaas/iaas-repo</p>
+<p>enabled=1</p>
+<p>gpgcheck=0</p>
+</blockquote>
+<p><strong><code>mkdir /opt/&#123;centos,iaas&#125;</code></strong></p>
+<p><strong><code>mount CentOS-7-x86_64-DVD-1511.iso /mnt</code></strong></p>
+<p><strong><code>cp -rfv /mnt/* /opt/centos</code></strong></p>
+<p><strong><code>umout XianDian-IaaS-v2.2.iso /mnt</code></strong></p>
+<p><strong><code>cp -rfv /mnt/* /opt/iaas</code></strong></p>
+<p><strong><code>yum clean all</code></strong></p>
+<p><strong><code>yum list</code></strong></p>
+<p><strong><code>yum  -y install vsftpd</code></strong></p>
+<p><strong><code>systemctl stop firewalld</code></strong></p>
+<p><strong><code>systemctl disable firewalld</code></strong></p>
+<p><strong><code>vi /etc/selinux/config</code></strong></p>
+<blockquote>
+<p><em>SELINUX=enforcing =&gt;</em> SELINUX=permissive</p>
+</blockquote>
+<p><strong><code>setenforce 0</code></strong></p>
+<p><strong><code>vi /vsftpd/vsftpd.conf</code></strong></p>
+<blockquote>
+<p>anon_root=/opt</p>
+</blockquote>
+<p><strong><code>systemctl enable vsftpd</code></strong></p>
+<p><strong><code>systemctl start vsftpd</code></strong></p>
+<hr>
+<h3 id="compute-1"><a href="#compute-1" class="headerlink" title="compute"></a>compute</h3><p><strong><code>mv /etc/yum.repos.d/* /home</code></strong></p>
+<p><strong><code>vi /etc/yum.repos.d/iaas.repo</code></strong></p>
+<blockquote>
+<p>[centos]</p>
+<p>name=centos</p>
+<p>baseurl=ftp://192.168.100.10/opt/centos</p>
+<p>enabled=1</p>
+<p>gpgcheck=0</p>
+<p>[iaas]</p>
+<p>name=iaas</p>
+<p>baseurl=ftp://192.168.100.10/opt/iaas/iaas-repo</p>
+<p>enabled=1</p>
+<p>gpgcheck=0</p>
+</blockquote>
+<p><strong><code>yum clean all</code></strong></p>
+<p><strong><code>yum list</code></strong></p>
+<p>//创建两个分区做准备，记下分区号</p>
+<p><strong><code>parted /dev/md126</code></strong>            //进入磁盘管理，IDE硬盘为hdx（x为从a—d）因为IDE硬盘最多四个，SCSI，SATA，USB硬盘为sdx（x为a—z），做了磁盘阵列的是md</p>
+<p><strong>(parted)<code>p</code></strong></p>
+<p><strong>(parted)<code>mkpart 名字 分区起点 分区终点</code></strong>         //上一个的分区的终点为下一个分区的终点，由起终点决定大小*</p>
+<p><strong>(parted)<code>p</code></strong></p>
+<p><strong>(parted)<code>quit</code></strong></p>
+<p><strong><code>mkfs.xfs /dev/md126p4</code></strong>        //格式化分区，注意区号</p>
+<p><strong><code>mkfs.xfs /dev/md126p5</code></strong></p>
+<hr>
+<h2 id="通过脚本安装相关服务"><a href="#通过脚本安装相关服务" class="headerlink" title="通过脚本安装相关服务"></a>通过脚本安装相关服务</h2><h3 id="controller-amp-compute-2"><a href="#controller-amp-compute-2" class="headerlink" title="controller&amp;compute"></a>controller&amp;compute</h3><p><strong><code>yum -y install iaas-xiandian</code></strong>            //安装xiandian包并配置环境变量</p>
+<p><strong><code>vi /etc/xiandain/openrc.sh</code></strong></p>
+<blockquote>
+<p>HOST_IP=192.168.100.10            //控制节点内网</p>
+<p>HOST_NAME=controller</p>
+<p>HOST_IP_NODE=192.168.100.20    //计算节点内网</p>
+<p>HOST_NAME_NODE=compute</p>
+<p>RABBIT_USER=openstack</p>
+<p>RABBIT_PASS=000000</p>
+<p>DB_PASS=000000</p>
+<p>DOMAIN_NAME=demo            //（自定义）</p>
+<p>ADMIN_PASS=000000</p>
+<p>DEMO_PASS=000000</p>
+<p>KEYSTONE_DBPASS=000000</p>
+<p>GLANCE_DBPASS=000000</p>
+<p>GLANCE_PASS=000000</p>
+<p>NOVA_DBPASS=000000</p>
+<p>NOVA_PASS=000000</p>
+<p>NEUTRON_DBPASS=000000</p>
+<p>NEUTRON_PASS=000000</p>
+<p>METADATA_SECRET=000000</p>
+<p>INTERFACE_NAME=enp9s0            //（外网网卡名）</p>
+<p>CINDER_DBPASS=000000</p>
+<p>CINDER_PASS=000000</p>
+<p>TROVE_DBPASS=000000</p>
+<p>TROVE_PASS=000000</p>
+<p>BLOCK_DISK=md126p4            //（空白分区名）在计算节点上创建</p>
+<p>SWIFT_PASS=000000</p>
+<p>OBJECT_DISK=md126p5            //（空白分区名）在计算节点上创建</p>
+<p>STORAGE_LOCAL_NET_IP=192.168.100.20  //计算节点内网</p>
+<p>HEAT_DBPASS=000000</p>
+<p>HEAT_PASS=000000</p>
+<p>CEILOMETER_DBPASS=000000</p>
+<p>CEILOMETER_PASS=000000</p>
+<p>AODH_DBPASS=000000</p>
+<p>AODH_PASS=000000</p>
+</blockquote>
+<p>//过滤语句：<strong>cat /etc/xiandian/openrc.sh |grep -v ^# |grep -v ^$</strong>        //history  查看历史命令</p>
+<p><strong><code>iaas-pre-host.sh</code></strong>            //基础配置</p>
+<blockquote>
+<p>yum -y install <em>openstack-utils</em> openstack-selinux python-openstackclient</p>
+<p>yum upgrade</p>
+<p>yum -y remove NetworkManager firewalld</p>
+<p>yum -y install iptables</p>
+<p>yum -y install ntp</p>
+</blockquote>
+<p><strong><code>yum -y install openstack-utils</code></strong>        //脚本内可能未安装，自己补上</p>
+<hr>
+<h3 id="controller-2"><a href="#controller-2" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-mysql.sh</code></strong>        //安装数据库相关服务</p>
+<blockquote>
+<p>yum -y install mysql  mysql-server  MySQL-python</p>
+<p>yum -y install mongodb-server mongodb</p>
+<p>yum -y install rabbitmq-server</p>
+<p>yum -y install memcached python-memcached</p>
+</blockquote>
+<hr>
+<h3 id="compute-2"><a href="#compute-2" class="headerlink" title="compute"></a>compute</h3><p><strong><code>yum -y install MySQL-python</code></strong></p>
+<hr>
+<h3 id="controller-3"><a href="#controller-3" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-keystone.sh</code></strong>            //安装Keystone认证服务</p>
+<blockquote>
+<p>yum -y install openstack-keystone httpd mod_wsgi</p>
+</blockquote>
+<p><strong><code>iaas-install-glance.sh</code></strong>            //安装Glance镜像服务</p>
+<blockquote>
+<p>yum -y install openstack-glance</p>
+</blockquote>
+<p>上传镜像：<br><strong><code>source /etc/keystone/admin-opemrc.sh</code></strong>            //加载上传镜像需要用到的变量</p>
+<p><strong><code>glance image-create --name &quot;CentOS7.0&quot; --disk-format qcow2 --container-format bare --progress &lt; /opt/iaas/images/Centos_7-x86_64_XD.qcow2</code></strong></p>
+<p><strong><code>iaas-install-nova-controller.sh</code></strong>            //安装nova计算服务</p>
+<blockquote>
+<p>yum install -y openstack-nova-api openstack-nova-conductor openstack-nova-console openstack-nova-novncproxy openstack-nova-scheduler</p>
+</blockquote>
+<hr>
+<h3 id="compute-3"><a href="#compute-3" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-nova-compute.sh</code></strong></p>
+<blockquote>
+<p>yum -y install lvm2</p>
+<p>yum -y install openstack-nova-compute</p>
+</blockquote>
+<hr>
+<h3 id="controller-4"><a href="#controller-4" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-neutron-controller.sh</code></strong>            //安装Neutron网络服务</p>
+<blockquote>
+<p>yum install -y openstack-neutron openstack-neutron-ml2 openstack-neutron-linuxbridge ebtables  openstack-neutron-openvswitch openstack-neutron-lbaas python-neutron-lbaas haproxy  openstack-neutron-fwaas</p>
+</blockquote>
+<hr>
+<h3 id="compute-4"><a href="#compute-4" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-neutron-compute.sh</code></strong></p>
+<blockquote>
+<p>yum install -y openstack-neutron-linuxbridge ebtables ipset openstack-neutron openstack-neutron-ml2 openstack-neutron-openvswitch</p>
+</blockquote>
+<hr>
+<h3 id="controller-5"><a href="#controller-5" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-neutron-controller-gre.sh</code></strong>            //创建gre网络</p>
+<hr>
+<h3 id="compute-5"><a href="#compute-5" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-neutron-compute-gre.sh</code></strong></p>
+<hr>
+<h3 id="controller-6"><a href="#controller-6" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-dashboard.sh</code></strong>            //安装Dadhboard仪表盘服务</p>
+<blockquote>
+<p>yum -y install openstack-dashboard</p>
+</blockquote>
+<p><strong><a href="http://192.168.100.10/dashboard">http://192.168.100.10/dashboard</a></strong></p>
+<hr>
+<h3 id="controller-7"><a href="#controller-7" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-cinder-controller.sh</code></strong>            //安装Cinder块存储服务</p>
+<blockquote>
+<p>yum install -y openstack-cinder</p>
+<p>cinder create  —display-name myVolume 1    //使用cinder create 创建一个新的卷</p>
+<p>cinder list        //通过cinder list 命令查看是否正确创建</p>
+</blockquote>
+<hr>
+<h3 id="compute-6"><a href="#compute-6" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-cinder-compute.sh</code></strong></p>
+<blockquote>
+<p>yum -y install lvm2 targetcli python-keystone openstack-cinder</p>
+</blockquote>
+<hr>
+<h3 id="controller-8"><a href="#controller-8" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-swift-controller.sh</code></strong>            //安装Swift对象存储服务</p>
+<blockquote>
+<p>yum install -y openstack-swift-proxy python-swiftclient python-keystoneclient python-keystonemiddleware memcached</p>
+</blockquote>
+<hr>
+<h3 id="compute-7"><a href="#compute-7" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-swift-compute.sh</code></strong>            //面向对象数据存贮</p>
+<blockquote>
+<p>yum install -y xfsprogs rsync openstack-swift-account openstack-swift-container openstack-swift-object</p>
+</blockquote>
+<p><strong>执行过程中需要确认登录controller节点和输入controller节点root用户密码</strong></p>
+<hr>
+<h3 id="controller-9"><a href="#controller-9" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-trove.sh</code></strong>            //安装Trove数据库服务</p>
+<p><strong><em>//需注意安装Trove服务之前需要配置好网络（flat或gre）,创建好子网，并确认系统已经安装swift和cinder两个服务，否则安装会失败</em></strong></p>
+<blockquote>
+<p>yum install –y openstack-trove-guestagent openstack-trove python-troveclient  openstack-trove-ui</p>
+</blockquote>
+<p><strong><code>iaas-install-heat.sh</code></strong>            //安装heat集群服务</p>
+<blockquote>
+<p>yum install -y openstack-heat-api openstack-heat-api-cfn openstack-heat-engine</p>
+</blockquote>
+<p><strong><code>iaas-install-ceilometer-controller.sh</code></strong>        //安装Ceilometer架空服务</p>
+<blockquote>
+<p>yum install -y openstack-ceilometer-api openstack-ceilometer-collector openstack-ceilometer-notification openstack-ceilometer-central python-ceilometerclient python-ceilometermiddleware</p>
+</blockquote>
+<hr>
+<h3 id="compute-8"><a href="#compute-8" class="headerlink" title="compute"></a>compute</h3><p><strong><code>iaas-install-ceilometer-compute.sh</code></strong></p>
+<blockquote>
+<p>yum install -y openstack-ceilometer-compute python-ceilometerclient python-pecan</p>
+</blockquote>
+<hr>
+<h3 id="controller-10"><a href="#controller-10" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-alarm.sh</code></strong>            //安装alarm监控服务</p>
+<blockquote>
+<p>yum install -y openstack-aodh-api openstack-aodh-evaluator openstack-aodh-notifier openstack-aodh-listener openstack-aodh-expirer python-ceilometerclient</p>
+</blockquote>
+<hr>
+<h2 id="资源聚合"><a href="#资源聚合" class="headerlink" title="资源聚合"></a>资源聚合</h2><p><strong><em>在<code>/etc/xiandian/openrc.sh</code>里把<code>compute</code>节点的<code>IP</code>和主机名改为<code>controller</code>节点的IP和主机名</em></strong></p>
+<p><strong><em>在控制节点运行 <code>iaas-install-nova-compute.sh</code></em></strong></p>
+<h3 id="controller-11"><a href="#controller-11" class="headerlink" title="controller"></a>controller</h3><p><strong><code>iaas-install-nova-compute.sh</code></strong></p>
+]]></content>
+      <tags>
+        <tag>云计算</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>先电云计算PAAS</title>
     <url>/posts/167e2e7c/</url>
     <content><![CDATA[<h2 id="基础环境配置"><a href="#基础环境配置" class="headerlink" title="基础环境配置"></a>基础环境配置</h2><h3 id="server-amp-amp-client"><a href="#server-amp-amp-client" class="headerlink" title="server&amp;&amp;client"></a>server&amp;&amp;client</h3><p><strong><code>vi /etc/selinux/config</code></strong></p>
@@ -12366,21 +12366,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
-    <title>内网渗透命令</title>
-    <url>/posts/d7b00f79/</url>
-    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ipconfig &#x2F;all                      ------ 查询本机IP段，所在域等</span><br><span class="line">net user                           ------ 本机用户列表</span><br><span class="line">net localhroup administrators      ------ 本机管理员[通常含有域用户]</span><br><span class="line">net user &#x2F;domain                   ------ 查询域用户</span><br><span class="line">net group &#x2F;domain                  ------ 查询域里面的工作组</span><br><span class="line">net group &quot;domain admins&quot; &#x2F;domain  ------ 查询域管理员用户组</span><br><span class="line">net localgroup administrators &#x2F;domain    ------ 登录本机的域管理员</span><br><span class="line">net localgroup administrators workgroup\user001 &#x2F;add   ------域用户添加到本机</span><br><span class="line">net group &quot;domain controllers&quot; &#x2F;domain                         ------ 查看域控制器(如果有多台)</span><br><span class="line">net time &#x2F;domain          ------ 判断主域，主域服务器都做时间服务器</span><br><span class="line">net config workstation   ------ 当前登录域</span><br><span class="line">net session                  ------ 查看当前会话</span><br><span class="line">net use \\ip\ipc$ pawword &#x2F;user:username      ------ 建立IPC会话[空连接-***]</span><br><span class="line">net share                    ------  查看SMB指向的路径[即共享]</span><br><span class="line">net view                      ------ 查询同一域内机器列表</span><br><span class="line">net view \\ip                ------ 查询某IP共享</span><br><span class="line">net view &#x2F;domain         ------ 查询域列表</span><br><span class="line">net view &#x2F;domain:domainname        ------ 查看workgroup域中计算机列表</span><br><span class="line">net start                                         ------ 查看当前运行的服务</span><br><span class="line">net accounts                                   ------  查看本地密码策略</span><br><span class="line">net accounts &#x2F;domain                      ------  查看域密码策略</span><br><span class="line">nbtstat –A ip                                   ------netbios 查询</span><br><span class="line">netstat –an&#x2F;ano&#x2F;anb                        ------ 网络连接查询</span><br><span class="line">route print                                      ------ 路由表</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dsquery computer       ----- finds computers in the directory.</span><br><span class="line">dsquery contact           ----- finds contacts in thedirectory.</span><br><span class="line">dsquery subnet            ----- finds subnets in thedirectory.</span><br><span class="line">dsquery group             ----- finds groups in thedirectory.</span><br><span class="line">dsquery ou                   ----- finds organizationalunits in the directory.</span><br><span class="line">dsquery site                 ----- finds sites in thedirectory.</span><br><span class="line">dsquery server             ----- finds domain controllers inthe directory.</span><br><span class="line">dsquery user                ----- finds users in thedirectory.</span><br><span class="line">dsquery quota              ----- finds quota specificationsin the directory.</span><br><span class="line">dsquery partition         ----- finds partitions in thedirectory.</span><br><span class="line">dsquery *                     ----- finds any object inthe directory by using a generic LDAP query.</span><br><span class="line">dsquery server –domain Yahoo.com | dsget server–dnsname –site ---搜索域内域控制器的DNS主机名和站点名</span><br><span class="line">dsquery computer domainroot –name *-xp –limit 10----- 搜索域内以-xp结尾的机器10台</span><br><span class="line">dsquery user domainroot –name admin* -limit ---- 搜索域内以admin开头的用户10个</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#注:dsquery来源于Windows Server 2003 Administration Tools Pack</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tasklist &#x2F;V                                                      ----- 查看进程[显示对应用户]</span><br><span class="line">tasklist &#x2F;S ip &#x2F;U domain\username &#x2F;P &#x2F;V             ----- 查看远程计算机进程列表</span><br><span class="line">qprocess *                                                    ----- 类似tasklist</span><br><span class="line">qprocess &#x2F;SERVER:IP                                      ----- 远程查看计算机进程列表</span><br><span class="line">nslookup –qt-MX Yahoo.com                           ----- 查看邮件服务器</span><br><span class="line">whoami &#x2F;all                                                   ----- 查询当前用户权限等</span><br><span class="line">set                                                              ----- 查看系统环境变量</span><br><span class="line">systeminfo                                                    ----- 查看系统信息</span><br><span class="line">qwinsta                                                        ----- 查看登录情况</span><br><span class="line">qwinsta &#x2F;SERVER:IP                                       ----- 查看远程登录情况</span><br><span class="line">fsutil fsinfo drives                                           ----- 查看所有盘符</span><br><span class="line">gpupdate &#x2F;force                                            ----- 更新</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 域策略</span><br><span class="line"></span><br><span class="line">wmic bios                                      -----看bios信息</span><br><span class="line">wmic qfe                                           ----- 查看补丁信息</span><br><span class="line">wmic qfe get hotfixid                                     ----- 查看补丁-Patch号</span><br><span class="line">wmic startup                                                 ----- 查看启动项</span><br><span class="line">wmic service                                                 ----- 查看服务</span><br><span class="line">wmic os                                                       ----- 查看OS信息</span><br><span class="line">wmic process get caption,executablepath,commandline</span><br><span class="line">wmic process call create “process_name” (executes a program)</span><br><span class="line">wmic process where name&#x3D;”process_name” call terminate (terminates program)</span><br><span class="line">wmic logicaldisk where drivetype&#x3D;3 get name, freespace, systemname, filesystem, size,</span><br><span class="line">volumeserialnumber (hard drive information)</span><br><span class="line">wmic useraccount (usernames, sid, and various security related goodies)</span><br><span class="line">wmic useraccount get &#x2F;ALL</span><br><span class="line">wmic share get &#x2F;ALL (you can use ? for gets help ! )</span><br><span class="line">wmic startup list full (this can be a huge list!!!)</span><br><span class="line">wmic &#x2F;node:&quot;hostname&quot; bios get serialnumber (this can be great for finding warranty info about target)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>安全</category>
-      </categories>
-      <tags>
-        <tag>安全</tag>
-        <tag>命令</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>安全书籍</title>
     <url>/posts/37be0068/</url>
     <content><![CDATA[<h1 id="在线安全书籍"><a href="#在线安全书籍" class="headerlink" title="在线安全书籍"></a>在线安全书籍</h1><h2 id="Web安全书籍"><a href="#Web安全书籍" class="headerlink" title="Web安全书籍"></a>Web安全书籍</h2><p><a href="https://wizardforcel.gitbooks.io/web-hacking-101/">Web Hacking 101 中文版</a><br><a href="https://wizardforcel.gitbooks.io/kali-linux-web-pentest-cookbook/">Kali Linux Web渗透测试秘籍 中文版</a><br><a href="https://t0data.gitbooks.io/burpsuite/">Kali Linux burpsuite实战指南</a><br><a href="https://github.com/qazbnm456/awesome-web-security/">Web安全资料和资源列表</a></p>
@@ -12400,6 +12385,21 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
         <tag>安全</tag>
         <tag>Hacker</tag>
         <tag>书籍</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>内网渗透命令</title>
+    <url>/posts/d7b00f79/</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ipconfig &#x2F;all                      ------ 查询本机IP段，所在域等</span><br><span class="line">net user                           ------ 本机用户列表</span><br><span class="line">net localhroup administrators      ------ 本机管理员[通常含有域用户]</span><br><span class="line">net user &#x2F;domain                   ------ 查询域用户</span><br><span class="line">net group &#x2F;domain                  ------ 查询域里面的工作组</span><br><span class="line">net group &quot;domain admins&quot; &#x2F;domain  ------ 查询域管理员用户组</span><br><span class="line">net localgroup administrators &#x2F;domain    ------ 登录本机的域管理员</span><br><span class="line">net localgroup administrators workgroup\user001 &#x2F;add   ------域用户添加到本机</span><br><span class="line">net group &quot;domain controllers&quot; &#x2F;domain                         ------ 查看域控制器(如果有多台)</span><br><span class="line">net time &#x2F;domain          ------ 判断主域，主域服务器都做时间服务器</span><br><span class="line">net config workstation   ------ 当前登录域</span><br><span class="line">net session                  ------ 查看当前会话</span><br><span class="line">net use \\ip\ipc$ pawword &#x2F;user:username      ------ 建立IPC会话[空连接-***]</span><br><span class="line">net share                    ------  查看SMB指向的路径[即共享]</span><br><span class="line">net view                      ------ 查询同一域内机器列表</span><br><span class="line">net view \\ip                ------ 查询某IP共享</span><br><span class="line">net view &#x2F;domain         ------ 查询域列表</span><br><span class="line">net view &#x2F;domain:domainname        ------ 查看workgroup域中计算机列表</span><br><span class="line">net start                                         ------ 查看当前运行的服务</span><br><span class="line">net accounts                                   ------  查看本地密码策略</span><br><span class="line">net accounts &#x2F;domain                      ------  查看域密码策略</span><br><span class="line">nbtstat –A ip                                   ------netbios 查询</span><br><span class="line">netstat –an&#x2F;ano&#x2F;anb                        ------ 网络连接查询</span><br><span class="line">route print                                      ------ 路由表</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dsquery computer       ----- finds computers in the directory.</span><br><span class="line">dsquery contact           ----- finds contacts in thedirectory.</span><br><span class="line">dsquery subnet            ----- finds subnets in thedirectory.</span><br><span class="line">dsquery group             ----- finds groups in thedirectory.</span><br><span class="line">dsquery ou                   ----- finds organizationalunits in the directory.</span><br><span class="line">dsquery site                 ----- finds sites in thedirectory.</span><br><span class="line">dsquery server             ----- finds domain controllers inthe directory.</span><br><span class="line">dsquery user                ----- finds users in thedirectory.</span><br><span class="line">dsquery quota              ----- finds quota specificationsin the directory.</span><br><span class="line">dsquery partition         ----- finds partitions in thedirectory.</span><br><span class="line">dsquery *                     ----- finds any object inthe directory by using a generic LDAP query.</span><br><span class="line">dsquery server –domain Yahoo.com | dsget server–dnsname –site ---搜索域内域控制器的DNS主机名和站点名</span><br><span class="line">dsquery computer domainroot –name *-xp –limit 10----- 搜索域内以-xp结尾的机器10台</span><br><span class="line">dsquery user domainroot –name admin* -limit ---- 搜索域内以admin开头的用户10个</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#注:dsquery来源于Windows Server 2003 Administration Tools Pack</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tasklist &#x2F;V                                                      ----- 查看进程[显示对应用户]</span><br><span class="line">tasklist &#x2F;S ip &#x2F;U domain\username &#x2F;P &#x2F;V             ----- 查看远程计算机进程列表</span><br><span class="line">qprocess *                                                    ----- 类似tasklist</span><br><span class="line">qprocess &#x2F;SERVER:IP                                      ----- 远程查看计算机进程列表</span><br><span class="line">nslookup –qt-MX Yahoo.com                           ----- 查看邮件服务器</span><br><span class="line">whoami &#x2F;all                                                   ----- 查询当前用户权限等</span><br><span class="line">set                                                              ----- 查看系统环境变量</span><br><span class="line">systeminfo                                                    ----- 查看系统信息</span><br><span class="line">qwinsta                                                        ----- 查看登录情况</span><br><span class="line">qwinsta &#x2F;SERVER:IP                                       ----- 查看远程登录情况</span><br><span class="line">fsutil fsinfo drives                                           ----- 查看所有盘符</span><br><span class="line">gpupdate &#x2F;force                                            ----- 更新</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 域策略</span><br><span class="line"></span><br><span class="line">wmic bios                                      -----看bios信息</span><br><span class="line">wmic qfe                                           ----- 查看补丁信息</span><br><span class="line">wmic qfe get hotfixid                                     ----- 查看补丁-Patch号</span><br><span class="line">wmic startup                                                 ----- 查看启动项</span><br><span class="line">wmic service                                                 ----- 查看服务</span><br><span class="line">wmic os                                                       ----- 查看OS信息</span><br><span class="line">wmic process get caption,executablepath,commandline</span><br><span class="line">wmic process call create “process_name” (executes a program)</span><br><span class="line">wmic process where name&#x3D;”process_name” call terminate (terminates program)</span><br><span class="line">wmic logicaldisk where drivetype&#x3D;3 get name, freespace, systemname, filesystem, size,</span><br><span class="line">volumeserialnumber (hard drive information)</span><br><span class="line">wmic useraccount (usernames, sid, and various security related goodies)</span><br><span class="line">wmic useraccount get &#x2F;ALL</span><br><span class="line">wmic share get &#x2F;ALL (you can use ? for gets help ! )</span><br><span class="line">wmic startup list full (this can be a huge list!!!)</span><br><span class="line">wmic &#x2F;node:&quot;hostname&quot; bios get serialnumber (this can be great for finding warranty info about target)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
+        <tag>命令</tag>
       </tags>
   </entry>
   <entry>
@@ -12555,44 +12555,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
-    <title>思维导图使用</title>
-    <url>/posts/ab32efb6/</url>
-    <content><![CDATA[<h2 id="软件版"><a href="#软件版" class="headerlink" title="软件版"></a>软件版</h2><h3 id="全平台"><a href="#全平台" class="headerlink" title="全平台"></a>全平台</h3><ul>
-<li>XMind</li>
-<li>MindMaster</li>
-</ul>
-<h2 id="网页版"><a href="#网页版" class="headerlink" title="网页版"></a>网页版</h2><ul>
-<li><a href="https://coggle.it/">coggle</a>（美观,推荐使用）</li>
-<li><a href="https://naotu.baidu.com/">百度脑图</a></li>
-<li><a href="https://app.gitmind.cn/">GitMind</a></li>
-<li><a href="https://mm.edrawsoft.cn/">MindMaster</a>（云端存储初始为10MB，每天签到才送1MB）</li>
-</ul>
-<a id="more"></a>
-<h2 id="Markdown中使用思维导图"><a href="#Markdown中使用思维导图" class="headerlink" title="Markdown中使用思维导图"></a>Markdown中使用思维导图</h2><p>Markdown文档支持html标签，在网页版的思维导图中将图表分享出来，得到分享链接，然后将链接添加到html标签中，即可在Markdown文档中使用网页版的思维导图（需联网才能使用）</p>
-<h4 id="coggle"><a href="#coggle" class="headerlink" title="coggle"></a>coggle</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">width</span>=<span class="string">&#x27;853&#x27;</span> <span class="attr">height</span>=<span class="string">&#x27;880&#x27;</span> <span class="attr">src</span>=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> <span class="attr">frameborder</span>=<span class="string">&#x27;0&#x27;</span> <span class="attr">allowfullscreen</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><strong>例</strong>：</p>
-<iframe width="853" height="880" src="https://embed.coggle.it/diagram/XYdixxcw7gwyODa2/e5e0a11b673127a3a9e1bdba75bbe4073015b8cd15f3b3fa3827d22389bf188d" frameborder="0" allowfullscreen></iframe>
-
-
-<h4 id="百度脑图（网页上可能会出现不显示的情况）"><a href="#百度脑图（网页上可能会出现不显示的情况）" class="headerlink" title="百度脑图（网页上可能会出现不显示的情况）"></a>百度脑图（网页上可能会出现不显示的情况）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe width=<span class="string">&#x27;800&#x27;</span> height=<span class="string">&#x27;800&#x27;</span> src=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> frameborder=<span class="string">&#x27;0&#x27;</span> allowfullscreen&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>例</strong>：</p>
-<iframe width="800" height="800" src="http://naotu.baidu.com/file/da4849720c959c83587bf3bc59bcf29e?token=b18fec1ac5870f57" frameborder="0" allowfullscreen></iframe>
-
-<h4 id="GitMind"><a href="#GitMind" class="headerlink" title="GitMind"></a>GitMind</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe width=<span class="string">&#x27;800&#x27;</span> height=<span class="string">&#x27;800&#x27;</span> src=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> frameborder=<span class="string">&#x27;0&#x27;</span> allowfullscreen&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>例</strong>：</p>
-<iframe width="800" height="800" src="https://app.gitmind.cn/doc/86a11950" frameborder="0" allowfullscreen></iframe>
-
-<h4 id="MindMaster"><a href="#MindMaster" class="headerlink" title="MindMaster"></a>MindMaster</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe frameborder=<span class="string">&quot;no&quot;</span> border=<span class="string">&quot;0&quot;</span> marginwidth=<span class="string">&quot;0&quot;</span> marginheight=<span class="string">&quot;0&quot;</span> width=800 height=800 src=<span class="string">&quot;xxxxxxxxxxxxxxx&quot;</span>&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>例</strong>：</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="800" height="800" src="https://edrawcloudpubliccn.oss-cn-shenzhen.aliyuncs.com/viewer/self/1198898/share/2019-9-23/1569199487/main.svg"></iframe>
-
-
-]]></content>
-      <tags>
-        <tag>思维导图</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>有用的镜像站</title>
     <url>/posts/e7f8caf7/</url>
     <content><![CDATA[<p>国内访问一些网站是被屏蔽的或是访问慢，一些镜像站就能满足这些需求</p>
@@ -12661,6 +12623,44 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
       <tags>
         <tag>镜像站</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>思维导图使用</title>
+    <url>/posts/ab32efb6/</url>
+    <content><![CDATA[<h2 id="软件版"><a href="#软件版" class="headerlink" title="软件版"></a>软件版</h2><h3 id="全平台"><a href="#全平台" class="headerlink" title="全平台"></a>全平台</h3><ul>
+<li>XMind</li>
+<li>MindMaster</li>
+</ul>
+<h2 id="网页版"><a href="#网页版" class="headerlink" title="网页版"></a>网页版</h2><ul>
+<li><a href="https://coggle.it/">coggle</a>（美观,推荐使用）</li>
+<li><a href="https://naotu.baidu.com/">百度脑图</a></li>
+<li><a href="https://app.gitmind.cn/">GitMind</a></li>
+<li><a href="https://mm.edrawsoft.cn/">MindMaster</a>（云端存储初始为10MB，每天签到才送1MB）</li>
+</ul>
+<a id="more"></a>
+<h2 id="Markdown中使用思维导图"><a href="#Markdown中使用思维导图" class="headerlink" title="Markdown中使用思维导图"></a>Markdown中使用思维导图</h2><p>Markdown文档支持html标签，在网页版的思维导图中将图表分享出来，得到分享链接，然后将链接添加到html标签中，即可在Markdown文档中使用网页版的思维导图（需联网才能使用）</p>
+<h4 id="coggle"><a href="#coggle" class="headerlink" title="coggle"></a>coggle</h4><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">width</span>=<span class="string">&#x27;853&#x27;</span> <span class="attr">height</span>=<span class="string">&#x27;880&#x27;</span> <span class="attr">src</span>=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> <span class="attr">frameborder</span>=<span class="string">&#x27;0&#x27;</span> <span class="attr">allowfullscreen</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>例</strong>：</p>
+<iframe width="853" height="880" src="https://embed.coggle.it/diagram/XYdixxcw7gwyODa2/e5e0a11b673127a3a9e1bdba75bbe4073015b8cd15f3b3fa3827d22389bf188d" frameborder="0" allowfullscreen></iframe>
+
+
+<h4 id="百度脑图（网页上可能会出现不显示的情况）"><a href="#百度脑图（网页上可能会出现不显示的情况）" class="headerlink" title="百度脑图（网页上可能会出现不显示的情况）"></a>百度脑图（网页上可能会出现不显示的情况）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe width=<span class="string">&#x27;800&#x27;</span> height=<span class="string">&#x27;800&#x27;</span> src=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> frameborder=<span class="string">&#x27;0&#x27;</span> allowfullscreen&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>例</strong>：</p>
+<iframe width="800" height="800" src="http://naotu.baidu.com/file/da4849720c959c83587bf3bc59bcf29e?token=b18fec1ac5870f57" frameborder="0" allowfullscreen></iframe>
+
+<h4 id="GitMind"><a href="#GitMind" class="headerlink" title="GitMind"></a>GitMind</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe width=<span class="string">&#x27;800&#x27;</span> height=<span class="string">&#x27;800&#x27;</span> src=<span class="string">&#x27;xxxxxxxxxxxxxxx&#x27;</span> frameborder=<span class="string">&#x27;0&#x27;</span> allowfullscreen&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>例</strong>：</p>
+<iframe width="800" height="800" src="https://app.gitmind.cn/doc/86a11950" frameborder="0" allowfullscreen></iframe>
+
+<h4 id="MindMaster"><a href="#MindMaster" class="headerlink" title="MindMaster"></a>MindMaster</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;iframe frameborder=<span class="string">&quot;no&quot;</span> border=<span class="string">&quot;0&quot;</span> marginwidth=<span class="string">&quot;0&quot;</span> marginheight=<span class="string">&quot;0&quot;</span> width=800 height=800 src=<span class="string">&quot;xxxxxxxxxxxxxxx&quot;</span>&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>例</strong>：</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="800" height="800" src="https://edrawcloudpubliccn.oss-cn-shenzhen.aliyuncs.com/viewer/self/1198898/share/2019-9-23/1569199487/main.svg"></iframe>
+
+
+]]></content>
+      <tags>
+        <tag>思维导图</tag>
       </tags>
   </entry>
   <entry>
@@ -12734,119 +12734,15 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
   </entry>
   <entry>
-    <title>渗透测试流程</title>
-    <url>/posts/590ce9be/</url>
-    <content><![CDATA[<h1 id="渗透测试流程"><a href="#渗透测试流程" class="headerlink" title="渗透测试流程"></a>渗透测试流程</h1><p><strong>核心</strong>: 漏洞、漏洞探测、漏洞验证、漏洞利用</p>
-<p>OWASP top 10</p>
-<p><a href="https://owasp.org/www-project-web-security-testing-guide/">Web 安全测试指南（WPWSTG）</a></p>
-<h1 id="通用渗透测试框架"><a href="#通用渗透测试框架" class="headerlink" title="通用渗透测试框架"></a>通用渗透测试框架</h1><h2 id="范围界定"><a href="#范围界定" class="headerlink" title="范围界定"></a>范围界定</h2><p>在开展技术性安全评估之前，务必要观察、研究目标环境的<strong>被测范围</strong>。</p>
-<ul>
-<li>取得授权</li>
-<li>测试对象是什么(baidu.com,news.baidu.com)</li>
-<li>应当采取何种测试方法</li>
-<li>有哪些在渗透测试过程中需要满足的条件</li>
-<li>需要多长时间完成测试任务</li>
-<li>应当达到怎样的任务目标</li>
-</ul>
-<a id="more"></a>
-<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>测试人员需要使用公开资源尽可能的获取目标的相关信息。<br>各种公开资源： 论坛、新闻、媒体文章、社交网络、其它商业或非商业的网站、搜索引擎<br>信息越多，越有利于提高渗透测试的成功率</p>
-<ul>
-<li>DNS 服务器</li>
-<li>路由关系</li>
-<li>Whois 数据库</li>
-<li>电子邮件地址</li>
-<li>电话号码</li>
-<li>学号、工号</li>
-<li>个人信息</li>
-<li>用户帐号</li>
-</ul>
-<h2 id="目标识别"><a href="#目标识别" class="headerlink" title="目标识别"></a>目标识别</h2><p>(资产的收集和整理)</p>
-<p>主要是识别目标的网络状态、操作系统和网路架构。<br>完整的展现目标网络中的各种网路设备或技术的完整关系。</p>
-<ul>
-<li>有哪些设备<ul>
-<li>安全设备</li>
-<li>网络设备</li>
-<li>服务器</li>
-<li>终端PC</li>
-</ul>
-</li>
-<li>如何访问</li>
-</ul>
-<h2 id="服务枚举"><a href="#服务枚举" class="headerlink" title="服务枚举"></a>服务枚举</h2><p>(资产的收集和整理)</p>
-<p>进一步找出在线主机开发的端口，由端口推导出运行的服务</p>
-<p>在线主机开发了哪些端口</p>
-<p>端口上运行的服务及其详细版本</p>
-<p>信息收集内容补充：</p>
-<ul>
-<li>技术架构 (L/WAMP、Apache、IIS、Nginx…)</li>
-<li>开发语言 (PHP、JAVA、Python、Node…)</li>
-<li>开发框架 (vue、thinkphp、springboot、flask、struts2(S2)…)</li>
-<li>开源CMS (discuz、metinfo、dedecms、joomla、drupal、wordpress…)</li>
-<li>前后端分离</li>
-<li>站库分离</li>
-<li>是否有单独的文件服务器</li>
-</ul>
-<h2 id="漏洞映射"><a href="#漏洞映射" class="headerlink" title="漏洞映射"></a>漏洞映射</h2><p>根据已经发现的漏洞和服务程序，查找、分析目标系统中存在的漏洞。</p>
-<p>漏洞探测方法： 工具和手工</p>
-<ul>
-<li>更具组件版本，找漏洞</li>
-<li>逻辑漏洞</li>
-<li>漏洞扫描<ul>
-<li>网络漏洞扫描</li>
-<li>Web漏洞扫描</li>
-</ul>
-</li>
-</ul>
-<h2 id="社会工程学"><a href="#社会工程学" class="headerlink" title="社会工程学"></a>社会工程学</h2><p>在目标网络没有直接入口时，利用<strong>欺骗的艺术</strong> 将起到抛砖引玉的作用</p>
-<ul>
-<li>人员定向攻击</li>
-<li>水坑攻击</li>
-<li>鱼叉攻击</li>
-<li>研究法律和规则</li>
-</ul>
-<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>在仔细检查和发现目标系统中存在的漏洞后，就可使用已有的漏洞利用程序对目标进行渗透</p>
-<p>主要目的是控制目标系统</p>
-<h2 id="权限提升"><a href="#权限提升" class="headerlink" title="权限提升"></a>权限提升</h2><p>获取目标系统的控制权是渗透测试成功的标志</p>
-<ul>
-<li>root</li>
-<li>system</li>
-</ul>
-<h2 id="范围维护"><a href="#范围维护" class="headerlink" title="范围维护"></a>范围维护</h2><p>在一定时间内，需要维护目标系统的访问权限</p>
-<ul>
-<li>隐藏后面</li>
-<li>隧道技术</li>
-</ul>
-<h2 id="文档报告"><a href="#文档报告" class="headerlink" title="文档报告"></a>文档报告</h2><p>编写书面报告只能给甲方的某个负责人看</p>
-<ul>
-<li>措辞</li>
-<li>漏洞分析<ul>
-<li>漏洞名称</li>
-<li>漏洞概述</li>
-<li>风险等级</li>
-<li>漏洞点</li>
-<li>漏洞验证</li>
-<li>修复方案</li>
-</ul>
-</li>
-<li>保密<ul>
-<li>渗透测试报告只能给甲方的某个负责人看</li>
-</ul>
-</li>
-</ul>
-<h1 id="简化渗透测试流程"><a href="#简化渗透测试流程" class="headerlink" title="简化渗透测试流程"></a>简化渗透测试流程</h1><ul>
-<li>明确目标</li>
-<li>信息收集</li>
-<li>漏洞探测</li>
-<li>漏洞验证</li>
-<li>漏洞利用</li>
-<li>形成报告</li>
-</ul>
+    <title>自动挂载U盘等外部存储</title>
+    <url>/posts/a221ab0a/</url>
+    <content><![CDATA[<p>自动挂载U盘等外部存储位置,需要安装<code>usbmount</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S usbmount</span><br></pre></td></tr></table></figure>
+<p>配置<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/usbmount/usbmount.conf</span><br><span class="line"><span class="comment"># 在MOUNTOPTIONS那行添加user即可使普通用户也对挂载的U盘拥有写权限, 如下: MOUNTOPTIOS=&quot;rw,user,noatime,nodiratime&quot;</span></span><br></pre></td></tr></table></figure></p>
 ]]></content>
-      <categories>
-        <category>安全</category>
-      </categories>
       <tags>
-        <tag>安全</tag>
+        <tag>Linux</tag>
+        <tag>自动</tag>
       </tags>
   </entry>
   <entry>
@@ -12930,18 +12826,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
       <tags>
         <tag>排行榜</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>自动挂载U盘等外部存储</title>
-    <url>/posts/a221ab0a/</url>
-    <content><![CDATA[<p>自动挂载U盘等外部存储位置,需要安装<code>usbmount</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S usbmount</span><br></pre></td></tr></table></figure>
-<p>配置<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/usbmount/usbmount.conf</span><br><span class="line"><span class="comment"># 在MOUNTOPTIONS那行添加user即可使普通用户也对挂载的U盘拥有写权限, 如下: MOUNTOPTIOS=&quot;rw,user,noatime,nodiratime&quot;</span></span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-        <tag>自动</tag>
       </tags>
   </entry>
   <entry>
@@ -14460,263 +14344,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
-    <title>计算机等级考试三级信息安全技术章节习题6</title>
-    <url>/posts/a8adb7bc/</url>
-    <content><![CDATA[<p><strong>六、信息安全管理</strong></p>
-<h1 id="填空"><a href="#填空" class="headerlink" title="填空"></a>填空</h1><h2 id="信息安全的一个重要原则是"><a href="#信息安全的一个重要原则是" class="headerlink" title="信息安全的一个重要原则是 ___"></a>信息安全的一个重要原则是 <strong>___</strong></h2><p>技(术)管(理)并重</p>
-<a id="more"></a>
-<h2 id="信息安全的3个基本属性是-、-和"><a href="#信息安全的3个基本属性是-、-和" class="headerlink" title="信息安全的3个基本属性是 ___、___和___"></a>信息安全的3个基本属性是 <strong>___、___和___</strong></h2><p>机密性、完整性、可用性</p>
-<h2 id="风险评估的结果可以用许多方法来提交，主要包含-、-和"><a href="#风险评估的结果可以用许多方法来提交，主要包含-、-和" class="headerlink" title="风险评估的结果可以用许多方法来提交，主要包含 \_、___和___"></a>风险评估的结果可以用许多方法来提交，主要包含 <strong><em>\</em>_、___和___</strong></h2><p>信息支持分类表、权重标准分析表、漏洞风险等级表</p>
-<h2 id="信息安全管理中的风险计算公式为"><a href="#信息安全管理中的风险计算公式为" class="headerlink" title="信息安全管理中的风险计算公式为 ___"></a>信息安全管理中的风险计算公式为 <strong>___</strong></h2><p>风险 ＝ 出现漏洞的可能性 × 信息资产的价值 － 当前控制减轻的风险概率 ＋ 对漏洞了解的不确定性</p>
-<h2 id="进行信息安全管理措施中，事故响应的4个阶段分别为-、-、-、-p355"><a href="#进行信息安全管理措施中，事故响应的4个阶段分别为-、-、-、-p355" class="headerlink" title="进行信息安全管理措施中，事故响应的4个阶段分别为 ___、___、___、___ p355"></a>进行信息安全管理措施中，事故响应的4个阶段分别为 <strong>___、___、___、___</strong> p355</h2><p>计划、检测、反应、恢复</p>
-<h1 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h1><h2 id="简述如何确定一个信息系统的安全保护等级"><a href="#简述如何确定一个信息系统的安全保护等级" class="headerlink" title="简述如何确定一个信息系统的安全保护等级"></a>简述如何确定一个信息系统的安全保护等级</h2><p>第一级，信息系统受到破坏后，会对公民法人和其他组织的合法权益造成损害，但不损害国家安全、社会秩序和公共利益</p>
-<p>第二级，信息系统受到破坏后，会对公民法人和其他组织的合法权益产生严重损害，或对社会秩序和公共利益造成损害，但不损害国家安全</p>
-<p>第四级，信息系统受到破坏后，会对社会秩序和公共利益造成特别严重损害，或对国家安全造成严重损害</p>
-<p>第五级，信息系统受到破坏后，会国家安全造成特别严重损害</p>
-<h2 id="简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点"><a href="#简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点" class="headerlink" title="简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点"></a>简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点</h2><p>通信保密阶段、计算机安全阶段、信息安全保障阶段</p>
-<h2 id="在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？"><a href="#在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？" class="headerlink" title="在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？"></a>在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？</h2><ul>
-<li>努力遵循法律法规的行为，已北相关机构认识</li>
-<li>体系文件完全符合标准要求</li>
-<li>体系已被有效实施，即组织结构在风险评估的基础上，识别出需要保护的关键信息资产、制定信息安全方针、确定安全控制目标与控制方式并实施、完成体系审核与评估活动并采取相应的纠正预防措施</li>
-</ul>
-<h2 id="简述自评估和检查评估的区别及优缺点"><a href="#简述自评估和检查评估的区别及优缺点" class="headerlink" title="简述自评估和检查评估的区别及优缺点"></a>简述自评估和检查评估的区别及优缺点</h2><h2 id="信息安全风险包括哪些方面？"><a href="#信息安全风险包括哪些方面？" class="headerlink" title="信息安全风险包括哪些方面？"></a>信息安全风险包括哪些方面？</h2><p>指威胁源采用恰当的威胁方式利用脆弱性造成不良后果。风险管理重的风险种类有很多，如纯粹风险、投机风险、财产风险、责任风险、人生风险、信任风险、环境风险、职业风险、自然风险、巨灾风险、社会风险、政治风险、经济风险、税收风险、法规风险等</p>
-<h2 id="如何理解信息安全管理中的业务持续性管理与灾难恢复？"><a href="#如何理解信息安全管理中的业务持续性管理与灾难恢复？" class="headerlink" title="如何理解信息安全管理中的业务持续性管理与灾难恢复？"></a>如何理解信息安全管理中的业务持续性管理与灾难恢复？</h2><p>灾难恢复计划是为灾难做准备和从灾难中恢复的计划。应急计划小组必须区分灾难和事故，但在攻击发生前，这是不可能区分出来的。一个事件最初归类为事故，但后来常常判定为一个灾难。此时，机构可以改变事故相应方式，采取行动，取保价值最高的资产安全，即使在短期内被破坏的风险较大，但仍在较长事件内保有价值。另为，灾难恢复计划的关键是恢复主站点上的操作，使机构运转起来。DRP 的目标是恢复到灾难前的状态</p>
-<h2 id="访问控制有哪几类？"><a href="#访问控制有哪几类？" class="headerlink" title="访问控制有哪几类？"></a>访问控制有哪几类？</h2><ul>
-<li>预防性访问控制</li>
-<li>探查性访问控制</li>
-<li>纠正性访问控制</li>
-</ul>
-<h2 id="如何确定安全策略是否达到组织机构所需的安全目标？"><a href="#如何确定安全策略是否达到组织机构所需的安全目标？" class="headerlink" title="如何确定安全策略是否达到组织机构所需的安全目标？"></a>如何确定安全策略是否达到组织机构所需的安全目标？</h2><ul>
-<li>安全策略是否符合法律、法规、技术标准及合同要求</li>
-<li>管理层是否已批准了安全策略，并明确承诺支持策略的实施</li>
-<li>安全策略是否损害来组织机构、员工及第三方的利益</li>
-<li>安全策略是否实用、可操作并可以在组织机构重全面实施</li>
-<li>安全策略是否满足组织机构在各个方面的安全要求</li>
-<li>安全策略是否已传达给组织结构重的员工与相关利益方，并得到了他们的同意</li>
-</ul>
-<h2 id="在制定业务持续性计划时，要采取哪些策略？"><a href="#在制定业务持续性计划时，要采取哪些策略？" class="headerlink" title="在制定业务持续性计划时，要采取哪些策略？"></a>在制定业务持续性计划时，要采取哪些策略？</h2><p>3 重选项：热站点、暖站点和冷站点，3 重共享功能：时间共享、服务台和共有协议</p>
-<p>热站点：完全配置好的计算机设备</p>
-<p>暖站点：提供与热站点相同的许多服务和选项，不包括实际应用程序，或未安装和配置的应用程序</p>
-<p>冷站点：只提供初步的服务和功能</p>
-<h2 id="简述信息系统开发和实施的安全原则"><a href="#简述信息系统开发和实施的安全原则" class="headerlink" title="简述信息系统开发和实施的安全原则"></a>简述信息系统开发和实施的安全原则</h2><ul>
-<li>主管参与</li>
-<li>优化和创新</li>
-<li>充分利用信息资源</li>
-<li>实用和时效</li>
-<li>有效安全控制</li>
-<li>适用发展变化</li>
-</ul>
-<h2 id="我国信息安全事件分级分类方法有哪些？"><a href="#我国信息安全事件分级分类方法有哪些？" class="headerlink" title="我国信息安全事件分级分类方法有哪些？"></a>我国信息安全事件分级分类方法有哪些？</h2><h2 id="应急计划小组的成员可由哪些人员组成？"><a href="#应急计划小组的成员可由哪些人员组成？" class="headerlink" title="应急计划小组的成员可由哪些人员组成？"></a>应急计划小组的成员可由哪些人员组成？</h2><p>成员应是各利益团体的经理或代表。业务经理熟悉改领域的操作过程，所以应提供其活动的细节，说明他们能承受多大危险。项目小组的信息技术经理应熟悉可处于风险之中的系统和所需的 IRP、DRP 和 BCP ，以提供计划过程重的技术内容。信息安全经理需要监视项目的安全计划，提供威胁、漏洞、攻击的信息和计划过程中需要的恢复需求。</p>
-<h2 id="组织机构需求信息安全管理体系认证的目的有哪些？"><a href="#组织机构需求信息安全管理体系认证的目的有哪些？" class="headerlink" title="组织机构需求信息安全管理体系认证的目的有哪些？"></a>组织机构需求信息安全管理体系认证的目的有哪些？</h2><ul>
-<li>获得最佳的信息安全运行方式</li>
-<li>保证商业安全</li>
-<li>降低风险</li>
-<li>避免损失</li>
-<li>保持核心竞争优势</li>
-<li>提高商业活动中的信誉</li>
-<li>提高竞争能力</li>
-<li>满足客户的要求</li>
-<li>保证可持续发展</li>
-<li>符合法律法规的要求</li>
-</ul>
-<h2 id="具有什么特征的攻击才能被界定为事故？"><a href="#具有什么特征的攻击才能被界定为事故？" class="headerlink" title="具有什么特征的攻击才能被界定为事故？"></a>具有什么特征的攻击才能被界定为事故？</h2><p>事故是对信息资产的一个攻击，它明显威胁着信息资源的机密性、完整性和可用性。如果发生了威胁信息的行为并且已完成，则盖行为就界定为一个事故。</p>
-<h2 id="工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？"><a href="#工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？" class="headerlink" title="工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？"></a>工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？</h2><p>定期对不同岗位的人员进行考核，考核包括政治思想、保密观念和业务技术等多各方面</p>
-<p>定期对系统的所以工作人员从政治思想业务水平、工作表现等方面进行考核，对不适于接触信息系统能够的人员要适时调离</p>
-<p>员工从一般岗位转到信息安全重要岗位，组织机构也应当对其进行信用检查。对于处在有相当权力位置的人员，这种检查应定期进行</p>
-<h2 id="风险评估中，风险值由哪些因素决定？请写出计算公式"><a href="#风险评估中，风险值由哪些因素决定？请写出计算公式" class="headerlink" title="风险评估中，风险值由哪些因素决定？请写出计算公式"></a>风险评估中，风险值由哪些因素决定？请写出计算公式</h2><p>风险 ＝ 出现漏洞的可能性 × 信息资产的价值 － 当前控制减轻的风险概率 ＋ 对漏洞了解的不确定性</p>
-<h2 id="为保证网络通信线路的安全，应注意哪几个方面？"><a href="#为保证网络通信线路的安全，应注意哪几个方面？" class="headerlink" title="为保证网络通信线路的安全，应注意哪几个方面？"></a>为保证网络通信线路的安全，应注意哪几个方面？</h2><ul>
-<li>用于数据传输的线路应符合有关标准，如线路噪声不应超标等</li>
-<li>传输线路应采用屏蔽电缆并有露天保护或埋于地下，要求远距离电线路或强电磁场反射源，以减少由于干预引起的数据错误</li>
-<li>铺设电缆应采用金属套装、屏蔽电缆或加装金属套装，以减少各种辐射对路线的干扰，定期检查各线段及接点，更换老化变质的电缆</li>
-<li>定期检查接线盒及其他易被人接近的线路部位</li>
-<li>定期测试信号轻度，检查是否有非法装置接入线路</li>
-<li>配置必要的检查设备，以发现非法窃听</li>
-<li>如果条件许可或是信息安全需要，可以使用光缆，光缆对非法窃听很敏感，但容易被发现</li>
-<li>调试解调器应放置在收监视的区域，以便即时发现和防止外来连接的企图，调制解调器的连接应定期检验，以检验是否有篡改行为</li>
-</ul>
-<h2 id="信息安全管理认证的依据与范围、申请认证的基本条件有哪些？"><a href="#信息安全管理认证的依据与范围、申请认证的基本条件有哪些？" class="headerlink" title="信息安全管理认证的依据与范围、申请认证的基本条件有哪些？"></a>信息安全管理认证的依据与范围、申请认证的基本条件有哪些？</h2><p>认证的依据：BS7799-2：1999标准</p>
-<p>认证范围通常与它实施安全管理体系的范围是相同的但，并不需要必须相同</p>
-<p>基本条件：</p>
-<ul>
-<li>努力遵循法律法规的行为，已北相关机构认识</li>
-<li>体系文件完全符合标准要求</li>
-<li>体系已被有效实施，即组织结构在风险评估的基础上，识别出需要保护的关键信息资产、制定信息安全方针、确定安全控制目标与控制方式并实施、完成体系审核与评估活动并采取相应的纠正预防措施</li>
-</ul>
-<h2 id="系统运行阶段的维护活动通常有哪几类？"><a href="#系统运行阶段的维护活动通常有哪几类？" class="headerlink" title="系统运行阶段的维护活动通常有哪几类？"></a>系统运行阶段的维护活动通常有哪几类？</h2><ul>
-<li>改正性维护：诊断和改正在使用过程重发现的系统错误</li>
-<li>适合性维护：修改系统以适应环境的变化</li>
-<li>完善性维护：根据用户的要求改进或扩充系统使其更完善</li>
-<li>预防性维护：修改系统为将来的维护活动做准备</li>
-</ul>
-<h2 id="简述影响维护代价的技术因素和非技术因素"><a href="#简述影响维护代价的技术因素和非技术因素" class="headerlink" title="简述影响维护代价的技术因素和非技术因素"></a>简述影响维护代价的技术因素和非技术因素</h2><ul>
-<li>技术因素<ul>
-<li>软件对运行环境的依赖性</li>
-<li>编程语言</li>
-<li>编程风格</li>
-<li>测试与改错工作</li>
-<li>文档的质量</li>
-</ul>
-</li>
-<li>非技术因素<ul>
-<li>应用域的复杂性</li>
-<li>开发人员的复杂性</li>
-<li>系统的生命周期</li>
-<li>业务操作模式变化对系统的影响</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>NCRE</category>
-      </categories>
-      <tags>
-        <tag>NCRE</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>计算机等级考试三级信息安全技术章节习题5</title>
-    <url>/posts/31a4e606/</url>
-    <content><![CDATA[<p><strong>五、应用安全</strong></p>
-<h1 id="简述软件漏洞概念中包含的3个要素"><a href="#简述软件漏洞概念中包含的3个要素" class="headerlink" title="简述软件漏洞概念中包含的3个要素"></a>简述软件漏洞概念中包含的3个要素</h1><ul>
-<li>漏洞是计算机系统本身存在的缺陷</li>
-<li>漏洞的存在和利用都有一定的环境要求</li>
-<li>漏洞存在的本身是没有危害的，只有被攻击者恶意利用，才能给计算机带来威胁和损失</li>
-</ul>
-<a id="more"></a>
-<h1 id="简述软件漏洞的四个特点"><a href="#简述软件漏洞的四个特点" class="headerlink" title="简述软件漏洞的四个特点"></a>简述软件漏洞的四个特点</h1><ul>
-<li>危害性大</li>
-<li>影响广泛</li>
-<li>存在的长久性</li>
-<li>隐蔽性</li>
-</ul>
-<h1 id="按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？"><a href="#按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？" class="headerlink" title="按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？"></a>按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？</h1><ul>
-<li>本地利用漏洞</li>
-<li>远程利用漏洞</li>
-</ul>
-<h1 id="根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？"><a href="#根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？" class="headerlink" title="根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？"></a>根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？</h1><ul>
-<li>0day 漏洞：指未公开状态的漏洞</li>
-<li>1day 漏洞：发布补丁时间不长的漏洞</li>
-<li>已公开漏洞</li>
-</ul>
-<h1 id="描述软件漏洞危险等级的划分"><a href="#描述软件漏洞危险等级的划分" class="headerlink" title="描述软件漏洞危险等级的划分"></a>描述软件漏洞危险等级的划分</h1><ul>
-<li>紧急，危险级别最高的等级，微软定义为严重</li>
-<li>重要，微软定义为重要</li>
-<li>中危，微软定义为中等</li>
-<li>低危，微软定义为警告</li>
-</ul>
-<h1 id="简单说明国内外知名漏洞库及其包含漏洞信息的特点"><a href="#简单说明国内外知名漏洞库及其包含漏洞信息的特点" class="headerlink" title="简单说明国内外知名漏洞库及其包含漏洞信息的特点"></a>简单说明国内外知名漏洞库及其包含漏洞信息的特点</h1><ul>
-<li>CVE ： 通用漏洞列表，软件漏洞行业标准，安全漏洞命名机制的规范化标准化，成为评价相应入侵检测和漏洞扫描等工具和数据库的基准</li>
-<li>BygTraq ：安全焦点的 BugTraq邮件列表， 被认为是互联网上最广泛且最可信的安全信息源，包含的漏洞列表是目前最大的漏洞数据库之一，很多最新的的技术讨论和很多 0day 漏洞都是出现在这里，并以 CVE 交叉索引，漏洞编号 BID </li>
-<li>NVD ：美国国家漏洞数据库，目前世界上数据量最大，条目最多的漏洞数据库之一，与 CVE 同步和兼容</li>
-<li>CNNVD ：中国国家信息安全漏洞库，是中国信息安全测评中心切实履行漏洞分析和风险评估的职能，负载建设运维国际级信息安全漏洞库，为我国信息安全保障提供基础服务。定向通报服务是测评中心面向各级政府机关及企事业单位，及时、准确推送涵盖以漏洞信息为核心的各类数据及应用服务</li>
-<li>CNVD ：国家互联网应急中心，是工信部领导下的国家级安全应急机构，是 CNCERT 联合国内重要信息系统单位、基础电信运营商、网络安全厂商、软件厂商和互联网企业建立的信息安全漏洞信息共享知识库</li>
-</ul>
-<h1 id="介绍缓冲区溢出的原理"><a href="#介绍缓冲区溢出的原理" class="headerlink" title="介绍缓冲区溢出的原理"></a>介绍缓冲区溢出的原理</h1><p>缓冲区是一块连续的内存区域，用于存放程序运行时加载到内存的运行代码和数据。缓冲区溢出是指程序运行时，向固定大小的缓冲区写入超出其容量的数据，多余的数据会越过缓冲区的边界覆盖相邻内存空间，从而造成溢出。缓冲区的大小是由用户输入的数据决定的，如果程序不对用户输入的超长数据做长度检查，同时用户又对程序进行非法操作或错误输入，就会造成缓冲区溢出。</p>
-<p>缓冲区溢出攻击是指发送缓冲区溢出时，溢出的数据会覆盖相邻内存空间的返回地址、函数指针、堆管理结构等合法数据，从而使程序运行失败，或发生转向去执行其他程序代码，或执行预先注入内存缓冲区中的代码。</p>
-<h1 id="说明操作系统的内存管理机制"><a href="#说明操作系统的内存管理机制" class="headerlink" title="说明操作系统的内存管理机制"></a>说明操作系统的内存管理机制</h1><p>操作系统中的每一个进程都会被分配一块独立的虚拟地址空间，用以保存进程运行时的数据和代码，虚拟地址空间是实际空间的映射。</p>
-<p><strong>堆（heap）是先进先出的数据结构，往高地址增长</strong></p>
-<p><strong>栈（stack）是后进先出的数据结构，往低地址增长</strong></p>
-<h1 id="介绍堆溢出和栈溢出的原理"><a href="#介绍堆溢出和栈溢出的原理" class="headerlink" title="介绍堆溢出和栈溢出的原理"></a>介绍堆溢出和栈溢出的原理</h1><p>堆是内存中用于存放动态数据的区域，堆空间由地址向高地址方向增长，堆溢出指堆中发生缓冲区溢出，利用堆溢出向内存单元写入任意数据，实现改写内存中的关键数据，达到攻击目的</p>
-<p>栈的存取采用先进后出的策略，程序用它来保存函数调用时的有关信息，如函数参数、返回地址，函数中的非静态局部变量存放在栈中，栈溢出是缓冲区中最简单的一种，通过溢出数据覆盖返回地址，程序会转到覆盖后的地址指向的程序</p>
-<h1 id="介绍格式化字符串漏洞、整数溢出漏洞的原理"><a href="#介绍格式化字符串漏洞、整数溢出漏洞的原理" class="headerlink" title="介绍格式化字符串漏洞、整数溢出漏洞的原理"></a>介绍格式化字符串漏洞、整数溢出漏洞的原理</h1><p>C 语言中的格式化函数允许可变参数，它根据传人的格式字符串获知可变参数的个数和类型，并依据格式化符号进行参数的输出。如果调用这些函数时，给出了格式符号串，但没有提供实际对应参数，这些函数会将格式化字符串后面的多个栈中的内容弹出作为参数，并根据格式化符号将其输出</p>
-<p>整数分为无符号和有符号两类，对整数进行加、乘等运算时，计算的结果大于该类型的整数所表示的范围，就会发生整数溢出，分为：存储溢出、运算溢出、符号问题</p>
-<h1 id="介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理"><a href="#介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理" class="headerlink" title="介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理"></a>介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理</h1><ul>
-<li><p>数组越界漏洞：由于不正确的数组访问造成，通过精心构造超出数组范围的索引值，就能对任意内存地址进行读写操作</p>
-</li>
-<li><p>写污点值到污点地址漏洞：通过精心选择污点地址和污点值，列用这种漏洞就能改写系统内核的关键数据结构。污点值为可能引发漏洞的输入值，污点地址为触发漏洞的潜在地址。</p>
-</li>
-<li>内存地址对象破坏性调用漏洞：指某对象保存的内存地址写入一个变量中，攻击者通过调用初始化或释放功能的异常操作，将保存对象的内存地址进行释放，从而导致读取变量中保存的内存地址以期访问某对象的过程，从而触发内存访问异常。 </li>
-</ul>
-<h1 id="介绍漏洞利用的概念和-shellcode-的编写方法"><a href="#介绍漏洞利用的概念和-shellcode-的编写方法" class="headerlink" title="介绍漏洞利用的概念和 shellcode 的编写方法"></a>介绍漏洞利用的概念和 shellcode 的编写方法</h1><p>实施攻击前，需要做大量的调试工作，包括了解存放缓冲区溢出漏洞的程序有几个输入参数，哪个输入参数会造成缓冲区溢出，如何构造输入参数的长度和内容，以便使缓冲区的偏移距离恰好能覆盖返回地址，并将攻击者构造的可执行 shellcode 代码的地址写入到返回地址。根据软件漏洞具体条件构造相应输入参数和 shellcode 代码，最终实现获得程序控制权的工程，就是漏洞利用，一般用 exploit 来表示。</p>
-<p>shellcode 代码是一段机器指令，可实现攻击者指定的操作，shellcode 通称缓冲区溢出攻击中植入的一段以获得执行权限的代码</p>
-<p>shellcode 可用 C 语言编写，编译后用 OllyDbg加载其可执行文件，在从中选中所需的机器代码，也可通过 IDA Pro 等反编译工具从 PE 文件中得到对应的机器代码</p>
-<p>对于Linux 系统 shellcode 中要实现的功能主要是通过系统调用来完成，而每个系统调用都有固定的系统调用号</p>
-<p>对于 Windows 系统，虽然 Windows 也有系统调用，但都是封装在高级的 API 中调用的，且不同的 Service Pack 版本的操作系统其 API 都可能有所改动，所以不可能直接调用。需要采用动态的方法获取 API 地址，从而编写 shellcode </p>
-<h1 id="针对静态的-shellcode-地址、动态变化的-shellcode-地址分别说明其漏洞利用技术的原理"><a href="#针对静态的-shellcode-地址、动态变化的-shellcode-地址分别说明其漏洞利用技术的原理" class="headerlink" title="针对静态的 shellcode 地址、动态变化的 shellcode 地址分别说明其漏洞利用技术的原理"></a>针对静态的 shellcode 地址、动态变化的 shellcode 地址分别说明其漏洞利用技术的原理</h1><p>存在溢出漏洞的程序是一个操作系统每次启动都要加载的程序，操作系统启动时为其分配的内存地址一般是固定的，则函数调用时分配的栈帧地址也是固定的，溢出后写入栈帧的 shellcode 代码其内存地址也是静态不变的，所以可以直接将 shellcode 代码在栈帧中的静态地址覆盖原有返回地址。在函数返回使，通过新的返回地址指向 shellcode 代码地址，从而执行 shellcode 代码</p>
-<p>有些软件的漏洞存在与某些动态链接库中，这些动态链接库在进程运行时被动态加载，因而在下一次这些动态链接库被重新装载到内存中，其在内存中的栈帧地址时动态变化的，则植入的 shellcode 代码在内存中的其实地址也时变化的。在这种情况下，需要让溢出发生时，覆盖返回地址后新写入的返回地址能自动定位到 shellcode  的起始地址。</p>
-<h1 id="说明针对堆漏洞的-Heap-Spray-漏洞利用的技术"><a href="#说明针对堆漏洞的-Heap-Spray-漏洞利用的技术" class="headerlink" title="说明针对堆漏洞的 Heap Spray 漏洞利用的技术"></a>说明针对堆漏洞的 Heap Spray 漏洞利用的技术</h1><p>Heap Spray 也称为堆喷洒技术，在 shellcode 的前面加上大量的滑板指令，组成一个非常长的注入的代码段。然后向系统申请大量内存，并且反复用这个注入代码段来填充。这样就使得内存空间被大量的注入代码占用，攻击者在结合漏洞利用技术，只要使程序跳转到堆中被填充了注入代码的任何地址，程序指令就会顺者滑板指令最终执行到 shellcode 代码</p>
-<p>滑板指令由大量 NOP 空指令 <code>0x90</code>  填充组成的指令序列，当遇到这些 NOP 指令时，CPU 指令指针会一个指令接一个指令地执行，总结不做任何具体操作，直到滑过最后一个滑板指令后，接着执行这些指令后面的其它指令，往往后面接着的时 shellcode代码，Heap Spray 技术通过使用类 NOP 指令来进行覆盖，对 shellcode 地址的跳转准确性要求不大，从而增加来缓冲区溢出攻击的成功率</p>
-<h1 id="说明微软操作系统中几种常用的漏洞防护技术"><a href="#说明微软操作系统中几种常用的漏洞防护技术" class="headerlink" title="说明微软操作系统中几种常用的漏洞防护技术"></a>说明微软操作系统中几种常用的漏洞防护技术</h1><ul>
-<li>GS Stack protection ：栈保护技术，是一项缓冲区溢出的检测防护技术</li>
-<li>DEP ：数据执行保护技术，可以设置内存堆栈区的代码为不可执行状态，从而方法溢出后代码的执行</li>
-<li>ASLR ： 地址分布随机化，是一项将系统关键地址随机化，从而使攻击者无法获得需啊唷跳转的精确地址的技术，打乱系统中存在的固定地址</li>
-<li>SafeSEH ：Windows 异常处理机制所采用的重要数据结构链表</li>
-<li>SEHOP 结构化异常处理覆盖保护，是微软针对 SEH 攻击提纯的一种防护方案</li>
-</ul>
-<h1 id="说明软件开发生命周期的概念和阶段划分"><a href="#说明软件开发生命周期的概念和阶段划分" class="headerlink" title="说明软件开发生命周期的概念和阶段划分"></a>说明软件开发生命周期的概念和阶段划分</h1><p>软件编码人员进行软件开放过程中，一般都会遵循相应的软件开发生命周期模型用于指导编码的整个过程。计算机软件产品从需求分析、设计、编码、测试、发布到维护，类似于经历一个生命的孕育、诞生、成长、成熟、衰亡的周期，一般称为软件开发生命周期。</p>
-<ul>
-<li>问题的定义于规划：确定开发目标，可行性分析，指定开发计划</li>
-<li>需求分析：对软件需要的各个功能进行详细分析</li>
-<li>软件设计：对整个软件的系统设计（系统框架设计、各函数模块设计、数据库设计）</li>
-<li>程序编码：根据软件设计文档完成直接编码，转换成可运行的程序代码，一般要制定统一、符合标准的编写规范</li>
-<li>软件测试：发现软件设计或软件编码中存在的问题并进行修改，保证软件的质量</li>
-<li>运行维护：纠错性维护和改进性维护</li>
-</ul>
-<h1 id="介绍软件开发生命周期的几种模型"><a href="#介绍软件开发生命周期的几种模型" class="headerlink" title="介绍软件开发生命周期的几种模型"></a>介绍软件开发生命周期的几种模型</h1><ul>
-<li>瀑布模型/改进的瀑布模型：需求 → 分析 → 设计 → 编码 → 测试 等几个阶段，每个阶段都明确定义了产出物和验证的准则，每个阶段完成后阻止相关的评审和验证，通过后进入到下一阶段。为了提高效率，并行开发适当地重叠各个阶段的过程</li>
-<li>螺旋模型：需求 → 分析 → 设计 → 开发 → 测试，加强了软件开发各个阶段的管理和控制，多阶段转化到多迭代过程中。每次迭代都包含六个步骤：确定目标和替代方案、识别项目的风险、堆技术方案进行评、开发出本次迭代的交付物、计划下一次迭代过程、提交下一次迭代的步骤和方案。螺旋模型实现了每个阶段过程中的目标制定、风险分析、交付物的评估验证，保证了软件具有较高的代码质量</li>
-<li>迭代模型：遵循需求 → 设计 → 开发的瀑布模型，开发阶段可以包括多次迭代，逐步精化和修正</li>
-<li>快速原型模型：也称敏捷开发，根据需求在短时间内完成可以演示的软件产品，只实现部分功能或最重要的功能</li>
-</ul>
-<h1 id="说明微软公司采用的软件安全开发生命周期模型12个阶段的内容"><a href="#说明微软公司采用的软件安全开发生命周期模型12个阶段的内容" class="headerlink" title="说明微软公司采用的软件安全开发生命周期模型12个阶段的内容"></a>说明微软公司采用的软件安全开发生命周期模型12个阶段的内容</h1><ul>
-<li>第 0 阶段，准备阶段：通过教育培训，培养开发团队员工的安全意识</li>
-<li>第 1 阶段，项目启动阶段：在项目启动时，需要将项目涉及的安全问题都分析到位，以使软件产品更安全可靠</li>
-<li>第 2 阶段，定义需要遵守的安全设计原则：在编码阶段开始前，需要在设计阶段对软件安全特性进行较多考虑，并定义出安全设计的原则</li>
-<li>第 3 阶段，产品风险评估：在此阶段对所以开发的产品精心风险评估，以确认开发的软件是否采用了由潜在风险的技术，或者私否有较大的隐私暴露危险性</li>
-<li>第 4 阶段，风险分析：对于存在高风险的软件产品，有必要通过威胁建模开展深入的风险分析</li>
-<li>第 5 阶段，创建安全文档、安全配置工具：考虑为用户提供可操作的安全指南和安全配置工具</li>
-<li>第 6 阶段，安全编码策略</li>
-<li>第 7 阶段，安全测试策略：协助开发团队发现可以被利用的高危漏洞</li>
-<li>第 8 阶段， 开发团队自身进行全面安全分析检测：在软件产品进行验证阶段且已完成所以代码与功能开发后的一个阶段</li>
-<li>第 9 阶段，最终安全评审：做最终的安全评审，以检查是否做号了提交给客户的准备</li>
-<li>第 10 阶段，组建安全响应团队制定安全响应计划</li>
-<li>第 11 阶段，产品发布</li>
-<li>第 12 阶段，安全响应执行</li>
-</ul>
-<h1 id="说明主要的软件静态和动态安全检测技术"><a href="#说明主要的软件静态和动态安全检测技术" class="headerlink" title="说明主要的软件静态和动态安全检测技术"></a>说明主要的软件静态和动态安全检测技术</h1><p>静态完全检测技术包括词法分析、数据流分析、污点传播分析、符号执行、模型检查、定理证明等</p>
-<p>动态安全检测技术主要包括模糊测试、智能模糊车上和动态污点分析等</p>
-<h1 id="详细介绍基于软件技术的软件安全保护技术"><a href="#详细介绍基于软件技术的软件安全保护技术" class="headerlink" title="详细介绍基于软件技术的软件安全保护技术"></a>详细介绍基于软件技术的软件安全保护技术</h1><ul>
-<li>注册信息验证技术</li>
-<li>软件防篡改技术</li>
-<li>代码混淆技术</li>
-<li>软件水印技术</li>
-<li>软件加壳技术</li>
-<li>反调试反跟踪技术</li>
-</ul>
-<h1 id="说明恶意程序主要的传播技术"><a href="#说明恶意程序主要的传播技术" class="headerlink" title="说明恶意程序主要的传播技术"></a>说明恶意程序主要的传播技术</h1><ul>
-<li>网站挂马</li>
-<li>诱骗下载</li>
-<li>通过移动存储介质传播</li>
-<li>通过电子邮件和即时通信软件传播</li>
-<li>通过局域网传播</li>
-</ul>
-<h1 id="说明恶意程序的4种检测技术"><a href="#说明恶意程序的4种检测技术" class="headerlink" title="说明恶意程序的4种检测技术"></a>说明恶意程序的4种检测技术</h1><ul>
-<li>特征码查杀技术：针对已知病毒木马等恶意程序进行分析，提前典型代码特征添加到特征库中，然后根据恶意程序的特征码对文件或内存进行扫描匹配，匹配成功则检测出相应特征码对应的恶意程序</li>
-<li>启发式查杀技术：通过事先分析恶意程序执行指令的顺序或特定行为的组合情况等特征，建立检测的基准行为或指令的样本库，并以这些基准行为或指令的特征来检测并确定是否是恶意程序</li>
-<li>虚拟机查杀技术：在扫描恶意程序时，通过将恶意程序加载到虚拟机环境中运行，从而让恶意程序自动脱壳还原为原有状态，再进行检测查杀的技术</li>
-<li>主动防御技术：通过事先挂钩系统服务派发表 SSDT 中的多个 API 函数，类如进程创建、线程创建、DLL插入等系统函数，实现对恶意程序进行全面监控</li>
-</ul>
-<h1 id="介绍10种常见的-Web-安全威胁手段"><a href="#介绍10种常见的-Web-安全威胁手段" class="headerlink" title="介绍10种常见的 Web 安全威胁手段"></a>介绍10种常见的 Web 安全威胁手段</h1><ul>
-<li>注入</li>
-<li>跨站脚本</li>
-<li>跨站请求伪造</li>
-<li>遭破坏的身份认证和会话管理：攻击者窃听来用户访问 HTTP 时的用户名和密码，或用户的会话。从而得到 SessionID 进而冒出用户进行 HTTP 访问的过程。</li>
-<li>不安全的直接对象引用：指 Web 应用程序的开发人员将一些不应公开的对象引用直接暴露给用户，使用户可通过更改 URL 等操作直接引用对象，一个用户通过更改 URL 等操作可以成功访问到未被授权的内容。</li>
-<li>安全配置错误：Web 应用的各个层次都有可能出现安全配置错误。</li>
-<li>不安全的加密存储： Web 应用系统没有对敏感性资料进行加密，或采用的加密算法复杂度不高可以被轻易破解，或加密所使用的密钥非常容易检测出来。</li>
-<li>没有限制的 URL 访问：URL 访问限制主要时限制未授权用户访问某些链接，一般通过隐藏来实现保护，然而在某些情况下有可能能够访问被隐藏了的链接，从而可以使用未被授权的功能。</li>
-<li>传输层保护不足：攻击者利用嗅探方法就可以简单地截获网络上的数据，如果传输层上没有任何的保护措施，那对于用户和 Web 应用系统都是非常危险的。</li>
-<li>为验证的重定向及转发：未经过验证的重定向将可能使用户被引导到钓鱼网站或挂马网站等恶意站点，而未经过验证的转发将可能导致用户绕过验证和授权机制。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>NCRE</category>
-      </categories>
-      <tags>
-        <tag>NCRE</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>计算机等级考试三级信息安全技术章节习题3</title>
     <url>/posts/d8c74333/</url>
     <content><![CDATA[<p><strong>三、系统安全</strong></p>
@@ -14891,6 +14518,349 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 </ul>
 <h1 id="试述数据库中的访问控制机制"><a href="#试述数据库中的访问控制机制" class="headerlink" title="试述数据库中的访问控制机制"></a>试述数据库中的访问控制机制</h1><p>数据库不允许未经授权的用户对数据库进行操。用户标识和鉴别是系统提供的最外层的安全措施。由系统提供一定的方法让用户标识自己的名字或身份，系统内部记录着所有合法用户的标识。每次用户要求进入系统时，由系统进行核实，通过鉴定后才能提供机器的使用权。</p>
 <h1 id="一些命令"><a href="#一些命令" class="headerlink" title="一些命令"></a>一些命令</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 创建基本表</span><br><span class="line">CREATE TABLE 表名(</span><br><span class="line">字段名1 类型(宽度,小数),</span><br><span class="line">字段名1 类型(宽度,小数),</span><br><span class="line">···</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"># 修改、删除基本表</span><br><span class="line">ALTER TABLE &lt;表名&gt; &lt;指令&gt;(</span><br><span class="line">&lt;字段名1 类型(宽度,小数)&gt;,</span><br><span class="line">&lt;字段名1 类型(宽度,小数)&gt;,</span><br><span class="line">···</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">DROP TABLE &lt;表名&gt;;</span><br><span class="line"></span><br><span class="line"># 插入数据</span><br><span class="line">INSERT INTO &lt;表名&gt; [(&lt;字段名&gt;,&lt;字段名&gt;,···)];</span><br><span class="line">VALUES (&lt;表达式1&gt;,&lt;表达式2&gt;,···);</span><br><span class="line"></span><br><span class="line"># SELECT 查询</span><br><span class="line">SELECT &lt;表达式1&gt;,&lt;表达式2&gt;,··· &#x2F;&#x2F;查询目标</span><br><span class="line">FROM &lt;关系1&gt;,&lt;关系2&gt;,···  &#x2F;&#x2F;查询的源(所有关系的关系名)</span><br><span class="line">[WHERE &lt;条件&gt;]; &#x2F;&#x2F;查询目标必须满足的条件</span><br><span class="line"></span><br><span class="line"># 更新数据</span><br><span class="line">UPDATE &lt;表名&gt;</span><br><span class="line">SET &lt;更新表达式&gt;</span><br><span class="line">[WHERE &lt;条件&gt;];</span><br><span class="line"></span><br><span class="line"># 删除数据</span><br><span class="line">DELETE</span><br><span class="line">FROM &lt;表名&gt;</span><br><span class="line">WHERE &lt;条件&gt;;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>NCRE</category>
+      </categories>
+      <tags>
+        <tag>NCRE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机等级考试三级信息安全技术章节习题4</title>
+    <url>/posts/46a3d690/</url>
+    <content><![CDATA[<p><strong>四、网络安全</strong></p>
+<h1 id="简述-TCP-IP-协议架构的层次架构和各层包含的主要协议"><a href="#简述-TCP-IP-协议架构的层次架构和各层包含的主要协议" class="headerlink" title="简述 TCP/IP 协议架构的层次架构和各层包含的主要协议"></a>简述 TCP/IP 协议架构的层次架构和各层包含的主要协议</h1><ul>
+<li>物理和数据链路层</li>
+<li>网络层：TCP/IP 体系结构最重要的一层，IP 协议族是网路层的基础协议包括用于路由选择的 <code>RIP</code> 、 <code>OSPF</code> 等路由协议，用于数据传输的 IP 协议，用于网络管理的 SNMP 协议,用于故障诊断的 ICMP 协议。</li>
+<li>传输层：TCP 协议提供端到端可靠数据传输，UDP 协议提供端到端不可靠传输。</li>
+<li>应用层：文件传输协议 FTP ，超文本传输协议 HTTP ，简单邮件传输协议 SMTP/POP3 ，域名系统 DNS ，远程终端登录协议 Telnet ，简单网络管理 SNMP 等。</li>
+</ul>
+<a id="more"></a>
+<h1 id="简述-ARP-协议欺骗的原理"><a href="#简述-ARP-协议欺骗的原理" class="headerlink" title="简述 ARP 协议欺骗的原理"></a>简述 ARP 协议欺骗的原理</h1><p>ARP 协议主要完成从 IP 地址到 MAC 地址的转换，主机中的 ARP 缓存表都有更新机制，每台主机在收到 ARP 数据包时就会更新自己的 ARP 缓存表。ARP 欺骗的原理就是恶意主机伪装并发送欺骗性的 ARP 数据包，致使其他主机收到欺骗性的 ARP 数据包后，更新其 ARP 缓存表，从而建立错误的 IP 地址与 MAC 地址的对应关系。</p>
+<h1 id="简述-ICMP-协议的功能"><a href="#简述-ICMP-协议的功能" class="headerlink" title="简述 ICMP 协议的功能"></a>简述 ICMP 协议的功能</h1><p>Internet 控制报文协议（Internet Control Message Protocol , ICMP）主要的作用是在 TCP/IP 网路中发送出错和控制消息，允许主机或网络设备报告差错或异常情况，从而提供一个错误侦测与反馈机制</p>
+<p>主要功能是差错报告和查询</p>
+<h1 id="简述-TCP-协议的三次握手过程"><a href="#简述-TCP-协议的三次握手过程" class="headerlink" title="简述 TCP 协议的三次握手过程"></a>简述 TCP 协议的三次握手过程</h1><ul>
+<li>A 主机向 B 主机发送 <code>SYN=1</code> 的数据包，希望建立同步连接，数据包序号 <code>SEQ=X</code> ，A 进入 <code>SYN_SENT</code> 状态</li>
+<li>B 收到数据包，同意建立连接，返回数据包 <code>SYN=1 , ACK=1</code> ，数据包序号 <code>SEQ=Y</code> ，确认号 <code>X+1</code>  ，B 进入 <code>SYN_RECV</code> 状态 </li>
+<li>A 收到返回的数据包，确认建立连接，发送数据包 <code>ACK=1</code> ，数据包序号 <code>SEQ=Y+1</code> ，确认号 <code>Y+1</code> ，A 、B 进入 <code>ESTABLISHED</code> 状态，TCP 连接成功</li>
+</ul>
+<p>请求包 <code>SYN</code></p>
+<p>应答包 <code>ACK</code></p>
+<h1 id="说明-TCP-全连接扫描、TCP-SYN-扫描和-TCP-FIN-扫描的原理和不同之处"><a href="#说明-TCP-全连接扫描、TCP-SYN-扫描和-TCP-FIN-扫描的原理和不同之处" class="headerlink" title="说明 TCP 全连接扫描、TCP SYN 扫描和 TCP FIN 扫描的原理和不同之处"></a>说明 TCP 全连接扫描、TCP SYN 扫描和 TCP FIN 扫描的原理和不同之处</h1><ul>
+<li>TCP 全连接扫描：利用 TCP 协议三次握手原理来探测目标主机的网络端口是否处于打开状态。都尝试与目标主机建立正常的 TCP 三次握手的全连接。如果能建立起三次握手，则说明三次握手所连接的目标主机的端口是打开的，所有扫描过程容易被检测出来。</li>
+<li>TCP SYN 扫描：半连接扫描，利用前两次握手，降低了被发现的可能，同时提高了扫描性能。</li>
+<li>TCP FIN 扫描：发送 FIN 标识位为 1 的数据包给目标主机，若目标主机端口是开放的，则丢弃此包，不进行回应，若未开放，则返回一个 RST 标识位为 1 的数据包。由于不采用 TCP 三次握手连接方法，扫描行为更加隐秘，也称秘密扫描。这种方法适用于 UNIX 操作系统主机，有些操作系统（Windows NT）不论端口是否打开都回复 RST 这种方法就不适用了。</li>
+</ul>
+<h1 id="简述网络漏洞扫描和主机漏洞扫描的区别"><a href="#简述网络漏洞扫描和主机漏洞扫描的区别" class="headerlink" title="简述网络漏洞扫描和主机漏洞扫描的区别"></a>简述网络漏洞扫描和主机漏洞扫描的区别</h1><ul>
+<li>网络漏洞扫描：网络漏洞扫描工具针对网络中的主机和网络设备，发送漏洞探测数据包进行漏洞的扫描，模拟攻击技术扫描出具体的漏洞类型，扫描工具中的漏洞脚本库中包含大量漏洞的模型攻击脚本或代码。网络漏洞扫描工具无法通过网络扫描没有网络服务功能的应用软件的漏洞</li>
+<li>主机漏洞扫描，主机漏洞扫描工具通过检测本机安装的操作系统和应用软件系统版本信息和补丁安装情况根据自身数据库中保留的最新补丁信息进行比较，判断是否存在某些为打补丁的漏洞</li>
+</ul>
+<h1 id="介绍基于-DNS服务器的欺骗技术原理"><a href="#介绍基于-DNS服务器的欺骗技术原理" class="headerlink" title="介绍基于 DNS服务器的欺骗技术原理"></a>介绍基于 DNS服务器的欺骗技术原理</h1><p>欺骗目标是 DNS 服务器。攻击者首先向 DNS 服务器发送域名对应 IP 地址的查询请求， DNS 服务器在没有此域名的条件下会向更高级别的 DNS 服务器上传查询请求。此时，攻击者可以 <strong>伪造更高级别 DNS 服务器返回的 DNS 应答包</strong> ，告知此 DNS 服务器要查询域名的 IP 地址，这个 IP 地址往往被设置为攻击者自己服务器的 IP 地址。被欺骗的 DNS 服务器收到 DNS 应答数据包后，将域名和对应的虚假 IP 地址记录到自身缓存中，当网络中有查询此域名时，就从缓存中找到虚假 IP 地址返回给用户，使用户访问的虚假 IP 地址对应的攻击者的服务器</p>
+<h1 id="说明网站挂马的概念及原理"><a href="#说明网站挂马的概念及原理" class="headerlink" title="说明网站挂马的概念及原理"></a>说明网站挂马的概念及原理</h1><p>网站中的网页被攻击者恶意修改后，添加了可以触发并下载恶意程序链接以及恶意程序代码和脚本</p>
+<p>挂马的前提是入侵网站服务器，具有网站中网页的修改权限，攻击者对网站中的网页进行修改，通过 iframe 内嵌框架、跨站脚本链接等内嵌链接机制，将恶意链接添加到网页中。恶意网页是被攻击者篡改或恶意构建的其他网站的网页，在恶意网页中往往被攻击者挂载了含有漏洞利用代码的文件或脚本，文件和脚本在用户访问恶意网页时会自动下载并执行，用户计算机中浏览器及插件漏洞会被利用并导致文件和脚本中指向或包括的木马病毒自动被下载和运行</p>
+<h1 id="说明-Dos-攻击的3种实现方式"><a href="#说明-Dos-攻击的3种实现方式" class="headerlink" title="说明 Dos 攻击的3种实现方式"></a>说明 Dos 攻击的3种实现方式</h1><ul>
+<li>利用目标主机自身存在的拒绝服务型漏洞进行攻击</li>
+<li>耗尽目标主机 CPU 和内存等计算机资源的攻击</li>
+<li>耗尽目标主机网络带宽攻击</li>
+</ul>
+<h1 id="介绍-SYN-Flood-攻击的原理"><a href="#介绍-SYN-Flood-攻击的原理" class="headerlink" title="介绍 SYN-Flood 攻击的原理"></a>介绍 SYN-Flood 攻击的原理</h1><p>攻击者向目标主机发送第一次 SYN 握手请求数据包，伪造了此数据包的源 IP 地址为不存在或网络不可达的一个 IP 地址，地址不存在或网络不可达，所以没用第三次握手的响应数据包，主机就要等一段时间后才丢弃未完成的连接，这会占用一定的 CPU 和内存资源，攻击者通过大量伪造的 SYN 数据包，形成大量的半开连接，直至资源耗尽</p>
+<h1 id="介绍-ACK-Flood-攻击的原理"><a href="#介绍-ACK-Flood-攻击的原理" class="headerlink" title="介绍 ACK-Flood 攻击的原理"></a>介绍 ACK-Flood 攻击的原理</h1><p>利用握手过程，在发送 SYN 数据包给目标主机之前，将该数据包的源地址和目标地址都设置成目标主机的 IP 地址。这会导致目标主机向自己的 IP 地址响应 SYN+ACK 数据包，结果又向自己发送 ACK 消息并创建一个空连接，每个空连接都会保留至超时，当这样的连接数量很多时，系统资源将会被耗尽</p>
+<h1 id="介绍应用层脚本洪水攻击的原理"><a href="#介绍应用层脚本洪水攻击的原理" class="headerlink" title="介绍应用层脚本洪水攻击的原理"></a>介绍应用层脚本洪水攻击的原理</h1><p>应用层 DoS 攻击是脚本洪水攻击，攻击者利用代理服务器对 Web 服务器发送大量的 HTTP Get 请求，如果目标服务器的动态 Web 服务器，大量的 HTTP Get 请求主要是查询动态网页，这些请求会给后台的数据库服务器制造极大负载直至无法正常响应，从而使正常用户的访问也无法进行了</p>
+<p>针对动态脚本页面的网站服务器，脚本洪水攻击的效果很明显，由于这些网站大量前端脚本程序会调用后台数据库。而针对静态页面的网站服务器，由于不会调用后台数据库中的数据，攻击效果就不明显。由于脚本洪水攻击需要和网站服务器建立正常的 TCP 连接，因而会暴露攻击者的 IP 地址</p>
+<h1 id="举例说明-SQL-注入的原理"><a href="#举例说明-SQL-注入的原理" class="headerlink" title="举例说明 SQL 注入的原理"></a>举例说明 SQL 注入的原理</h1><p>Web应用程序在接收到用户的请求参数后，如果咩有对请求参数进行严格的过滤或检查，而直接将用户的请求参数作为拼接 SQL 语句的一部分进行解释执行，则攻击者就可以通过构造一段 SQL 代码片段作为请求参数提交给 Web 应用程序，从而使这段 SQL 代码得到后台数据库程序的解释执行，使攻击者能查询操作后台数据库</p>
+<h1 id="举例说明跨站脚本攻击的原理"><a href="#举例说明跨站脚本攻击的原理" class="headerlink" title="举例说明跨站脚本攻击的原理"></a>举例说明跨站脚本攻击的原理</h1><p>利用网站程序对 Web 页面中输入的数据过滤不严格或未做过滤的漏洞，攻击者往 Web 页面中恶意脚本代码，当用户浏览页面时，使用户的浏览器会自动加载并执行页面中插入的恶意脚本代码，从而实现在用户浏览器中显示攻击者的恶意脚本、控制用户浏览器或窃取用户资料的目的</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?</span> php</span><br><span class="line">    <span class="variable">$user</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;user&#x27;</span>];</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Hello&quot;</span> .<span class="variable">$user</span>;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果用户提交请求 <code>xxx.com/xss.php?user=&lt;scropt&gt;alert(/xss/)&lt;/scropt&gt;</code> 代码将被返回给客户端比嗯执行后显示在浏览器中</p>
+<ul>
+<li>反射型 XSS ：非持久型跨站脚本攻击，向用户发送带有恶意攻击脚本的一个 URL 连接</li>
+<li>存储型 XSS ：持久型跨站脚本攻击， XSS 保存在服务器端（如攻击者将恶意数据嵌入到博客或BBS 社区的帖子内容中，用户查看对应的博客或帖子时，其中的攻击脚本将被执行）</li>
+<li>DOM-based XSS ：基于文档对象模型的跨站脚本攻击，通过 JavaScript 脚本动态修改 DOM 结构，进而导致XSS 漏洞</li>
+</ul>
+<h1 id="解释说明跨站请求伪造攻击的概念及原理"><a href="#解释说明跨站请求伪造攻击的概念及原理" class="headerlink" title="解释说明跨站请求伪造攻击的概念及原理"></a>解释说明跨站请求伪造攻击的概念及原理</h1><p>跨站请求伪造攻击（Cross Site Request Forgery，CSRF）属于伪造客户端请求，让用户访问攻击者构造的网页，执行网页中的恶意脚本，伪造用户的请求，对用户有登录权限的网站空间实施攻击。通过攻击者的站点对用户可登录的站点发起的攻击，而且攻击脚本利用的是伪造的用户请求，因此被称为跨站点请求伪造攻击。</p>
+<p>当用户通过用户名和口令完成对目标 Web 应用服务器的登录验证后，用户的浏览器会存储登录验证后由 Web 应用服务器返回给浏览器的会话认证信息，即 Cookie 数据。用户针对该 Web 应用服务器的 HTTP 请求，用户的浏览器都会自动通过保存的 Cookie 通过验证，而不用输入用户名和口令。</p>
+<p>攻击者可以在自己控制网站的页面中编写对用户的 Web 应用空间发起的伪造 HTTP 表单的恶意代码，然后诱骗用户浏览攻击者构造的页面，执行页面中嵌入的恶意代码。恶意代码在受害用户不知道的情况下，通过保存在用户浏览器中的 Cookie 通过用户 Web 应用空间的验证后，以用户的身份执行 HTTP 表单请求操作，泄漏 Web 应用中用户的敏感数据或是篡改 Web 应用中的相关数据。</p>
+<h1 id="解释说明木马的端口反弹技术"><a href="#解释说明木马的端口反弹技术" class="headerlink" title="解释说明木马的端口反弹技术"></a>解释说明木马的端口反弹技术</h1><p>木马的服务端程序从内网主动发起对外连接请求，连接到外网木马的客户端。反弹式木马是服务端主动发起连接请求，而客户端是被动的等待连接，木马服务端通过设置固定的客户端 IP 地址和连接端口，直接回连木马的客户端程序。还有动态 IP 地址的木马客户端，利用一台被控制的代理服务器保存每次改变后的客户端的 IP 地址和待连接的端口，木马服务端每次启动时，先连接代理服务器获取客户端的动态 IP 地址和端口信息</p>
+<h1 id="说明防火墙的-NAT-原理"><a href="#说明防火墙的-NAT-原理" class="headerlink" title="说明防火墙的 NAT 原理"></a>说明防火墙的 NAT 原理</h1><p>网络地址翻译技术（Network Address Translation , NAT）能将单位内网只用的内部 IP 地址翻译为合法的公网 IP 地址，这使内网使用内部 IP 地址的计算机无线变动也能与外网连接。</p>
+<p>NAT 将内部 IP 地址翻译为公网 IP 地址。当外部公网响应的数据包返回给 NAT 后，NAT 再将其翻译为内网 IP 地址发给内网的主机，从而实现内网主机与外网的正常通信，解决了 IPv4 地址不足的问题。同时因为外网主机只能看到数据包来自 NAT 翻译后的公网 IP 地址，而看不到内网主机的内部 IP 地址，所以 NAT 可保护及隐藏内网计算机。</p>
+<h1 id="说明防火墙的包过滤技术和动态检测技术的区别"><a href="#说明防火墙的包过滤技术和动态检测技术的区别" class="headerlink" title="说明防火墙的包过滤技术和动态检测技术的区别"></a>说明防火墙的包过滤技术和动态检测技术的区别</h1><p>内外网之间传输的数据包按照某些特征事先设置一系列的安全规则（或安全策略）进行过滤或筛选。包过滤防火墙检查每一条规则。如果发现数据包中的信息与某规则相符，则允许或拒绝这个数据包穿过防火墙进行传输。如果没有规则能符合，则防火墙会使用默认规则。一般情况默认规则就是要求防火墙丢弃该包</p>
+<p>状态检测技术也称动态包过滤技术，不像包过滤防火墙仅靠设置静态的包过滤规则来镜像数据包的过滤拦截，而是增加对数据包连接状态变化的额外考虑。防火墙的核心部分建立数据的连接状态表，对在内外网间传输的数据包以会话角度进行检测，利用状态表跟踪每一个会话状态，记录有用的信息以帮助识别不同的会话</p>
+<p>和包过滤防火墙相比，状态检测防火墙动态记录连接的各种状态，可以在连接终止后及时阻断后续连接，防止伪造流量通过；可有效阻止更多伪造网络地址的 DoS 攻击，而且不用为了大量的正常访问请求而长久地开放大量端口。</p>
+<h1 id="说明入侵检测系统和入侵防御系统功能的区别"><a href="#说明入侵检测系统和入侵防御系统功能的区别" class="headerlink" title="说明入侵检测系统和入侵防御系统功能的区别"></a>说明入侵检测系统和入侵防御系统功能的区别</h1><p>入侵检测系统（Intrusion Detection System , IDS）工作在计算机网络系统中的关键节点上，通过实时收集和分析计算机网络或系统中的信息来检查是否出现违反安全策略的行为和是否存在入侵的迹象，进而达到提示入侵、预防攻击的目的。是对防火墙有益的补充，它对网络和主机行为进行检测，提供内部攻击、外部攻击和误操作的实施监控，增强了网络的安全性。入侵检测系统可以实现事前警告、事中防护和事后取证。</p>
+<p>入侵防御系统（Intrusion Prevention System , IPS）作为一种在线部署的产品，能够提供主动的、实时的防护，其设计目标在与准确监测网络流量，自动分析对各类网络攻击行为，并对应用层的威胁和攻击进行实时阻断，而入侵检测系统只是在监测到恶意流量的同时或之后才简单地告警。</p>
+<p>入侵防御系统的检测技术和入侵检测系统是相似的，可以在网络层、传输层和应用层进行攻击行为的检测和防御。和入侵检测系统在网络中旁边部署不同的是，入侵防御系统是通过直接串联到网络链路中实现其防御功能的。当入侵防御系统接收到外部数据流量时，如果检测到数据包中的攻击特征，就会自动地将此数据包丢掉或采取措施将攻击源阻断，从而将攻击数据包挡在网络边界之外。</p>
+<h1 id="说明防火墙和入侵防御系统功能的区别"><a href="#说明防火墙和入侵防御系统功能的区别" class="headerlink" title="说明防火墙和入侵防御系统功能的区别"></a>说明防火墙和入侵防御系统功能的区别</h1><p>防火墙位于可惜和不可信网络间，通过检测和过滤网络交换的信息，达到保护内部可信网络的目的</p>
+<p>入侵防御系统采用串联方式部署在网络中，实现网络层、传输层和应用层的全面检测和拦截，具有拦截恶意流量、实现对传输内容的深度检测和安全防护、对网络流量检测的同时进行过滤等功能</p>
+<h1 id="介绍-PKI-中基于数字证书的信任链传递关系原理"><a href="#介绍-PKI-中基于数字证书的信任链传递关系原理" class="headerlink" title="介绍 PKI 中基于数字证书的信任链传递关系原理"></a>介绍 PKI 中基于数字证书的信任链传递关系原理</h1><p>公共密钥基础设施（Public Key Infrastructure , PKI）</p>
+<p>证书认证机构（Certificate Authority , CA）</p>
+<p>证书注册机构（Registration Authority , RA）</p>
+<p>证书办法系统（Certificate Distribution System , CDS）</p>
+<p>通过真实的数字证书来相信网络用户身份的真实性是通过信任链的传递关系来保证的。证书是由证书认证机构颁发的，证书认证机构颁发证书之前要对申请证书者的身份进行确认，只有经过身份核实的才签发证书。且证书中含有证书认证机构的数字签名。如果证书中的信息被篡改，则可通过证书认证机构公钥验证出来。在可以信任证书认证机构的条件下，证书认证机构又信任证书拥有者，因此给证书拥有者颁发来数字证书。如果能验证数字证书是真实的没有被篡改过，则借由这个信任链的传递关系就可以通过真实的数字证书确认并相信在数字证书中证书拥有者的身份。简而言之，证书拥有者可以通过数字证书向网络系统中的其他实体证明自己的身份。</p>
+<h1 id="介绍-SSL-协议的连接过程"><a href="#介绍-SSL-协议的连接过程" class="headerlink" title="介绍 SSL 协议的连接过程"></a>介绍 SSL 协议的连接过程</h1><ul>
+<li>客户端发送 ClientHello 请求</li>
+<li>服务器发送 ServerHello 消息</li>
+<li>如果服务器请求客户端提供证书，客户端将发送 Certificate 消息，将数字证书发给服务器，服务器对该证书进行验证</li>
+<li>服务器证书发给客户端后，客户端对服务器的证书进行验证</li>
+<li>客户端与服务器端根据 <code>pre_master_secret</code> 以及客户端与服务器的随机数组各自独立计算出会话密钥和 MAC 密钥</li>
+<li>客户端和服务器彼此间交换各自的握手完成信息</li>
+</ul>
+]]></content>
+      <categories>
+        <category>NCRE</category>
+      </categories>
+      <tags>
+        <tag>NCRE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机等级考试三级信息安全技术章节习题5</title>
+    <url>/posts/31a4e606/</url>
+    <content><![CDATA[<p><strong>五、应用安全</strong></p>
+<h1 id="简述软件漏洞概念中包含的3个要素"><a href="#简述软件漏洞概念中包含的3个要素" class="headerlink" title="简述软件漏洞概念中包含的3个要素"></a>简述软件漏洞概念中包含的3个要素</h1><ul>
+<li>漏洞是计算机系统本身存在的缺陷</li>
+<li>漏洞的存在和利用都有一定的环境要求</li>
+<li>漏洞存在的本身是没有危害的，只有被攻击者恶意利用，才能给计算机带来威胁和损失</li>
+</ul>
+<a id="more"></a>
+<h1 id="简述软件漏洞的四个特点"><a href="#简述软件漏洞的四个特点" class="headerlink" title="简述软件漏洞的四个特点"></a>简述软件漏洞的四个特点</h1><ul>
+<li>危害性大</li>
+<li>影响广泛</li>
+<li>存在的长久性</li>
+<li>隐蔽性</li>
+</ul>
+<h1 id="按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？"><a href="#按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？" class="headerlink" title="按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？"></a>按照软件漏洞被攻击者利用的地方进行分类，软件漏洞可以分为哪几类？</h1><ul>
+<li>本地利用漏洞</li>
+<li>远程利用漏洞</li>
+</ul>
+<h1 id="根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？"><a href="#根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？" class="headerlink" title="根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？"></a>根据漏洞生命周期不同阶段进行划分，软件漏洞可以分为哪几类？</h1><ul>
+<li>0day 漏洞：指未公开状态的漏洞</li>
+<li>1day 漏洞：发布补丁时间不长的漏洞</li>
+<li>已公开漏洞</li>
+</ul>
+<h1 id="描述软件漏洞危险等级的划分"><a href="#描述软件漏洞危险等级的划分" class="headerlink" title="描述软件漏洞危险等级的划分"></a>描述软件漏洞危险等级的划分</h1><ul>
+<li>紧急，危险级别最高的等级，微软定义为严重</li>
+<li>重要，微软定义为重要</li>
+<li>中危，微软定义为中等</li>
+<li>低危，微软定义为警告</li>
+</ul>
+<h1 id="简单说明国内外知名漏洞库及其包含漏洞信息的特点"><a href="#简单说明国内外知名漏洞库及其包含漏洞信息的特点" class="headerlink" title="简单说明国内外知名漏洞库及其包含漏洞信息的特点"></a>简单说明国内外知名漏洞库及其包含漏洞信息的特点</h1><ul>
+<li>CVE ： 通用漏洞列表，软件漏洞行业标准，安全漏洞命名机制的规范化标准化，成为评价相应入侵检测和漏洞扫描等工具和数据库的基准</li>
+<li>BygTraq ：安全焦点的 BugTraq邮件列表， 被认为是互联网上最广泛且最可信的安全信息源，包含的漏洞列表是目前最大的漏洞数据库之一，很多最新的的技术讨论和很多 0day 漏洞都是出现在这里，并以 CVE 交叉索引，漏洞编号 BID </li>
+<li>NVD ：美国国家漏洞数据库，目前世界上数据量最大，条目最多的漏洞数据库之一，与 CVE 同步和兼容</li>
+<li>CNNVD ：中国国家信息安全漏洞库，是中国信息安全测评中心切实履行漏洞分析和风险评估的职能，负载建设运维国际级信息安全漏洞库，为我国信息安全保障提供基础服务。定向通报服务是测评中心面向各级政府机关及企事业单位，及时、准确推送涵盖以漏洞信息为核心的各类数据及应用服务</li>
+<li>CNVD ：国家互联网应急中心，是工信部领导下的国家级安全应急机构，是 CNCERT 联合国内重要信息系统单位、基础电信运营商、网络安全厂商、软件厂商和互联网企业建立的信息安全漏洞信息共享知识库</li>
+</ul>
+<h1 id="介绍缓冲区溢出的原理"><a href="#介绍缓冲区溢出的原理" class="headerlink" title="介绍缓冲区溢出的原理"></a>介绍缓冲区溢出的原理</h1><p>缓冲区是一块连续的内存区域，用于存放程序运行时加载到内存的运行代码和数据。缓冲区溢出是指程序运行时，向固定大小的缓冲区写入超出其容量的数据，多余的数据会越过缓冲区的边界覆盖相邻内存空间，从而造成溢出。缓冲区的大小是由用户输入的数据决定的，如果程序不对用户输入的超长数据做长度检查，同时用户又对程序进行非法操作或错误输入，就会造成缓冲区溢出。</p>
+<p>缓冲区溢出攻击是指发送缓冲区溢出时，溢出的数据会覆盖相邻内存空间的返回地址、函数指针、堆管理结构等合法数据，从而使程序运行失败，或发生转向去执行其他程序代码，或执行预先注入内存缓冲区中的代码。</p>
+<h1 id="说明操作系统的内存管理机制"><a href="#说明操作系统的内存管理机制" class="headerlink" title="说明操作系统的内存管理机制"></a>说明操作系统的内存管理机制</h1><p>操作系统中的每一个进程都会被分配一块独立的虚拟地址空间，用以保存进程运行时的数据和代码，虚拟地址空间是实际空间的映射。</p>
+<p><strong>堆（heap）是先进先出的数据结构，往高地址增长</strong></p>
+<p><strong>栈（stack）是后进先出的数据结构，往低地址增长</strong></p>
+<h1 id="介绍堆溢出和栈溢出的原理"><a href="#介绍堆溢出和栈溢出的原理" class="headerlink" title="介绍堆溢出和栈溢出的原理"></a>介绍堆溢出和栈溢出的原理</h1><p>堆是内存中用于存放动态数据的区域，堆空间由地址向高地址方向增长，堆溢出指堆中发生缓冲区溢出，利用堆溢出向内存单元写入任意数据，实现改写内存中的关键数据，达到攻击目的</p>
+<p>栈的存取采用先进后出的策略，程序用它来保存函数调用时的有关信息，如函数参数、返回地址，函数中的非静态局部变量存放在栈中，栈溢出是缓冲区中最简单的一种，通过溢出数据覆盖返回地址，程序会转到覆盖后的地址指向的程序</p>
+<h1 id="介绍格式化字符串漏洞、整数溢出漏洞的原理"><a href="#介绍格式化字符串漏洞、整数溢出漏洞的原理" class="headerlink" title="介绍格式化字符串漏洞、整数溢出漏洞的原理"></a>介绍格式化字符串漏洞、整数溢出漏洞的原理</h1><p>C 语言中的格式化函数允许可变参数，它根据传人的格式字符串获知可变参数的个数和类型，并依据格式化符号进行参数的输出。如果调用这些函数时，给出了格式符号串，但没有提供实际对应参数，这些函数会将格式化字符串后面的多个栈中的内容弹出作为参数，并根据格式化符号将其输出</p>
+<p>整数分为无符号和有符号两类，对整数进行加、乘等运算时，计算的结果大于该类型的整数所表示的范围，就会发生整数溢出，分为：存储溢出、运算溢出、符号问题</p>
+<h1 id="介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理"><a href="#介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理" class="headerlink" title="介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理"></a>介绍数组越界漏洞、写污点值到污点地址漏洞，以及内存地址对象破坏性调用漏洞的原理</h1><ul>
+<li><p>数组越界漏洞：由于不正确的数组访问造成，通过精心构造超出数组范围的索引值，就能对任意内存地址进行读写操作</p>
+</li>
+<li><p>写污点值到污点地址漏洞：通过精心选择污点地址和污点值，列用这种漏洞就能改写系统内核的关键数据结构。污点值为可能引发漏洞的输入值，污点地址为触发漏洞的潜在地址。</p>
+</li>
+<li>内存地址对象破坏性调用漏洞：指某对象保存的内存地址写入一个变量中，攻击者通过调用初始化或释放功能的异常操作，将保存对象的内存地址进行释放，从而导致读取变量中保存的内存地址以期访问某对象的过程，从而触发内存访问异常。 </li>
+</ul>
+<h1 id="介绍漏洞利用的概念和-shellcode-的编写方法"><a href="#介绍漏洞利用的概念和-shellcode-的编写方法" class="headerlink" title="介绍漏洞利用的概念和 shellcode 的编写方法"></a>介绍漏洞利用的概念和 shellcode 的编写方法</h1><p>实施攻击前，需要做大量的调试工作，包括了解存放缓冲区溢出漏洞的程序有几个输入参数，哪个输入参数会造成缓冲区溢出，如何构造输入参数的长度和内容，以便使缓冲区的偏移距离恰好能覆盖返回地址，并将攻击者构造的可执行 shellcode 代码的地址写入到返回地址。根据软件漏洞具体条件构造相应输入参数和 shellcode 代码，最终实现获得程序控制权的工程，就是漏洞利用，一般用 exploit 来表示。</p>
+<p>shellcode 代码是一段机器指令，可实现攻击者指定的操作，shellcode 通称缓冲区溢出攻击中植入的一段以获得执行权限的代码</p>
+<p>shellcode 可用 C 语言编写，编译后用 OllyDbg加载其可执行文件，在从中选中所需的机器代码，也可通过 IDA Pro 等反编译工具从 PE 文件中得到对应的机器代码</p>
+<p>对于Linux 系统 shellcode 中要实现的功能主要是通过系统调用来完成，而每个系统调用都有固定的系统调用号</p>
+<p>对于 Windows 系统，虽然 Windows 也有系统调用，但都是封装在高级的 API 中调用的，且不同的 Service Pack 版本的操作系统其 API 都可能有所改动，所以不可能直接调用。需要采用动态的方法获取 API 地址，从而编写 shellcode </p>
+<h1 id="针对静态的-shellcode-地址、动态变化的-shellcode-地址分别说明其漏洞利用技术的原理"><a href="#针对静态的-shellcode-地址、动态变化的-shellcode-地址分别说明其漏洞利用技术的原理" class="headerlink" title="针对静态的 shellcode 地址、动态变化的 shellcode 地址分别说明其漏洞利用技术的原理"></a>针对静态的 shellcode 地址、动态变化的 shellcode 地址分别说明其漏洞利用技术的原理</h1><p>存在溢出漏洞的程序是一个操作系统每次启动都要加载的程序，操作系统启动时为其分配的内存地址一般是固定的，则函数调用时分配的栈帧地址也是固定的，溢出后写入栈帧的 shellcode 代码其内存地址也是静态不变的，所以可以直接将 shellcode 代码在栈帧中的静态地址覆盖原有返回地址。在函数返回使，通过新的返回地址指向 shellcode 代码地址，从而执行 shellcode 代码</p>
+<p>有些软件的漏洞存在与某些动态链接库中，这些动态链接库在进程运行时被动态加载，因而在下一次这些动态链接库被重新装载到内存中，其在内存中的栈帧地址时动态变化的，则植入的 shellcode 代码在内存中的其实地址也时变化的。在这种情况下，需要让溢出发生时，覆盖返回地址后新写入的返回地址能自动定位到 shellcode  的起始地址。</p>
+<h1 id="说明针对堆漏洞的-Heap-Spray-漏洞利用的技术"><a href="#说明针对堆漏洞的-Heap-Spray-漏洞利用的技术" class="headerlink" title="说明针对堆漏洞的 Heap Spray 漏洞利用的技术"></a>说明针对堆漏洞的 Heap Spray 漏洞利用的技术</h1><p>Heap Spray 也称为堆喷洒技术，在 shellcode 的前面加上大量的滑板指令，组成一个非常长的注入的代码段。然后向系统申请大量内存，并且反复用这个注入代码段来填充。这样就使得内存空间被大量的注入代码占用，攻击者在结合漏洞利用技术，只要使程序跳转到堆中被填充了注入代码的任何地址，程序指令就会顺者滑板指令最终执行到 shellcode 代码</p>
+<p>滑板指令由大量 NOP 空指令 <code>0x90</code>  填充组成的指令序列，当遇到这些 NOP 指令时，CPU 指令指针会一个指令接一个指令地执行，总结不做任何具体操作，直到滑过最后一个滑板指令后，接着执行这些指令后面的其它指令，往往后面接着的时 shellcode代码，Heap Spray 技术通过使用类 NOP 指令来进行覆盖，对 shellcode 地址的跳转准确性要求不大，从而增加来缓冲区溢出攻击的成功率</p>
+<h1 id="说明微软操作系统中几种常用的漏洞防护技术"><a href="#说明微软操作系统中几种常用的漏洞防护技术" class="headerlink" title="说明微软操作系统中几种常用的漏洞防护技术"></a>说明微软操作系统中几种常用的漏洞防护技术</h1><ul>
+<li>GS Stack protection ：栈保护技术，是一项缓冲区溢出的检测防护技术</li>
+<li>DEP ：数据执行保护技术，可以设置内存堆栈区的代码为不可执行状态，从而方法溢出后代码的执行</li>
+<li>ASLR ： 地址分布随机化，是一项将系统关键地址随机化，从而使攻击者无法获得需啊唷跳转的精确地址的技术，打乱系统中存在的固定地址</li>
+<li>SafeSEH ：Windows 异常处理机制所采用的重要数据结构链表</li>
+<li>SEHOP 结构化异常处理覆盖保护，是微软针对 SEH 攻击提纯的一种防护方案</li>
+</ul>
+<h1 id="说明软件开发生命周期的概念和阶段划分"><a href="#说明软件开发生命周期的概念和阶段划分" class="headerlink" title="说明软件开发生命周期的概念和阶段划分"></a>说明软件开发生命周期的概念和阶段划分</h1><p>软件编码人员进行软件开放过程中，一般都会遵循相应的软件开发生命周期模型用于指导编码的整个过程。计算机软件产品从需求分析、设计、编码、测试、发布到维护，类似于经历一个生命的孕育、诞生、成长、成熟、衰亡的周期，一般称为软件开发生命周期。</p>
+<ul>
+<li>问题的定义于规划：确定开发目标，可行性分析，指定开发计划</li>
+<li>需求分析：对软件需要的各个功能进行详细分析</li>
+<li>软件设计：对整个软件的系统设计（系统框架设计、各函数模块设计、数据库设计）</li>
+<li>程序编码：根据软件设计文档完成直接编码，转换成可运行的程序代码，一般要制定统一、符合标准的编写规范</li>
+<li>软件测试：发现软件设计或软件编码中存在的问题并进行修改，保证软件的质量</li>
+<li>运行维护：纠错性维护和改进性维护</li>
+</ul>
+<h1 id="介绍软件开发生命周期的几种模型"><a href="#介绍软件开发生命周期的几种模型" class="headerlink" title="介绍软件开发生命周期的几种模型"></a>介绍软件开发生命周期的几种模型</h1><ul>
+<li>瀑布模型/改进的瀑布模型：需求 → 分析 → 设计 → 编码 → 测试 等几个阶段，每个阶段都明确定义了产出物和验证的准则，每个阶段完成后阻止相关的评审和验证，通过后进入到下一阶段。为了提高效率，并行开发适当地重叠各个阶段的过程</li>
+<li>螺旋模型：需求 → 分析 → 设计 → 开发 → 测试，加强了软件开发各个阶段的管理和控制，多阶段转化到多迭代过程中。每次迭代都包含六个步骤：确定目标和替代方案、识别项目的风险、堆技术方案进行评、开发出本次迭代的交付物、计划下一次迭代过程、提交下一次迭代的步骤和方案。螺旋模型实现了每个阶段过程中的目标制定、风险分析、交付物的评估验证，保证了软件具有较高的代码质量</li>
+<li>迭代模型：遵循需求 → 设计 → 开发的瀑布模型，开发阶段可以包括多次迭代，逐步精化和修正</li>
+<li>快速原型模型：也称敏捷开发，根据需求在短时间内完成可以演示的软件产品，只实现部分功能或最重要的功能</li>
+</ul>
+<h1 id="说明微软公司采用的软件安全开发生命周期模型12个阶段的内容"><a href="#说明微软公司采用的软件安全开发生命周期模型12个阶段的内容" class="headerlink" title="说明微软公司采用的软件安全开发生命周期模型12个阶段的内容"></a>说明微软公司采用的软件安全开发生命周期模型12个阶段的内容</h1><ul>
+<li>第 0 阶段，准备阶段：通过教育培训，培养开发团队员工的安全意识</li>
+<li>第 1 阶段，项目启动阶段：在项目启动时，需要将项目涉及的安全问题都分析到位，以使软件产品更安全可靠</li>
+<li>第 2 阶段，定义需要遵守的安全设计原则：在编码阶段开始前，需要在设计阶段对软件安全特性进行较多考虑，并定义出安全设计的原则</li>
+<li>第 3 阶段，产品风险评估：在此阶段对所以开发的产品精心风险评估，以确认开发的软件是否采用了由潜在风险的技术，或者私否有较大的隐私暴露危险性</li>
+<li>第 4 阶段，风险分析：对于存在高风险的软件产品，有必要通过威胁建模开展深入的风险分析</li>
+<li>第 5 阶段，创建安全文档、安全配置工具：考虑为用户提供可操作的安全指南和安全配置工具</li>
+<li>第 6 阶段，安全编码策略</li>
+<li>第 7 阶段，安全测试策略：协助开发团队发现可以被利用的高危漏洞</li>
+<li>第 8 阶段， 开发团队自身进行全面安全分析检测：在软件产品进行验证阶段且已完成所以代码与功能开发后的一个阶段</li>
+<li>第 9 阶段，最终安全评审：做最终的安全评审，以检查是否做号了提交给客户的准备</li>
+<li>第 10 阶段，组建安全响应团队制定安全响应计划</li>
+<li>第 11 阶段，产品发布</li>
+<li>第 12 阶段，安全响应执行</li>
+</ul>
+<h1 id="说明主要的软件静态和动态安全检测技术"><a href="#说明主要的软件静态和动态安全检测技术" class="headerlink" title="说明主要的软件静态和动态安全检测技术"></a>说明主要的软件静态和动态安全检测技术</h1><p>静态完全检测技术包括词法分析、数据流分析、污点传播分析、符号执行、模型检查、定理证明等</p>
+<p>动态安全检测技术主要包括模糊测试、智能模糊车上和动态污点分析等</p>
+<h1 id="详细介绍基于软件技术的软件安全保护技术"><a href="#详细介绍基于软件技术的软件安全保护技术" class="headerlink" title="详细介绍基于软件技术的软件安全保护技术"></a>详细介绍基于软件技术的软件安全保护技术</h1><ul>
+<li>注册信息验证技术</li>
+<li>软件防篡改技术</li>
+<li>代码混淆技术</li>
+<li>软件水印技术</li>
+<li>软件加壳技术</li>
+<li>反调试反跟踪技术</li>
+</ul>
+<h1 id="说明恶意程序主要的传播技术"><a href="#说明恶意程序主要的传播技术" class="headerlink" title="说明恶意程序主要的传播技术"></a>说明恶意程序主要的传播技术</h1><ul>
+<li>网站挂马</li>
+<li>诱骗下载</li>
+<li>通过移动存储介质传播</li>
+<li>通过电子邮件和即时通信软件传播</li>
+<li>通过局域网传播</li>
+</ul>
+<h1 id="说明恶意程序的4种检测技术"><a href="#说明恶意程序的4种检测技术" class="headerlink" title="说明恶意程序的4种检测技术"></a>说明恶意程序的4种检测技术</h1><ul>
+<li>特征码查杀技术：针对已知病毒木马等恶意程序进行分析，提前典型代码特征添加到特征库中，然后根据恶意程序的特征码对文件或内存进行扫描匹配，匹配成功则检测出相应特征码对应的恶意程序</li>
+<li>启发式查杀技术：通过事先分析恶意程序执行指令的顺序或特定行为的组合情况等特征，建立检测的基准行为或指令的样本库，并以这些基准行为或指令的特征来检测并确定是否是恶意程序</li>
+<li>虚拟机查杀技术：在扫描恶意程序时，通过将恶意程序加载到虚拟机环境中运行，从而让恶意程序自动脱壳还原为原有状态，再进行检测查杀的技术</li>
+<li>主动防御技术：通过事先挂钩系统服务派发表 SSDT 中的多个 API 函数，类如进程创建、线程创建、DLL插入等系统函数，实现对恶意程序进行全面监控</li>
+</ul>
+<h1 id="介绍10种常见的-Web-安全威胁手段"><a href="#介绍10种常见的-Web-安全威胁手段" class="headerlink" title="介绍10种常见的 Web 安全威胁手段"></a>介绍10种常见的 Web 安全威胁手段</h1><ul>
+<li>注入</li>
+<li>跨站脚本</li>
+<li>跨站请求伪造</li>
+<li>遭破坏的身份认证和会话管理：攻击者窃听来用户访问 HTTP 时的用户名和密码，或用户的会话。从而得到 SessionID 进而冒出用户进行 HTTP 访问的过程。</li>
+<li>不安全的直接对象引用：指 Web 应用程序的开发人员将一些不应公开的对象引用直接暴露给用户，使用户可通过更改 URL 等操作直接引用对象，一个用户通过更改 URL 等操作可以成功访问到未被授权的内容。</li>
+<li>安全配置错误：Web 应用的各个层次都有可能出现安全配置错误。</li>
+<li>不安全的加密存储： Web 应用系统没有对敏感性资料进行加密，或采用的加密算法复杂度不高可以被轻易破解，或加密所使用的密钥非常容易检测出来。</li>
+<li>没有限制的 URL 访问：URL 访问限制主要时限制未授权用户访问某些链接，一般通过隐藏来实现保护，然而在某些情况下有可能能够访问被隐藏了的链接，从而可以使用未被授权的功能。</li>
+<li>传输层保护不足：攻击者利用嗅探方法就可以简单地截获网络上的数据，如果传输层上没有任何的保护措施，那对于用户和 Web 应用系统都是非常危险的。</li>
+<li>为验证的重定向及转发：未经过验证的重定向将可能使用户被引导到钓鱼网站或挂马网站等恶意站点，而未经过验证的转发将可能导致用户绕过验证和授权机制。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>NCRE</category>
+      </categories>
+      <tags>
+        <tag>NCRE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机等级考试三级信息安全技术章节习题6</title>
+    <url>/posts/a8adb7bc/</url>
+    <content><![CDATA[<p><strong>六、信息安全管理</strong></p>
+<h1 id="填空"><a href="#填空" class="headerlink" title="填空"></a>填空</h1><h2 id="信息安全的一个重要原则是"><a href="#信息安全的一个重要原则是" class="headerlink" title="信息安全的一个重要原则是 ___"></a>信息安全的一个重要原则是 <strong>___</strong></h2><p>技(术)管(理)并重</p>
+<a id="more"></a>
+<h2 id="信息安全的3个基本属性是-、-和"><a href="#信息安全的3个基本属性是-、-和" class="headerlink" title="信息安全的3个基本属性是 ___、___和___"></a>信息安全的3个基本属性是 <strong>___、___和___</strong></h2><p>机密性、完整性、可用性</p>
+<h2 id="风险评估的结果可以用许多方法来提交，主要包含-、-和"><a href="#风险评估的结果可以用许多方法来提交，主要包含-、-和" class="headerlink" title="风险评估的结果可以用许多方法来提交，主要包含 \_、___和___"></a>风险评估的结果可以用许多方法来提交，主要包含 <strong><em>\</em>_、___和___</strong></h2><p>信息支持分类表、权重标准分析表、漏洞风险等级表</p>
+<h2 id="信息安全管理中的风险计算公式为"><a href="#信息安全管理中的风险计算公式为" class="headerlink" title="信息安全管理中的风险计算公式为 ___"></a>信息安全管理中的风险计算公式为 <strong>___</strong></h2><p>风险 ＝ 出现漏洞的可能性 × 信息资产的价值 － 当前控制减轻的风险概率 ＋ 对漏洞了解的不确定性</p>
+<h2 id="进行信息安全管理措施中，事故响应的4个阶段分别为-、-、-、-p355"><a href="#进行信息安全管理措施中，事故响应的4个阶段分别为-、-、-、-p355" class="headerlink" title="进行信息安全管理措施中，事故响应的4个阶段分别为 ___、___、___、___ p355"></a>进行信息安全管理措施中，事故响应的4个阶段分别为 <strong>___、___、___、___</strong> p355</h2><p>计划、检测、反应、恢复</p>
+<h1 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h1><h2 id="简述如何确定一个信息系统的安全保护等级"><a href="#简述如何确定一个信息系统的安全保护等级" class="headerlink" title="简述如何确定一个信息系统的安全保护等级"></a>简述如何确定一个信息系统的安全保护等级</h2><p>第一级，信息系统受到破坏后，会对公民法人和其他组织的合法权益造成损害，但不损害国家安全、社会秩序和公共利益</p>
+<p>第二级，信息系统受到破坏后，会对公民法人和其他组织的合法权益产生严重损害，或对社会秩序和公共利益造成损害，但不损害国家安全</p>
+<p>第四级，信息系统受到破坏后，会对社会秩序和公共利益造成特别严重损害，或对国家安全造成严重损害</p>
+<p>第五级，信息系统受到破坏后，会国家安全造成特别严重损害</p>
+<h2 id="简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点"><a href="#简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点" class="headerlink" title="简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点"></a>简述信息安全发展过程中所历经的3个主要阶段以及它们各自的特点</h2><p>通信保密阶段、计算机安全阶段、信息安全保障阶段</p>
+<h2 id="在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？"><a href="#在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？" class="headerlink" title="在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？"></a>在信息安全管理体系中，组织机构满足哪些基本条件之后可以向被认可的认证机构提出认证申请？</h2><ul>
+<li>努力遵循法律法规的行为，已北相关机构认识</li>
+<li>体系文件完全符合标准要求</li>
+<li>体系已被有效实施，即组织结构在风险评估的基础上，识别出需要保护的关键信息资产、制定信息安全方针、确定安全控制目标与控制方式并实施、完成体系审核与评估活动并采取相应的纠正预防措施</li>
+</ul>
+<h2 id="简述自评估和检查评估的区别及优缺点"><a href="#简述自评估和检查评估的区别及优缺点" class="headerlink" title="简述自评估和检查评估的区别及优缺点"></a>简述自评估和检查评估的区别及优缺点</h2><h2 id="信息安全风险包括哪些方面？"><a href="#信息安全风险包括哪些方面？" class="headerlink" title="信息安全风险包括哪些方面？"></a>信息安全风险包括哪些方面？</h2><p>指威胁源采用恰当的威胁方式利用脆弱性造成不良后果。风险管理重的风险种类有很多，如纯粹风险、投机风险、财产风险、责任风险、人生风险、信任风险、环境风险、职业风险、自然风险、巨灾风险、社会风险、政治风险、经济风险、税收风险、法规风险等</p>
+<h2 id="如何理解信息安全管理中的业务持续性管理与灾难恢复？"><a href="#如何理解信息安全管理中的业务持续性管理与灾难恢复？" class="headerlink" title="如何理解信息安全管理中的业务持续性管理与灾难恢复？"></a>如何理解信息安全管理中的业务持续性管理与灾难恢复？</h2><p>灾难恢复计划是为灾难做准备和从灾难中恢复的计划。应急计划小组必须区分灾难和事故，但在攻击发生前，这是不可能区分出来的。一个事件最初归类为事故，但后来常常判定为一个灾难。此时，机构可以改变事故相应方式，采取行动，取保价值最高的资产安全，即使在短期内被破坏的风险较大，但仍在较长事件内保有价值。另为，灾难恢复计划的关键是恢复主站点上的操作，使机构运转起来。DRP 的目标是恢复到灾难前的状态</p>
+<h2 id="访问控制有哪几类？"><a href="#访问控制有哪几类？" class="headerlink" title="访问控制有哪几类？"></a>访问控制有哪几类？</h2><ul>
+<li>预防性访问控制</li>
+<li>探查性访问控制</li>
+<li>纠正性访问控制</li>
+</ul>
+<h2 id="如何确定安全策略是否达到组织机构所需的安全目标？"><a href="#如何确定安全策略是否达到组织机构所需的安全目标？" class="headerlink" title="如何确定安全策略是否达到组织机构所需的安全目标？"></a>如何确定安全策略是否达到组织机构所需的安全目标？</h2><ul>
+<li>安全策略是否符合法律、法规、技术标准及合同要求</li>
+<li>管理层是否已批准了安全策略，并明确承诺支持策略的实施</li>
+<li>安全策略是否损害来组织机构、员工及第三方的利益</li>
+<li>安全策略是否实用、可操作并可以在组织机构重全面实施</li>
+<li>安全策略是否满足组织机构在各个方面的安全要求</li>
+<li>安全策略是否已传达给组织结构重的员工与相关利益方，并得到了他们的同意</li>
+</ul>
+<h2 id="在制定业务持续性计划时，要采取哪些策略？"><a href="#在制定业务持续性计划时，要采取哪些策略？" class="headerlink" title="在制定业务持续性计划时，要采取哪些策略？"></a>在制定业务持续性计划时，要采取哪些策略？</h2><p>3 重选项：热站点、暖站点和冷站点，3 重共享功能：时间共享、服务台和共有协议</p>
+<p>热站点：完全配置好的计算机设备</p>
+<p>暖站点：提供与热站点相同的许多服务和选项，不包括实际应用程序，或未安装和配置的应用程序</p>
+<p>冷站点：只提供初步的服务和功能</p>
+<h2 id="简述信息系统开发和实施的安全原则"><a href="#简述信息系统开发和实施的安全原则" class="headerlink" title="简述信息系统开发和实施的安全原则"></a>简述信息系统开发和实施的安全原则</h2><ul>
+<li>主管参与</li>
+<li>优化和创新</li>
+<li>充分利用信息资源</li>
+<li>实用和时效</li>
+<li>有效安全控制</li>
+<li>适用发展变化</li>
+</ul>
+<h2 id="我国信息安全事件分级分类方法有哪些？"><a href="#我国信息安全事件分级分类方法有哪些？" class="headerlink" title="我国信息安全事件分级分类方法有哪些？"></a>我国信息安全事件分级分类方法有哪些？</h2><h2 id="应急计划小组的成员可由哪些人员组成？"><a href="#应急计划小组的成员可由哪些人员组成？" class="headerlink" title="应急计划小组的成员可由哪些人员组成？"></a>应急计划小组的成员可由哪些人员组成？</h2><p>成员应是各利益团体的经理或代表。业务经理熟悉改领域的操作过程，所以应提供其活动的细节，说明他们能承受多大危险。项目小组的信息技术经理应熟悉可处于风险之中的系统和所需的 IRP、DRP 和 BCP ，以提供计划过程重的技术内容。信息安全经理需要监视项目的安全计划，提供威胁、漏洞、攻击的信息和计划过程中需要的恢复需求。</p>
+<h2 id="组织机构需求信息安全管理体系认证的目的有哪些？"><a href="#组织机构需求信息安全管理体系认证的目的有哪些？" class="headerlink" title="组织机构需求信息安全管理体系认证的目的有哪些？"></a>组织机构需求信息安全管理体系认证的目的有哪些？</h2><ul>
+<li>获得最佳的信息安全运行方式</li>
+<li>保证商业安全</li>
+<li>降低风险</li>
+<li>避免损失</li>
+<li>保持核心竞争优势</li>
+<li>提高商业活动中的信誉</li>
+<li>提高竞争能力</li>
+<li>满足客户的要求</li>
+<li>保证可持续发展</li>
+<li>符合法律法规的要求</li>
+</ul>
+<h2 id="具有什么特征的攻击才能被界定为事故？"><a href="#具有什么特征的攻击才能被界定为事故？" class="headerlink" title="具有什么特征的攻击才能被界定为事故？"></a>具有什么特征的攻击才能被界定为事故？</h2><p>事故是对信息资产的一个攻击，它明显威胁着信息资源的机密性、完整性和可用性。如果发生了威胁信息的行为并且已完成，则盖行为就界定为一个事故。</p>
+<h2 id="工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？"><a href="#工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？" class="headerlink" title="工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？"></a>工作人员上岗前、在岗期间以及离职时，人员安全的控制措施分别有哪些？</h2><p>定期对不同岗位的人员进行考核，考核包括政治思想、保密观念和业务技术等多各方面</p>
+<p>定期对系统的所以工作人员从政治思想业务水平、工作表现等方面进行考核，对不适于接触信息系统能够的人员要适时调离</p>
+<p>员工从一般岗位转到信息安全重要岗位，组织机构也应当对其进行信用检查。对于处在有相当权力位置的人员，这种检查应定期进行</p>
+<h2 id="风险评估中，风险值由哪些因素决定？请写出计算公式"><a href="#风险评估中，风险值由哪些因素决定？请写出计算公式" class="headerlink" title="风险评估中，风险值由哪些因素决定？请写出计算公式"></a>风险评估中，风险值由哪些因素决定？请写出计算公式</h2><p>风险 ＝ 出现漏洞的可能性 × 信息资产的价值 － 当前控制减轻的风险概率 ＋ 对漏洞了解的不确定性</p>
+<h2 id="为保证网络通信线路的安全，应注意哪几个方面？"><a href="#为保证网络通信线路的安全，应注意哪几个方面？" class="headerlink" title="为保证网络通信线路的安全，应注意哪几个方面？"></a>为保证网络通信线路的安全，应注意哪几个方面？</h2><ul>
+<li>用于数据传输的线路应符合有关标准，如线路噪声不应超标等</li>
+<li>传输线路应采用屏蔽电缆并有露天保护或埋于地下，要求远距离电线路或强电磁场反射源，以减少由于干预引起的数据错误</li>
+<li>铺设电缆应采用金属套装、屏蔽电缆或加装金属套装，以减少各种辐射对路线的干扰，定期检查各线段及接点，更换老化变质的电缆</li>
+<li>定期检查接线盒及其他易被人接近的线路部位</li>
+<li>定期测试信号轻度，检查是否有非法装置接入线路</li>
+<li>配置必要的检查设备，以发现非法窃听</li>
+<li>如果条件许可或是信息安全需要，可以使用光缆，光缆对非法窃听很敏感，但容易被发现</li>
+<li>调试解调器应放置在收监视的区域，以便即时发现和防止外来连接的企图，调制解调器的连接应定期检验，以检验是否有篡改行为</li>
+</ul>
+<h2 id="信息安全管理认证的依据与范围、申请认证的基本条件有哪些？"><a href="#信息安全管理认证的依据与范围、申请认证的基本条件有哪些？" class="headerlink" title="信息安全管理认证的依据与范围、申请认证的基本条件有哪些？"></a>信息安全管理认证的依据与范围、申请认证的基本条件有哪些？</h2><p>认证的依据：BS7799-2：1999标准</p>
+<p>认证范围通常与它实施安全管理体系的范围是相同的但，并不需要必须相同</p>
+<p>基本条件：</p>
+<ul>
+<li>努力遵循法律法规的行为，已北相关机构认识</li>
+<li>体系文件完全符合标准要求</li>
+<li>体系已被有效实施，即组织结构在风险评估的基础上，识别出需要保护的关键信息资产、制定信息安全方针、确定安全控制目标与控制方式并实施、完成体系审核与评估活动并采取相应的纠正预防措施</li>
+</ul>
+<h2 id="系统运行阶段的维护活动通常有哪几类？"><a href="#系统运行阶段的维护活动通常有哪几类？" class="headerlink" title="系统运行阶段的维护活动通常有哪几类？"></a>系统运行阶段的维护活动通常有哪几类？</h2><ul>
+<li>改正性维护：诊断和改正在使用过程重发现的系统错误</li>
+<li>适合性维护：修改系统以适应环境的变化</li>
+<li>完善性维护：根据用户的要求改进或扩充系统使其更完善</li>
+<li>预防性维护：修改系统为将来的维护活动做准备</li>
+</ul>
+<h2 id="简述影响维护代价的技术因素和非技术因素"><a href="#简述影响维护代价的技术因素和非技术因素" class="headerlink" title="简述影响维护代价的技术因素和非技术因素"></a>简述影响维护代价的技术因素和非技术因素</h2><ul>
+<li>技术因素<ul>
+<li>软件对运行环境的依赖性</li>
+<li>编程语言</li>
+<li>编程风格</li>
+<li>测试与改错工作</li>
+<li>文档的质量</li>
+</ul>
+</li>
+<li>非技术因素<ul>
+<li>应用域的复杂性</li>
+<li>开发人员的复杂性</li>
+<li>系统的生命周期</li>
+<li>业务操作模式变化对系统的影响</li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>NCRE</category>
@@ -15290,92 +15260,6 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
         <tag>GoogleHacking</tag>
         <tag>搜索</tag>
         <tag>高效</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>计算机等级考试三级信息安全技术章节习题4</title>
-    <url>/posts/46a3d690/</url>
-    <content><![CDATA[<p><strong>四、网络安全</strong></p>
-<h1 id="简述-TCP-IP-协议架构的层次架构和各层包含的主要协议"><a href="#简述-TCP-IP-协议架构的层次架构和各层包含的主要协议" class="headerlink" title="简述 TCP/IP 协议架构的层次架构和各层包含的主要协议"></a>简述 TCP/IP 协议架构的层次架构和各层包含的主要协议</h1><ul>
-<li>物理和数据链路层</li>
-<li>网络层：TCP/IP 体系结构最重要的一层，IP 协议族是网路层的基础协议包括用于路由选择的 <code>RIP</code> 、 <code>OSPF</code> 等路由协议，用于数据传输的 IP 协议，用于网络管理的 SNMP 协议,用于故障诊断的 ICMP 协议。</li>
-<li>传输层：TCP 协议提供端到端可靠数据传输，UDP 协议提供端到端不可靠传输。</li>
-<li>应用层：文件传输协议 FTP ，超文本传输协议 HTTP ，简单邮件传输协议 SMTP/POP3 ，域名系统 DNS ，远程终端登录协议 Telnet ，简单网络管理 SNMP 等。</li>
-</ul>
-<a id="more"></a>
-<h1 id="简述-ARP-协议欺骗的原理"><a href="#简述-ARP-协议欺骗的原理" class="headerlink" title="简述 ARP 协议欺骗的原理"></a>简述 ARP 协议欺骗的原理</h1><p>ARP 协议主要完成从 IP 地址到 MAC 地址的转换，主机中的 ARP 缓存表都有更新机制，每台主机在收到 ARP 数据包时就会更新自己的 ARP 缓存表。ARP 欺骗的原理就是恶意主机伪装并发送欺骗性的 ARP 数据包，致使其他主机收到欺骗性的 ARP 数据包后，更新其 ARP 缓存表，从而建立错误的 IP 地址与 MAC 地址的对应关系。</p>
-<h1 id="简述-ICMP-协议的功能"><a href="#简述-ICMP-协议的功能" class="headerlink" title="简述 ICMP 协议的功能"></a>简述 ICMP 协议的功能</h1><p>Internet 控制报文协议（Internet Control Message Protocol , ICMP）主要的作用是在 TCP/IP 网路中发送出错和控制消息，允许主机或网络设备报告差错或异常情况，从而提供一个错误侦测与反馈机制</p>
-<p>主要功能是差错报告和查询</p>
-<h1 id="简述-TCP-协议的三次握手过程"><a href="#简述-TCP-协议的三次握手过程" class="headerlink" title="简述 TCP 协议的三次握手过程"></a>简述 TCP 协议的三次握手过程</h1><ul>
-<li>A 主机向 B 主机发送 <code>SYN=1</code> 的数据包，希望建立同步连接，数据包序号 <code>SEQ=X</code> ，A 进入 <code>SYN_SENT</code> 状态</li>
-<li>B 收到数据包，同意建立连接，返回数据包 <code>SYN=1 , ACK=1</code> ，数据包序号 <code>SEQ=Y</code> ，确认号 <code>X+1</code>  ，B 进入 <code>SYN_RECV</code> 状态 </li>
-<li>A 收到返回的数据包，确认建立连接，发送数据包 <code>ACK=1</code> ，数据包序号 <code>SEQ=Y+1</code> ，确认号 <code>Y+1</code> ，A 、B 进入 <code>ESTABLISHED</code> 状态，TCP 连接成功</li>
-</ul>
-<p>请求包 <code>SYN</code></p>
-<p>应答包 <code>ACK</code></p>
-<h1 id="说明-TCP-全连接扫描、TCP-SYN-扫描和-TCP-FIN-扫描的原理和不同之处"><a href="#说明-TCP-全连接扫描、TCP-SYN-扫描和-TCP-FIN-扫描的原理和不同之处" class="headerlink" title="说明 TCP 全连接扫描、TCP SYN 扫描和 TCP FIN 扫描的原理和不同之处"></a>说明 TCP 全连接扫描、TCP SYN 扫描和 TCP FIN 扫描的原理和不同之处</h1><ul>
-<li>TCP 全连接扫描：利用 TCP 协议三次握手原理来探测目标主机的网络端口是否处于打开状态。都尝试与目标主机建立正常的 TCP 三次握手的全连接。如果能建立起三次握手，则说明三次握手所连接的目标主机的端口是打开的，所有扫描过程容易被检测出来。</li>
-<li>TCP SYN 扫描：半连接扫描，利用前两次握手，降低了被发现的可能，同时提高了扫描性能。</li>
-<li>TCP FIN 扫描：发送 FIN 标识位为 1 的数据包给目标主机，若目标主机端口是开放的，则丢弃此包，不进行回应，若未开放，则返回一个 RST 标识位为 1 的数据包。由于不采用 TCP 三次握手连接方法，扫描行为更加隐秘，也称秘密扫描。这种方法适用于 UNIX 操作系统主机，有些操作系统（Windows NT）不论端口是否打开都回复 RST 这种方法就不适用了。</li>
-</ul>
-<h1 id="简述网络漏洞扫描和主机漏洞扫描的区别"><a href="#简述网络漏洞扫描和主机漏洞扫描的区别" class="headerlink" title="简述网络漏洞扫描和主机漏洞扫描的区别"></a>简述网络漏洞扫描和主机漏洞扫描的区别</h1><ul>
-<li>网络漏洞扫描：网络漏洞扫描工具针对网络中的主机和网络设备，发送漏洞探测数据包进行漏洞的扫描，模拟攻击技术扫描出具体的漏洞类型，扫描工具中的漏洞脚本库中包含大量漏洞的模型攻击脚本或代码。网络漏洞扫描工具无法通过网络扫描没有网络服务功能的应用软件的漏洞</li>
-<li>主机漏洞扫描，主机漏洞扫描工具通过检测本机安装的操作系统和应用软件系统版本信息和补丁安装情况根据自身数据库中保留的最新补丁信息进行比较，判断是否存在某些为打补丁的漏洞</li>
-</ul>
-<h1 id="介绍基于-DNS服务器的欺骗技术原理"><a href="#介绍基于-DNS服务器的欺骗技术原理" class="headerlink" title="介绍基于 DNS服务器的欺骗技术原理"></a>介绍基于 DNS服务器的欺骗技术原理</h1><p>欺骗目标是 DNS 服务器。攻击者首先向 DNS 服务器发送域名对应 IP 地址的查询请求， DNS 服务器在没有此域名的条件下会向更高级别的 DNS 服务器上传查询请求。此时，攻击者可以 <strong>伪造更高级别 DNS 服务器返回的 DNS 应答包</strong> ，告知此 DNS 服务器要查询域名的 IP 地址，这个 IP 地址往往被设置为攻击者自己服务器的 IP 地址。被欺骗的 DNS 服务器收到 DNS 应答数据包后，将域名和对应的虚假 IP 地址记录到自身缓存中，当网络中有查询此域名时，就从缓存中找到虚假 IP 地址返回给用户，使用户访问的虚假 IP 地址对应的攻击者的服务器</p>
-<h1 id="说明网站挂马的概念及原理"><a href="#说明网站挂马的概念及原理" class="headerlink" title="说明网站挂马的概念及原理"></a>说明网站挂马的概念及原理</h1><p>网站中的网页被攻击者恶意修改后，添加了可以触发并下载恶意程序链接以及恶意程序代码和脚本</p>
-<p>挂马的前提是入侵网站服务器，具有网站中网页的修改权限，攻击者对网站中的网页进行修改，通过 iframe 内嵌框架、跨站脚本链接等内嵌链接机制，将恶意链接添加到网页中。恶意网页是被攻击者篡改或恶意构建的其他网站的网页，在恶意网页中往往被攻击者挂载了含有漏洞利用代码的文件或脚本，文件和脚本在用户访问恶意网页时会自动下载并执行，用户计算机中浏览器及插件漏洞会被利用并导致文件和脚本中指向或包括的木马病毒自动被下载和运行</p>
-<h1 id="说明-Dos-攻击的3种实现方式"><a href="#说明-Dos-攻击的3种实现方式" class="headerlink" title="说明 Dos 攻击的3种实现方式"></a>说明 Dos 攻击的3种实现方式</h1><ul>
-<li>利用目标主机自身存在的拒绝服务型漏洞进行攻击</li>
-<li>耗尽目标主机 CPU 和内存等计算机资源的攻击</li>
-<li>耗尽目标主机网络带宽攻击</li>
-</ul>
-<h1 id="介绍-SYN-Flood-攻击的原理"><a href="#介绍-SYN-Flood-攻击的原理" class="headerlink" title="介绍 SYN-Flood 攻击的原理"></a>介绍 SYN-Flood 攻击的原理</h1><p>攻击者向目标主机发送第一次 SYN 握手请求数据包，伪造了此数据包的源 IP 地址为不存在或网络不可达的一个 IP 地址，地址不存在或网络不可达，所以没用第三次握手的响应数据包，主机就要等一段时间后才丢弃未完成的连接，这会占用一定的 CPU 和内存资源，攻击者通过大量伪造的 SYN 数据包，形成大量的半开连接，直至资源耗尽</p>
-<h1 id="介绍-ACK-Flood-攻击的原理"><a href="#介绍-ACK-Flood-攻击的原理" class="headerlink" title="介绍 ACK-Flood 攻击的原理"></a>介绍 ACK-Flood 攻击的原理</h1><p>利用握手过程，在发送 SYN 数据包给目标主机之前，将该数据包的源地址和目标地址都设置成目标主机的 IP 地址。这会导致目标主机向自己的 IP 地址响应 SYN+ACK 数据包，结果又向自己发送 ACK 消息并创建一个空连接，每个空连接都会保留至超时，当这样的连接数量很多时，系统资源将会被耗尽</p>
-<h1 id="介绍应用层脚本洪水攻击的原理"><a href="#介绍应用层脚本洪水攻击的原理" class="headerlink" title="介绍应用层脚本洪水攻击的原理"></a>介绍应用层脚本洪水攻击的原理</h1><p>应用层 DoS 攻击是脚本洪水攻击，攻击者利用代理服务器对 Web 服务器发送大量的 HTTP Get 请求，如果目标服务器的动态 Web 服务器，大量的 HTTP Get 请求主要是查询动态网页，这些请求会给后台的数据库服务器制造极大负载直至无法正常响应，从而使正常用户的访问也无法进行了</p>
-<p>针对动态脚本页面的网站服务器，脚本洪水攻击的效果很明显，由于这些网站大量前端脚本程序会调用后台数据库。而针对静态页面的网站服务器，由于不会调用后台数据库中的数据，攻击效果就不明显。由于脚本洪水攻击需要和网站服务器建立正常的 TCP 连接，因而会暴露攻击者的 IP 地址</p>
-<h1 id="举例说明-SQL-注入的原理"><a href="#举例说明-SQL-注入的原理" class="headerlink" title="举例说明 SQL 注入的原理"></a>举例说明 SQL 注入的原理</h1><p>Web应用程序在接收到用户的请求参数后，如果咩有对请求参数进行严格的过滤或检查，而直接将用户的请求参数作为拼接 SQL 语句的一部分进行解释执行，则攻击者就可以通过构造一段 SQL 代码片段作为请求参数提交给 Web 应用程序，从而使这段 SQL 代码得到后台数据库程序的解释执行，使攻击者能查询操作后台数据库</p>
-<h1 id="举例说明跨站脚本攻击的原理"><a href="#举例说明跨站脚本攻击的原理" class="headerlink" title="举例说明跨站脚本攻击的原理"></a>举例说明跨站脚本攻击的原理</h1><p>利用网站程序对 Web 页面中输入的数据过滤不严格或未做过滤的漏洞，攻击者往 Web 页面中恶意脚本代码，当用户浏览页面时，使用户的浏览器会自动加载并执行页面中插入的恶意脚本代码，从而实现在用户浏览器中显示攻击者的恶意脚本、控制用户浏览器或窃取用户资料的目的</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?</span> php</span><br><span class="line">    <span class="variable">$user</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;user&#x27;</span>];</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Hello&quot;</span> .<span class="variable">$user</span>;</span><br><span class="line"> <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>如果用户提交请求 <code>xxx.com/xss.php?user=&lt;scropt&gt;alert(/xss/)&lt;/scropt&gt;</code> 代码将被返回给客户端比嗯执行后显示在浏览器中</p>
-<ul>
-<li>反射型 XSS ：非持久型跨站脚本攻击，向用户发送带有恶意攻击脚本的一个 URL 连接</li>
-<li>存储型 XSS ：持久型跨站脚本攻击， XSS 保存在服务器端（如攻击者将恶意数据嵌入到博客或BBS 社区的帖子内容中，用户查看对应的博客或帖子时，其中的攻击脚本将被执行）</li>
-<li>DOM-based XSS ：基于文档对象模型的跨站脚本攻击，通过 JavaScript 脚本动态修改 DOM 结构，进而导致XSS 漏洞</li>
-</ul>
-<h1 id="解释说明跨站请求伪造攻击的概念及原理"><a href="#解释说明跨站请求伪造攻击的概念及原理" class="headerlink" title="解释说明跨站请求伪造攻击的概念及原理"></a>解释说明跨站请求伪造攻击的概念及原理</h1><p>跨站请求伪造攻击（Cross Site Request Forgery，CSRF）属于伪造客户端请求，让用户访问攻击者构造的网页，执行网页中的恶意脚本，伪造用户的请求，对用户有登录权限的网站空间实施攻击。通过攻击者的站点对用户可登录的站点发起的攻击，而且攻击脚本利用的是伪造的用户请求，因此被称为跨站点请求伪造攻击。</p>
-<p>当用户通过用户名和口令完成对目标 Web 应用服务器的登录验证后，用户的浏览器会存储登录验证后由 Web 应用服务器返回给浏览器的会话认证信息，即 Cookie 数据。用户针对该 Web 应用服务器的 HTTP 请求，用户的浏览器都会自动通过保存的 Cookie 通过验证，而不用输入用户名和口令。</p>
-<p>攻击者可以在自己控制网站的页面中编写对用户的 Web 应用空间发起的伪造 HTTP 表单的恶意代码，然后诱骗用户浏览攻击者构造的页面，执行页面中嵌入的恶意代码。恶意代码在受害用户不知道的情况下，通过保存在用户浏览器中的 Cookie 通过用户 Web 应用空间的验证后，以用户的身份执行 HTTP 表单请求操作，泄漏 Web 应用中用户的敏感数据或是篡改 Web 应用中的相关数据。</p>
-<h1 id="解释说明木马的端口反弹技术"><a href="#解释说明木马的端口反弹技术" class="headerlink" title="解释说明木马的端口反弹技术"></a>解释说明木马的端口反弹技术</h1><p>木马的服务端程序从内网主动发起对外连接请求，连接到外网木马的客户端。反弹式木马是服务端主动发起连接请求，而客户端是被动的等待连接，木马服务端通过设置固定的客户端 IP 地址和连接端口，直接回连木马的客户端程序。还有动态 IP 地址的木马客户端，利用一台被控制的代理服务器保存每次改变后的客户端的 IP 地址和待连接的端口，木马服务端每次启动时，先连接代理服务器获取客户端的动态 IP 地址和端口信息</p>
-<h1 id="说明防火墙的-NAT-原理"><a href="#说明防火墙的-NAT-原理" class="headerlink" title="说明防火墙的 NAT 原理"></a>说明防火墙的 NAT 原理</h1><p>网络地址翻译技术（Network Address Translation , NAT）能将单位内网只用的内部 IP 地址翻译为合法的公网 IP 地址，这使内网使用内部 IP 地址的计算机无线变动也能与外网连接。</p>
-<p>NAT 将内部 IP 地址翻译为公网 IP 地址。当外部公网响应的数据包返回给 NAT 后，NAT 再将其翻译为内网 IP 地址发给内网的主机，从而实现内网主机与外网的正常通信，解决了 IPv4 地址不足的问题。同时因为外网主机只能看到数据包来自 NAT 翻译后的公网 IP 地址，而看不到内网主机的内部 IP 地址，所以 NAT 可保护及隐藏内网计算机。</p>
-<h1 id="说明防火墙的包过滤技术和动态检测技术的区别"><a href="#说明防火墙的包过滤技术和动态检测技术的区别" class="headerlink" title="说明防火墙的包过滤技术和动态检测技术的区别"></a>说明防火墙的包过滤技术和动态检测技术的区别</h1><p>内外网之间传输的数据包按照某些特征事先设置一系列的安全规则（或安全策略）进行过滤或筛选。包过滤防火墙检查每一条规则。如果发现数据包中的信息与某规则相符，则允许或拒绝这个数据包穿过防火墙进行传输。如果没有规则能符合，则防火墙会使用默认规则。一般情况默认规则就是要求防火墙丢弃该包</p>
-<p>状态检测技术也称动态包过滤技术，不像包过滤防火墙仅靠设置静态的包过滤规则来镜像数据包的过滤拦截，而是增加对数据包连接状态变化的额外考虑。防火墙的核心部分建立数据的连接状态表，对在内外网间传输的数据包以会话角度进行检测，利用状态表跟踪每一个会话状态，记录有用的信息以帮助识别不同的会话</p>
-<p>和包过滤防火墙相比，状态检测防火墙动态记录连接的各种状态，可以在连接终止后及时阻断后续连接，防止伪造流量通过；可有效阻止更多伪造网络地址的 DoS 攻击，而且不用为了大量的正常访问请求而长久地开放大量端口。</p>
-<h1 id="说明入侵检测系统和入侵防御系统功能的区别"><a href="#说明入侵检测系统和入侵防御系统功能的区别" class="headerlink" title="说明入侵检测系统和入侵防御系统功能的区别"></a>说明入侵检测系统和入侵防御系统功能的区别</h1><p>入侵检测系统（Intrusion Detection System , IDS）工作在计算机网络系统中的关键节点上，通过实时收集和分析计算机网络或系统中的信息来检查是否出现违反安全策略的行为和是否存在入侵的迹象，进而达到提示入侵、预防攻击的目的。是对防火墙有益的补充，它对网络和主机行为进行检测，提供内部攻击、外部攻击和误操作的实施监控，增强了网络的安全性。入侵检测系统可以实现事前警告、事中防护和事后取证。</p>
-<p>入侵防御系统（Intrusion Prevention System , IPS）作为一种在线部署的产品，能够提供主动的、实时的防护，其设计目标在与准确监测网络流量，自动分析对各类网络攻击行为，并对应用层的威胁和攻击进行实时阻断，而入侵检测系统只是在监测到恶意流量的同时或之后才简单地告警。</p>
-<p>入侵防御系统的检测技术和入侵检测系统是相似的，可以在网络层、传输层和应用层进行攻击行为的检测和防御。和入侵检测系统在网络中旁边部署不同的是，入侵防御系统是通过直接串联到网络链路中实现其防御功能的。当入侵防御系统接收到外部数据流量时，如果检测到数据包中的攻击特征，就会自动地将此数据包丢掉或采取措施将攻击源阻断，从而将攻击数据包挡在网络边界之外。</p>
-<h1 id="说明防火墙和入侵防御系统功能的区别"><a href="#说明防火墙和入侵防御系统功能的区别" class="headerlink" title="说明防火墙和入侵防御系统功能的区别"></a>说明防火墙和入侵防御系统功能的区别</h1><p>防火墙位于可惜和不可信网络间，通过检测和过滤网络交换的信息，达到保护内部可信网络的目的</p>
-<p>入侵防御系统采用串联方式部署在网络中，实现网络层、传输层和应用层的全面检测和拦截，具有拦截恶意流量、实现对传输内容的深度检测和安全防护、对网络流量检测的同时进行过滤等功能</p>
-<h1 id="介绍-PKI-中基于数字证书的信任链传递关系原理"><a href="#介绍-PKI-中基于数字证书的信任链传递关系原理" class="headerlink" title="介绍 PKI 中基于数字证书的信任链传递关系原理"></a>介绍 PKI 中基于数字证书的信任链传递关系原理</h1><p>公共密钥基础设施（Public Key Infrastructure , PKI）</p>
-<p>证书认证机构（Certificate Authority , CA）</p>
-<p>证书注册机构（Registration Authority , RA）</p>
-<p>证书办法系统（Certificate Distribution System , CDS）</p>
-<p>通过真实的数字证书来相信网络用户身份的真实性是通过信任链的传递关系来保证的。证书是由证书认证机构颁发的，证书认证机构颁发证书之前要对申请证书者的身份进行确认，只有经过身份核实的才签发证书。且证书中含有证书认证机构的数字签名。如果证书中的信息被篡改，则可通过证书认证机构公钥验证出来。在可以信任证书认证机构的条件下，证书认证机构又信任证书拥有者，因此给证书拥有者颁发来数字证书。如果能验证数字证书是真实的没有被篡改过，则借由这个信任链的传递关系就可以通过真实的数字证书确认并相信在数字证书中证书拥有者的身份。简而言之，证书拥有者可以通过数字证书向网络系统中的其他实体证明自己的身份。</p>
-<h1 id="介绍-SSL-协议的连接过程"><a href="#介绍-SSL-协议的连接过程" class="headerlink" title="介绍 SSL 协议的连接过程"></a>介绍 SSL 协议的连接过程</h1><ul>
-<li>客户端发送 ClientHello 请求</li>
-<li>服务器发送 ServerHello 消息</li>
-<li>如果服务器请求客户端提供证书，客户端将发送 Certificate 消息，将数字证书发给服务器，服务器对该证书进行验证</li>
-<li>服务器证书发给客户端后，客户端对服务器的证书进行验证</li>
-<li>客户端与服务器端根据 <code>pre_master_secret</code> 以及客户端与服务器的随机数组各自独立计算出会话密钥和 MAC 密钥</li>
-<li>客户端和服务器彼此间交换各自的握手完成信息</li>
-</ul>
-]]></content>
-      <categories>
-        <category>NCRE</category>
-      </categories>
-      <tags>
-        <tag>NCRE</tag>
       </tags>
   </entry>
 </search>

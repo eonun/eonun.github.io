@@ -34,36 +34,6 @@
   </entry>
   
   <entry>
-    <title>渗透测试流程</title>
-    <link href="https://eonun.com/posts/590ce9be/"/>
-    <id>https://eonun.com/posts/590ce9be/</id>
-    <published>2021-07-19T14:00:42.000Z</published>
-    <updated>2021-09-04T02:52:58.190Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;渗透测试流程&quot;&gt;&lt;a href=&quot;#渗透测试流程&quot; class=&quot;headerlink&quot; title=&quot;渗透测试流程&quot;&gt;&lt;/a&gt;渗透测试流程&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;核心&lt;/strong&gt;: 漏洞、漏洞探测、漏洞验证、漏洞利用&lt;/p&gt;
-&lt;p&gt;OWASP top 10&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://owasp.org/www-project-web-security-testing-guide/&quot;&gt;Web 安全测试指南（WPWSTG）&lt;/a&gt;&lt;/p&gt;
-&lt;h1 id=&quot;通用渗透测试框架&quot;&gt;&lt;a href=&quot;#通用渗透测试框架&quot; class=&quot;headerlink&quot; title=&quot;通用渗透测试框架&quot;&gt;&lt;/a&gt;通用渗透测试框架&lt;/h1&gt;&lt;h2 id=&quot;范围界定&quot;&gt;&lt;a href=&quot;#范围界定&quot; class=&quot;headerlink&quot; title=&quot;范围界定&quot;&gt;&lt;/a&gt;范围界定&lt;/h2&gt;&lt;p&gt;在开展技术性安全评估之前，务必要观察、研究目标环境的&lt;strong&gt;被测范围&lt;/strong&gt;。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;取得授权&lt;/li&gt;
-&lt;li&gt;测试对象是什么(baidu.com,news.baidu.com)&lt;/li&gt;
-&lt;li&gt;应当采取何种测试方法&lt;/li&gt;
-&lt;li&gt;有哪些在渗透测试过程中需要满足的条件&lt;/li&gt;
-&lt;li&gt;需要多长时间完成测试任务&lt;/li&gt;
-&lt;li&gt;应当达到怎样的任务目标&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
-    
-    
-    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Git问题解决</title>
     <link href="https://eonun.com/posts/19e2ba1f/"/>
     <id>https://eonun.com/posts/19e2ba1f/</id>
@@ -480,6 +450,25 @@
     <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
     
     <category term="DVWA" scheme="https://eonun.com/tags/DVWA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OpenWrt插件</title>
+    <link href="https://eonun.com/posts/d0352c7e/"/>
+    <id>https://eonun.com/posts/d0352c7e/</id>
+    <published>2021-03-21T09:46:16.000Z</published>
+    <updated>2021-03-22T16:00:42.987Z</updated>
+    
+    
+    <summary type="html">有东西被加密了, 请输入密码查看.</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
+    
+    
+    <category term="OpenWrt" scheme="https://eonun.com/tags/OpenWrt/"/>
     
   </entry>
   
