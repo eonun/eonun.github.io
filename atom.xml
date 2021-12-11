@@ -38,7 +38,7 @@
     <link href="https://eonun.com/posts/590ce9be/"/>
     <id>https://eonun.com/posts/590ce9be/</id>
     <published>2021-07-19T14:00:42.000Z</published>
-    <updated>2021-12-10T15:57:55.305Z</updated>
+    <updated>2021-12-11T10:55:05.140Z</updated>
     
     
     <summary type="html">有东西被加密了, 请输入密码查看.</summary>
@@ -378,14 +378,14 @@
   </entry>
   
   <entry>
-    <title>XSS跨站脚本攻击</title>
+    <title>XSS跨站脚本</title>
     <link href="https://eonun.com/posts/db4b83e4/"/>
     <id>https://eonun.com/posts/db4b83e4/</id>
     <published>2021-05-20T07:52:34.000Z</published>
-    <updated>2021-05-20T08:38:10.223Z</updated>
+    <updated>2021-12-11T10:57:50.315Z</updated>
     
     
-    <summary type="html">&lt;h1 id=&quot;XSS&quot;&gt;&lt;a href=&quot;#XSS&quot; class=&quot;headerlink&quot; title=&quot;XSS&quot;&gt;&lt;/a&gt;XSS&lt;/h1&gt;&lt;p&gt;Cross Site Scription,跨站脚本攻击 ,为了与 Cascading Style Sheet (CSS,层叠样式表) 区分将 Cross (意为:交叉)改为交叉形的X作为缩写，故成了叉SS,XSS 。是一种通过将恶意代码注入到网页脚本中的攻击，攻击成功后攻击者可获取到 Cookie 、以受攻击者身份进行操作等行为。&lt;/p&gt;</summary>
+    <summary type="html">有东西被加密了, 请输入密码查看.</summary>
     
     
     
@@ -403,11 +403,10 @@
     <link href="https://eonun.com/posts/77b49f04/"/>
     <id>https://eonun.com/posts/77b49f04/</id>
     <published>2021-05-20T07:49:59.000Z</published>
-    <updated>2021-05-20T08:38:10.213Z</updated>
+    <updated>2021-12-11T11:00:58.037Z</updated>
     
     
-    <summary type="html">&lt;h1 id=&quot;一句话木马原理&quot;&gt;&lt;a href=&quot;#一句话木马原理&quot; class=&quot;headerlink&quot; title=&quot;一句话木马原理&quot;&gt;&lt;/a&gt;一句话木马原理&lt;/h1&gt;&lt;p&gt;&lt;code&gt;&amp;lt;?php @eval($_POST[&amp;#39;hack&amp;#39;]);?&amp;gt;&lt;/code&gt; 是一句话后面中最经典的一种，，其原理是：通过 &lt;code&gt;POST&lt;/code&gt; 、&lt;code&gt;GET&lt;/code&gt; 、&lt;code&gt;COOKIE&lt;/code&gt; 三种方式获取参数 &lt;code&gt;hack&lt;/code&gt; 的值，通过 &lt;code&gt;eval()&lt;/code&gt; 函数执行 &lt;code&gt;hack&lt;/code&gt; 中的PHP代码，这样就能通过一句话木马在网站执行传递过去的任意PHP语句。&lt;/p&gt;
-&lt;p&gt;经典一句话木马大多只有两个部分：可执行函数部分和接收数据部分&lt;/p&gt;</summary>
+    <summary type="html">有东西被加密了, 请输入密码查看.</summary>
     
     
     
@@ -427,14 +426,10 @@
     <link href="https://eonun.com/posts/e73517db/"/>
     <id>https://eonun.com/posts/e73517db/</id>
     <published>2021-05-20T07:48:01.000Z</published>
-    <updated>2021-05-20T08:38:10.223Z</updated>
+    <updated>2021-12-11T10:56:24.226Z</updated>
     
     
-    <summary type="html">&lt;h1 id=&quot;原理与分类&quot;&gt;&lt;a href=&quot;#原理与分类&quot; class=&quot;headerlink&quot; title=&quot;原理与分类&quot;&gt;&lt;/a&gt;原理与分类&lt;/h1&gt;&lt;h2 id=&quot;原理&quot;&gt;&lt;a href=&quot;#原理&quot; class=&quot;headerlink&quot; title=&quot;原理&quot;&gt;&lt;/a&gt;原理&lt;/h2&gt;&lt;p&gt;在 OWASP 发布的 top 10 漏洞里，注入漏洞一直是危害排名第一的，数据库注入漏洞是危害最大也是最受关注的漏洞。SQL 注入是指攻击者通过往原有的 SQL 语句中注入恶意的 SQL 命令，破坏原有语句结构,通过执行这些恶意语句欺骗数据库执行，导致数据库信息泄漏，其危害是巨大的，常常会导致整个数据库被脱库。&lt;/p&gt;
-&lt;h2 id=&quot;分类&quot;&gt;&lt;a href=&quot;#分类&quot; class=&quot;headerlink&quot; title=&quot;分类&quot;&gt;&lt;/a&gt;分类&lt;/h2&gt;&lt;h3 id=&quot;按参数类型分&quot;&gt;&lt;a href=&quot;#按参数类型分&quot; class=&quot;headerlink&quot; title=&quot;按参数类型分&quot;&gt;&lt;/a&gt;按参数类型分&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;数字型: 注入点参数为整数&lt;/li&gt;
-&lt;li&gt;字符型: 注入点参数为字符&lt;/li&gt;
-&lt;/ul&gt;</summary>
+    <summary type="html">有东西被加密了, 请输入密码查看.</summary>
     
     
     
