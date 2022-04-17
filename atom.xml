@@ -6,7 +6,7 @@
   <link href="https://eonun.com/atom.xml" rel="self"/>
   
   <link href="https://eonun.com/"/>
-  <updated>2021-09-04T04:35:02.664Z</updated>
+  <updated>2022-04-17T03:32:19.461Z</updated>
   <id>https://eonun.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://eonun.com/posts/84aee333/"/>
     <id>https://eonun.com/posts/84aee333/</id>
     <published>2021-09-04T04:33:46.000Z</published>
-    <updated>2021-09-04T04:35:02.664Z</updated>
+    <updated>2022-04-17T03:32:19.461Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;寄存器&quot;&gt;&lt;a href=&quot;#寄存器&quot; class=&quot;headerlink&quot; title=&quot;寄存器&quot;&gt;&lt;/a&gt;寄存器&lt;/h1&gt;&lt;p&gt;CPU 只负责运算，不负责存储数据，而数据都存储在磁盘中，磁盘速度无法满足运算时的速度，因此需要将数据先读取到内存中，CPU 需要的时候就去内存中读取，但 CPU 的运算速度远高与内存的读写速度，为避免被拖慢，CPU 都会自带一级、二级甚至三级缓存。基本上，CPU 缓存可看作是读写速度较快的内存。&lt;/p&gt;
