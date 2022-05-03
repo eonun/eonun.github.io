@@ -6,7 +6,7 @@
   <link href="https://eonun.com/atom.xml" rel="self"/>
   
   <link href="https://eonun.com/"/>
-  <updated>2022-05-03T07:42:56.259Z</updated>
+  <updated>2022-05-03T07:43:28.465Z</updated>
   <id>https://eonun.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://eonun.com/posts/9c0416c8/"/>
     <id>https://eonun.com/posts/9c0416c8/</id>
     <published>2022-05-03T07:41:59.000Z</published>
-    <updated>2022-05-03T07:42:56.259Z</updated>
+    <updated>2022-05-03T07:43:28.465Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;配置三网卡地址&quot;&gt;&lt;a href=&quot;#配置三网卡地址&quot; class=&quot;headerlink&quot; title=&quot;配置三网卡地址&quot;&gt;&lt;/a&gt;配置三网卡地址&lt;/h1&gt;&lt;p&gt;分别配置:&lt;/p&gt;
@@ -45,7 +45,7 @@
     <link href="https://eonun.com/posts/639ea8d9/"/>
     <id>https://eonun.com/posts/639ea8d9/</id>
     <published>2022-05-03T07:39:49.000Z</published>
-    <updated>2022-05-03T07:41:11.895Z</updated>
+    <updated>2022-05-03T07:43:28.469Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;查看-Vim-是否支持clipboard&quot;&gt;&lt;a href=&quot;#查看-Vim-是否支持clipboard&quot; class=&quot;headerlink&quot; title=&quot;查看 Vim 是否支持clipboard&quot;&gt;&lt;/a&gt;查看 Vim 是否支持clipboard&lt;/h1&gt;&lt;p&gt;Vim 需要安装带有图形化的版本才会有 clipboard 支持，或重新从源码&lt;a href=&quot;https://github.com/ycm-core/YouCompleteMe/wiki/Building-Vim-from-source&quot;&gt;编译安装&lt;/a&gt;。&lt;/p&gt;
@@ -68,7 +68,7 @@
     <link href="https://eonun.com/posts/bd38c3b7/"/>
     <id>https://eonun.com/posts/bd38c3b7/</id>
     <published>2022-05-03T07:38:12.000Z</published>
-    <updated>2022-05-03T07:39:20.360Z</updated>
+    <updated>2022-05-03T07:43:28.469Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;查看时区&quot;&gt;&lt;a href=&quot;#查看时区&quot; class=&quot;headerlink&quot; title=&quot;查看时区&quot;&gt;&lt;/a&gt;查看时区&lt;/h1&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;date -R&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
@@ -90,7 +90,7 @@
     <link href="https://eonun.com/posts/7daf0069/"/>
     <id>https://eonun.com/posts/7daf0069/</id>
     <published>2022-05-03T07:37:03.000Z</published>
-    <updated>2022-05-03T07:37:55.606Z</updated>
+    <updated>2022-05-03T07:43:28.469Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;Linux-内核的路由种类&quot;&gt;&lt;a href=&quot;#Linux-内核的路由种类&quot; class=&quot;headerlink&quot; title=&quot;Linux 内核的路由种类&quot;&gt;&lt;/a&gt;Linux 内核的路由种类&lt;/h1&gt;&lt;h2 id=&quot;主机路由&quot;&gt;&lt;a href=&quot;#主机路由&quot; class=&quot;headerlink&quot; title=&quot;主机路由&quot;&gt;&lt;/a&gt;主机路由&lt;/h2&gt;&lt;p&gt;路由表中指向单个 IP 地址或主机名的路由记录，其 Flags 字段为 H。&lt;br&gt;对于 &lt;code&gt;10.0.0.10&lt;/code&gt; 这个主机，通过网关 &lt;code&gt;10.139.128.1&lt;/code&gt; 路由：&lt;/p&gt;
@@ -113,7 +113,7 @@
     <link href="https://eonun.com/posts/c029412/"/>
     <id>https://eonun.com/posts/c029412/</id>
     <published>2022-05-03T07:35:24.000Z</published>
-    <updated>2022-05-03T07:36:39.161Z</updated>
+    <updated>2022-05-03T07:43:28.469Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;配置文件位置&quot;&gt;&lt;a href=&quot;#配置文件位置&quot; class=&quot;headerlink&quot; title=&quot;配置文件位置&quot;&gt;&lt;/a&gt;配置文件位置&lt;/h1&gt;&lt;ul&gt;
@@ -137,7 +137,7 @@
     <link href="https://eonun.com/posts/3efd9032/"/>
     <id>https://eonun.com/posts/3efd9032/</id>
     <published>2022-05-03T00:22:45.000Z</published>
-    <updated>2022-05-03T00:24:02.999Z</updated>
+    <updated>2022-05-03T07:43:28.472Z</updated>
     
     
     <summary type="html">&lt;h1 id=&quot;3389&quot;&gt;&lt;a href=&quot;#3389&quot; class=&quot;headerlink&quot; title=&quot;3389&quot;&gt;&lt;/a&gt;3389&lt;/h1&gt;&lt;p&gt;服务器上开启远程管理是必须的，但开启 默认的远程端口容易被默认参数的扫描工具攻击，修改端口能减少一部分被攻击的可能。&lt;/p&gt;
