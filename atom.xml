@@ -6,7 +6,7 @@
   <link href="https://eonun.com/atom.xml" rel="self"/>
   
   <link href="https://eonun.com/"/>
-  <updated>2022-04-17T03:32:19.461Z</updated>
+  <updated>2022-05-03T07:42:56.259Z</updated>
   <id>https://eonun.com/</id>
   
   <author>
@@ -15,6 +15,149 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux多网卡配置</title>
+    <link href="https://eonun.com/posts/9c0416c8/"/>
+    <id>https://eonun.com/posts/9c0416c8/</id>
+    <published>2022-05-03T07:41:59.000Z</published>
+    <updated>2022-05-03T07:42:56.259Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;配置三网卡地址&quot;&gt;&lt;a href=&quot;#配置三网卡地址&quot; class=&quot;headerlink&quot; title=&quot;配置三网卡地址&quot;&gt;&lt;/a&gt;配置三网卡地址&lt;/h1&gt;&lt;p&gt;分别配置:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;eth0 : &lt;code&gt;192.168.1.2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;eth1 : &lt;code&gt;10.10.10.2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;eth2 : &lt;code&gt;172.16.1.2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vim复制内容到系统剪切板</title>
+    <link href="https://eonun.com/posts/639ea8d9/"/>
+    <id>https://eonun.com/posts/639ea8d9/</id>
+    <published>2022-05-03T07:39:49.000Z</published>
+    <updated>2022-05-03T07:41:11.895Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;查看-Vim-是否支持clipboard&quot;&gt;&lt;a href=&quot;#查看-Vim-是否支持clipboard&quot; class=&quot;headerlink&quot; title=&quot;查看 Vim 是否支持clipboard&quot;&gt;&lt;/a&gt;查看 Vim 是否支持clipboard&lt;/h1&gt;&lt;p&gt;Vim 需要安装带有图形化的版本才会有 clipboard 支持，或重新从源码&lt;a href=&quot;https://github.com/ycm-core/YouCompleteMe/wiki/Building-Vim-from-source&quot;&gt;编译安装&lt;/a&gt;。&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;vim --version | grep &lt;span class=&quot;string&quot;&gt;&amp;quot;clipboard&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;clipboard&lt;/code&gt; 前面有减号(&lt;code&gt;-&lt;/code&gt;)，说明不支持，&lt;code&gt;+&lt;/code&gt; 表示支持。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
+    
+    <category term="Vim" scheme="https://eonun.com/tags/Vim/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux时区</title>
+    <link href="https://eonun.com/posts/bd38c3b7/"/>
+    <id>https://eonun.com/posts/bd38c3b7/</id>
+    <published>2022-05-03T07:38:12.000Z</published>
+    <updated>2022-05-03T07:39:20.360Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;查看时区&quot;&gt;&lt;a href=&quot;#查看时区&quot; class=&quot;headerlink&quot; title=&quot;查看时区&quot;&gt;&lt;/a&gt;查看时区&lt;/h1&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;date -R&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;-0800 : 表示西八区，是美国旧金山所在的时区&lt;br&gt;+0800 : 我们国家的东八区&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux路由</title>
+    <link href="https://eonun.com/posts/7daf0069/"/>
+    <id>https://eonun.com/posts/7daf0069/</id>
+    <published>2022-05-03T07:37:03.000Z</published>
+    <updated>2022-05-03T07:37:55.606Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;Linux-内核的路由种类&quot;&gt;&lt;a href=&quot;#Linux-内核的路由种类&quot; class=&quot;headerlink&quot; title=&quot;Linux 内核的路由种类&quot;&gt;&lt;/a&gt;Linux 内核的路由种类&lt;/h1&gt;&lt;h2 id=&quot;主机路由&quot;&gt;&lt;a href=&quot;#主机路由&quot; class=&quot;headerlink&quot; title=&quot;主机路由&quot;&gt;&lt;/a&gt;主机路由&lt;/h2&gt;&lt;p&gt;路由表中指向单个 IP 地址或主机名的路由记录，其 Flags 字段为 H。&lt;br&gt;对于 &lt;code&gt;10.0.0.10&lt;/code&gt; 这个主机，通过网关 &lt;code&gt;10.139.128.1&lt;/code&gt; 路由：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;route -n&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Kernel IP routing table&lt;br&gt;Destination     Gateway         Genmask         Flags Metric Ref    Use Iface&lt;br&gt;10.0.0.10       10.139.128.1    255.255.255.255 UGH   0      0        0 eth0&lt;br&gt;…&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux静态IP</title>
+    <link href="https://eonun.com/posts/c029412/"/>
+    <id>https://eonun.com/posts/c029412/</id>
+    <published>2022-05-03T07:35:24.000Z</published>
+    <updated>2022-05-03T07:36:39.161Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;配置文件位置&quot;&gt;&lt;a href=&quot;#配置文件位置&quot; class=&quot;headerlink&quot; title=&quot;配置文件位置&quot;&gt;&lt;/a&gt;配置文件位置&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;RedHat、CentOS : &lt;code&gt;/etc/sysconfig/network-scripts/ifcfg-eth0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;OpenSUSE : &lt;code&gt;/etc/sysconfig/network/ifcfg-eth0&lt;/code&gt; 和 &lt;code&gt;/etc/sysconfig/network/routes&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Debian、Ubuntu 14/16、Alpine : &lt;code&gt;/etc/network/interfaces&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Ubuntu 18/20 : &lt;code&gt;/etc/netplan/配置文件.yaml&lt;/code&gt; 如 &lt;code&gt;01-network-manager-all.yaml&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary>
+    
+    
+    
+    <category term="Linux" scheme="https://eonun.com/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://eonun.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows高危端口</title>
+    <link href="https://eonun.com/posts/3efd9032/"/>
+    <id>https://eonun.com/posts/3efd9032/</id>
+    <published>2022-05-03T00:22:45.000Z</published>
+    <updated>2022-05-03T00:24:02.999Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;3389&quot;&gt;&lt;a href=&quot;#3389&quot; class=&quot;headerlink&quot; title=&quot;3389&quot;&gt;&lt;/a&gt;3389&lt;/h1&gt;&lt;p&gt;服务器上开启远程管理是必须的，但开启 默认的远程端口容易被默认参数的扫描工具攻击，修改端口能减少一部分被攻击的可能。&lt;/p&gt;
+&lt;h2 id=&quot;修改端口&quot;&gt;&lt;a href=&quot;#修改端口&quot; class=&quot;headerlink&quot; title=&quot;修改端口&quot;&gt;&lt;/a&gt;修改端口&lt;/h2&gt;&lt;p&gt;&lt;code&gt;Win + R&lt;/code&gt; &amp;gt; &lt;code&gt;regedit&lt;/code&gt; &amp;gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;HKEY_LOCAL_MACHINE\ SYSTEM\ CurrentControlSet\ Control\ TerminalServer\ Wds\ rdpwd\ Tds\ tcp&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HKEY_LOCAL_MACHINE\ SYSTEM\ CurrentControlSet\ Control\ Terminal Server\ WinStations\ RDP-Tcp&lt;/code&gt;&lt;br&gt;将 &lt;code&gt;PortNumber&lt;/code&gt; 的默认值 3389 修改为其他端口，重启系统即可。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;进一步加固：&lt;/strong&gt;&lt;br&gt;为了达到启用远程管理而不受攻击的目的，同时在 Windows 防火墙 (&lt;code&gt;wf.msc&lt;/code&gt;) 配置：&lt;code&gt;入站规则&lt;/code&gt; &amp;gt; &lt;code&gt;远程桌面-用户模式（TCP-In/UDP-In）&lt;/code&gt; &amp;gt; &lt;code&gt;作用域&lt;/code&gt; &amp;gt; &lt;code&gt;配置仅指定 IP 可远程&lt;/code&gt; (通常仅可通过堡垒机远程)。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
+    
+    <category term="Windows" scheme="https://eonun.com/tags/Windows/"/>
+    
+  </entry>
   
   <entry>
     <title>汇编基础</title>
@@ -319,151 +462,6 @@
     
     
     <category term="路由器" scheme="https://eonun.com/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>开源固件的前世今生</title>
-    <link href="https://eonun.com/posts/7b2b089f/"/>
-    <id>https://eonun.com/posts/7b2b089f/</id>
-    <published>2021-05-20T07:57:48.000Z</published>
-    <updated>2021-05-20T08:38:10.233Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;开源固件的前世今生&quot;&gt;&lt;a href=&quot;#开源固件的前世今生&quot; class=&quot;headerlink&quot; title=&quot;开源固件的前世今生&quot;&gt;&lt;/a&gt;开源固件的前世今生&lt;/h1&gt;&lt;h2 id=&quot;为何华硕固件开源？&quot;&gt;&lt;a href=&quot;#为何华硕固件开源？&quot; class=&quot;headerlink&quot; title=&quot;为何华硕固件开源？&quot;&gt;&lt;/a&gt;为何华硕固件开源？&lt;/h2&gt;&lt;p&gt;2003年Linksys公司推出WRT-54G，一款基于MIPS架构的无线路由器，WRT-54G操作系统以Linux取代vXworks，哥伦比亚大学法学院教授Eben Moglen向Linksys提出开源要求。&lt;br&gt;2003年7月，Linksys迫于压力，开源了WRT54G的firmware。&lt;br&gt;2004年1月出现所谓的OpenWRT，第一个版本是基于Linksys源码及uclibc中的buildroot项目。&lt;br&gt;2005年初，BrainSlayer发布了一个新的发行版：DD-WRT。接着又有HyperWRT、Tomato。&lt;/p&gt;
-&lt;p&gt;从此以后，开源路由器系统蓬勃发展，并吸引了很多厂家的加入 。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="路由器" scheme="https://eonun.com/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>家用路由器选择</title>
-    <link href="https://eonun.com/posts/f9c662f8/"/>
-    <id>https://eonun.com/posts/f9c662f8/</id>
-    <published>2021-05-20T07:56:14.000Z</published>
-    <updated>2021-05-20T08:38:10.233Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;种类&quot;&gt;&lt;a href=&quot;#种类&quot; class=&quot;headerlink&quot; title=&quot;种类&quot;&gt;&lt;/a&gt;种类&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;硬路由&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;骨干网络路由    &lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;企业级路由&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;家用路由&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;软路由&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;成品路由&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;自组路由&lt;/p&gt;
-&lt;p&gt;软路由可玩性高，功能更多，更强大，配合AP更强&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;</summary>
-    
-    
-    
-    
-    <category term="路由器" scheme="https://eonun.com/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>XSS跨站脚本</title>
-    <link href="https://eonun.com/posts/db4b83e4/"/>
-    <id>https://eonun.com/posts/db4b83e4/</id>
-    <published>2021-05-20T07:52:34.000Z</published>
-    <updated>2021-12-11T10:57:50.315Z</updated>
-    
-    
-    <summary type="html">有东西被加密了, 请输入密码查看.</summary>
-    
-    
-    
-    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
-    
-    
-    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="XSS" scheme="https://eonun.com/tags/XSS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PHP一句话</title>
-    <link href="https://eonun.com/posts/77b49f04/"/>
-    <id>https://eonun.com/posts/77b49f04/</id>
-    <published>2021-05-20T07:49:59.000Z</published>
-    <updated>2021-12-11T11:00:58.037Z</updated>
-    
-    
-    <summary type="html">有东西被加密了, 请输入密码查看.</summary>
-    
-    
-    
-    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
-    
-    
-    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="木马" scheme="https://eonun.com/tags/%E6%9C%A8%E9%A9%AC/"/>
-    
-    <category term="PHP" scheme="https://eonun.com/tags/PHP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SQL注入</title>
-    <link href="https://eonun.com/posts/e73517db/"/>
-    <id>https://eonun.com/posts/e73517db/</id>
-    <published>2021-05-20T07:48:01.000Z</published>
-    <updated>2021-12-11T10:56:24.226Z</updated>
-    
-    
-    <summary type="html">有东西被加密了, 请输入密码查看.</summary>
-    
-    
-    
-    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
-    
-    
-    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="SQL" scheme="https://eonun.com/tags/SQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DVWA通关过程</title>
-    <link href="https://eonun.com/posts/3eeec4be/"/>
-    <id>https://eonun.com/posts/3eeec4be/</id>
-    <published>2021-05-20T07:44:10.000Z</published>
-    <updated>2021-05-20T08:38:10.213Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;搭建&quot;&gt;&lt;a href=&quot;#搭建&quot; class=&quot;headerlink&quot; title=&quot;搭建&quot;&gt;&lt;/a&gt;搭建&lt;/h1&gt;&lt;h2 id=&quot;准备：&quot;&gt;&lt;a href=&quot;#准备：&quot; class=&quot;headerlink&quot; title=&quot;准备：&quot;&gt;&lt;/a&gt;准备：&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;phpStudy&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/digininja/DVWA&quot;&gt;DVWA&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;配置hosts&quot;&gt;&lt;a href=&quot;#配置hosts&quot; class=&quot;headerlink&quot; title=&quot;配置hosts&quot;&gt;&lt;/a&gt;配置hosts&lt;/h2&gt;&lt;p&gt;&lt;code&gt;dvwa.loacl&lt;/code&gt; 为靶机&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;hack.loacl&lt;/code&gt; 为攻击机&lt;/p&gt;
-&lt;h2 id=&quot;修改配置&quot;&gt;&lt;a href=&quot;#修改配置&quot; class=&quot;headerlink&quot; title=&quot;修改配置&quot;&gt;&lt;/a&gt;修改配置&lt;/h2&gt;&lt;figure class=&quot;highlight ini&quot;&gt;&lt;figcaption&gt;&lt;span&gt;$phpstudy\PHPTutorial\WWW\DVWA\php.ini&lt;/span&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;magic_quotes_gpc&lt;/span&gt; = &lt;span class=&quot;literal&quot;&gt;Off&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;alLow_url_fopen&lt;/span&gt; = &lt;span class=&quot;literal&quot;&gt;on&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;alLow_url_include&lt;/span&gt; = &lt;span class=&quot;literal&quot;&gt;on&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
-    
-    
-    
-    <category term="安全" scheme="https://eonun.com/categories/%E5%AE%89%E5%85%A8/"/>
-    
-    
-    <category term="安全" scheme="https://eonun.com/tags/%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="DVWA" scheme="https://eonun.com/tags/DVWA/"/>
     
   </entry>
   

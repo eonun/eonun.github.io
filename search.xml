@@ -669,9 +669,9 @@
 <p><code>/etc/makepkg.conf</code> ： </p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#-- The download utilities that makepkg should use to acquire sources</span><br><span class="line">#  Format: &#39;protocol::agent&#39;</span><br><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;curl -gqfC - --ftp-pasv --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;https::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>吧curl换成了axel</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;https::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br></pre></td></tr></table></figure>
-<p>但github不管多少线程都跑不动，改用镜像站下载</p>
+<p>修改如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">##-- The download utilities that makepkg should use to acquire sources</span><br><span class="line">##  Format: &#39;protocol::agent&#39;</span><br><span class="line">#DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">#          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;curl -gqfC - --ftp-pasv --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">#          &#39;http::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">#          &#39;https::&#x2F;usr&#x2F;bin&#x2F;curl -gqb &quot;&quot; -fLC - --retry 3 --retry-delay 3 -o %o %u&#39;</span><br><span class="line">#          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">#          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br><span class="line"></span><br><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;https::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br></pre></td></tr></table></figure>
+<p>但 github 不管多少线程都跑不动，改用镜像站下载</p>
 <p>github镜像站：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;github.com.cnpmjs.org</span><br><span class="line">https:&#x2F;&#x2F;hub.fastgit.org</span><br></pre></td></tr></table></figure></p>
 <p>先<code>ping</code> 一下比较相应时间，选择优质的</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ping github.com</span><br><span class="line">ping github.com.cnpmjs.org</span><br><span class="line">ping fastgit.org</span><br></pre></td></tr></table></figure>
@@ -681,7 +681,7 @@
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"><span class="comment"># 该脚本用于处理yay安装软件时，由github下载缓慢甚至无法下载的问题</span></span><br><span class="line"><span class="comment"># 检测域名是不是github，如果是，则替换为镜像网站</span></span><br><span class="line"><span class="comment"># 采用axel代替curl进行10线程下载</span></span><br><span class="line"><span class="comment"># 实验用链接：</span></span><br><span class="line"><span class="comment"># https://download.fastgit.org/beekeeper-studio/beekeeper-studio/releases/download/v1.6.11/beekeeper-studio_1.6.11_amd64.deb</span></span><br><span class="line"><span class="comment"># https://github.com/beekeeper-studio/beekeeper-studio/releases/download/v1.6.11/beekeeper-studio_1.6.11_amd64.deb</span></span><br><span class="line"></span><br><span class="line">domin=`<span class="built_in">echo</span> <span class="variable">$2</span> | cut -f3 -d<span class="string">&#x27;/&#x27;</span>`;</span><br><span class="line">others=`<span class="built_in">echo</span> <span class="variable">$2</span> | cut -f4- -d<span class="string">&#x27;/&#x27;</span>`;</span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;<span class="variable">$domin</span>&quot;</span> <span class="keyword">in</span> </span><br><span class="line">    <span class="string">&quot;github.com&quot;</span>)</span><br><span class="line">    url=<span class="string">&quot;https://download.fastgit.org/&quot;</span><span class="variable">$others</span>;</span><br><span class="line">    ;;</span><br><span class="line">    *)</span><br><span class="line">    url=<span class="variable">$2</span>;</span><br><span class="line">    ;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;download from <span class="variable">$url</span>&quot;</span>;</span><br><span class="line">/usr/bin/axel -n 10 -a -o <span class="variable">$1</span> <span class="variable">$url</span>;</span><br></pre></td></tr></table></figure>
 <p>修改<code>/etc/makepkg.conf</code></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DLAGENTS&#x3D;(&#39;file::&#x2F;usr&#x2F;bin&#x2F;curl -gqC - -o %o %u&#39;</span><br><span class="line">          &#39;ftp::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;http::&#x2F;usr&#x2F;bin&#x2F;axel -n 15 -a -o %o %u&#39;</span><br><span class="line">          &#39;https::~&#x2F;meshell&#x2F;fake_download_tools&#x2F;fake_axel_for_makepkg %o %u&#39;</span><br><span class="line">          &#39;rsync::&#x2F;usr&#x2F;bin&#x2F;rsync --no-motd -z %u %o&#39;</span><br><span class="line">          &#39;scp::&#x2F;usr&#x2F;bin&#x2F;scp -C %u %o&#39;)</span><br></pre></td></tr></table></figure>
-<p>镜像不允许多线程下载哈哈，然而没关系，axel自动fallback成单线程</p>
+<p>镜像不允许多线程下载，然而没关系，axel自动fallback成单线程</p>
 <p>参考: <a href="https://zhuanlan.zhihu.com/p/176987140">机智的解决arch/manjaro安装AUR软件时github下载软件包慢或不可获得的问题</a></p>
 ]]></content>
       <tags>
@@ -1245,7 +1245,10 @@
   <entry>
     <title>DockerHub加速</title>
     <url>/posts/e4bc92fe/</url>
-    <content><![CDATA[<h1 id="DockerHub国内加速地址"><a href="#DockerHub国内加速地址" class="headerlink" title="DockerHub国内加速地址"></a>DockerHub国内加速地址</h1><div class="table-container">
+    <content><![CDATA[<h1 id="DockerCE加速"><a href="#DockerCE加速" class="headerlink" title="DockerCE加速"></a>DockerCE加速</h1><p>安装 Docker CE，请按照 <a href="https://docs.docker.com/engine/installation/">官方安装文档</a> ，选择你对应的系统。 以 Ubuntu 为例，参考 <a href="https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/">官方 Ubuntu 安装 Docker CE 手册</a> 进行安装。 在阅读官方安装手册时，只要把 <code>download.docker.com</code> 地址换成 <code>mirrors.ustc.edu.cn/docker-ce</code> 即可。</p>
+<p><a href="https://docs.docker.com/engine/installation/linux/docker-ce/centos/">CentOS</a>、 <a href="https://docs.docker.com/engine/installation/linux/docker-ce/fedora/">Fedora</a> 等用户在下载 <code>docker-ce.repo</code> 文件后， 还需要将该文件中的 <code>download.docker.com</code> 地址换成 <code>mirrors.ustc.edu.cn/docker-ce</code>。</p>
+<p><a href="https://mirrors.ustc.edu.cn/help/docker-ce.html#">Docker CE 源使用帮助 — USTC Mirror Help 文档</a></p>
+<h1 id="DockerHub国内加速地址"><a href="#DockerHub国内加速地址" class="headerlink" title="DockerHub国内加速地址"></a>DockerHub国内加速地址</h1><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1310,6 +1313,163 @@
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker容器中使用systemctl报错</title>
+    <url>/posts/dcd841b9/</url>
+    <content><![CDATA[<h1 id="当在Dokcer容器中使用systemctl时报以下错误"><a href="#当在Dokcer容器中使用systemctl时报以下错误" class="headerlink" title="当在Dokcer容器中使用systemctl时报以下错误"></a>当在Dokcer容器中使用<code>systemctl</code>时报以下错误</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">System has not been booted with systemd as init system (PID 1). Can&#39;t operate.</span><br><span class="line">Failed to connect to bus: Host is down&#39;</span><br></pre></td></tr></table></figure>
+<h1 id="问题原因："><a href="#问题原因：" class="headerlink" title="问题原因："></a>问题原因：</h1><p>启动容器时执行的启动是<code>/bin/bash</code>,没有相应的权限调用内核程序，需要在<code>run</code>修改相应的指令获得权限</p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>在<code>run</code>指令后加—privileged=true，修改<code>/bin/bash</code> 为<code>/sbin/init</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --privileged=<span class="literal">true</span> -itd xxxxx /sbin/init</span><br></pre></td></tr></table></figure>
+<p>进入容器时使用的是<code>docker exec -it xxxxx /bin/bash</code></p>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dotfile管理</title>
+    <url>/posts/fc38e44e/</url>
+    <content><![CDATA[<p>在Linux上各个程序的配置文件大多是以 <code>.</code> 开头或以 <code>rc</code> 结尾的文件，并存放于用户的个人目录 <code>~/</code> 中，通常叫dotfile 或 rc file ，如 <code>.zshrc</code> ，<code>.vimrc</code> 等。在初次使用一些软件时需要花大量时间对相应的 dotfile 进行配置，当需要在新系统上恢复多个软件配置或者在多台电脑上共享一台电脑对 dotfile 的修改时，逐一对各个 dotfile 进行管理非常不方便,<code>rcm</code>(rc file management) 就是一个 dotfile 管理工具,用于方便管理 dotfile 。</p>
+<p>rcm 主要是将所有希望用 rcm 管理的 dotfile 集中存储在一个目录中（默认 <code>~/.dotfiles</code>），并在原配置文件位置创建被 rcm 管理的 dotfile 的软链接。</p>
+<p>可在该集中存储目录中使用 git 进行版本控制，同时也可托管到 github 等 git 仓库中方便多台机器共享。若要使用别人分享的 rcm 目录下的 dotfile 时 rcm 可调用不同 dotfiles 目录下的文件进行使用。</p>
+<p><a href="https://github.com/thoughtbot/rcm">rcm github仓库</a></p>
+<p><a href="https://gitee.com/mirrors/rcm">rcm gitee国内加速仓库</a></p>
+<a id="more"></a>
+<h1 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h1><p>rcm 包括了 4 个命令和一个 dotfile 文件 <code>~/.rcrc</code> (注意 rcm 默认不会生成该配置文件，若要使用需手动创建）</p>
+<h2 id="lsrc"><a href="#lsrc" class="headerlink" title="lsrc"></a>lsrc</h2><p><strong>列出当前所有通过 rcm 管理的 dotfile ，以及其对应的符号链接位置</strong></p>
+<p><code>lsrc    [-FhqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h2 id="mkrc"><a href="#mkrc" class="headerlink" title="mkrc"></a>mkrc</h2><p>将指定的 dotfile 移动至集中存储目录(默认 <code>~/.dotfiles</code>)，并在原下创建相应的软链接</p>
+<p><code>mkrc    [-ChoqSsVvUu] [-t TAG] [-d DIR] [-B HOSTNAME] files ...</code></p>
+<h2 id="rcup"><a href="#rcup" class="headerlink" title="rcup"></a>rcup</h2><p>更新或创建由 rcm 管理的 dotfile 的软链接</p>
+<p><code>rcup    [-CfhiKkqVv] [-B HOSTNAME] [-d DIR] [-g] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h2 id="rcdn"><a href="#rcdn" class="headerlink" title="rcdn"></a>rcdn</h2><p>删除通过 rcm 创建的 dotfile 的软链接</p>
+<p><code>rcdn    [-hKkqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
+<h1 id="命令指令"><a href="#命令指令" class="headerlink" title="命令指令"></a>命令指令</h1><ul>
+<li><code>-B HOSTNAME</code>: 指定特定主机的目录,而不是使用计算机的主机名对其进行操作。</li>
+<li><code>-C</code>: 复制文件而不是创建软链接。</li>
+<li><code>-d DIR</code>: 指定 dotfiles 目录，可以指定多个。</li>
+<li><code>-F</code>: 在文件旁显示指示符号，<code>@</code> (文件软链接) ，<code>$</code> (目录软链接)，<code>x</code>(副本文件)。更多详细信息参考 rcrc 中的 <code>COPY_ALWAYS</code> 和 <code>SYMLINK_DIRS</code> 。</li>
+<li><code>-f</code>: 如果rc文件已经存在于配置目录中，但与 dotfiles 目录中的文件不匹配，删除rc文件，然后创建软链接。</li>
+<li><code>-g</code>: 仅显示 <code>rcup</code> 命令脚本的执行过程，不会修改文件系统上的任何内容。</li>
+<li><code>-h</code>: 显示用法说明</li>
+<li><code>-I EXCL_PAT</code>: 指定不被 <code>-x</code> 排除的文件。 该项在 <code>-x</code> 选项之后应用,使用与 <code>-x</code> 相同的语法格式。可能需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-i</code>: 如果rc文件已经存在于配置目录中，但是与dotfiles目录中的文件不匹配，提示如何处理它。这是默认选项。</li>
+<li><code>-K</code>: 跳过 pre-hooks 和 post-hooks</li>
+<li><code>-k</code>: 运行 pre-hooks 和 post-hooks , 这是默认选项。</li>
+<li><code>-o</code>: 将 dotfiles 安装到主机特定的目录中。</li>
+<li><code>-q</code>: 减少详细信息。更多详细信息参考 <code>DIRECTORY LAYOUT</code>。</li>
+<li><code>-S EXCL_PAT</code>: 指定以软链接形式创建的目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-s EXCL_PAT</code>: 指定递归创建的目录而不是软链接式的目录。与 <code>-S</code> 选项相反，可用于撤消它或 <code>rcrc</code> 中的 <code>SYMLINK_DIRS</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-t TAG</code>: 指定标签</li>
+<li><code>-U EXCLUDE</code>: 指定不创建软链接和以点 (<code>.</code>) 开头命名的rc文件或目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-u EXCL_PAT</code>: 指定必须使用点 (<code>.</code>) 开头命名的 rc 文件或目录。 与 <code>-U</code> 选项相反，可用于撤消它或 rcrc 中 <code>UNDOTTED</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>-V</code>: 显示版本号。</li>
+<li><code>-v</code>: 添加详细信息。 可以重复此操作以获取更多的详细信息。</li>
+<li><code>-x EXCL_PAT</code>: 指定排除的文件。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
+<li><code>files ...</code>: 指定的文件列表。</li>
+</ul>
+<h1 id="rcrc"><a href="#rcrc" class="headerlink" title="~/.rcrc"></a><code>~/.rcrc</code></h1><p>可以使用主目录中的 <code>.rcrc</code> 文件配置rcm dotfile 管理器。 可通过设置 <code>RCRC</code> 环境变量来更改此位置。</p>
+<p>支持以下变量:</p>
+<ul>
+<li><code>COPY_ALWAYS</code>: 复制列表中的glob相匹配的文件，而非使用软链接。</li>
+<li><code>DOTFILES_DIRS</code>: dotfile 的源目录。列表中的第一个将被 <code>mkrc</code> 用于创建 <code>dotfile</code> 目录，默认值为: <code>~/.dotfiles</code> 。</li>
+<li><code>EXCLUDES</code>: 排除列表。</li>
+<li><code>HOSTNAME</code>: 计算机的主机名。 通常通过 <code>hostname</code> 命令获得，但此命令并非标准的，获取的主机名或许会有差异，因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</li>
+<li><code>TAGS</code>: 默认标签表。</li>
+<li><code>SYMLINK_DIRS</code>: 列表中目录是软链接，而不是源文件。 </li>
+<li><code>UNDOTTED</code>: 列表中的文件是软链接且不用点 (<code>.</code>) 开头命名。如果是 <code>SYMLINK_DIRS</code> 中含有的目录，则该目录将为软链接且不用点 (<code>.</code>) 开头命名。</li>
+</ul>
+<p><strong><code>.rcrc</code> 样例</strong>:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COPY_ALWAYS=<span class="string">&quot;ssh/id_* weechat/* netrc&quot;</span></span><br><span class="line">COPY_ALWAYS=<span class="string">&quot;*&quot;</span></span><br><span class="line">DOTFILES_DIRS=<span class="string">&quot;/home/mike/.dotfiles /usr/share/dotfiles&quot;</span></span><br><span class="line">EXCLUDES=<span class="string">&quot;irbrc *:*emacs* dotfiles:python*&quot;</span></span><br><span class="line">HOSTNAME=<span class="string">&quot;eggplant&quot;</span></span><br><span class="line">TAGS=<span class="string">&quot;freebsd development email git laptop gmail notmuch&quot;</span></span><br><span class="line">SYMLINK_DIRS=<span class="string">&quot;zprezto texmf&quot;</span></span><br><span class="line">UNDOTTED=<span class="string">&quot;texmf&quot;</span></span><br></pre></td></tr></table></figure>
+<h1 id="EXCLUDE-PATTERN-排除列表"><a href="#EXCLUDE-PATTERN-排除列表" class="headerlink" title="EXCLUDE PATTERN (排除列表)"></a>EXCLUDE PATTERN (排除列表)</h1><p>使用冒号 (<code>:</code>) 分隔 dotfile 目录和 glob (由普通字符、通配字符组成的字符串，用于匹配文件路径) 。可选择带 dotfile 目录，如果省略则默认为 <code>*</code> ，代表从所有 dotfile 目录匹配。 glob 是相对于 dotfile 目录的相对路径。</p>
+<p>例如，要忽略 <code>Thoughtbot-dotfiles</code> 目录中所有与 <code>emacs</code> 相关的项目，使用：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">thoughtbot-dotfiles:*emacs*</span><br></pre></td></tr></table></figure>
+<p>要忽略所有 <code>bash_profile</code> 文件使用：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">*:bash_profile</span><br></pre></td></tr></table></figure>
+<p>或者简写为:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">bash_profile</span><br></pre></td></tr></table></figure>
+<p>注意,通常通过 <code>hostname</code> 命令获得主机名，但此命令并非标准的，获取的主机名或许会有差异，在macOS上，主机名是不可预测的，甚至可能在 <code>DHCP</code> 握手被更改,强烈建议在 <code>rcrc</code> 中,因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</p>
+<h1 id="DIRECTORY-LAYOUT-目录布局"><a href="#DIRECTORY-LAYOUT-目录布局" class="headerlink" title="DIRECTORY LAYOUT (目录布局)"></a>DIRECTORY LAYOUT (目录布局)</h1><p>dotfiles 目录下的任何非点 (<code>.</code>) 开头的、非元的文件或目录都将作为点 (<code>.</code>) 开头的文件安装。 例如，<code>.dotfiles/zshrc</code> 将安装到 <code>~/.zshrc</code> 。</p>
+<p>文件安装为软链接。 目录通过建立目录来安装。<code>-C</code> 选项指定文件通过复制安装而不是软链接。 <code>rcrc</code> 中的 <code>COPY_ALWAYS</code> 可用于列出只能复制的文件。</p>
+<p>支持三个元文件: host-specific (特定主机文件), tagged (标记文件), hooks 。</p>
+<ul>
+<li><code>host-specific</code>: 以 <code>host-</code> 前缀加主机名命名的目录，存放特定主机的文件，如，<code>.dotfiles/host-scarlett</code> 包含主机名为 scarlett 的计算机 dotfile 文件，且这些文件将仅安装在主机名为scarlett的计算机上。</li>
+<li><code>tagged</code>: 以 <code>tag-</code> 前缀加标签名命名的目录，存放标记该标签的文件，如，仅在指定使用 <code>git</code> 标签时安装 <code>.dotfiles/tag-git</code> 下的文件。</li>
+<li><code>hooks</code>:  名为hooks的目录，存放 hooks 。 rcup 支持两个hooks：<code>pre-up</code> 和 <code>post-up</code> 。它们存放到预设文件名的文件或目录中：<code>.dotfiles/hooks/pre-up</code> 和 <code>.dotfiles/hooks/post-up</code> ，或 <code>.dotfiles/hooks/pre-up/*</code> 和 <code>.dotfiles/hooks/post-up/*</code> 。 这些文件必须是可执行文件。 它们在每次 <code>rcup</code> 运行时都运行，因此必须是幂等(执行后结果还为本身)的。hooks 按字母顺序排序,一次只执行一次。 如，<code>hooks/pre-up/animals</code> 将在 <code>hooks / pre-up/aquariums</code> 之前运行，<code>hooks/pre-up/4-eyes</code> 将在 <code>hooks/post-up/2-u-nothing-compares</code> 之前运行。</li>
+</ul>
+<h1 id="日常使用"><a href="#日常使用" class="headerlink" title="日常使用"></a>日常使用</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建管理</span></span><br><span class="line">mkrc xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打标签方式创建管理</span></span><br><span class="line">mkrc -t git xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 dotfiles 中的 dotfile 文件</span></span><br><span class="line">rcup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定标签的 dotfile 文件</span></span><br><span class="line">rcup -t git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定标签的 dotfile 文件，并显示过程</span></span><br><span class="line">rcup -t git -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询被管理的 dotfile 文件</span></span><br><span class="line">lsrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定标签的 dotfile 文件</span></span><br><span class="line">lsrc -t git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定 dotfiles 中的 dotfile 文件</span></span><br><span class="line">lsrc -d ~/.MyDotfiles</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消安装</span></span><br><span class="line">rcdn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消指定标签的安装，并显示过程</span></span><br><span class="line">rcdn -t git -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消指定 dotfiles 中指定标签的安装</span></span><br><span class="line">rcdn -d ~/.MyDotfiles -t git</span><br></pre></td></tr></table></figure>
+<p><strong>使用git进行版本管理及云备份</strong>:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.dotfiles</span><br><span class="line">git init</span><br><span class="line">git add .</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;These are my dotfiles&quot;</span> &gt;&gt; README.md</span><br><span class="line">git commit -m <span class="string">&quot;initial commit&quot;</span></span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://thoughtbot.github.io/rcm/rcm.7.html">RCM(7)</a></p>
+<p><a href="https://www.jianshu.com/p/e21089d118c1">管理linux下软件的配置文件dotfile(rc files)</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Firefox便捷版制作</title>
+    <url>/posts/abb290b8/</url>
+    <content><![CDATA[<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><ul>
+<li><p>地址栏输入 <code>about:profiles</code> 打开配置文件保存目录，存有 <code>.default</code> 后缀的目录为配置文件目录。</p>
+</li>
+<li><p>也可直接访问，<code>%APPDATA%\Mozilla\Firefox\Profiles\</code> 进入配置文件保存目录。</p>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="Mac-OS"><a href="#Mac-OS" class="headerlink" title="Mac OS"></a>Mac OS</h2><p><code>Library</code> (资源库) 下的 <code>Application Support</code> 文件夹 &gt;&gt; <code>Firefox</code> 文件夹 &gt;&gt; Profiles &gt;&gt; 以 <code>.default</code></p>
+<h2 id="配置文件信息"><a href="#配置文件信息" class="headerlink" title="配置文件信息"></a>配置文件信息</h2><ul>
+<li><code>places.sqlite</code> : 书签、下载历史和浏览历史，<code>bookmarkbackups</code> 文件夹中存储着书签备份文件，可用于恢复书签</li>
+<li><code>key3.db</code> 、 <code>logins.json</code> : 密码</li>
+<li><code>permissions.sqlite</code> 、<code>content-prefs.sqlite</code> : 站点自定的首选项</li>
+<li><code>search.jsom.mozlz4</code> : 搜索引擎</li>
+<li><code>persdict.dat</code> : 用户词典</li>
+<li><code>formhistory.sqlite</code> 自动完成历史</li>
+<li><code>cookies.sqlite</code> : Cookie</li>
+<li>DOM 存储: 比 Cookie 更强大安全易用的一种存储信息方式，每个站点的信息都被存储在 <code>webappsstore.sqlite</code> 文件中，而 <code>chromeappstore.sqlite</code> 存储着 <code>about:*</code> 页面的信息</li>
+<li><code>extensions</code> : 扩展</li>
+<li><code>cert8.db</code> : 安全证书设置</li>
+<li><code>secmod.db</code> : 安全设备设置</li>
+<li><code>mimeTypes.rdf</code> : 下载动作</li>
+<li><code>pluginreg.dat</code> 插件 MIME 类型</li>
+<li><code>sessionstore.js</code> : 保存的会话</li>
+<li><code>xulstore.json</code> : 指导员工具栏</li>
+<li><code>prefs.js</code> : 用户首选项</li>
+</ul>
+<p>这些文件会随着用户在火狐中的操作同步修改。</p>
+<p>通过使用参数选项 <code>-profile</code> 设置使用启用的配置</p>
+<ul>
+<li>Windows 中可在快捷方式的 <code>属性</code> 里的 <code>目标</code> 最后添加参数,如 <code>&quot;C:\Program Files (x86)\Mozilla Firefox\firefox.exe&quot; -profile &quot;D:\Profile&quot;</code></li>
+<li>Mac OS 可使用命令 <code>/Applications/Firefox.app/Contents/MacOS/firefox-bin -profile /home/Profile</code></li>
+</ul>
+<h1 id="制作便捷版火狐"><a href="#制作便捷版火狐" class="headerlink" title="制作便捷版火狐"></a>制作便捷版火狐</h1><ul>
+<li>将火狐安装目录复制出来</li>
+<li>将 <code>Profiles</code> 下的配置文件夹 (<code>.default</code> 结尾的目录) 复制到刚才复制出来的目录中，并命名为 <code>Profile</code></li>
+<li><p>创建启动脚本</p>
+<ul>
+<li>Windows : <code>start &quot;&quot; &quot;firefox.exe&quot; -profile &quot;Profile&quot;</code> &gt;&gt; run.bat</li>
+<li>MacOS : <code>./firefox-bin -profile ./Profile</code> &gt;&gt; run.sh</li>
+</ul>
+</li>
+</ul>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><blockquote>
+<p>|-Firefox/<br>|-|-firefox.exe(firefox-bin)<br>|-|-Profile/<br>|-|-run.bat(run.sh)</p>
+</blockquote>
+<p><strong>参考：<a href="https://zhuanlan.zhihu.com/p/24620052">关于配置文档以及如何制作便携版 Firefox</a></strong></p>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>Firefox</tag>
       </tags>
   </entry>
   <entry>
@@ -1846,163 +2006,6 @@
       <tags>
         <tag>安全</tag>
         <tag>DVWA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker容器中使用systemctl报错</title>
-    <url>/posts/dcd841b9/</url>
-    <content><![CDATA[<h1 id="当在Dokcer容器中使用systemctl时报以下错误"><a href="#当在Dokcer容器中使用systemctl时报以下错误" class="headerlink" title="当在Dokcer容器中使用systemctl时报以下错误"></a>当在Dokcer容器中使用<code>systemctl</code>时报以下错误</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">System has not been booted with systemd as init system (PID 1). Can&#39;t operate.</span><br><span class="line">Failed to connect to bus: Host is down&#39;</span><br></pre></td></tr></table></figure>
-<h1 id="问题原因："><a href="#问题原因：" class="headerlink" title="问题原因："></a>问题原因：</h1><p>启动容器时执行的启动是<code>/bin/bash</code>,没有相应的权限调用内核程序，需要在<code>run</code>修改相应的指令获得权限</p>
-<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>在<code>run</code>指令后加—privileged=true，修改<code>/bin/bash</code> 为<code>/sbin/init</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --privileged=<span class="literal">true</span> -itd xxxxx /sbin/init</span><br></pre></td></tr></table></figure>
-<p>进入容器时使用的是<code>docker exec -it xxxxx /bin/bash</code></p>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dotfile管理</title>
-    <url>/posts/fc38e44e/</url>
-    <content><![CDATA[<p>在Linux上各个程序的配置文件大多是以 <code>.</code> 开头或以 <code>rc</code> 结尾的文件，并存放于用户的个人目录 <code>~/</code> 中，通常叫dotfile 或 rc file ，如 <code>.zshrc</code> ，<code>.vimrc</code> 等。在初次使用一些软件时需要花大量时间对相应的 dotfile 进行配置，当需要在新系统上恢复多个软件配置或者在多台电脑上共享一台电脑对 dotfile 的修改时，逐一对各个 dotfile 进行管理非常不方便,<code>rcm</code>(rc file management) 就是一个 dotfile 管理工具,用于方便管理 dotfile 。</p>
-<p>rcm 主要是将所有希望用 rcm 管理的 dotfile 集中存储在一个目录中（默认 <code>~/.dotfiles</code>），并在原配置文件位置创建被 rcm 管理的 dotfile 的软链接。</p>
-<p>可在该集中存储目录中使用 git 进行版本控制，同时也可托管到 github 等 git 仓库中方便多台机器共享。若要使用别人分享的 rcm 目录下的 dotfile 时 rcm 可调用不同 dotfiles 目录下的文件进行使用。</p>
-<p><a href="https://github.com/thoughtbot/rcm">rcm github仓库</a></p>
-<p><a href="https://gitee.com/mirrors/rcm">rcm gitee国内加速仓库</a></p>
-<a id="more"></a>
-<h1 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h1><p>rcm 包括了 4 个命令和一个 dotfile 文件 <code>~/.rcrc</code> (注意 rcm 默认不会生成该配置文件，若要使用需手动创建）</p>
-<h2 id="lsrc"><a href="#lsrc" class="headerlink" title="lsrc"></a>lsrc</h2><p><strong>列出当前所有通过 rcm 管理的 dotfile ，以及其对应的符号链接位置</strong></p>
-<p><code>lsrc    [-FhqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
-<h2 id="mkrc"><a href="#mkrc" class="headerlink" title="mkrc"></a>mkrc</h2><p>将指定的 dotfile 移动至集中存储目录(默认 <code>~/.dotfiles</code>)，并在原下创建相应的软链接</p>
-<p><code>mkrc    [-ChoqSsVvUu] [-t TAG] [-d DIR] [-B HOSTNAME] files ...</code></p>
-<h2 id="rcup"><a href="#rcup" class="headerlink" title="rcup"></a>rcup</h2><p>更新或创建由 rcm 管理的 dotfile 的软链接</p>
-<p><code>rcup    [-CfhiKkqVv] [-B HOSTNAME] [-d DIR] [-g] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
-<h2 id="rcdn"><a href="#rcdn" class="headerlink" title="rcdn"></a>rcdn</h2><p>删除通过 rcm 创建的 dotfile 的软链接</p>
-<p><code>rcdn    [-hKkqVv] [-B HOSTNAME] [-d DIR] [-I EXCL_PAT] [-S EXCL_PAT] [-s EXCL_PAT] [-t TAG] [-U EXCL_PAT] [-u EXCL_PAT] [-x EXCL_PAT] [files ...]</code></p>
-<h1 id="命令指令"><a href="#命令指令" class="headerlink" title="命令指令"></a>命令指令</h1><ul>
-<li><code>-B HOSTNAME</code>: 指定特定主机的目录,而不是使用计算机的主机名对其进行操作。</li>
-<li><code>-C</code>: 复制文件而不是创建软链接。</li>
-<li><code>-d DIR</code>: 指定 dotfiles 目录，可以指定多个。</li>
-<li><code>-F</code>: 在文件旁显示指示符号，<code>@</code> (文件软链接) ，<code>$</code> (目录软链接)，<code>x</code>(副本文件)。更多详细信息参考 rcrc 中的 <code>COPY_ALWAYS</code> 和 <code>SYMLINK_DIRS</code> 。</li>
-<li><code>-f</code>: 如果rc文件已经存在于配置目录中，但与 dotfiles 目录中的文件不匹配，删除rc文件，然后创建软链接。</li>
-<li><code>-g</code>: 仅显示 <code>rcup</code> 命令脚本的执行过程，不会修改文件系统上的任何内容。</li>
-<li><code>-h</code>: 显示用法说明</li>
-<li><code>-I EXCL_PAT</code>: 指定不被 <code>-x</code> 排除的文件。 该项在 <code>-x</code> 选项之后应用,使用与 <code>-x</code> 相同的语法格式。可能需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>-i</code>: 如果rc文件已经存在于配置目录中，但是与dotfiles目录中的文件不匹配，提示如何处理它。这是默认选项。</li>
-<li><code>-K</code>: 跳过 pre-hooks 和 post-hooks</li>
-<li><code>-k</code>: 运行 pre-hooks 和 post-hooks , 这是默认选项。</li>
-<li><code>-o</code>: 将 dotfiles 安装到主机特定的目录中。</li>
-<li><code>-q</code>: 减少详细信息。更多详细信息参考 <code>DIRECTORY LAYOUT</code>。</li>
-<li><code>-S EXCL_PAT</code>: 指定以软链接形式创建的目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>-s EXCL_PAT</code>: 指定递归创建的目录而不是软链接式的目录。与 <code>-S</code> 选项相反，可用于撤消它或 <code>rcrc</code> 中的 <code>SYMLINK_DIRS</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>-t TAG</code>: 指定标签</li>
-<li><code>-U EXCLUDE</code>: 指定不创建软链接和以点 (<code>.</code>) 开头命名的rc文件或目录。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>-u EXCL_PAT</code>: 指定必须使用点 (<code>.</code>) 开头命名的 rc 文件或目录。 与 <code>-U</code> 选项相反，可用于撤消它或 rcrc 中 <code>UNDOTTED</code> 设置。 此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>-V</code>: 显示版本号。</li>
-<li><code>-v</code>: 添加详细信息。 可以重复此操作以获取更多的详细信息。</li>
-<li><code>-x EXCL_PAT</code>: 指定排除的文件。此选项可重复使用，需要用引号使其不被 Shell 忽略。更多详细信息参考 <code>EXCLUDE PATTERN</code>。</li>
-<li><code>files ...</code>: 指定的文件列表。</li>
-</ul>
-<h1 id="rcrc"><a href="#rcrc" class="headerlink" title="~/.rcrc"></a><code>~/.rcrc</code></h1><p>可以使用主目录中的 <code>.rcrc</code> 文件配置rcm dotfile 管理器。 可通过设置 <code>RCRC</code> 环境变量来更改此位置。</p>
-<p>支持以下变量:</p>
-<ul>
-<li><code>COPY_ALWAYS</code>: 复制列表中的glob相匹配的文件，而非使用软链接。</li>
-<li><code>DOTFILES_DIRS</code>: dotfile 的源目录。列表中的第一个将被 <code>mkrc</code> 用于创建 <code>dotfile</code> 目录，默认值为: <code>~/.dotfiles</code> 。</li>
-<li><code>EXCLUDES</code>: 排除列表。</li>
-<li><code>HOSTNAME</code>: 计算机的主机名。 通常通过 <code>hostname</code> 命令获得，但此命令并非标准的，获取的主机名或许会有差异，因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</li>
-<li><code>TAGS</code>: 默认标签表。</li>
-<li><code>SYMLINK_DIRS</code>: 列表中目录是软链接，而不是源文件。 </li>
-<li><code>UNDOTTED</code>: 列表中的文件是软链接且不用点 (<code>.</code>) 开头命名。如果是 <code>SYMLINK_DIRS</code> 中含有的目录，则该目录将为软链接且不用点 (<code>.</code>) 开头命名。</li>
-</ul>
-<p><strong><code>.rcrc</code> 样例</strong>:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COPY_ALWAYS=<span class="string">&quot;ssh/id_* weechat/* netrc&quot;</span></span><br><span class="line">COPY_ALWAYS=<span class="string">&quot;*&quot;</span></span><br><span class="line">DOTFILES_DIRS=<span class="string">&quot;/home/mike/.dotfiles /usr/share/dotfiles&quot;</span></span><br><span class="line">EXCLUDES=<span class="string">&quot;irbrc *:*emacs* dotfiles:python*&quot;</span></span><br><span class="line">HOSTNAME=<span class="string">&quot;eggplant&quot;</span></span><br><span class="line">TAGS=<span class="string">&quot;freebsd development email git laptop gmail notmuch&quot;</span></span><br><span class="line">SYMLINK_DIRS=<span class="string">&quot;zprezto texmf&quot;</span></span><br><span class="line">UNDOTTED=<span class="string">&quot;texmf&quot;</span></span><br></pre></td></tr></table></figure>
-<h1 id="EXCLUDE-PATTERN-排除列表"><a href="#EXCLUDE-PATTERN-排除列表" class="headerlink" title="EXCLUDE PATTERN (排除列表)"></a>EXCLUDE PATTERN (排除列表)</h1><p>使用冒号 (<code>:</code>) 分隔 dotfile 目录和 glob (由普通字符、通配字符组成的字符串，用于匹配文件路径) 。可选择带 dotfile 目录，如果省略则默认为 <code>*</code> ，代表从所有 dotfile 目录匹配。 glob 是相对于 dotfile 目录的相对路径。</p>
-<p>例如，要忽略 <code>Thoughtbot-dotfiles</code> 目录中所有与 <code>emacs</code> 相关的项目，使用：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">thoughtbot-dotfiles:*emacs*</span><br></pre></td></tr></table></figure>
-<p>要忽略所有 <code>bash_profile</code> 文件使用：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">*:bash_profile</span><br></pre></td></tr></table></figure>
-<p>或者简写为:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">bash_profile</span><br></pre></td></tr></table></figure>
-<p>注意,通常通过 <code>hostname</code> 命令获得主机名，但此命令并非标准的，获取的主机名或许会有差异，在macOS上，主机名是不可预测的，甚至可能在 <code>DHCP</code> 握手被更改,强烈建议在 <code>rcrc</code> 中,因此使用 <code>HOSTNAME</code> 变量强制使用已知的主机名。</p>
-<h1 id="DIRECTORY-LAYOUT-目录布局"><a href="#DIRECTORY-LAYOUT-目录布局" class="headerlink" title="DIRECTORY LAYOUT (目录布局)"></a>DIRECTORY LAYOUT (目录布局)</h1><p>dotfiles 目录下的任何非点 (<code>.</code>) 开头的、非元的文件或目录都将作为点 (<code>.</code>) 开头的文件安装。 例如，<code>.dotfiles/zshrc</code> 将安装到 <code>~/.zshrc</code> 。</p>
-<p>文件安装为软链接。 目录通过建立目录来安装。<code>-C</code> 选项指定文件通过复制安装而不是软链接。 <code>rcrc</code> 中的 <code>COPY_ALWAYS</code> 可用于列出只能复制的文件。</p>
-<p>支持三个元文件: host-specific (特定主机文件), tagged (标记文件), hooks 。</p>
-<ul>
-<li><code>host-specific</code>: 以 <code>host-</code> 前缀加主机名命名的目录，存放特定主机的文件，如，<code>.dotfiles/host-scarlett</code> 包含主机名为 scarlett 的计算机 dotfile 文件，且这些文件将仅安装在主机名为scarlett的计算机上。</li>
-<li><code>tagged</code>: 以 <code>tag-</code> 前缀加标签名命名的目录，存放标记该标签的文件，如，仅在指定使用 <code>git</code> 标签时安装 <code>.dotfiles/tag-git</code> 下的文件。</li>
-<li><code>hooks</code>:  名为hooks的目录，存放 hooks 。 rcup 支持两个hooks：<code>pre-up</code> 和 <code>post-up</code> 。它们存放到预设文件名的文件或目录中：<code>.dotfiles/hooks/pre-up</code> 和 <code>.dotfiles/hooks/post-up</code> ，或 <code>.dotfiles/hooks/pre-up/*</code> 和 <code>.dotfiles/hooks/post-up/*</code> 。 这些文件必须是可执行文件。 它们在每次 <code>rcup</code> 运行时都运行，因此必须是幂等(执行后结果还为本身)的。hooks 按字母顺序排序,一次只执行一次。 如，<code>hooks/pre-up/animals</code> 将在 <code>hooks / pre-up/aquariums</code> 之前运行，<code>hooks/pre-up/4-eyes</code> 将在 <code>hooks/post-up/2-u-nothing-compares</code> 之前运行。</li>
-</ul>
-<h1 id="日常使用"><a href="#日常使用" class="headerlink" title="日常使用"></a>日常使用</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建管理</span></span><br><span class="line">mkrc xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打标签方式创建管理</span></span><br><span class="line">mkrc -t git xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 dotfiles 中的 dotfile 文件</span></span><br><span class="line">rcup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定标签的 dotfile 文件</span></span><br><span class="line">rcup -t git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装指定标签的 dotfile 文件，并显示过程</span></span><br><span class="line">rcup -t git -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询被管理的 dotfile 文件</span></span><br><span class="line">lsrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定标签的 dotfile 文件</span></span><br><span class="line">lsrc -t git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定 dotfiles 中的 dotfile 文件</span></span><br><span class="line">lsrc -d ~/.MyDotfiles</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消安装</span></span><br><span class="line">rcdn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消指定标签的安装，并显示过程</span></span><br><span class="line">rcdn -t git -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取消指定 dotfiles 中指定标签的安装</span></span><br><span class="line">rcdn -d ~/.MyDotfiles -t git</span><br></pre></td></tr></table></figure>
-<p><strong>使用git进行版本管理及云备份</strong>:</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.dotfiles</span><br><span class="line">git init</span><br><span class="line">git add .</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;These are my dotfiles&quot;</span> &gt;&gt; README.md</span><br><span class="line">git commit -m <span class="string">&quot;initial commit&quot;</span></span><br></pre></td></tr></table></figure>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://thoughtbot.github.io/rcm/rcm.7.html">RCM(7)</a></p>
-<p><a href="https://www.jianshu.com/p/e21089d118c1">管理linux下软件的配置文件dotfile(rc files)</a></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Firefox便捷版制作</title>
-    <url>/posts/abb290b8/</url>
-    <content><![CDATA[<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><ul>
-<li><p>地址栏输入 <code>about:profiles</code> 打开配置文件保存目录，存有 <code>.default</code> 后缀的目录为配置文件目录。</p>
-</li>
-<li><p>也可直接访问，<code>%APPDATA%\Mozilla\Firefox\Profiles\</code> 进入配置文件保存目录。</p>
-</li>
-</ul>
-<a id="more"></a>
-<h2 id="Mac-OS"><a href="#Mac-OS" class="headerlink" title="Mac OS"></a>Mac OS</h2><p><code>Library</code> (资源库) 下的 <code>Application Support</code> 文件夹 &gt;&gt; <code>Firefox</code> 文件夹 &gt;&gt; Profiles &gt;&gt; 以 <code>.default</code></p>
-<h2 id="配置文件信息"><a href="#配置文件信息" class="headerlink" title="配置文件信息"></a>配置文件信息</h2><ul>
-<li><code>places.sqlite</code> : 书签、下载历史和浏览历史，<code>bookmarkbackups</code> 文件夹中存储着书签备份文件，可用于恢复书签</li>
-<li><code>key3.db</code> 、 <code>logins.json</code> : 密码</li>
-<li><code>permissions.sqlite</code> 、<code>content-prefs.sqlite</code> : 站点自定的首选项</li>
-<li><code>search.jsom.mozlz4</code> : 搜索引擎</li>
-<li><code>persdict.dat</code> : 用户词典</li>
-<li><code>formhistory.sqlite</code> 自动完成历史</li>
-<li><code>cookies.sqlite</code> : Cookie</li>
-<li>DOM 存储: 比 Cookie 更强大安全易用的一种存储信息方式，每个站点的信息都被存储在 <code>webappsstore.sqlite</code> 文件中，而 <code>chromeappstore.sqlite</code> 存储着 <code>about:*</code> 页面的信息</li>
-<li><code>extensions</code> : 扩展</li>
-<li><code>cert8.db</code> : 安全证书设置</li>
-<li><code>secmod.db</code> : 安全设备设置</li>
-<li><code>mimeTypes.rdf</code> : 下载动作</li>
-<li><code>pluginreg.dat</code> 插件 MIME 类型</li>
-<li><code>sessionstore.js</code> : 保存的会话</li>
-<li><code>xulstore.json</code> : 指导员工具栏</li>
-<li><code>prefs.js</code> : 用户首选项</li>
-</ul>
-<p>这些文件会随着用户在火狐中的操作同步修改。</p>
-<p>通过使用参数选项 <code>-profile</code> 设置使用启用的配置</p>
-<ul>
-<li>Windows 中可在快捷方式的 <code>属性</code> 里的 <code>目标</code> 最后添加参数,如 <code>&quot;C:\Program Files (x86)\Mozilla Firefox\firefox.exe&quot; -profile &quot;D:\Profile&quot;</code></li>
-<li>Mac OS 可使用命令 <code>/Applications/Firefox.app/Contents/MacOS/firefox-bin -profile /home/Profile</code></li>
-</ul>
-<h1 id="制作便捷版火狐"><a href="#制作便捷版火狐" class="headerlink" title="制作便捷版火狐"></a>制作便捷版火狐</h1><ul>
-<li>将火狐安装目录复制出来</li>
-<li>将 <code>Profiles</code> 下的配置文件夹 (<code>.default</code> 结尾的目录) 复制到刚才复制出来的目录中，并命名为 <code>Profile</code></li>
-<li><p>创建启动脚本</p>
-<ul>
-<li>Windows : <code>start &quot;&quot; &quot;firefox.exe&quot; -profile &quot;Profile&quot;</code> &gt;&gt; run.bat</li>
-<li>MacOS : <code>./firefox-bin -profile ./Profile</code> &gt;&gt; run.sh</li>
-</ul>
-</li>
-</ul>
-<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><blockquote>
-<p>|-Firefox/<br>|-|-firefox.exe(firefox-bin)<br>|-|-Profile/<br>|-|-run.bat(run.sh)</p>
-</blockquote>
-<p><strong>参考：<a href="https://zhuanlan.zhihu.com/p/24620052">关于配置文档以及如何制作便携版 Firefox</a></strong></p>
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>Firefox</tag>
       </tags>
   </entry>
   <entry>
@@ -4288,6 +4291,36 @@ y+\cancelto{0}{x}\\
       </tags>
   </entry>
   <entry>
+    <title>Linux多网卡配置</title>
+    <url>/posts/9c0416c8/</url>
+    <content><![CDATA[<h1 id="配置三网卡地址"><a href="#配置三网卡地址" class="headerlink" title="配置三网卡地址"></a>配置三网卡地址</h1><p>分别配置:</p>
+<ul>
+<li>eth0 : <code>192.168.1.2</code></li>
+<li>eth1 : <code>10.10.10.2</code></li>
+<li>eth2 : <code>172.16.1.2</code></li>
+</ul>
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># cat /etc/sysconfig/network-scripts/ifcfg-eth0</span></span><br><span class="line">...</span><br><span class="line">DEVICE=eth0</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOOT=yes</span><br><span class="line">IPADDR=192.168.1.2</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.1.254</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># cat /etc/sysconfig/network-scripts/ifcfg-eth1</span></span><br><span class="line">...</span><br><span class="line">DEVICE=eth1</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOOT=yes</span><br><span class="line">IPADDR=10.10.10.2</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=10.10.10.254</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># cat /etc/sysconfig/network-scripts/ifcfg-eth2</span></span><br><span class="line">...</span><br><span class="line">DEVICE=eth2</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOOT=yes</span><br><span class="line">IPADDR=172.16.1.2</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=172.16.1.254</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h1 id="添加路由表别名"><a href="#添加路由表别名" class="headerlink" title="添加路由表别名"></a>添加路由表别名</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#192</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;252     net0&quot;</span> &gt;&gt; /etc/iproute2/rt_tables</span><br><span class="line"><span class="comment">#10</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;251     net1&quot;</span> &gt;&gt; /etc/iproute2/rt_tables</span><br><span class="line"><span class="comment">#172</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;250     net2&quot;</span> &gt;&gt; /etc/iproute2/rt_tables</span><br></pre></td></tr></table></figure>
+<h1 id="添加路由"><a href="#添加路由" class="headerlink" title="添加路由"></a>添加路由</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#刷新路由表</span></span><br><span class="line">ip route flush table net0</span><br><span class="line">ip route flush table net1</span><br><span class="line">ip route flush table net2</span><br><span class="line"><span class="comment">#在路由表中添加路由</span></span><br><span class="line">ip route add 192.168.1.0/24 dev eth0 src 192.168.1.254 table net0</span><br><span class="line">ip route add 10.10.10.0/24 dev eth1 src 10.10.10.254 table net1</span><br><span class="line">ip route add 172.16.1.0/24 dev eth2 src 172.16.1.254 table net2</span><br><span class="line"><span class="comment">#在路由表添加默认路由</span></span><br><span class="line">ip route add default via 192.168.1.254 table net0</span><br><span class="line">ip route add default via 10.10.10.254 table net1</span><br><span class="line">ip route add default via 172.16.1.254 table net2</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h1 id="设置系统默认路由"><a href="#设置系统默认路由" class="headerlink" title="设置系统默认路由"></a>设置系统默认路由</h1><p>ip route add default via 192.168.1.2</p>
+<h1 id="更改默认路由，等同于先删除，后新增"><a href="#更改默认路由，等同于先删除，后新增" class="headerlink" title="更改默认路由，等同于先删除，后新增"></a>更改默认路由，等同于先删除，后新增</h1><p>ip route change default via 192.168.1.2 dev eth0</p>
+<h1 id="设置默认网关"><a href="#设置默认网关" class="headerlink" title="设置默认网关"></a>设置默认网关</h1><p>ip route add default via 192.168.1.254 dev eth0</p>
+</blockquote>
+<h1 id="添加路由规则"><a href="#添加路由规则" class="headerlink" title="添加路由规则"></a>添加路由规则</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ip rule add from 192.168.1.254 table ent0</span><br><span class="line">ip rule add from 10.10.10.254 table ent1</span><br><span class="line">ip rule add from 172.16.1.254 table ent2</span><br></pre></td></tr></table></figure>
+<h1 id="配置启动生效"><a href="#配置启动生效" class="headerlink" title="配置启动生效"></a>配置启动生效</h1><p>如果需要自启动生效可以写进配置文件也可以加入 <code>/etc/rc.local</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/rc.local</span><br><span class="line"></span><br><span class="line"><span class="comment">#刷新路由表</span></span><br><span class="line">ip route flush table net0</span><br><span class="line">ip route flush table net1</span><br><span class="line">ip route flush table net2</span><br><span class="line"><span class="comment">#添加路由</span></span><br><span class="line">ip route add 192.168.1.0/24 dev eth0 src 192.168.1.254 table net0</span><br><span class="line">ip route add 10.10.10.0/24 dev eth1 src 10.10.10.254 table net1</span><br><span class="line">ip route add 172.16.1.0/24 dev eth2 src 172.16.1.254 table net2</span><br><span class="line"><span class="comment">#添加默认路由走向</span></span><br><span class="line">ip route add default via 192.168.1.254 table net0</span><br><span class="line"><span class="comment">#ip route add default via 10.10.10.254 table net1</span></span><br><span class="line"><span class="comment">#ip route add default via 172.16.1.254 table net2</span></span><br><span class="line">ip rule add from 192.168.1.254 table ent0</span><br><span class="line">ip rule add from 10.10.10.254 table ent1</span><br><span class="line">ip rule add from 172.16.1.254 table ent2</span><br></pre></td></tr></table></figure>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#添加默认网关</span></span><br><span class="line">route add default gw 172.16.1.254</span><br><span class="line"><span class="comment"># 查看路由表</span></span><br><span class="line">route -n</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux字体美化</title>
     <url>/posts/711f903b/</url>
     <content><![CDATA[<h1 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h1><h2 id="安装字体"><a href="#安装字体" class="headerlink" title="安装字体"></a>安装字体</h2><p>查看已安装中文字体: <code>fc-list :lang=zh</code></p>
@@ -4704,6 +4737,31 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
       </tags>
   </entry>
   <entry>
+    <title>Linux时区</title>
+    <url>/posts/bd38c3b7/</url>
+    <content><![CDATA[<h1 id="查看时区"><a href="#查看时区" class="headerlink" title="查看时区"></a>查看时区</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">date -R</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-0800 : 表示西八区，是美国旧金山所在的时区<br>+0800 : 我们国家的东八区</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="设置时区"><a href="#设置时区" class="headerlink" title="设置时区"></a>设置时区</h1><h2 id="通过修改环境变量设置"><a href="#通过修改环境变量设置" class="headerlink" title="通过修改环境变量设置"></a>通过修改环境变量设置</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tzselect</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;TZ=&#x27;Asia/Shanghai&#x27;; export TZ&quot;</span> &gt;&gt; .profile</span><br><span class="line"><span class="built_in">source</span> .profile</span><br></pre></td></tr></table></figure>
+<p>通过交互式的方式获得参数，然后修改 <code>.profile</code> 、<code>.bash_profile</code> 等环境变量内容 <code>TZ=&#39;Asia/Shanghai&#39;; export TZ</code> 来设置， </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># ttzselect</span></span><br><span class="line">Please identify a location so that time zone rules can be <span class="built_in">set</span> correctly.</span><br><span class="line">Please select a continent, ocean, <span class="string">&quot;coord&quot;</span>, or <span class="string">&quot;TZ&quot;</span>.</span><br><span class="line"> 1) Africa</span><br><span class="line"> 2) Americas</span><br><span class="line"> 3) Antarctica</span><br><span class="line"> 4) Asia</span><br><span class="line"> 5) Atlantic Ocean</span><br><span class="line"> 6) Australia</span><br><span class="line"> 7) Europe</span><br><span class="line"> 8) Indian Ocean</span><br><span class="line"> 9) Pacific Ocean</span><br><span class="line">10) coord - I want to use geographical coordinates.</span><br><span class="line">11) TZ - I want to specify the timezone using the Posix TZ format.</span><br><span class="line"><span class="comment">#? 4</span></span><br><span class="line">Please select a country whose clocks agree with yours.</span><br><span class="line"> 1) Afghanistan           18) Iraq                  35) Pakistan</span><br><span class="line"> 2) Antarctica            19) Israel                36) Palestine</span><br><span class="line"> 3) Armenia               20) Japan                 37) Philippines</span><br><span class="line"> 4) Azerbaijan            21) Jordan                38) Qatar</span><br><span class="line"> 5) Bahrain               22) Kazakhstan            39) Russia</span><br><span class="line"> 6) Bangladesh            23) Korea (North)         40) Saudi Arabia</span><br><span class="line"> 7) Bhutan                24) Korea (South)         41) Singapore</span><br><span class="line"> 8) Brunei                25) Kuwait                42) Sri Lanka</span><br><span class="line"> 9) Cambodia              26) Kyrgyzstan            43) Syria</span><br><span class="line">10) China                 27) Laos                  44) Taiwan</span><br><span class="line">11) Cyprus                28) Lebanon               45) Tajikistan</span><br><span class="line">12) East Timor            29) Macau                 46) Thailand</span><br><span class="line">13) Georgia               30) Malaysia              47) Turkmenistan</span><br><span class="line">14) Hong Kong             31) Mongolia              48) United Arab Emirates</span><br><span class="line">15) India                 32) Myanmar (Burma)       49) Uzbekistan</span><br><span class="line">16) Indonesia             33) Nepal                 50) Vietnam</span><br><span class="line">17) Iran                  34) Oman                  51) Yemen</span><br><span class="line"><span class="comment">#? 10</span></span><br><span class="line">Please select one of the following timezones.</span><br><span class="line">1) Beijing Time</span><br><span class="line">2) Xinjiang Time</span><br><span class="line"><span class="comment">#? 1</span></span><br><span class="line"></span><br><span class="line">The following information has been given:</span><br><span class="line"></span><br><span class="line">        China</span><br><span class="line">        Beijing Time</span><br><span class="line"></span><br><span class="line">Therefore TZ=<span class="string">&#x27;Asia/Shanghai&#x27;</span> will be used.</span><br><span class="line">Selected time is now:   Sun Mar  6 19:20:49 CST 2022.</span><br><span class="line">Universal Time is now:  Sun Mar  6 11:20:49 UTC 2022.</span><br><span class="line">Is the above information OK?</span><br><span class="line">1) Yes</span><br><span class="line">2) No</span><br><span class="line"><span class="comment">#? 1</span></span><br><span class="line"></span><br><span class="line">You can make this change permanent <span class="keyword">for</span> yourself by appending the line</span><br><span class="line">        TZ=<span class="string">&#x27;Asia/Shanghai&#x27;</span>; <span class="built_in">export</span> TZ</span><br><span class="line">to the file <span class="string">&#x27;.profile&#x27;</span> <span class="keyword">in</span> your home directory; <span class="keyword">then</span> <span class="built_in">log</span> out and <span class="built_in">log</span> <span class="keyword">in</span> again.</span><br><span class="line"></span><br><span class="line">Here is that TZ value again, this time on standard output so that you</span><br><span class="line">can use the /usr/sbin/tzselect <span class="built_in">command</span> <span class="keyword">in</span> shell scripts:</span><br><span class="line">Asia/Shanghai</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="通过复制或链接时区文件修改"><a href="#通过复制或链接时区文件修改" class="headerlink" title="通过复制或链接时区文件修改"></a>通过复制或链接时区文件修改</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line">ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure>
+<p>若无 <code>zoneinfo</code> 目录，则需要安装 timezone 数据包 <code>tzdata</code></p>
+<h2 id="通过-timeconfig-设置"><a href="#通过-timeconfig-设置" class="headerlink" title="通过 timeconfig 设置"></a>通过 timeconfig 设置</h2><p><code>timeconfig</code> 命令仅限于<code>RedHat</code> 和 <code>CentOS</code></p>
+<blockquote>
+<p>—arc : 使用Alpha硬件结构的格式存储系统时间<br>—back : 在互动式界面里，显示Back钮而非Cancel钮<br>—test : 仅作测试，并不真的改变系统的时区<br>—utc : 把硬件时钟上的时间视为CUT，有时也称为UTC或UCT</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux独立显卡驱动安装</title>
     <url>/posts/4a637166/</url>
     <content><![CDATA[<p>  Linux到独立显卡分开源驱动和闭源驱动两种，开源驱动不能完全发挥独立显卡到性能，闭源驱动使用<code>bumblebee</code> 的 <code>optirun</code> 的兼容性不好。而 <code>optimus-manager</code> 可以设置开机默认使用 Intel 还是 Nvidia ，可以随时在这两者之间切换。</p>
@@ -4730,8 +4788,151 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <h1 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h1><p>optimus-manager的配置文件：<code>/usr/share/optimus-manager.conf</code></p>
 <p><strong>如需自定义配置，将该文件复制一份到<code>/etc/optimus-manager/</code>目录下进行修改即可</strong></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[optimus]</span><br><span class="line"></span><br><span class="line"># 此参数定义接通Nvidia卡电源的方法</span><br><span class="line"># 可能的值：</span><br><span class="line"># -nouveau：将nouveau模块加载到Nvidia卡上</span><br><span class="line"># -bbswitch：使用bbswitch模块关闭卡的电源（需要bbswitch依赖项）</span><br><span class="line"># -acpi_call：尝试各种ACPI方法调用来打开和关闭卡的电源（需要acpi_call依赖项）</span><br><span class="line"># -none：请勿将外部模块用于电源管理。对于某些笔记本电脑型号，最好将此选项与pci_power_control结合使用（请参见下文）。设置该选项后，您还可以使用脚本nvidia-enable.sh和nvidia-disable.sh执行自定义命令以进行电源管理</span><br><span class="line"></span><br><span class="line">switching&#x3D;bbswitch</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 在Intel模式下启用PCI电源管理。此选项与acpi_call和bbswitch不兼容，因此在这些情况下将被忽略</span><br><span class="line"></span><br><span class="line">pci_power_control&#x3D;yes</span><br><span class="line"></span><br><span class="line"># 从PCI总线上卸下Nvidia卡。可以防止电源开关引起的死机。如果switching &#x3D; nouveau或switching &#x3D; bbswitch则被忽略</span><br><span class="line"></span><br><span class="line">pci_remove&#x3D;no</span><br><span class="line"></span><br><span class="line"># 在重新加载nvidia模块之前，请在PCI级别上重置Nvidia卡。在重新加载nvidia模块之前，请确保卡处于新状态。可能会解决一些切换问题</span><br><span class="line"># 可能的值:</span><br><span class="line"># -no:不执行任何重置</span><br><span class="line"># -function_level:执行轻度的“功能级别”重置</span><br><span class="line"># -hot_reset:对PCI桥接器执行“热重置”。注意：此方法直接与硬件混淆，使用前请阅读optimus-manager的在线文档。另外，即使pci_remove&#x3D;no，也会执行PCI移除操作</span><br><span class="line"></span><br><span class="line">pci_reset&#x3D;no</span><br><span class="line"></span><br><span class="line"># 切换GPU时自动注销当前的桌面会话。当前，以下DE &#x2F; WM支持此功能：KDE Plasma，GNOME，XFCE，Deepin，i3，Openbox，AwesomeWM，bspwm如果禁用此选项或使用其他桌面环境，则GPU切换仅在下一个图形显示时有效会话登录</span><br><span class="line"></span><br><span class="line">auto_logout &#x3D;yes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[intel]</span><br><span class="line"></span><br><span class="line"># 用于Intel GPU的驱动程序。</span><br><span class="line"># 可能的值:modesetting，intel</span><br><span class="line"># 要使用intel驱动程序，需要安装软件包“ xf86-video-intel”</span><br><span class="line"></span><br><span class="line">driver&#x3D;modesetting</span><br><span class="line"></span><br><span class="line"># 加速方法（对应于Xorg配置中的AccelMethod）。仅适用于intel驱动程序</span><br><span class="line"># 可能的值:sna,xna</span><br><span class="line"># 默认值（未指定任何选项）</span><br><span class="line">accel&#x3D;</span><br><span class="line"></span><br><span class="line"># 在Xorg配置中启用TearFree选项，仅适用于intel驱动程序</span><br><span class="line"># 可能的值:yes,no</span><br><span class="line"># 保留默认值（未指定任何选项）</span><br><span class="line">tearfree&#x3D;</span><br></pre></td></tr></table></figure>
+<h1 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h1><h2 id="更新后黑屏"><a href="#更新后黑屏" class="headerlink" title="更新后黑屏"></a>更新后黑屏</h2><p>Manjaro 的仓库版本相较于 Arch 的库晚些，而 AUR 内的包调用的是 Arch 库内的包，这就会产生包版本不对的问题，产生一些错误，这时通过主动升降级可解决。</p>
+<p>通过 <code>optimus-manager --status</code> 查看状态，提示报错日志位置，通过报错日志找相应的报错内容。<br>如：<code>/var/log/optimus-manager/switch/switch-20220330T193127.log</code></p>
 <p>参考:<br><a href="https://blog.edward-p.xyz/2019/04/optimus-manager/">使用 optimus-manager 来管理显卡切换</a></p>
 <p>Optimus-Manager的<br><a href="https://github.com/Askannz/optimus-manager/blob/master/README.md">README</a><br><a href="https://github.com/Askannz/optimus-manager/wiki">Wiki</a><br><a href="https://github.com/Askannz/optimus-manager/wiki/A-guide--to-power-management-options">电源管理选项指南</a><br><a href="https://github.com/Askannz/optimus-manager/wiki/FAQ,-common-issues,-troubleshooting">常见问题，常见问题，故障排除</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux路由</title>
+    <url>/posts/7daf0069/</url>
+    <content><![CDATA[<h1 id="Linux-内核的路由种类"><a href="#Linux-内核的路由种类" class="headerlink" title="Linux 内核的路由种类"></a>Linux 内核的路由种类</h1><h2 id="主机路由"><a href="#主机路由" class="headerlink" title="主机路由"></a>主机路由</h2><p>路由表中指向单个 IP 地址或主机名的路由记录，其 Flags 字段为 H。<br>对于 <code>10.0.0.10</code> 这个主机，通过网关 <code>10.139.128.1</code> 路由：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">route -n</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.10       10.139.128.1    255.255.255.255 UGH   0      0        0 eth0<br>…</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="网络路由"><a href="#网络路由" class="headerlink" title="网络路由"></a>网络路由</h2><p>主机可以到达的网络。 <code>10.0.0.0/24</code> 网络，通过网关 <code>10.139.128.1</code> 路由：</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> route -n</span><br><span class="line"> ```  </span><br><span class="line">&gt; Kernel IP routing table  </span><br><span class="line">&gt; Destination     Gateway         Genmask         Flags Metric Ref    Use Iface  </span><br><span class="line">&gt; 10.0.0.0        10.139.128.1    255.255.255.0   UG    0      0        0 eth0</span><br><span class="line"></span><br><span class="line"><span class="comment">## 默认路由</span></span><br><span class="line"></span><br><span class="line">当目标主机的 IP 地址或网络不在路由表中时，数据包就被发送到默认路由（默认网关）上。默认路由的 `Destination` 是 default 或 `0.0.0.0`。</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">route</span><br><span class="line">```  </span><br><span class="line">&gt; Kernel IP routing table  </span><br><span class="line">&gt; Destination     Gateway         Genmask         Flags Metric Ref    Use Iface  </span><br><span class="line">&gt; default         gateway         0.0.0.0         UG    0      0        0 eth0</span><br><span class="line"></span><br><span class="line"><span class="comment"># route 命令</span></span><br><span class="line"></span><br><span class="line">route 命令可以显示或设置 Linux 内核中的路由表，主要是静态路由。</span><br><span class="line"></span><br><span class="line">对于局域网中的 Linux 主机，要想访问 Internet，需要将局域网的网关 IP 地址设置为这个主机的默认路由。在命令行中通过 `route` 命令添加的路由在网卡重启或机器重启后失效。可以在 `/etc/rc.local` 中添加 route 命令来保证路由设置永久有效。</span><br><span class="line"></span><br><span class="line">选项:</span><br><span class="line"></span><br><span class="line">- `-A`：设置地址类型</span><br><span class="line">- `-C`：打印 Linux 内核的路由缓存</span><br><span class="line">- `-v`：显示详细信息</span><br><span class="line">- `-n`：不执行 DNS 反向查找，直接显示数字形式的 IP 地址</span><br><span class="line">- `-e`：netstat 格式显示路由表</span><br><span class="line">- `-net`：到一个网络的路由表</span><br><span class="line">- `-host`：到一个主机的路由表</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">参数：</span><br><span class="line"></span><br><span class="line">- add：增加路由记录</span><br><span class="line">- del：删除路由记录</span><br><span class="line">- target：目的网络或目的主机</span><br><span class="line">- gw：设置默认网关</span><br><span class="line">- mss：设置TCP的最大区块长度（MSS），单位MB</span><br><span class="line">- window：指定通过路由表的TCP连接的TCP窗口大小</span><br><span class="line">- dev：路由记录所表示的网络接口</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">route</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>default         gateway         0.0.0.0         UG    0      0        0 eth0<br>10.0.0.10       10.139.128.1    255.255.255.255 UGH   0      0        0 eth0</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">route -n</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>0.0.0.0         10.139.128.1    0.0.0.0         UG    0      0        0 eth0</p>
+</blockquote>
+<p>各列字段说明：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Destination</td>
+<td>目标网络或目标主机。Destination 为 default（<code>0.0.0.0</code>）时，表示这个是默认网关，所有数据都发到这个网关（这里是 <code>10.139.128.1</code>）</td>
+</tr>
+<tr>
+<td>Gateway</td>
+<td>网关地址，<code>0.0.0.0</code> 表示当前记录对应的 Destination 跟本机在同一个网段，通信时不需要经过网关</td>
+</tr>
+<tr>
+<td>Genmask</td>
+<td>Destination 字段的网络掩码，Destination 是主机时需要设置为 <code>255.255.255.255</code>，是默认路由时会设置为 <code>0.0.0.0</code></td>
+</tr>
+<tr>
+<td>Flags</td>
+<td><code>U</code> 路由是活动的; <code>H</code> 目标是个主机; <code>G</code> 需要经过网关; <code>R</code> 恢复动态路由产生的表项; <code>D</code> 由路由的后台程序动态地安装; <code>M</code> 由路由的后台程序修改; <code>!</code> 拒绝路由</td>
+</tr>
+<tr>
+<td>Metric</td>
+<td>路由距离，到达指定网络所需的中转数，是大型局域网和广域网设置所必需的 （不在Linux内核中使用。）</td>
+</tr>
+<tr>
+<td>Ref</td>
+<td>路由项引用次数 （不在Linux内核中使用。）</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>此路由项被路由软件查找的次数</td>
+</tr>
+<tr>
+<td>Iface</td>
+<td>网卡名字，例如 <code>eth0</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="添加路由-add"><a href="#添加路由-add" class="headerlink" title="添加路由 add"></a>添加路由 add</h2><p>可以添加一条可用路由，或添加一条要屏蔽的路由。</p>
+<h3 id="添加路由"><a href="#添加路由" class="headerlink" title="添加路由"></a>添加路由</h3><h4 id="添加主机路由"><a href="#添加主机路由" class="headerlink" title="添加主机路由"></a>添加主机路由</h4><p>添加主机路由时，需要指定网络和主机，此时需要设置 <code>netmask</code> 为 <code>255.255.255.255</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">route add -net 10.0.0.10 netmask 255.255.255.255 gw 10.10.11.1 dev eth0</span><br><span class="line">route -n</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.10       10.139.128.1    255.255.255.255 UGH   0      0        0 eth0<br>…</p>
+</blockquote>
+<h4 id="添加网络路由"><a href="#添加网络路由" class="headerlink" title="添加网络路由"></a>添加网络路由</h4><p>添加网络路由时，只需指定网络，通过 <code>netmask</code> 设置掩码长度：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">route add -net 10.0.0.0 netmask 255.255.255.0 gw 10.139.128.1 dev eth0</span><br><span class="line">route -n</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        10.139.128.1    255.255.255.0   UG    0      0        0 eth0<br>…</p>
+</blockquote>
+<h4 id="添加添加同一个局域网的主机"><a href="#添加添加同一个局域网的主机" class="headerlink" title="添加添加同一个局域网的主机"></a>添加添加同一个局域网的主机</h4><p>不指定 gw 选项时，添加的路由记录不使用网关：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0</span><br><span class="line">route -n</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>224.0.0.0       0.0.0.0         240.0.0.0       U     0      0        0 eth0<br>…</p>
+</blockquote>
+<h3 id="添加屏蔽路由"><a href="#添加屏蔽路由" class="headerlink" title="添加屏蔽路由"></a>添加屏蔽路由</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">route add -net 224.0.0.0 netmask 240.0.0.0 reject</span><br><span class="line">route -n</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>224.0.0.0       -               240.0.0.0       !     0      -        0 -<br>…</p>
+</blockquote>
+<h2 id="删除路由记录"><a href="#删除路由记录" class="headerlink" title="删除路由记录"></a>删除路由记录</h2><p>跟添加路由类似，可以删除一条可用路由，或删除一条屏蔽的路由。</p>
+<h3 id="删除可用路由"><a href="#删除可用路由" class="headerlink" title="删除可用路由"></a>删除可用路由</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">route del -net 224.0.0.0 netmask 240.0.0.0</span><br></pre></td></tr></table></figure>
+<h3 id="删除屏蔽的路由"><a href="#删除屏蔽的路由" class="headerlink" title="删除屏蔽的路由"></a>删除屏蔽的路由</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">route del -net 224.0.0.0 netmask 240.0.0.0 reject1</span><br></pre></td></tr></table></figure>
+<h2 id="删除和添加设置默认网关"><a href="#删除和添加设置默认网关" class="headerlink" title="删除和添加设置默认网关"></a>删除和添加设置默认网关</h2><p>添加或删除默认网关时，Linux 会自动检查网关的可用性</p>
+<pre><code class="lang-bash">route add default gw 192.168.1.1
+</code></pre>
+<blockquote>
+<p>SIOCADDRT: Network is unreachable  </p>
+</blockquote>
+<pre><code class="lang-bash">route del default gw 192.168.1.1
+</code></pre>
+<blockquote>
+<p>SIOCDELRT: No such process</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux静态IP</title>
+    <url>/posts/c029412/</url>
+    <content><![CDATA[<h1 id="配置文件位置"><a href="#配置文件位置" class="headerlink" title="配置文件位置"></a>配置文件位置</h1><ul>
+<li>RedHat、CentOS : <code>/etc/sysconfig/network-scripts/ifcfg-eth0</code></li>
+<li>OpenSUSE : <code>/etc/sysconfig/network/ifcfg-eth0</code> 和 <code>/etc/sysconfig/network/routes</code></li>
+<li>Debian、Ubuntu 14/16、Alpine : <code>/etc/network/interfaces</code></li>
+<li>Ubuntu 18/20 : <code>/etc/netplan/配置文件.yaml</code> 如 <code>01-network-manager-all.yaml</code></li>
+</ul>
+<a id="more"></a>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="RedHat、CentOS"><a href="#RedHat、CentOS" class="headerlink" title="RedHat、CentOS"></a>RedHat、CentOS</h2><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 配置命名</span></span><br><span class="line"><span class="string">NAME=eth0</span></span><br><span class="line"><span class="comment"># 网卡 UUID ，通过 nmcli con show 查看</span></span><br><span class="line"><span class="string">UUID=XXXX-XXXX-XXXX-XXXX-XXXX</span></span><br><span class="line"><span class="comment"># 网卡物理设备名</span></span><br><span class="line"><span class="string">DEVICE=eth0</span></span><br><span class="line"><span class="comment"># 开机启用本配置</span></span><br><span class="line"><span class="string">ONBOOT=yes</span></span><br><span class="line"><span class="comment"># 获取地址方式 dhcp(从DHCP获取)、static(静态地址)</span></span><br><span class="line"><span class="string">BOOTPROTO=static</span></span><br><span class="line"><span class="comment"># IPv4 静态地址</span></span><br><span class="line"><span class="string">IPADDR=192.168.7.6</span></span><br><span class="line"><span class="comment"># IPv4 默认网关</span></span><br><span class="line"><span class="string">GATEWAY=192.168.7.1</span></span><br><span class="line"><span class="comment"># IPv4 子网掩码</span></span><br><span class="line"><span class="comment">#PREFIX=24</span></span><br><span class="line"><span class="string">NETMASK=255.255.255.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启用 IPv6 配置参数 IPV6ADDR 、 IPV6_DEFAULTGW</span></span><br><span class="line"><span class="string">IPV6INIT=yes</span></span><br><span class="line"><span class="comment"># 关闭 IPv6 自动获取地址</span></span><br><span class="line"><span class="string">IPV6_AUTOCONF=no</span></span><br><span class="line"><span class="comment"># IPv6 静态地址</span></span><br><span class="line"><span class="string">IPV6ADDR=2222::2/64</span></span><br><span class="line"><span class="comment"># IPv6 默认网关</span></span><br><span class="line"><span class="string">IPV6_DEFAULTGW=2222::1</span></span><br><span class="line"><span class="comment"># DNS 配置 ，推荐通过 `/etc/resolv.conf` 进行配置</span></span><br><span class="line"><span class="comment">#DNS1=1.1.1.1</span></span><br><span class="line"><span class="comment">#DNS2=8.8.8.8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果 IPv4 或 IPv6 配置失败，则禁用此接口</span></span><br><span class="line"><span class="comment">#IPV4_FAILURE_FATAL=yes</span></span><br><span class="line"><span class="comment">#IPV6_FAILURE_FATAL=yes</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 详细参考: /usr/share/doc/initscripts-*/sysconfig.txt</span></span><br></pre></td></tr></table></figure>
+<h2 id="OpenSUSE"><a href="#OpenSUSE" class="headerlink" title="OpenSUSE"></a>OpenSUSE</h2><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># /etc/sysconfig/network/ifcfg-eth0</span></span><br><span class="line"><span class="comment"># 开机启用本配置</span></span><br><span class="line"><span class="string">STARTMODE=&#x27;auto&#x27;</span></span><br><span class="line"><span class="comment"># 获取地址方式 dhcp(从DHCP获取)、static(静态地址)</span></span><br><span class="line"><span class="string">BOOTPROTO=&#x27;static&#x27;</span></span><br><span class="line"><span class="comment"># IPv4 静态地址</span></span><br><span class="line"><span class="string">IPADDR=&#x27;192.168.7.6&#x27;</span></span><br><span class="line"><span class="comment"># IPv4 子网掩码</span></span><br><span class="line"><span class="comment">#PREFIXLEN=&#x27;24&#x27;</span></span><br><span class="line"><span class="string">NETMASK=&#x27;255.255.255.0&#x27;</span></span><br><span class="line"><span class="comment"># 网络地址</span></span><br><span class="line"><span class="comment">#NETWORK=&#x27;192.168.7.0&#x27;</span></span><br><span class="line"><span class="comment"># 广播地址</span></span><br><span class="line"><span class="comment">#BROADCAST=&#x27;192.168.7.255&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># IPv6 静态地址</span></span><br><span class="line"><span class="comment">#IPADDR_v6=&#x27;2222::2&#x27;</span></span><br><span class="line"><span class="comment"># IPv46子网掩码</span></span><br><span class="line"><span class="comment">#PREFIXLEN_v6=&#x27;64&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># DNS 配置 ，推荐通过 `/etc/resolv.conf` 进行配置</span></span><br><span class="line"><span class="comment">#DNS1=1.1.1.1</span></span><br><span class="line"><span class="comment">#DNS2=8.8.8.8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认网关</span></span><br><span class="line"><span class="comment"># /etc/sysconfig/network/routes</span></span><br><span class="line"><span class="string">default</span> <span class="number">192.168</span><span class="number">.7</span><span class="number">.1</span> <span class="bullet">-</span> <span class="bullet">-</span></span><br><span class="line"><span class="comment">#default 2222::1 - -</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># DNS 配置</span></span><br><span class="line"><span class="comment"># /etc/resolv.conf</span></span><br><span class="line"><span class="string">nameserver=1.1.1.1</span></span><br><span class="line"><span class="string">nameserver=8.8.8.8</span></span><br></pre></td></tr></table></figure>
+<h2 id="Debian、Ubuntu-14-16、Alpine"><a href="#Debian、Ubuntu-14-16、Alpine" class="headerlink" title="Debian、Ubuntu 14/16、Alpine"></a>Debian、Ubuntu 14/16、Alpine</h2><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 自动配置 eth0 网卡</span></span><br><span class="line"><span class="string">auto</span> <span class="string">eth0</span></span><br><span class="line"><span class="comment"># 获取IPv4(inet)地址方式 dhcp(从DHCP获取)、static(静态地址)</span></span><br><span class="line"><span class="string">iface</span> <span class="string">eth0</span> <span class="string">inet</span> <span class="string">static</span></span><br><span class="line"><span class="comment"># IPv4 静态地址</span></span><br><span class="line"><span class="string">address</span> <span class="number">192.168</span><span class="number">.7</span><span class="number">.6</span></span><br><span class="line"><span class="comment"># 子网掩码</span></span><br><span class="line"><span class="comment">#netmask 24</span></span><br><span class="line"><span class="string">netmask</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line"><span class="comment"># 默认网关</span></span><br><span class="line"><span class="string">gateway</span> <span class="number">192.168</span><span class="number">.7</span><span class="number">.1</span></span><br><span class="line"><span class="comment"># DNS 配置 ，推荐通过 `/etc/resolv.conf` 进行配置</span></span><br><span class="line"><span class="comment">#dns-nameserver 1.1.1.1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取IPv6(inet6)地址方式 dhcp(从DHCP获取)、static(静态地址)</span></span><br><span class="line"><span class="string">iface</span> <span class="string">eth0</span> <span class="string">inet6</span> <span class="string">static</span></span><br><span class="line"><span class="comment"># IPv6 静态地址</span></span><br><span class="line"><span class="string">address</span> <span class="number">2222</span><span class="string">::2/64</span></span><br><span class="line"><span class="comment"># 子网掩码</span></span><br><span class="line"><span class="string">netmask</span> <span class="number">64</span></span><br><span class="line"><span class="comment">#netmask FFFF:FFFF:FFFF:FFFF::::</span></span><br><span class="line"><span class="comment"># 默认网关</span></span><br><span class="line"><span class="string">gateway</span> <span class="number">2222</span><span class="string">::1</span></span><br></pre></td></tr></table></figure>
+<h2 id="Ubuntu-18-20"><a href="#Ubuntu-18-20" class="headerlink" title="Ubuntu 18/20"></a>Ubuntu 18/20</h2><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">network:</span></span><br><span class="line">    <span class="attr">version:</span> <span class="number">2</span></span><br><span class="line">    <span class="attr">ethernets:</span></span><br><span class="line">        <span class="attr">eth0:</span></span><br><span class="line">            <span class="attr">dhcp4:</span> <span class="literal">false</span></span><br><span class="line">            <span class="attr">addresses:</span> [<span class="number">192.168</span><span class="number">.7</span><span class="number">.2</span><span class="string">/24</span>]</span><br><span class="line">            <span class="attr">optional:</span> <span class="literal">true</span></span><br><span class="line">            <span class="attr">gateway4:</span> <span class="number">192.168</span><span class="number">.7</span><span class="number">.1</span></span><br><span class="line">            <span class="attr">nameservers:</span></span><br><span class="line">                <span class="attr">addresses:</span> [<span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span>,<span class="number">8.8</span><span class="number">.8</span><span class="number">.8</span>]</span><br><span class="line">            <span class="attr">dhcp6:</span> <span class="literal">false</span></span><br><span class="line">            <span class="attr">addresses:</span> [<span class="number">2222</span><span class="string">::2/64</span>]</span><br><span class="line">            <span class="attr">optional:</span> <span class="literal">true</span></span><br><span class="line">            <span class="attr">gateway6:</span> <span class="number">2222</span><span class="string">::1</span></span><br><span class="line">            <span class="attr">nameserver:</span></span><br><span class="line">	            <span class="attr">addresses:</span> [<span class="string">xxxx:xxxx:xxxx:xxxx...</span>]</span><br></pre></td></tr></table></figure>
+<h1 id="应用配置"><a href="#应用配置" class="headerlink" title="应用配置"></a>应用配置</h1><ul>
+<li>RedHat、CentOS : <code>sudo systemctl restart network</code></li>
+<li>OpenSUSE :<ul>
+<li><code>sudo systemctl restart network</code></li>
+<li><code>sudo rcnetwork restart</code></li>
+<li><code>sudo service network restart</code></li>
+<li><code>sudo /etc/init.d/network restart</code></li>
+</ul>
+</li>
+<li>Debian、Ubuntu 14/16 : <ul>
+<li><code>sudo systemctl restart networking</code></li>
+<li><code>sudo /etc/init.d/networking restart</code></li>
+</ul>
+</li>
+<li>Ubuntu 18/20 : <code>sudo netplan apply</code></li>
+</ul>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -4861,7 +5062,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <p>开始安装</p>
 <p><img data-src="manjaro7.png" alt="manjaro7"></p>
 <p>安装完成重启</p>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman-mirrors -i -c China -m rank</span><br><span class="line"><span class="comment">#选择https://mirrors.tuna.tsinghua.edu.cn/manjaro源</span></span><br><span class="line"></span><br><span class="line">sudo gedit /etc/pacman.conf</span><br><span class="line"><span class="comment"># https://github.com/archlinuxcn/mirrorlist-repo</span></span><br><span class="line"><span class="comment">#在末尾加入：</span></span><br><span class="line"><span class="comment">## 中国科学技术大学 (安徽合肥) (ipv4, ipv6, http, https)</span></span><br><span class="line">[archlinuxcn]</span><br><span class="line">Server = https://mirrors.ustc.edu.cn/archlinuxcn/<span class="variable">$arch</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可选择使用 Manjarocn 用于解决一些软件由于 Manjaro 慢版拍导致找不到一些新版本的依赖</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装archlinuxcn秘钥</span></span><br><span class="line">sudo pacman -S archlinuxcn-keyring</span><br><span class="line"></span><br><span class="line">[manjarocn]</span><br><span class="line">Server = https://repo.manjarocn.org/stable/x86_64</span><br><span class="line"><span class="comment"># 安装密钥</span></span><br><span class="line">sudo pacman-key --recv-keys 974B3711CFB9BF2D &amp;&amp; sudo pacman-key --lsign-key 974B3711CFB9BF2D</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 同步软件包数据库</span></span><br><span class="line">sudo pacman -Syy</span><br><span class="line"><span class="comment"># 更新</span></span><br><span class="line">sudo pacman -Su</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#无法锁定数据库,删除/var/lib/pacman/db.lck</span></span><br><span class="line">sudo /var/lib/pacman/db.lck</span><br></pre></td></tr></table></figure>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman-mirrors -i -c China -m rank</span><br><span class="line"><span class="comment">#选择https://mirrors.tuna.tsinghua.edu.cn/manjaro源</span></span><br><span class="line"></span><br><span class="line">sudo gedit /etc/pacman.conf</span><br><span class="line"><span class="comment"># https://github.com/archlinuxcn/mirrorlist-repo</span></span><br><span class="line"><span class="comment">#在末尾加入：</span></span><br><span class="line"><span class="comment">## 中国科学技术大学 (安徽合肥) (ipv4, ipv6, http, https)</span></span><br><span class="line">[archlinuxcn]</span><br><span class="line">Server = https://mirrors.ustc.edu.cn/archlinuxcn/<span class="variable">$arch</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可选择使用 Manjarocn 用于解决一些软件由于 Manjaro 慢版拍导致找不到一些新版本的依赖</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装archlinuxcn秘钥</span></span><br><span class="line">sudo pacman -S archlinuxcn-keyring</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Manjaro 的仓库版本相较于 Arch 的库晚些，而 archlinuxcn 内的包调用的是 Arch 库内的包，这就会产生包版本不对的问题，产生一些错误，这时通过主动升降级可解决，也可使用 [manjarocn 库](https://github.com/manjarocn/repo)。</span></span><br><span class="line">[manjarocn]</span><br><span class="line">Server = https://repo.manjarocn.org/stable/x86_64</span><br><span class="line"><span class="comment"># 安装密钥</span></span><br><span class="line">sudo pacman-key --recv-keys 974B3711CFB9BF2D &amp;&amp; sudo pacman-key --lsign-key 974B3711CFB9BF2D</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 同步软件包数据库</span></span><br><span class="line">sudo pacman -Syy</span><br><span class="line"><span class="comment"># 更新</span></span><br><span class="line">sudo pacman -Su</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#无法锁定数据库,删除/var/lib/pacman/db.lck</span></span><br><span class="line">sudo /var/lib/pacman/db.lck</span><br></pre></td></tr></table></figure>
 <h3 id="安装头文件"><a href="#安装头文件" class="headerlink" title="安装头文件"></a>安装头文件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">uname -r</span><br><span class="line">sudo pacman -Ss linux-header<span class="comment">#根据内核选择版本安装</span></span><br><span class="line">sudo pacman -S linux419-headers</span><br></pre></td></tr></table></figure>
 <h3 id="删除不再被依赖的软件"><a href="#删除不再被依赖的软件" class="headerlink" title="删除不再被依赖的软件"></a>删除不再被依赖的软件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -R $(sudo pacman -Qdtq)</span><br><span class="line">sudo pacman -R (sudo pacman -Qdtq)	<span class="comment">#fish</span></span><br><span class="line"></span><br><span class="line">gamin-0.1.10-9  gnome-shell-extension-taskbar-57.0-2</span><br><span class="line">gtkmm-1:2.24.5-3  gtksourceview2-2.10.5-4  js52-52.9.0-3</span><br><span class="line">libnm-glib-1.18.2-1  libxdg-basedir-1.2.0-4</span><br></pre></td></tr></table></figure>
 <h3 id="带颜色的pacman"><a href="#带颜色的pacman" class="headerlink" title="带颜色的pacman"></a>带颜色的pacman</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/pacman.conf</span><br><span class="line"><span class="comment">#修改36行，将#Color的注释去掉</span></span><br></pre></td></tr></table></figure>
@@ -4945,8 +5146,8 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <h3 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S jdk8-openjdk</span><br></pre></td></tr></table></figure>
 <h3 id="jre"><a href="#jre" class="headerlink" title="jre"></a>jre</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S jre8-openjdk jre8-openjdk-headless</span><br></pre></td></tr></table></figure>
 <h3 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S adobe-source-han-sans-cn-fonts ttf-hack</span><br></pre></td></tr></table></figure>
-<h3 id="wps"><a href="#wps" class="headerlink" title="wps"></a>wps</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S wps-office-cn ttf-wps-fonts wps-office-mui-zh-cn</span><br><span class="line"><span class="comment">#卸载自带office</span></span><br><span class="line">sudo pacman -Rcc libreoffice-still</span><br><span class="line">sudo pacman -Rcc microsoft-office-online-jak</span><br></pre></td></tr></table></figure>
-<h3 id="markdown编辑器"><a href="#markdown编辑器" class="headerlink" title="markdown编辑器"></a>markdown编辑器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S typora</span><br></pre></td></tr></table></figure>
+<h3 id="wps"><a href="#wps" class="headerlink" title="wps"></a>wps</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S wps-office-cn ttf-wps-fonts wps-office-mui-zh-cn</span><br><span class="line"></span><br><span class="line"><span class="comment">#卸载自带office</span></span><br><span class="line">sudo pacman -Rcc libreoffice-still</span><br><span class="line">sudo pacman -Rcc microsoft-office-online-jak</span><br></pre></td></tr></table></figure>
+<h3 id="markdown编辑器"><a href="#markdown编辑器" class="headerlink" title="markdown编辑器"></a>markdown编辑器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S typora</span><br><span class="line">yay -S typora-free</span><br></pre></td></tr></table></figure>
 <h3 id="sublime-text"><a href="#sublime-text" class="headerlink" title="sublime-text"></a>sublime-text</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yay sublime-text-dev</span><br></pre></td></tr></table></figure>
 <h3 id="CHM-查看器"><a href="#CHM-查看器" class="headerlink" title="CHM 查看器"></a>CHM 查看器</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo pacman -S kchmviewer</span><br></pre></td></tr></table></figure>
 <h3 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S chromium</span><br><span class="line">sudo pacman -S firefox firefox-i18n-zh-cn</span><br></pre></td></tr></table></figure>
@@ -4972,7 +5173,18 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <p><strong>命令行版</strong>:<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay baidupcs-go		<span class="comment">#go版</span></span><br><span class="line">yay bypy			<span class="comment">#Python版	也可用pip安装：sudo pip bypy</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#项目地址：</span></span><br><span class="line">https://github.com/iikira/BaiduPCS-Go</span><br><span class="line">https://github.com/houtianze/bypy</span><br></pre></td></tr></table></figure></p>
 <h3 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S python-pip</span><br></pre></td></tr></table></figure>
 <h3 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看内核</span></span><br><span class="line">uname -r</span><br><span class="line"><span class="comment">#选择相应内核版本的安装,virtualbox-host-modules</span></span><br><span class="line">sudo pacman -S virtualbox</span><br><span class="line"><span class="comment">#安装扩展</span></span><br><span class="line">yay virtualbox-ext-oracle</span><br><span class="line"><span class="comment">#载入vboxdrv模块</span></span><br><span class="line">sudo modprobe vboxdrv</span><br><span class="line"><span class="comment">#将用户eonun添加进vboxusers用户组</span></span><br><span class="line">sudo usermod -a -G vboxusers eonun</span><br><span class="line"><span class="comment">#检查是否加入</span></span><br><span class="line">cat /etc/group | grep vbox</span><br><span class="line">  vboxusers:x:129:eonun</span><br><span class="line"><span class="comment">#安装完成后重启即可</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#创建物理磁盘的虚拟磁盘，用来挂载到虚拟机上方便访问</span></span><br><span class="line"><span class="comment">#将整个物理磁盘用作虚拟磁盘</span></span><br><span class="line">sudo chmod 666 /dev/sda		<span class="comment">#添加读写权限</span></span><br><span class="line">vboxmanage internalcommands createrawvmdk -filename /home/eonun/data/win10/SD/sda.vmdk -rawdisk /dev/sda -relative</span><br><span class="line"></span><br><span class="line"><span class="comment">#将单个分区用作虚拟磁盘</span></span><br><span class="line">sudo chmod 666 /dev/sda2</span><br><span class="line">vboxmanage internalcommands createrawvmdk -filename /home/eonun/data/win10/SD/Software.vmdk -rawdisk /dev/sda2 -relative</span><br><span class="line"></span><br><span class="line"><span class="comment">#若虚拟机是Windows，且把硬盘格式化为NTFS格式，若想在下次启动Linux的时候使用这个物理盘就需要将Windows关机，挂起会使物理硬盘被Windows锁死，Linux对其只有读权限</span></span><br><span class="line">sudo chmod 666 /dev/sda</span><br><span class="line"><span class="comment">#也可创建开机自定义脚本运行</span></span><br></pre></td></tr></table></figure>
-<h3 id="teamviewer远程工具"><a href="#teamviewer远程工具" class="headerlink" title="teamviewer远程工具"></a>teamviewer远程工具</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S teamviewer</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> teamviewerd		<span class="comment">#将其服务设置开机启动</span></span><br></pre></td></tr></table></figure>
+<h3 id="远程工具"><a href="#远程工具" class="headerlink" title="远程工具"></a>远程工具</h3><ul>
+<li>todesk</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo yay -S todesk</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> --now todesk  <span class="comment"># 设置开机启动，并启动服务器</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>restdesk</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;gitee.com&#x2F;rustdesk&#x2F;rustdesk&#x2F;attach_files&#x2F;810292&#x2F;download&#x2F;rustdesk-1.1.8-manjaro-arch.pkg.tar.zst</span><br><span class="line">sudo pacman -U rustdesk-1.1.8-manjaro-arch.pkg.tar.zst</span><br></pre></td></tr></table></figure>
+<ul>
+<li>teamviewer</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S teamviewer</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> teamviewerd  <span class="comment"># 设置开机启动，并启动服务器</span></span><br></pre></td></tr></table></figure>
 <h3 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S visual-studio-code-bin</span><br></pre></td></tr></table></figure>
 <h3 id="显卡驱动"><a href="#显卡驱动" class="headerlink" title="显卡驱动"></a>显卡驱动</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装依赖</span></span><br><span class="line">sudo pacman -S virtualgl lib32-virtualgl lib32-primus primus</span><br><span class="line"><span class="comment">#安装闭源bumblebee版驱动</span></span><br><span class="line">sudo mhwd -f -i pci video-hybrid-intel-nvidia-prime</span><br><span class="line"><span class="comment">#讲用户加入到bumblee组</span></span><br><span class="line">sudo gpasswd -a <span class="variable">$USER</span> bumblebee</span><br><span class="line"><span class="comment">#设置bumblebeed开机自启</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> bumblebeed</span><br><span class="line"><span class="comment">#很多硬件厂商的BIOS驱动对Linux不友好，无法顺利加载ACPI模块，从而导致无法驱动独立显卡，这就需要修改grub启动文件使ACPI模块能正常工作</span></span><br><span class="line">sudo vim /etc/default/grub</span><br><span class="line"><span class="comment">#在 GRUB_CMDLINE_LINUX_DEFAULT 中加入 acpi_osi=’Windows 2009’</span></span><br><span class="line"><span class="comment">#acpi_osi=’Windows 2009’是告诉ACPI模块，这是‘Windows 7’，模拟Windows让其继续运行</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#如：</span></span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=<span class="string">&quot;quiet acpi_osi=! acpi_osi=’Windows 2009’ resume=UUID=2d6d6716-4886-49ff-a277-55ba5d9f19d8&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#更新grub文件，使永久有效</span></span><br><span class="line">sudo update-grub</span><br><span class="line"><span class="comment">#重启</span></span><br><span class="line">reboot</span><br><span class="line"></span><br><span class="line"><span class="comment">#安装性能测试软件</span></span><br><span class="line">sudo pacman -S mesa-demos</span><br><span class="line">sudo pacman -S glmark2</span><br><span class="line"><span class="comment">#测试集显性能</span></span><br><span class="line">glxgears</span><br><span class="line">glmark2</span><br><span class="line"><span class="comment">#测试独显性能</span></span><br><span class="line">optirun glxgears</span><br><span class="line">optirun glmark2</span><br><span class="line"><span class="comment">#NVIDIA setting面板打不开使用以下命令</span></span><br><span class="line">optirun -b none nvidia-settings -c :8</span><br></pre></td></tr></table></figure>
 <p><strong>使用optimus-manager管理显卡</strong></p>
@@ -5004,6 +5216,11 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <p>配置开机启动：<br>优化<code>---&gt;</code>开机启动程序<code>---&gt;</code>添加即可</p>
 <h3 id="代理工具"><a href="#代理工具" class="headerlink" title="代理工具"></a>代理工具</h3><h4 id="ss-UI"><a href="#ss-UI" class="headerlink" title="ss UI"></a>ss UI</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay shadowsocks-qt5</span><br></pre></td></tr></table></figure>
 <h4 id="V2Ray-UI"><a href="#V2Ray-UI" class="headerlink" title="V2Ray UI"></a>V2Ray UI</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay -S qv2ray</span><br></pre></td></tr></table></figure>
+<p>运行 Qv2ray 报类似错误<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">qv2ray: error while loading shared libraries: libprotobuf.so.31: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure></p>
+<p>这是因为 <code>protobuf</code> 版本不是最新的版本产生的问题，查看本地 <code>libprotobuf</code> 版本(<code>/usr/lib/libprotobuf.so.*</code> ) 。<br>使用 AUR 的 git 版安装</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yay -S protobuf-git</span><br></pre></td></tr></table></figure>
+<p>可通过编译安装最新版</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;protocolbuffers&#x2F;protobuf.git</span><br><span class="line">cd protobuf-main</span><br><span class="line">.&#x2F;autogen.sh</span><br><span class="line"># 为了以后便于管理,指定路径</span><br><span class="line">.&#x2F;configure --prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;protobuf</span><br><span class="line"># 多核编译加快速度</span><br><span class="line">make -j4</span><br><span class="line">sudo make install</span><br><span class="line"># 创建软连接</span><br><span class="line">sudo ln -s &#x2F;usr&#x2F;local&#x2F;protobuf&#x2F;lib&#x2F;libprotobuf.so.31.0.1 &#x2F;usr&#x2F;lib&#x2F;libprotobuf.so.31</span><br></pre></td></tr></table></figure>
 <h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p><a href="https://www.gnome-look.org">Gnome</a></p>
 <p><a href="https://www.xfce-look.org">Xfce</a><br>``<br>可通过<a href="https://www.opendesktop.org/p/1136805/">ocs-url</a>或<a href="https://www.opendesktop.org/p/1175480/">ocs-store</a>来安装主题</p>
 <p>或将图标文件放到<code>~/.local/share/icons</code>;主题放在<code>~/.themes</code>；光标放在<code>~/.icons</code></p>
@@ -5011,7 +5228,7 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#主题包安装，选一个喜欢的即可</span></span><br><span class="line">sudo pacman -S flat-remix-git</span><br><span class="line">yay sweet-theme-git</span><br><span class="line">sudo pacman vimix-gtk-themes</span><br><span class="line"><span class="comment">#主题推荐：Flat-Remix-GTK-Blue-Darkest-NoBorder,Sweet-Dark,vimix-dark-doder</span></span><br><span class="line"><span class="comment">#shell(系统交互界面)：Flat-Remix-Darkest-fullPanel</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#图标</span></span><br><span class="line"><span class="comment">#Tela-icon-theme (Tela blue dark)</span></span><br><span class="line"><span class="comment">#光标</span></span><br><span class="line"><span class="comment">#Pulse Glass ， Bibata ， DasBlack ， Capitaine Cursors , vimix cursors</span></span><br></pre></td></tr></table></figure>
 <h3 id="配置编辑工具-理解为-Linux-的注册表"><a href="#配置编辑工具-理解为-Linux-的注册表" class="headerlink" title="配置编辑工具(理解为 Linux 的注册表)"></a>配置编辑工具(理解为 Linux 的注册表)</h3><p>Gconf Editor是一个配置编辑软件，它允许用户修改桌面环境和应用程序的相关参数值，实现改变桌面环境显示和应用程序属性。例如修改菜单按钮的图标，窗口关闭按钮的左右位置，登录界面背景等</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S gconf-editor</span><br></pre></td></tr></table></figure>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="软件包管理工具使用"><a href="#软件包管理工具使用" class="headerlink" title="软件包管理工具使用"></a>软件包管理工具使用</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S		<span class="comment">#安装软件</span></span><br><span class="line">sudo pacman -Ss		<span class="comment">#搜索软件相关包</span></span><br><span class="line">sudo pacman -Sy		<span class="comment">#同步软件包数据库</span></span><br><span class="line">sudo pacman -Syy	<span class="comment">#强制同步软件包数据库</span></span><br><span class="line">sudo pacman -Su		<span class="comment">#更新软件、系统</span></span><br><span class="line">sudo pacman -Sc		<span class="comment">#删除下载的包</span></span><br><span class="line">sudo pacman -Scc	<span class="comment">#删除下载的包和数据库</span></span><br><span class="line"></span><br><span class="line">sudo pacman -Q		<span class="comment">#查看安装的软件</span></span><br><span class="line">sudo pacman -Qi		<span class="comment">#查看安装的软件的详细信息</span></span><br><span class="line">sudo pacman -Qo		<span class="comment">#查找文件属于哪个包</span></span><br><span class="line">sudo pacman -Qdtq	<span class="comment">#列出不再被依赖的包，并不显示版本号</span></span><br><span class="line"></span><br><span class="line">sudo pacman -R		<span class="comment">#删除软件</span></span><br><span class="line">sudo pacman -Rsc	<span class="comment">#删除软件及其依赖包</span></span><br></pre></td></tr></table></figure>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="软件包管理工具使用"><a href="#软件包管理工具使用" class="headerlink" title="软件包管理工具使用"></a>软件包管理工具使用</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S		<span class="comment">#安装软件</span></span><br><span class="line">sudo pacman -Ss		<span class="comment">#搜索软件相关包</span></span><br><span class="line">sudo pacman -Sy		<span class="comment">#同步软件包数据库</span></span><br><span class="line">sudo pacman -Syy	<span class="comment">#强制同步软件包数据库</span></span><br><span class="line">sudo pacman -Su		<span class="comment">#更新软件、系统</span></span><br><span class="line">sudo pacman -Sc		<span class="comment">#删除下载的包</span></span><br><span class="line">sudo pacman -Scc	<span class="comment">#删除下载的包和数据库</span></span><br><span class="line"></span><br><span class="line">sudo pacman -Q		<span class="comment">#查看安装的软件</span></span><br><span class="line">sudo pacman -Qi		<span class="comment">#查看安装的软件的详细信息</span></span><br><span class="line">sudo pacman -Qo		<span class="comment">#查找文件属于哪个包</span></span><br><span class="line">sudo pacman -Qdtq	<span class="comment">#列出不再被依赖的包，并不显示版本号</span></span><br><span class="line"></span><br><span class="line">sudo pacman -R		<span class="comment">#删除软件</span></span><br><span class="line">sudo pacman -Rsc	<span class="comment">#删除软件及其依赖包</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sudo yay -Yc 		<span class="comment">#删除系统上所有不需要的依赖</span></span><br><span class="line">sudo pacman -Rsc $(pacman -Qdtq) <span class="comment">#删除系统上所有不需要的依赖</span></span><br></pre></td></tr></table></figure>
 <h3 id="捕捉键盘英文输入，中文输入法会不兼容"><a href="#捕捉键盘英文输入，中文输入法会不兼容" class="headerlink" title="捕捉键盘英文输入，中文输入法会不兼容"></a>捕捉键盘英文输入，中文输入法会不兼容</h3><p>screenkey</p>
 <h3 id="桌面-1"><a href="#桌面-1" class="headerlink" title="桌面"></a>桌面</h3><h4 id="i3wm"><a href="#i3wm" class="headerlink" title="i3wm"></a>i3wm</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo pacman -S i3-gaps</span><br></pre></td></tr></table></figure>
 <p><strong>i3上方的蓝色框</strong></p>
@@ -7652,6 +7869,106 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
 ]]></content>
   </entry>
   <entry>
+    <title>Vim复制内容到系统剪切板</title>
+    <url>/posts/639ea8d9/</url>
+    <content><![CDATA[<h1 id="查看-Vim-是否支持clipboard"><a href="#查看-Vim-是否支持clipboard" class="headerlink" title="查看 Vim 是否支持clipboard"></a>查看 Vim 是否支持clipboard</h1><p>Vim 需要安装带有图形化的版本才会有 clipboard 支持，或重新从源码<a href="https://github.com/ycm-core/YouCompleteMe/wiki/Building-Vim-from-source">编译安装</a>。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim --version | grep <span class="string">&quot;clipboard&quot;</span></span><br></pre></td></tr></table></figure>
+<p><code>clipboard</code> 前面有减号(<code>-</code>)，说明不支持，<code>+</code> 表示支持。</p>
+<a id="more"></a>
+<h1 id="Vim-寄存器"><a href="#Vim-寄存器" class="headerlink" title="Vim 寄存器"></a>Vim 寄存器</h1><p>Vim 提供了 10 类寄存器，可在 Vim 中通过 <code>:help registers</code> 查看帮助。</p>
+<p>查看寄存器内容，在vim中执行</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-pseudo">:reg</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>匿名寄存器 : <code>&quot;&quot;</code></p>
+</li>
+<li><p>编号寄存器 : <code>&quot;0</code> 到 <code>&quot;9</code></p>
+</li>
+<li><p>小删除寄存器 : <code>&quot;-</code></p>
+</li>
+<li><p>26 个命名寄存器 : <code>&quot;a</code> 到 <code>&quot;z</code></p>
+</li>
+<li><p>3 个只读寄存器 : <code>&quot;:</code>, <code>&quot;.</code>, <code>&quot;%</code></p>
+</li>
+<li><p>Buffer 交替文件寄存器 : <code>&quot;#</code></p>
+</li>
+<li><p>表达式寄存器 : <code>&quot;=</code></p>
+</li>
+<li><p>选区和拖放寄存器 : <code>&quot;*</code>, <code>&quot;+</code>, <code>&quot;~</code></p>
+</li>
+<li><p>黑洞寄存器 : <code>&quot;_</code></p>
+</li>
+<li><p>搜索模式寄存器 : <code>&quot;/</code></p>
+</li>
+</ul>
+<h2 id="匿名寄存器"><a href="#匿名寄存器" class="headerlink" title="匿名寄存器"></a>匿名寄存器</h2><p>使用 <code>d</code>, <code>c</code>, <code>s</code>, <code>x</code> 等会删除字符的命令时，被删除字符会进入匿名寄存器 <code>&quot;&quot;</code>。 你可以认为 <code>&quot;&quot;</code> 寄存器是一个指针，指向刚才被存到的寄存器。</p>
+<p>在 <a href="https://harttle.land/2015/11/04/vim-ide.html">如何用 Vim 搭建 IDE ？</a> 一文中提到，Mac 下可通过下列设置来让 Vim 共享系统剪切板， 就是这个原理：所有删除和拷贝操作默认都会到匿名寄存器。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">set clipboard=unnamed</span><br></pre></td></tr></table></figure>
+<p>使用 <code>y</code> 命令未指定寄存器会存到 <code>&quot;0</code> 寄存器中，同时 <code>&quot;&quot;</code> 会与该寄存器保有同样的值。 这意味着你使用 <code>p</code> 和 <code>&quot;p</code> 总会得到同样的结果。</p>
+<h2 id="编号寄存器"><a href="#编号寄存器" class="headerlink" title="编号寄存器"></a>编号寄存器</h2><p>编号寄存器从 <code>&quot;0</code> 到 <code>&quot;9</code> 共 10 个，其中 <code>&quot;0</code> 保存着拷贝来的字符串，<code>&quot;1</code> 到 <code>&quot;9</code> 保存着删除掉的字符串。</p>
+<p>删除操作符包括 <code>s</code>, <code>c</code>, <code>d</code>, <code>x</code>，删除掉的字符串会被存到 <code>&quot;1</code> 中，上次删除的则会被存到 <code>&quot;2</code> 中。以此类推，Vim 会保存最近 9 次的删除。</p>
+<ul>
+<li>只有整行整行的删除，和通过段落级别的移动指令（包括 <code>%</code> , <code>(</code> , <code>)</code> , <code>/</code> , ` , <code>?</code> , <code>n</code> , <code>N</code> , <code>&#123;</code> , <code>&#125;</code>） 的删除才会被放到 <code>&quot;1</code> 中。</li>
+<li>当用户指定拷贝操作的寄存器时（如 <code>&quot;ap</code>），<code>&quot;0</code> 不会被写入；但删除操作一定会被写入到 <code>&quot;1</code> 中。</li>
+</ul>
+<blockquote>
+<p><code>&quot;0</code> 寄存器很有用，比如我们 copy 了一段文本然后用它替换另一段文本。 这时默认寄存器 <code>&quot;&quot;</code> 中的值就会与被替换的内容进行交换，如果还需要用 copy 的文本继续替换的话就需要 <code>&quot;0p</code> 了。</p>
+</blockquote>
+<h2 id="小删除寄存器"><a href="#小删除寄存器" class="headerlink" title="小删除寄存器"></a>小删除寄存器</h2><p>不足一行的小删除则会被放到小删除寄存器中（<code>&quot;-</code>），起作用的删除操作符也包括 <code>s</code>, <code>c</code>, <code>d</code>, <code>x</code>。 例如：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">dw</span>    # 删除一个词</span><br><span class="line"><span class="selector-tag">d9l</span>   # 删除9个字符</span><br><span class="line"><span class="selector-tag">cb</span>    # 向前更改一个词</span><br></pre></td></tr></table></figure>
+<p>与 <code>&quot;0</code> 寄存器类似，当用户指定寄存器并进行删除时，<code>&quot;-</code> 不会被写入。</p>
+<h2 id="命名寄存器"><a href="#命名寄存器" class="headerlink" title="命名寄存器"></a>命名寄存器</h2><p>命名寄存器有 <code>&quot;a</code> 到 <code>&quot;z</code> 共 26 个，这些寄存器只有当我们指定时才会被使用。 其实我们在录制宏时，所有键盘操作会以字符串的形式存到寄存器中。 例如录制一个宏存到 <code>&quot;a</code> 寄存器中，内容为更改当前行 <code>cc</code>，改为 <code>foo</code> 字符串：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">qaccfoo</span></span><br></pre></td></tr></table></figure>
+<p>然后执行 <code>:reg</code> 来查看寄存器，可以发现 <code>a</code> 寄存器的值是 <code>ccfoo</code>。</p>
+<blockquote>
+<p>小技巧：当使用小写字母进行操作时会覆盖当前寄存器内容，当使用大写字母进行操作时，会追加当前寄存器内容</p>
+</blockquote>
+<h2 id="只读寄存器"><a href="#只读寄存器" class="headerlink" title="只读寄存器"></a>只读寄存器</h2><p>只读寄存器共 3 个，它们的值是由 Vim 提供的，不允许改变：</p>
+<ul>
+<li><code>&quot;.</code>：上次 insert 模式中插入的字符串。还记得吗？ <code>.</code> 命令可以重复上次操作，而 <code>&quot;.</code> 存储了上次插入。</li>
+<li><code>&quot;%</code>：当前文件名，不是全路径，也不是纯文件名，而是从当前 Vim 的工作目录到该文件的路径。例如此时 Harttle 的 Vim 中，<code>&quot;%p</code> 的结果为 <code>_drafts/vim-registers.md</code>。</li>
+<li><code>&quot;:</code>：上次命令模式下键入的命令。正如 <code>@a</code> 可以执行 <code>&quot;a</code> 寄存器中的宏一样，<code>@:</code> 可以执行上次命令。</li>
+</ul>
+<h2 id="交替文件寄存器"><a href="#交替文件寄存器" class="headerlink" title="交替文件寄存器"></a>交替文件寄存器</h2><p>交替文件寄存器 <code>&quot;#</code> 存储着当前 Vim 窗口（Window）的交替文件。<strong>交替文件</strong>（alternate file）是指 <a href="https://harttle.land/2015/11/17/vim-buffer.md">Buffer</a> 中的上一个文件，可通过 <code>Ctrl+^</code> 来切换交替文件与当前文件。</p>
+<blockquote>
+<p>Window 和 Buffer 有什么区别？参见 <a href="https://harttle.land/2015/11/14/vim-window.html">Vim 多文件编辑：窗口</a> 一文</p>
+</blockquote>
+<h2 id="表达式寄存器"><a href="#表达式寄存器" class="headerlink" title="表达式寄存器"></a>表达式寄存器</h2><p>表达式寄存器 <code>&quot;=</code> 主要用于计算 Vim 脚本的返回值，并插入到文本中。 当我们键入 <code>&quot;=</code> 后光标会移动到命令行，此时我们可以输入任何 Vim 脚本的表达式。 例如 <code>3+2</code>，按下回车并且 <code>p</code> 则会得到 <code>5</code>。</p>
+<p>这在我们调试 Vim 脚本时非常有用，比如调用一个函数看它是否有正确的返回值。</p>
+<h2 id="选择和拖放寄存器"><a href="#选择和拖放寄存器" class="headerlink" title="选择和拖放寄存器"></a>选择和拖放寄存器</h2><p>选择和拖放寄存器包括 <code>&quot;*</code>, <code>&quot;+</code>, 和 <code>&quot;~</code>，这三个寄存器的行为是和 GUI 相关的。</p>
+<p><code>&quot;*</code> 和 <code>&quot;+</code> 在 Mac 和 Windows 中，都是指系统剪切板（clipboard），例如 <code>&quot;*yy</code> 即可复制当前行到系统剪切板。 其他程序中复制的内容也会被存储到这两个寄存器中。 在 X11 系统中（绝大多数带有桌面环境的 Linux 发行版），二者是有区别的：</p>
+<ul>
+<li><code>&quot;*</code> 指 X11 中的 PRIMARY 选区，即鼠标选中区域。在桌面系统中可按鼠标中键粘贴。</li>
+<li><code>&quot;+</code> 指 X11 中的 CLIPBOARD 选区，即系统剪切板。在桌面系统中可按 Ctrl+V 粘贴。</li>
+</ul>
+<blockquote>
+<p>上文所述的 Mac 下 <code>set clipboard=unnamed</code> 会使得系统剪切板寄存器 <code>&quot;*</code> 和 Vim 默认的匿名寄存器 <code>&quot;&quot;</code> 始终保有同样的值，即 Vim 和系统共用剪切板。</p>
+</blockquote>
+<p>有文本拖拽到 Vim 时，被拖拽的文本被存储在 <code>&quot;~</code> 中。Vim 默认的行为是将 <code>&quot;~</code> 中内容插入到光标所在位置。 当然你可以给 <code>&lt;DROP&gt;</code> 做键盘映射。</p>
+<h2 id="黑洞寄存器"><a href="#黑洞寄存器" class="headerlink" title="黑洞寄存器"></a>黑洞寄存器</h2><p>黑洞寄存器 <code>&quot;_</code>，所有删除或拷贝到黑洞寄存器的文本将会消失。 这是为了在删除文本的同时不影响任何寄存器的值，<code>&quot;_</code> 通常用于 Vim 脚本中。</p>
+<h2 id="搜索寄存器"><a href="#搜索寄存器" class="headerlink" title="搜索寄存器"></a>搜索寄存器</h2><p>搜索寄存器 <code>&quot;/</code> 用于存储上一次搜索的关键词。Vim 中如何进行搜索呢？ 在 normal 模式下按下 <code>/</code> 即进入 search 模式，输入关键字并按下回车即可。</p>
+<p>该寄存器是可写的，例如 <code>:let @/ = &quot;harttle&quot;</code> 将会把 <code>&quot;harttle&quot;</code> 写入该寄存器。 下次搜索时不输入搜索词直接回车便会搜索 <code>&quot;harttle&quot;</code>。</p>
+<h1 id="命令行模式拷贝"><a href="#命令行模式拷贝" class="headerlink" title="命令行模式拷贝"></a>命令行模式拷贝</h1><p>值得一提的时，任何寄存器中的值都是可以拷贝到命令模式下的。</p>
+<p>比如对于寄存器 <code>&quot;a</code> 中的值，在 normal 模式下可以通过 <code>&quot;ap</code> 来粘贴；在 command-line 模式下通过 <code>&lt;Ctrl-R&gt;a</code> 来粘贴。这一操作存在风险，因为寄存器中的值可能是从网页中拷贝来的。</p>
+<p>如果寄存器中的字符串存在 <code>&lt;Esc&gt;</code> 字符或 <code>&lt;CR&gt;</code> 字符，则会时 Vim 回到 normal 模式， 并继续执行寄存器中的命令。为了防范 <em>剪切板劫持</em>，可以添加下列的 Vim 配置：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">inoremap</span> &lt;<span class="selector-tag">C-r</span>&gt;+ &lt;<span class="selector-tag">C-g</span>&gt;<span class="selector-tag">u</span>&lt;<span class="selector-tag">C-</span>\&gt;&lt;<span class="selector-tag">C-o</span>&gt;&quot;+<span class="selector-tag">gP</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>该命令的解释请移步：<a href="http://vim.wikia.com/wiki/Pasting_registers">http://vim.wikia.com/wiki/Pasting_registers</a></p>
+</blockquote>
+<p><a href="https://harttle.land/2016/07/25/vim-registers.html">原文</a></p>
+<h1 id="与系统剪切板交互"><a href="#与系统剪切板交互" class="headerlink" title="与系统剪切板交互"></a>与系统剪切板交互</h1><p>通过寄存器表，可与外部交互的寄存器有 <code>&quot;*</code> 、<code>&quot;+</code> 、<code>&quot;~</code></p>
+<h2 id="使用快捷键"><a href="#使用快捷键" class="headerlink" title="使用快捷键"></a>使用快捷键</h2><p><strong>“+y</strong>和<strong>“+p</strong>的输入挺麻烦的，我们直接为他们创建个快捷键吧</p>
+<p>vim创建快捷键的原理可以看 <a href="https://blog.csdn.net/jalused/article/details/42708429">jalused的博客</a></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">&quot; 支持在<span class="selector-tag">Visual</span>（视图）模式下，通过<span class="selector-tag">C-y</span>复制到系统剪切板</span><br><span class="line"><span class="selector-tag">vnoremap</span> &lt;<span class="selector-tag">C-y</span>&gt; &quot;+<span class="selector-tag">y</span></span><br><span class="line">&quot; 支持在<span class="selector-tag">normal</span>（一般）模式下，通过<span class="selector-tag">C-p</span>粘贴系统剪切板</span><br><span class="line"><span class="selector-tag">nnoremap</span> &lt;<span class="selector-tag">C-p</span>&gt; &quot;*<span class="selector-tag">p</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Vim</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Windows10镜像优化</title>
     <url>/posts/9670136d/</url>
     <content><![CDATA[<h1 id="PE"><a href="#PE" class="headerlink" title="PE"></a>PE</h1><h1 id="组件移除"><a href="#组件移除" class="headerlink" title="组件移除"></a>组件移除</h1><h2 id="Windows-Apps"><a href="#Windows-Apps" class="headerlink" title="Windows Apps"></a>Windows Apps</h2><h3 id="Metro应用"><a href="#Metro应用" class="headerlink" title="Metro应用"></a>Metro应用</h3><ul>
@@ -7790,6 +8107,76 @@ target 的默认值是&quot;pattern&quot;，表示此&lt;match&gt;单元针对�
         <category>Windows</category>
       </categories>
       <tags>
+        <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows高危端口</title>
+    <url>/posts/3efd9032/</url>
+    <content><![CDATA[<h1 id="3389"><a href="#3389" class="headerlink" title="3389"></a>3389</h1><p>服务器上开启远程管理是必须的，但开启 默认的远程端口容易被默认参数的扫描工具攻击，修改端口能减少一部分被攻击的可能。</p>
+<h2 id="修改端口"><a href="#修改端口" class="headerlink" title="修改端口"></a>修改端口</h2><p><code>Win + R</code> &gt; <code>regedit</code> &gt;</p>
+<ul>
+<li><code>HKEY_LOCAL_MACHINE\ SYSTEM\ CurrentControlSet\ Control\ TerminalServer\ Wds\ rdpwd\ Tds\ tcp</code></li>
+<li><code>HKEY_LOCAL_MACHINE\ SYSTEM\ CurrentControlSet\ Control\ Terminal Server\ WinStations\ RDP-Tcp</code><br>将 <code>PortNumber</code> 的默认值 3389 修改为其他端口，重启系统即可。</li>
+</ul>
+<p><strong>进一步加固：</strong><br>为了达到启用远程管理而不受攻击的目的，同时在 Windows 防火墙 (<code>wf.msc</code>) 配置：<code>入站规则</code> &gt; <code>远程桌面-用户模式（TCP-In/UDP-In）</code> &gt; <code>作用域</code> &gt; <code>配置仅指定 IP 可远程</code> (通常仅可通过堡垒机远程)。</p>
+<a id="more"></a>
+<h2 id="关闭端口-关闭远程服务"><a href="#关闭端口-关闭远程服务" class="headerlink" title="关闭端口(关闭远程服务)"></a>关闭端口(关闭远程服务)</h2><ul>
+<li><code>Win + R</code> &gt; <code>services.msc</code> &gt; <code>Terminal Services</code> &gt; <code>属性\常规</code> &gt; <code>启动类型: 手动/禁用 | 服务状态: 停止</code> 。</li>
+<li><code>计算机/此电脑</code> &gt;<code>属性</code> &gt; <code>高级系统属性</code> &gt; <code>远程</code> &gt; 不允许 <code>远程桌面</code>和<code>远程协作</code>。</li>
+</ul>
+<h1 id="135"><a href="#135" class="headerlink" title="135"></a>135</h1><p>RPC（Remote Procedure Call，远程过程调用）服务使用的就是 135 端口。RPC是 Windows 操作系统使用的一个远程过程调用服务。RPC 提供了一种进程间的通信机制，通过这一机制，允许在某台计算机上运行的程序流畅地在远程系统上执行代码。协议本身源自OSF（开放式软件基础）RPC 协议，但增加了一些 Microsoft 特定的扩展 。由于使用 RPC 的程序不必了解支持通信的网络协议的情况，因此 RPC 提高了程序的互操作性。</p>
+<p>因为在 RPC 中发出请求的程序是客户程序，而提供服务的程序是服务器。在非加密状态下，使用IEen可以看到对方电脑本应受到SSL保护的数据，甚至能够直接看到密码等信息。攻击者能在受影响的系统上以本地系统权限运行代码，执行任何操作，包括安装程序，查看、更改或者删除数据，或者建立系统管理员权限的帐户。针对这一漏洞的蠕虫病毒有许多。早期的这些蠕虫病毒只是攻击此漏洞，造成远端系统的崩溃，而大名鼎鼎的 “冲击波” 漏洞则会利用这一漏洞进行快速传播，轻而易举地控制他人的IP地址和注册名。</p>
+<p>DCOM（分布式对象模型）是一种能够使软件组件通过网络直接进行通信的协议，可以远程操作其他电脑中的DCOM应用程序，该技术使用的是 RPC 服务。</p>
+<ul>
+<li>IEen工具能够借助135端口轻松连接到 Internet 上的其他工作站，并远程控制该工作站的IE浏览器。<code>例如，在浏览器中执行的任何操作，包括浏览页面内容、输入帐号密码、输入搜索关键字等，都会被IEen工具监控到。甚至在网上银行中输入的各种密码信息，都能被IEen工具清楚地获得。</code>  </li>
+<li>除了可以对远程工作站上的IE浏览器进行操作、控制外，IEen工具通过135端口几乎可以对所有的借助DCOM开发技术设计出来的应用程序进行远程控制，<code>例如 IEen工具也能轻松进入到正在运行Excel的计算机中，直接对Excel进行各种编辑操作。</code></li>
+</ul>
+<h2 id="关闭端口"><a href="#关闭端口" class="headerlink" title="关闭端口"></a>关闭端口</h2><p>如果不使用 DCOM 特定的应用程序如 Web 服务器、邮件或DNS服务器等，即便关闭135端口，也不会出现任何问题。</p>
+<ul>
+<li>打印服务需要 DCOM 服务支撑</li>
+</ul>
+<ul>
+<li><code>Win + R</code> &gt; <code>dcomcnfg</code> &gt; <code>组件服务</code> &gt; <code>计算机</code> &gt; <code>计算机/此电脑</code> &gt; <code>属性</code> &gt; <code>默认属性</code> &gt; <strong>取消勾选</strong> <code>在此计算机上启用分布式 COM</code> &gt; <code>默认协议</code> &gt; <code>面向连接的 TCP/IP</code> &gt; <code>移除</code></li>
+<li><code>Win + R</code> &gt; <code>regedit</code> &gt; <code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Rpc</code> &gt; 新建<strong>项</strong> <code>internet</code>  ，重启系统。</li>
+</ul>
+<h2 id="限制访问"><a href="#限制访问" class="headerlink" title="限制访问"></a>限制访问</h2><p>关闭 RPC 服务后会给 Windows 的运行带来很大的影响。因为 Windows 的很多服务都依赖于RPC，而这些服务在将 RPC 关闭后将无法正常起动。比如，关闭了135端口，就无法使用Outlook 连接 Exchange Server。因为管理分布式处理的 MSDTC、负责应用程序之间的信息交换的 MSMQ 以及动态地向连接网络的电脑分配地址的 DHCP 等服务也都使用这个端口。</p>
+<p>关闭RPC服务弊端非常大，一般不轻易关闭。但为了避免遭受攻击，网络客户端却可以禁止远程登录电脑。</p>
+<ul>
+<li><code>Win + R</code> &gt; <code>计算机配置\Windows 设置\安全设置\本地策略\用户权限分配</code> &gt; <code>拒绝从网络访问这台计算机</code> &gt; 指定拒绝访问的对象，建议指定为 <code>Everyone</code> (拒绝所有的访问)。</li>
+</ul>
+<h1 id="137、138"><a href="#137、138" class="headerlink" title="137、138"></a>137、138</h1><p><strong>NetBIOS</strong>，为<strong>网路基本输入输出系统</strong>（Network Basic Input/Output System）的缩写，它提供了 OSI 模型中的会话层服务，让在不同电脑上运行的不同程序，可以在局域网网路中交换数据。 NetNBIOS 又完全依靠137、138端口支撑，因此如果停止了 NetBIOS ，就能够将137和138端口关闭。</p>
+<ul>
+<li>攻击者知道目标主机的IP地址，并向该地址的137端口发送一个连接请求时，就可能获得目标主机的相关名称信息。<code>例如目标主机的计算机名称，注册该目标主机的用户信息，目标主机本次开机、关机时间等</code>。</li>
+<li>攻击者要是与目标主机的138端口建立连接请求的话，就能轻松获得目标主机所处的局域网网络名称以及目标主机的计算机名称。</li>
+</ul>
+<h2 id="关闭端口-1"><a href="#关闭端口-1" class="headerlink" title="关闭端口"></a>关闭端口</h2><p><code>控制面板\所有控制面板项\网络和共享中心</code> &gt; <code>更改适配器设置</code> &gt; <code>XX网卡</code> &gt; <code>属性</code> &gt; <code>Internet协议版本4(TCP/IPv4)</code> &gt; <code>属性</code> &gt; <code>常规\高级</code> &gt; <code>WINS\NetBIOS设置</code>  &gt; <code>禁用 TCP/IP 上的 NetBIOS(s)</code></p>
+<h1 id="139、445"><a href="#139、445" class="headerlink" title="139、445"></a>139、445</h1><p>139 和 445 端口的通信过程是通过 SMB（服务器信息块）协议实现的，在通过网上邻居访问局域网中的共享文件或共享打印机时就能发挥作用。即根据DNS服务器中的名字列表信息，寻找需要通信的对象。如果顺利地得到对象的IP地址，就可以访问共享资源 。Windows 2000 以前版本的 Windows 使用 NetBIOS 协议解决各计算机名的问题。通过向WINS 服务器发送通信对象的 NetBIOS 名，取得IP地址。而Windows2000以后的版本所采用的 CIFS 则利用 DNS 解决计算机的命名问题。</p>
+<ul>
+<li>攻击者要是与目标主机的 139 端口建立连接的话，就很有可能浏览到指定网段内所有工作站中的全部共享信息，甚至可以对目标主机中的共享文件夹进行各种编辑、删除操作，倘若攻击者还知道目标主机的IP地址和登录帐号的话，还能轻而易举地查看到目标主机中的隐藏共享信息。</li>
+<li>同样地，攻击者与 445 端口建立请求连接，也能获得指定局域网内的各种共享信息。</li>
+</ul>
+<h2 id="关闭端口-2"><a href="#关闭端口-2" class="headerlink" title="关闭端口"></a>关闭端口</h2><ul>
+<li>关闭139端口，与137和138端口一样，可以选择禁用 <code>NetBIOS</code> 。</li>
+<li>关闭共享服务器来关闭 445 端口<ul>
+<li><code>Win + R</code> &gt; <code>services.msc</code> &gt; <code>Server</code> &gt; <code>属性\常规</code> &gt; <code>启动类型: 禁用 | 服务状态: 停止</code><br>想关闭 445 端口则必须修改注册表<br><code>Win + R</code> &gt; <code>regedit</code> &gt;</li>
+</ul>
+</li>
+<li><code>HKEY_LOCAL_MACHINESYSTEMCurrentControlSetServicesNetBTParameters</code><ul>
+<li>新建 <code>DWORD(64/32 位)值</code> 命名为 <code>SMBDeviceEnabled</code>，值设置为<code>0</code>，重新系统。</li>
+</ul>
+</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://blog.51cto.com/rubik/1123323">TCP和UDP的135、137、138、139、445端口的作用 ._路上的技术博客_51CTO博客</a></p>
+<p><a href="https://www.cnblogs.com/csnd/p/11807896.html">135、137、138、139和445端口 - 墨鱼菜鸡 - 博客园</a></p>
+<p><a href="https://www.cnblogs.com/hai-long/p/14079249.html">关闭高危端口135、139、445&amp; 关闭默认共享 - 海龙。 - 博客园</a></p>
+<p><a href="https://blog.csdn.net/love_xsq/article/details/72083633">135、137、138、139、445等端口解释和关闭方法_月亮弯弯2013的博客-CSDN博客</a></p>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
         <tag>Windows</tag>
       </tags>
   </entry>
